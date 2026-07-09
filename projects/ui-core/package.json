@@ -1,10 +1,14 @@
 {
-  "name": "ui-core",
-  "version": "0.0.1",
+  "name": "@votha-sok/ui-core",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",
     "@angular/animations": "^22.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/votha-sok/template-core.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

@@ -1,9 +1,13 @@
 {
-  "name": "ui-theme",
-  "version": "0.0.1",
+  "name": "@votha-sok/ui-theme",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/votha-sok/template-core.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
