@@ -1,0 +1,45 @@
+:host {
+  display: inline-flex;
+}
+
+.p-input-number {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 4px;
+
+  &--full {
+    display: flex;
+    width: 100%;
+
+    .p-input-number__field { flex: 1; }
+  }
+}
+
+.p-input-number__field {
+  width: 72px;
+  text-align: center;
+  border-radius: var(--cui-radius-md);
+  border: 1px solid var(--mat-sys-outline);
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: inherit;
+  padding: 0 8px;
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: -1px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  // Hide native spinner buttons — increment/decrement handled by p-button
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
+}

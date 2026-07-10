@@ -1,0 +1,30 @@
+:host {
+  display: block;
+}
+
+.p-pick-list {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.p-pick-list__column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.p-pick-list__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.p-pick-list__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 22px;
+}

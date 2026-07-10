@@ -1,0 +1,9 @@
+<cdk-virtual-scroll-viewport [itemSize]="itemSize()" class="p-virtual-scroller" [style.height]="height()">
+  <div *cdkVirtualFor="let item of items(); let i = index" class="p-virtual-scroller__item" [style.height.px]="itemSize()">
+    @if (itemTemplate(); as tpl) {
+      <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{ $implicit: item, index: i }" />
+    } @else {
+      {{ item }}
+    }
+  </div>
+</cdk-virtual-scroll-viewport>

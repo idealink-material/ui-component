@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.p-menubar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: var(--cui-radius-md);
+  background: var(--mat-sys-surface-container-low);
+}
+
+.p-menubar__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--cui-radius-sm);
+  background: transparent;
+  color: var(--mat-sys-on-surface);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover { background: var(--mat-sys-surface-container); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}

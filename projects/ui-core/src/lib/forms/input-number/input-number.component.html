@@ -1,0 +1,17 @@
+<div class="p-input-number" [class.p-input-number--full]="fullWidth()">
+  @if (showButtons()) {
+    <p-button variant="outlined" size="sm" iconLeft="remove"
+      [disabled]="disabled() || atMin()" (cuiClick)="decrement()" />
+  }
+  <input type="number" class="p-input-number__field"
+    [value]="value()"
+    [min]="min()" [max]="max()" [step]="step()"
+    [disabled]="disabled()"
+    [placeholder]="placeholder()"
+    (input)="onInput($event)"
+    (blur)="onTouched()">
+  @if (showButtons()) {
+    <p-button variant="outlined" size="sm" iconLeft="add"
+      [disabled]="disabled() || atMax()" (cuiClick)="increment()" />
+  }
+</div>

@@ -1,0 +1,10 @@
+<div class="p-progress__track" [style.height]="height()">
+  <div class="p-progress__fill"
+    [class.p-progress__fill--indeterminate]="indeterminate()"
+    [class.p-progress__fill--striped]="striped()"
+    [style.width]="indeterminate() ? '100%' : pct() + '%'">
+  </div>
+</div>
+@if (showLabel()) {
+  <span class="p-progress__label">{{ indeterminate() ? 'Loading…' : pct() + '%' }}</span>
+}

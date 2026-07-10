@@ -1,0 +1,21 @@
+<div class="p-dialog">
+
+  <!-- Header -->
+  <div class="p-dialog__header" [class.p-dialog__header--divided]="dividers()">
+    <h2 class="p-dialog__title">{{ title() }}</h2>
+    @if (showClose()) {
+      <button class="p-dialog__close" (click)="close()" aria-label="Close dialog">
+        <cui-icon name="close" size="sm" color="currentColor" />
+      </button>
+    }
+  </div>
+
+  <!-- Body -->
+  <div class="p-dialog__body">
+    <ng-content />
+  </div>
+
+  <!-- Footer -->
+  <ng-content select="p-dialog-footer" />
+
+</div>

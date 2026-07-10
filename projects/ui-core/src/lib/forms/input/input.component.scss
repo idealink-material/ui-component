@@ -1,0 +1,16 @@
+:host { display: block; }
+
+.p-input {
+  width: auto;
+
+  &.p-input--full { width: 100%; }
+
+  &.p-input--sm {
+    --mat-form-field-container-height: 36px;
+    font-size: 13px;
+  }
+  &.p-input--lg {
+    --mat-form-field-container-height: 52px;
+    font-size: 16px;
+  }
+}

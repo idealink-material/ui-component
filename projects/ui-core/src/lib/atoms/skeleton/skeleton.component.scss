@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--mat-sys-surface-container) 25%,
+    var(--mat-sys-surface-container-high) 50%,
+    var(--mat-sys-surface-container) 75%
+  );
+  background-size: 400% 100%;
+  animation: p-shimmer 1.6s ease-in-out infinite;
+  border-radius: var(--cui-radius-sm);
+
+  &.p-skeleton--text   { height: 1em; border-radius: 4px; }
+  &.p-skeleton--circle { border-radius: 50%; }
+  &.p-skeleton--rect   { border-radius: var(--cui-radius-md); }
+}
+
+@keyframes p-shimmer {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}

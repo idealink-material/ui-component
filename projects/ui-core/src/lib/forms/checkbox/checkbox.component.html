@@ -1,0 +1,9 @@
+<mat-checkbox
+  [checked]="value()"
+  [indeterminate]="indeterminate()"
+  [disabled]="disabled()"
+  [required]="required()"
+  (change)="onChange($event)"
+  (blur)="onTouched()">
+  {{ label() }}
+</mat-checkbox>

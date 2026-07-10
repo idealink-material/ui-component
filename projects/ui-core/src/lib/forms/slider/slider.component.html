@@ -1,0 +1,9 @@
+<mat-slider
+  class="p-slider"
+  [min]="min()"
+  [max]="max()"
+  [step]="step()"
+  [discrete]="discrete()"
+  [disabled]="disabled()">
+  <input matSliderThumb [value]="value()" (valueChange)="onValueChange($event)">
+</mat-slider>

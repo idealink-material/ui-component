@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.p-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &--horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}

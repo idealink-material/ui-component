@@ -1,0 +1,45 @@
+<div class="p-multi-select" [class.p-multi-select--full]="fullWidth()" [class.p-multi-select--disabled]="disabled()"
+  cdkOverlayOrigin #trigger="cdkOverlayOrigin"
+  (click)="toggleOpen()">
+  <div class="p-multi-select__control">
+    @if (selectedOptions().length === 0) {
+      <span class="p-multi-select__placeholder">{{ placeholder() }}</span>
+    } @else {
+      <div class="p-multi-select__chips">
+        @for (option of selectedOptions(); track option.value) {
+          <p-chip [dismissible]="true" (dismissed)="removeValue(option.value)" (click)="$event.stopPropagation()">
+            {{ option.label }}
+          </p-chip>
+        }
+      </div>
+    }
+    <cui-icon name="expand_more" size="sm" color="var(--mat-sys-on-surface-variant)" />
+  </div>
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayMatchWidth]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  (backdropClick)="close()"
+  (detach)="close()">
+  <div class="p-multi-select__panel">
+    @if (filterable()) {
+      <input class="p-multi-select__filter" type="text" placeholder="Search…"
+        [value]="filter()" (input)="onFilter($event)" />
+    }
+    <ul class="p-multi-select__list">
+      @for (option of filteredOptions(); track option.value) {
+        <li class="p-multi-select__option">
+          <p-checkbox [value]="isSelected(option.value)" [label]="option.label"
+            [disabled]="!!option.disabled" (cuiChange)="toggleValue(option.value)" />
+        </li>
+      } @empty {
+        <li class="p-multi-select__empty">No options found</li>
+      }
+    </ul>
+  </div>
+</ng-template>

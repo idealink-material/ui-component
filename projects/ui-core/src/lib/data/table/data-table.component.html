@@ -1,0 +1,38 @@
+<div class="p-data-table">
+
+  <!-- Toolbar -->
+  @if (searchable()) {
+    <div class="p-data-table__toolbar">
+      <p-input
+        [placeholder]="searchPlaceholder()"
+        prefixIcon="search"
+        size="sm"
+        [fullWidth]="false"
+        (cuiChange)="onSearch($event)" />
+      <ng-content select="p-data-table-actions" />
+    </div>
+  }
+
+  <!-- Table -->
+  <p-table
+    [columns]="columns()"
+    [rows]="rows()"
+    [loading]="loading()"
+    [selectable]="selectable()"
+    [striped]="striped()"
+    [trackBy]="trackBy()"
+    (sortChange)="onSortChange($event)"
+    (selectionChange)="selectionChange.emit($event)"
+    (rowClick)="rowClick.emit($event)" />
+
+  <!-- Pagination -->
+  <div class="p-data-table__footer">
+    <p-pagination
+      [page]="_page()"
+      [pageSize]="_pageSize()"
+      [total]="total()"
+      [pageSizes]="pageSizes()"
+      (pageChange)="onPageChange($event)" />
+  </div>
+
+</div>

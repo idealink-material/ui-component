@@ -1,0 +1,17 @@
+@if (open()) {
+  <div class="p-speed-dial__items">
+    @for (item of items(); track item.id) {
+      <button type="button" class="p-speed-dial__item" [attr.aria-label]="item.label"
+        (click)="invoke(item)">
+        <cui-icon [name]="item.icon" size="sm" color="currentColor" />
+        @if (item.label) {
+          <span class="p-speed-dial__label">{{ item.label }}</span>
+        }
+      </button>
+    }
+  </div>
+}
+
+<button type="button" class="p-speed-dial__toggle" (click)="toggle()" [attr.aria-expanded]="open()">
+  <cui-icon [name]="open() ? 'close' : icon()" size="md" color="currentColor" />
+</button>

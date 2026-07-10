@@ -1,0 +1,20 @@
+<ol class="p-breadcrumb__list">
+  @for (item of resolved(); track item.label; let last = $last) {
+    <li class="p-breadcrumb__item">
+      @if (item.routerLink && !last) {
+        <a class="p-breadcrumb__link" [routerLink]="item.routerLink">
+          {{ item.label }}
+        </a>
+      } @else {
+        <span class="p-breadcrumb__current"
+          [attr.aria-current]="last ? 'page' : null">
+          {{ item.label }}
+        </span>
+      }
+      @if (!last) {
+        <cui-icon [name]="separator()" size="xs"
+          color="var(--mat-sys-outline)" aria-hidden="true" />
+      }
+    </li>
+  }
+</ol>

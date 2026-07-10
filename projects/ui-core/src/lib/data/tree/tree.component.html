@@ -1,0 +1,34 @@
+<div class="p-tree" role="tree">
+  <ng-container *ngTemplateOutlet="nodesTpl; context: { $implicit: nodes(), depth: 0 }" />
+</div>
+
+<ng-template #nodesTpl let-nodes let-depth="depth">
+  @for (node of nodes; track node.id) {
+    <div class="p-tree__node" role="treeitem"
+      [attr.aria-expanded]="node.children?.length ? isExpanded(node.id) : null"
+      [attr.aria-selected]="selectable() ? isSelected(node.id) : null">
+      <div class="p-tree__row" [style.padding-left.px]="8 + depth * 20"
+        [class.p-tree__row--disabled]="!!node.disabled"
+        (click)="onNodeClick(node)">
+        @if (node.children?.length) {
+          <button type="button" class="p-tree__toggle" (click)="toggleExpand(node.id); $event.stopPropagation()">
+            <cui-icon [name]="isExpanded(node.id) ? 'expand_more' : 'chevron_right'" size="xs" color="currentColor" />
+          </button>
+        } @else {
+          <span class="p-tree__toggle-spacer"></span>
+        }
+        @if (selectable()) {
+          <p-checkbox [value]="isSelected(node.id)" [disabled]="!!node.disabled"
+            (cuiChange)="toggleSelect(node.id)" (click)="$event.stopPropagation()" />
+        }
+        @if (node.icon) {
+          <cui-icon [name]="node.icon" size="sm" color="currentColor" />
+        }
+        <span class="p-tree__label">{{ node.label }}</span>
+      </div>
+      @if (node.children?.length && isExpanded(node.id)) {
+        <ng-container *ngTemplateOutlet="nodesTpl; context: { $implicit: node.children, depth: depth + 1 }" />
+      }
+    </div>
+  }
+</ng-template>

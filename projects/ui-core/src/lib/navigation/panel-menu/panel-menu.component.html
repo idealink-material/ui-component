@@ -1,0 +1,27 @@
+<div class="p-panel-menu">
+  <ng-container *ngTemplateOutlet="itemsTpl; context: { $implicit: items(), depth: 0 }" />
+</div>
+
+<ng-template #itemsTpl let-items let-depth="depth">
+  @for (item of items; track item.id) {
+    <div class="p-panel-menu__item">
+      @if (item.children?.length) {
+        <button class="p-panel-menu__row" [style.padding-left.px]="12 + depth * 16"
+          [disabled]="!!item.disabled" (click)="toggle(item.id)">
+          @if (item.icon) { <cui-icon [name]="item.icon" size="sm" color="currentColor" /> }
+          <span class="p-panel-menu__label">{{ item.label }}</span>
+          <cui-icon [name]="isExpanded(item.id) ? 'expand_less' : 'expand_more'" size="xs" color="currentColor" />
+        </button>
+        @if (isExpanded(item.id)) {
+          <ng-container *ngTemplateOutlet="itemsTpl; context: { $implicit: item.children, depth: depth + 1 }" />
+        }
+      } @else {
+        <button class="p-panel-menu__row" [style.padding-left.px]="12 + depth * 16"
+          [disabled]="!!item.disabled" (click)="invoke(item)">
+          @if (item.icon) { <cui-icon [name]="item.icon" size="sm" color="currentColor" /> }
+          <span class="p-panel-menu__label">{{ item.label }}</span>
+        </button>
+      }
+    </div>
+  }
+</ng-template>

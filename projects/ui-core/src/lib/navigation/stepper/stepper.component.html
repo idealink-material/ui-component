@@ -1,0 +1,28 @@
+@for (step of steps(); track step.id; let i = $index; let last = $last) {
+  <div class="p-step"
+    [class.p-step--active]="i === activeIndex()"
+    [class.p-step--completed]="!!step.completed"
+    [class.p-step--disabled]="!!step.disabled"
+    [class.p-step--clickable]="isClickable(i)"
+    (click)="select(i)">
+    <div class="p-step__indicator">
+      @if (step.completed) {
+        <cui-icon name="check" size="xs" color="currentColor" />
+      } @else {
+        <span>{{ i + 1 }}</span>
+      }
+    </div>
+    <div class="p-step__body">
+      <span class="p-step__label">{{ step.label }}</span>
+      @if (step.optional) {
+        <span class="p-step__optional">Optional</span>
+      }
+      @if (step.description) {
+        <span class="p-step__description">{{ step.description }}</span>
+      }
+    </div>
+  </div>
+  @if (!last) {
+    <div class="p-step__connector" [class.p-step__connector--completed]="!!step.completed"></div>
+  }
+}

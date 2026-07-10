@@ -14,11 +14,11 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "ui-core": ["./dist/ui-core"],
-      "ui-icons": ["./dist/ui-icons"],
-      "ui-layout": ["./dist/ui-layout"],
-      "ui-theme": ["./dist/ui-theme"],
-      "ui-utils": ["./dist/ui-utils"]
+      "@votha-sok/ui-core": ["./dist/ui-core"],
+      "@votha-sok/ui-icons": ["./dist/ui-icons"],
+      "@votha-sok/ui-layout": ["./dist/ui-layout"],
+      "@votha-sok/ui-theme": ["./dist/ui-theme"],
+      "@votha-sok/ui-utils": ["./dist/ui-utils"]
     }
   },
   "angularCompilerOptions": {

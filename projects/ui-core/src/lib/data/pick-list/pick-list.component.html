@@ -1,0 +1,20 @@
+<div class="p-pick-list">
+  <div class="p-pick-list__column">
+    <span class="p-pick-list__label">{{ sourceLabel() }}</span>
+    <p-listbox [options]="sourceOptions()" [multiple]="true"
+      (cuiChange)="onSourceHighlight($event)" />
+  </div>
+
+  <div class="p-pick-list__controls">
+    <p-button variant="outlined" size="sm" iconLeft="chevron_right" (cuiClick)="moveToTarget()" />
+    <p-button variant="outlined" size="sm" iconLeft="keyboard_double_arrow_right" (cuiClick)="moveAllToTarget()" />
+    <p-button variant="outlined" size="sm" iconLeft="chevron_left" (cuiClick)="moveToSource()" />
+    <p-button variant="outlined" size="sm" iconLeft="keyboard_double_arrow_left" (cuiClick)="moveAllToSource()" />
+  </div>
+
+  <div class="p-pick-list__column">
+    <span class="p-pick-list__label">{{ targetLabel() }}</span>
+    <p-listbox [options]="targetOptions()" [multiple]="true"
+      (cuiChange)="onTargetHighlight($event)" />
+  </div>
+</div>

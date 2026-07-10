@@ -1,0 +1,14 @@
+<mat-radio-group
+  class="p-radio-group"
+  [class.p-radio-group--horizontal]="orientation() === 'horizontal'"
+  [name]="name()"
+  [disabled]="disabled()"
+  [required]="required()"
+  [value]="value()"
+  (change)="onChange($event)">
+  @for (option of options(); track option.value) {
+    <mat-radio-button [value]="option.value" [disabled]="option.disabled">
+      {{ option.label }}
+    </mat-radio-button>
+  }
+</mat-radio-group>

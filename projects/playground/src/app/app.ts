@@ -1,11 +1,12 @@
 import { Component, inject, OnInit, signal, TemplateRef, viewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
 
-import { FRAMEWORK_VERSION } from 'ui-utils';
-import { ThemeService } from 'ui-theme';
-import { CuiIconComponent, IconRegistryService } from 'ui-icons';
-import { MenuService, MenuItem, ToastService, LoadingService, BreadcrumbService, PermissionService } from 'ui-utils';
+import { FRAMEWORK_VERSION } from '@votha-sok/ui-utils';
+import { ThemeService } from '@votha-sok/ui-theme';
+import { CuiIconComponent, IconRegistryService } from '@votha-sok/ui-icons';
+import { MenuService, MenuItem, ToastService, LoadingService, BreadcrumbService, PermissionService } from '@votha-sok/ui-utils';
 
 import {
   // Wave 1
@@ -14,13 +15,25 @@ import {
   CuiChipComponent, CuiTooltipDirective,
   // Wave 2
   CuiToastOutletComponent, CuiLoadingOverlayComponent, CuiEmptyStateComponent,
+  PEmptyStateActionComponent,
   // Wave 3
   CuiCardComponent, CuiBreadcrumbComponent, CuiPaginationComponent,
   CuiInputComponent, CuiSelectComponent, CuiDatepickerComponent,
-  CuiTabsComponent, CuiDialogContainerComponent, CuiDrawerComponent,
+  CuiTabsComponent, CuiDialogContainerComponent, PDialogFooterComponent, CuiDrawerComponent,
   CuiDataTableComponent,
+  // Wave 4: Forms completeness
+  CuiCheckboxComponent, CuiRadioGroupComponent, CuiSliderComponent, CuiToggleSwitchComponent,
+  CuiInputNumberComponent, CuiListboxComponent, CuiMultiSelectComponent,
+  // Wave 4: Navigation & menus
+  CuiMenuComponent, CuiMenubarComponent, CuiContextMenuDirective, CuiStepperComponent,
+  CuiAccordionComponent, CuiAccordionPanelComponent, CuiPanelMenuComponent,
+  // Wave 4: Overlays & feedback
+  CuiConfirmService, CuiPopoverDirective, CuiSpeedDialComponent, CuiSplitButtonComponent,
+  // Wave 4: Data-heavy
+  CuiTreeComponent, CuiPickListComponent, CuiVirtualScrollerComponent, CuiTreeTableComponent,
   SelectOption, TabItem, TableColumn, PageEvent, DataTableChangeEvent, SortState,
-} from 'ui-core';
+  CuiMenuItem, StepItem, SpeedDialItem, TreeNode, TreeTableNode,
+} from '@votha-sok/ui-core';
 
 const CUSTOM_ICONS = [
   { name: 'shield',       svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l6 2.67V11c0 3.87-2.64 7.5-6 8.93C8.64 18.5 6 14.87 6 11V7.67L12 5z"/></svg>` },
@@ -55,18 +68,29 @@ const CASES: CaseRow[] = [
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet, ReactiveFormsModule,
+    RouterOutlet, ReactiveFormsModule, MatMenuModule,
     CuiIconComponent, CuiTooltipDirective,
     // Wave 1
     CuiButtonComponent, CuiBadgeComponent, CuiAvatarComponent,
     CuiSkeletonComponent, CuiProgressComponent, CuiChipComponent,
     // Wave 2
     CuiToastOutletComponent, CuiLoadingOverlayComponent, CuiEmptyStateComponent,
+    PEmptyStateActionComponent,
     // Wave 3
     CuiCardComponent, CuiBreadcrumbComponent, CuiPaginationComponent,
     CuiInputComponent, CuiSelectComponent, CuiDatepickerComponent,
-    CuiTabsComponent, CuiDialogContainerComponent, CuiDrawerComponent,
+    CuiTabsComponent, CuiDialogContainerComponent, PDialogFooterComponent, CuiDrawerComponent,
     CuiDataTableComponent,
+    // Wave 4: Forms completeness
+    CuiCheckboxComponent, CuiRadioGroupComponent, CuiSliderComponent, CuiToggleSwitchComponent,
+    CuiInputNumberComponent, CuiListboxComponent, CuiMultiSelectComponent,
+    // Wave 4: Navigation & menus
+    CuiMenuComponent, CuiMenubarComponent, CuiContextMenuDirective, CuiStepperComponent,
+    CuiAccordionComponent, CuiAccordionPanelComponent, CuiPanelMenuComponent,
+    // Wave 4: Overlays & feedback
+    CuiPopoverDirective, CuiSpeedDialComponent, CuiSplitButtonComponent,
+    // Wave 4: Data-heavy
+    CuiTreeComponent, CuiPickListComponent, CuiVirtualScrollerComponent, CuiTreeTableComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
@@ -79,6 +103,7 @@ export class App implements OnInit {
   readonly loadingService     = inject(LoadingService);
   readonly breadcrumbService  = inject(BreadcrumbService);
   readonly permissionService  = inject(PermissionService);
+  readonly confirmService     = inject(CuiConfirmService);
   private readonly iconRegistry = inject(IconRegistryService);
   private readonly fb           = inject(FormBuilder);
 
@@ -91,6 +116,15 @@ export class App implements OnInit {
   readonly tableTotal   = signal(CASES.length);
   readonly progress     = signal(72);
   readonly Math         = Math;
+
+  // ── Wave 4 form control demo state ────────────────────────────────────────
+  readonly checkboxValue    = signal(false);
+  readonly toggleValue      = signal(true);
+  readonly sliderValue      = signal(40);
+  readonly radioValue       = signal<string | null>('medium');
+  readonly inputNumberValue = signal<number | null>(3);
+  readonly listboxValue     = signal<readonly string[]>(['high']);
+  readonly multiSelectValue = signal<string[]>(['low', 'high']);
 
   readonly form = this.fb.group({
     name:  ['', Validators.required],
@@ -110,10 +144,121 @@ export class App implements OnInit {
   // ── Tabs ───────────────────────────────────────────────────────────────────
   readonly tabs: TabItem[] = [
     { id: 'overview',  label: 'Overview',  icon: 'dashboard' },
-    { id: 'forms',     label: 'Forms',     icon: 'edit_note',  badge: 'NEW' },
+    { id: 'forms',     label: 'Forms',     icon: 'edit_note' },
     { id: 'data',      label: 'Data',      icon: 'table_chart' },
     { id: 'overlays',  label: 'Overlays',  icon: 'layers' },
+    { id: 'wave4',     label: 'New Controls', icon: 'widgets' },
+    { id: 'wave4b',    label: 'Menus & Panels', icon: 'menu' },
+    { id: 'wave4c',    label: 'Overlays II',    icon: 'flare' },
+    { id: 'wave4d',    label: 'Data II',        icon: 'account_tree', badge: 'NEW' },
   ];
+
+  // ── Wave 4: data-heavy demo data ──────────────────────────────────────────
+  readonly treeNodes: TreeNode[] = [
+    { id: 'monitoring', label: 'Monitoring', icon: 'radar', children: [
+      { id: 'alerts',       label: 'Alerts',       icon: 'aml-flag' },
+      { id: 'transactions', label: 'Transactions', icon: 'swap_horiz', children: [
+        { id: 'wire',  label: 'Wire Transfers' },
+        { id: 'cash',  label: 'Cash Deposits' },
+      ]},
+    ]},
+    { id: 'reports', label: 'Reports', icon: 'summarize', children: [
+      { id: 'daily',   label: 'Daily Summary' },
+      { id: 'monthly', label: 'Monthly Summary' },
+    ]},
+    { id: 'settings', label: 'Settings', icon: 'settings' },
+  ];
+
+  readonly pickListOptions: SelectOption[] = [
+    { value: 'alice',   label: 'Alice B.' },
+    { value: 'bob',     label: 'Bob C.' },
+    { value: 'carol',   label: 'Carol D.' },
+    { value: 'dave',    label: 'Dave E.' },
+    { value: 'erin',    label: 'Erin F.' },
+  ];
+
+  readonly pickListValue = signal<string[]>(['alice', 'carol']);
+
+  readonly virtualScrollItems = Array.from({ length: 5000 }, (_, i) => `Transaction row #${i + 1}`);
+
+  readonly treeTableColumns: TableColumn<{ name: string; amount: string; status: string }>[] = [
+    { key: 'name',   header: 'Account' },
+    { key: 'amount', header: 'Amount', align: 'right' },
+    { key: 'status', header: 'Status' },
+  ];
+
+  readonly treeTableNodes: TreeTableNode<{ name: string; amount: string; status: string }>[] = [
+    { id: 'g1', data: { name: 'Corporate Accounts', amount: '$1.2M', status: 'Active' }, children: [
+      { id: 'g1-1', data: { name: 'Acme Holdings',  amount: '$820K', status: 'Active' } },
+      { id: 'g1-2', data: { name: 'Bright Capital',  amount: '$380K', status: 'Review' } },
+    ]},
+    { id: 'g2', data: { name: 'Retail Accounts', amount: '$430K', status: 'Active' }, children: [
+      { id: 'g2-1', data: { name: 'Individual Clients', amount: '$430K', status: 'Active' } },
+    ]},
+  ];
+
+  readonly speedDialItems: SpeedDialItem[] = [
+    { id: 'flag',    icon: 'aml-flag',  label: 'Flag Case',   command: () => this.toast('warning') },
+    { id: 'assign',  icon: 'person_add', label: 'Assign',     command: () => this.toast('info') },
+    { id: 'close',   icon: 'check',     label: 'Close Case',  command: () => this.toast('success') },
+  ];
+
+  readonly splitButtonItems: CuiMenuItem[] = [
+    { id: 'save-draft', label: 'Save as Draft', icon: 'save',   command: () => this.toast('info') },
+    { id: 'save-close', label: 'Save & Close',  icon: 'check',  command: () => this.toast('success') },
+  ];
+
+  async confirmCloseCase(): Promise<void> {
+    const confirmed = await this.confirmService.confirm({
+      title: 'Close Case',
+      message: 'Are you sure you want to close this case? This action cannot be undone.',
+      acceptLabel: 'Close Case',
+      rejectLabel: 'Cancel',
+      severity: 'error',
+    });
+    if (confirmed) this.toast('success');
+  }
+
+  // ── Wave 4: menu/panel demo data ──────────────────────────────────────────
+  readonly caseMenuItems: CuiMenuItem[] = [
+    { id: 'view',     label: 'View Details', icon: 'visibility', command: () => this.toast('info') },
+    { id: 'assign',   label: 'Reassign',     icon: 'person_add', command: () => this.toast('info') },
+    { id: 'sep1',     label: '', separator: true },
+    { id: 'escalate', label: 'Escalate',     icon: 'warning',    command: () => this.toast('warning') },
+    { id: 'close',    label: 'Close Case',   icon: 'check',      command: () => this.toast('success') },
+  ];
+
+  readonly menubarItems: CuiMenuItem[] = [
+    { id: 'file', label: 'File', children: [
+      { id: 'new',    label: 'New Case',  icon: 'add',    command: () => this.toast('success') },
+      { id: 'export', label: 'Export',    icon: 'download', command: () => this.toast('info') },
+    ]},
+    { id: 'view', label: 'View', children: [
+      { id: 'refresh', label: 'Refresh', icon: 'refresh', command: () => this.toast('info') },
+    ]},
+    { id: 'help', label: 'Help', command: () => this.toast('info') },
+  ];
+
+  readonly panelMenuItems: CuiMenuItem[] = [
+    { id: 'monitoring', label: 'Monitoring', icon: 'radar', children: [
+      { id: 'alerts',       label: 'Alerts',       icon: 'aml-flag' },
+      { id: 'transactions', label: 'Transactions', icon: 'swap_horiz' },
+    ]},
+    { id: 'reports', label: 'Reports', icon: 'summarize', children: [
+      { id: 'daily',   label: 'Daily Summary' },
+      { id: 'monthly', label: 'Monthly Summary' },
+    ]},
+    { id: 'settings', label: 'Settings', icon: 'settings' },
+  ];
+
+  readonly wizardSteps: StepItem[] = [
+    { id: 'details',  label: 'Case Details',  completed: true },
+    { id: 'evidence', label: 'Evidence',       completed: true },
+    { id: 'review',   label: 'Review',         optional: true },
+    { id: 'submit',   label: 'Submit' },
+  ];
+
+  readonly wizardStep = signal(2);
 
   // ── Table columns ──────────────────────────────────────────────────────────
   readonly columns: TableColumn<CaseRow>[] = [

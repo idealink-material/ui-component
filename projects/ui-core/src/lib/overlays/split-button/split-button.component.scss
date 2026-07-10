@@ -1,0 +1,19 @@
+:host {
+  display: inline-flex;
+}
+
+.p-split-button {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.p-split-button__main {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.p-split-button__trigger {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+}

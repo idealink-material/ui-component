@@ -1,0 +1,39 @@
+<nav class="p-menubar">
+  @for (item of items(); track item.id) {
+    @if (item.children?.length) {
+      <button class="p-menubar__item" [matMenuTriggerFor]="submenu" [disabled]="!!item.disabled">
+        @if (item.icon) { <cui-icon [name]="item.icon" size="sm" /> }
+        {{ item.label }}
+      </button>
+      <mat-menu #submenu="matMenu">
+        <ng-container *ngTemplateOutlet="itemsTpl; context: { $implicit: item.children }" />
+      </mat-menu>
+    } @else {
+      <button class="p-menubar__item" [disabled]="!!item.disabled" (click)="invoke(item)">
+        @if (item.icon) { <cui-icon [name]="item.icon" size="sm" /> }
+        {{ item.label }}
+      </button>
+    }
+  }
+</nav>
+
+<ng-template #itemsTpl let-items>
+  @for (item of items; track item.id) {
+    @if (item.separator) {
+      <mat-divider />
+    } @else if (item.children?.length) {
+      <button mat-menu-item [matMenuTriggerFor]="submenu" [disabled]="!!item.disabled">
+        @if (item.icon) { <cui-icon [name]="item.icon" size="sm" /> }
+        {{ item.label }}
+      </button>
+      <mat-menu #submenu="matMenu">
+        <ng-container *ngTemplateOutlet="itemsTpl; context: { $implicit: item.children }" />
+      </mat-menu>
+    } @else {
+      <button mat-menu-item [disabled]="!!item.disabled" (click)="invoke(item)">
+        @if (item.icon) { <cui-icon [name]="item.icon" size="sm" /> }
+        {{ item.label }}
+      </button>
+    }
+  }
+</ng-template>
