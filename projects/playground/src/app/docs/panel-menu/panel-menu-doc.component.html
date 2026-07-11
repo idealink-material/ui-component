@@ -1,0 +1,60 @@
+<app-doc-shell
+  name="Panel Menu"
+  lead="A vertical, in-page navigation tree where nested items expand inline (an accordion-style menu), instead of opening a popup."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Click a group to expand its children inline."
+        sourceId="p-panel-menu"
+        code='<p-panel-menu [items]="panelMenuItems" />
+
+panelMenuItems = [
+  { id: "monitoring", label: "Monitoring", icon: "radar", children: [
+    { id: "alerts", label: "Alerts", icon: "aml_flag", command: () => … },
+    { id: "transactions", label: "Transactions", icon: "swap_horiz", command: () => … },
+  ]},
+  { id: "settings", label: "Settings", icon: "settings", command: () => … },
+];'>
+        <div style="width: 100%; max-width: 280px;">
+          <p-panel-menu [items]="panelMenuItems" />
+        </div>
+        <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          Last action: {{ lastAction() || '—' }}
+        </p>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-on-surface</code> / <code>-on-surface-variant</code></td><td>Item label/icon color.</td></tr>
+          <tr><td><code>--mat-sys-surface-container</code></td><td>Item hover background.</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Item corner radius.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-panel-menu&gt;</code> renders as its own host element. Any attribute you set on
+        the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

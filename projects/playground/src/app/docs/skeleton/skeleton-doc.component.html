@@ -1,0 +1,92 @@
+<app-doc-shell
+  name="Skeleton"
+  lead="A placeholder shimmer shown while content is loading. Renders no content of its own — size and shape are fully controlled by props."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties">
+
+  <div docFeatures>
+    <section id="variants" class="doc-page__section">
+      <app-doc-example
+        title="Variants"
+        sourceId="p-skeleton"
+        code='<p-skeleton variant="text" width="160px" />
+<p-skeleton variant="rect" width="80px" height="40px" />
+<p-skeleton variant="circle" width="40px" height="40px" />'>
+        <p-skeleton variant="text" width="160px" />
+        <p-skeleton variant="rect" width="80px" height="40px" />
+        <p-skeleton variant="circle" width="40px" height="40px" />
+      </app-doc-example>
+    </section>
+
+    <section id="sizes" class="doc-page__section">
+      <app-doc-example
+        title="Custom sizes"
+        description="width and height accept any CSS length, so text lines can vary to mimic real content."
+        sourceId="p-skeleton"
+        code='<p-skeleton variant="text" width="90%" />
+<p-skeleton variant="text" width="70%" />
+<p-skeleton variant="text" width="40%" />'>
+        <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 8px;">
+          <p-skeleton variant="text" width="90%" />
+          <p-skeleton variant="text" width="70%" />
+          <p-skeleton variant="text" width="40%" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="card" class="doc-page__section">
+      <app-doc-example
+        title="Composed example"
+        description="Combine variants to mirror the layout of the content being loaded."
+        sourceId="p-skeleton"
+        code='<p-skeleton variant="circle" width="40px" height="40px" />
+<div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+  <p-skeleton variant="text" width="50%" />
+  <p-skeleton variant="text" width="30%" />
+</div>
+<p-skeleton variant="rect" width="60px" height="22px" />'>
+        <div style="width: 100%; max-width: 400px; display: flex; gap: 12px; align-items: center;">
+          <p-skeleton variant="circle" width="40px" height="40px" />
+          <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+            <p-skeleton variant="text" width="50%" />
+            <p-skeleton variant="text" width="30%" />
+          </div>
+          <p-skeleton variant="rect" width="60px" height="22px" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Skeleton reads its shimmer gradient from Angular Material surface tokens and shares the
+        library's shape tokens. Override these custom properties on an ancestor to re-theme every
+        skeleton at once.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-surface-container</code> / <code>-surface-container-high</code></td><td>Shimmer gradient colors.</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Base corner radius (the <code>rect</code> variant overrides this with <code>--cui-radius-md</code>).</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-skeleton&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

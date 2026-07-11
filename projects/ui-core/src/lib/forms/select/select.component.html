@@ -1,41 +1,95 @@
-<mat-form-field [appearance]="matAppearance()"
-  [class.p-select--full]="fullWidth()"
-  class="p-select">
-
+<div class="p-field" [class.p-field--full]="fullWidth()">
   @if (label()) {
-    <mat-label>{{ label() }}</mat-label>
+    <label class="p-field__label" [for]="fieldId">
+      {{ label() }}@if (required()) { <span class="p-field__required" aria-hidden="true">*</span> }
+    </label>
   }
 
-  <mat-select
-    [value]="value()"
-    [multiple]="multiple()"
-    [disabled]="disabled()"
-    [required]="required()"
-    [placeholder]="placeholder()"
-    (valueChange)="onChange($event)"
-    (openedChange)="$event ? null : onTouched()">
+  @if (editable()) {
+    <mat-form-field [appearance]="matAppearance()"
+      [class.p-select--full]="fullWidth()"
+      class="p-select">
 
-    <!-- Ungrouped options -->
-    @for (opt of groupedOptions().ungrouped; track opt.value) {
-      <mat-option [value]="opt.value" [disabled]="opt.disabled ?? false">
-        {{ opt.label }}
-      </mat-option>
-    }
+      <input matInput
+        [id]="fieldId"
+        [attr.list]="'p-select-list-' + fieldId"
+        [value]="value()"
+        [disabled]="disabled()"
+        [required]="required()"
+        [placeholder]="placeholder()"
+        (input)="onEditableInput($any($event.target).value)"
+        (blur)="onTouched()" />
 
-    <!-- Grouped options -->
-    @for (group of groupedOptions().groups; track group[0]) {
-      <mat-optgroup [label]="group[0]">
-        @for (opt of group[1]; track opt.value) {
-          <mat-option [value]="opt.value" [disabled]="opt.disabled ?? false">
-            {{ opt.label }}
-          </mat-option>
+      <datalist [id]="'p-select-list-' + fieldId">
+        @for (opt of editableSuggestions(); track opt.value) {
+          <option [value]="opt.label"></option>
         }
-      </mat-optgroup>
-    }
+      </datalist>
 
-  </mat-select>
+      @if (hint() && !error()) { <mat-hint>{{ hint() }}</mat-hint> }
+      @if (error())             { <mat-error>{{ error() }}</mat-error> }
+    </mat-form-field>
+  } @else {
+    <mat-form-field [appearance]="matAppearance()"
+      [class.p-select--full]="fullWidth()"
+      class="p-select">
 
-  @if (hint() && !error()) { <mat-hint>{{ hint() }}</mat-hint> }
-  @if (error())             { <mat-error>{{ error() }}</mat-error> }
+      <mat-select
+        [id]="fieldId"
+        [value]="value()"
+        [multiple]="multiple()"
+        [disabled]="disabled()"
+        [required]="required()"
+        [placeholder]="placeholder()"
+        (valueChange)="onChange($event)"
+        (openedChange)="$event ? opened() : closed()">
 
-</mat-form-field>
+        @if (filter()) {
+          <div class="p-select__filter" (click)="$event.stopPropagation()">
+            <cui-icon name="search" size="xs" color="var(--mat-sys-on-surface-variant)" />
+            <input type="text" placeholder="Search…" [value]="filterText()"
+              (input)="onFilterInput($any($event.target).value)"
+              (keydown)="$event.stopPropagation()" />
+          </div>
+        }
+
+        <!-- Ungrouped options -->
+        @if (virtualScroll() && filteredGroups().length === 0) {
+          <cdk-virtual-scroll-viewport [itemSize]="virtualItemSize()" class="p-select__viewport">
+            <mat-option *cdkVirtualFor="let opt of filteredUngrouped()" [value]="opt.value" [disabled]="opt.disabled ?? false">
+              {{ opt.label }}
+            </mat-option>
+          </cdk-virtual-scroll-viewport>
+        } @else {
+          @for (opt of filteredUngrouped(); track opt.value) {
+            <mat-option [value]="opt.value" [disabled]="opt.disabled ?? false">
+              {{ opt.label }}
+            </mat-option>
+          }
+        }
+
+        <!-- Grouped options -->
+        @for (group of filteredGroups(); track group[0]) {
+          <mat-optgroup [label]="group[0]">
+            @for (opt of group[1]; track opt.value) {
+              <mat-option [value]="opt.value" [disabled]="opt.disabled ?? false">
+                {{ opt.label }}
+              </mat-option>
+            }
+          </mat-optgroup>
+        }
+
+      </mat-select>
+
+      @if (showClear() && hasValue() && !disabled()) {
+        <button type="button" matSuffix class="p-select__clear" (click)="clear($event)" aria-label="Clear selection">
+          <cui-icon name="close" size="xs" color="currentColor" />
+        </button>
+      }
+
+      @if (hint() && !error()) { <mat-hint>{{ hint() }}</mat-hint> }
+      @if (error())             { <mat-error>{{ error() }}</mat-error> }
+
+    </mat-form-field>
+  }
+</div>

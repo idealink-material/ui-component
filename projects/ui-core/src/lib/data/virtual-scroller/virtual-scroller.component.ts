@@ -21,4 +21,12 @@ export class CuiVirtualScrollerComponent<T> {
   readonly height      = input<string>('400px');
   /** Template rendered per row. Context: { $implicit: item, index }. */
   readonly itemTemplate = input<TemplateRef<VirtualScrollerItemContext<T>> | null>(null);
+
+  /** Lets Angular's template type checker resolve let-item/let-index on the projected itemTemplate. */
+  static ngTemplateContextGuard<T>(
+    _dir: CuiVirtualScrollerComponent<T>,
+    _ctx: unknown,
+  ): _ctx is VirtualScrollerItemContext<T> {
+    return true;
+  }
 }

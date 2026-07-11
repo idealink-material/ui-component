@@ -1,0 +1,65 @@
+<app-doc-shell
+  name="Input Number"
+  lead="A numeric stepper field with formatted display (decimal or currency) that shows raw digits while focused."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-input-number"
+        code='<p-input-number [(value)]="basic" />'>
+        <p-input-number [(value)]="basic" />
+      </app-doc-example>
+    </section>
+
+    <section id="currency" class="doc-page__section">
+      <app-doc-example
+        title="Currency"
+        description="mode='currency' formats the display value using Intl.NumberFormat; prefix/suffix add static text on top of that."
+        sourceId="p-input-number"
+        code='<p-input-number mode="currency" currency="USD" [step]="50" [(value)]="price" />'>
+        <p-input-number mode="currency" currency="USD" [step]="50" [(value)]="price" />
+      </app-doc-example>
+    </section>
+
+    <section id="range" class="doc-page__section">
+      <app-doc-example
+        title="Min/max & no buttons"
+        description="The increment/decrement buttons disable at min/max; showButtons=false hides them for a bare field."
+        sourceId="p-input-number"
+        code='<p-input-number [min]="0" [max]="100" [(value)]="bounded" />
+<p-input-number [showButtons]="false" [(value)]="bounded" />'>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <p-input-number [min]="0" [max]="100" [(value)]="bounded" />
+          <p-input-number [showButtons]="false" [(value)]="bounded" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Input Number composes a native text input with two <code>p-button</code> instances for the
+        stepper controls — see the Button doc page's Theming tab for the full token list it inherits.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-input-number&gt;</code> renders as its own host element wrapping a native
+        <code>&lt;input&gt;</code>. Any attribute you set on the tag that isn't a recognized input —
+        <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. — is applied directly to that
+        host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

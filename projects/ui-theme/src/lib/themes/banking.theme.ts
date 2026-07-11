@@ -7,6 +7,9 @@ export const bankingTheme: ThemeDefinition = {
   palette: {
     'cui-is-dark': '0',
 
+    'cui-font-family': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    'cui-font-family-heading': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+
     // Primary — Deep Navy
     'mat-sys-primary': '#1e3a5f',
     'mat-sys-on-primary': '#ffffff',

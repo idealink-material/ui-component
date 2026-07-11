@@ -1,0 +1,101 @@
+<app-doc-shell
+  name="Avatar"
+  lead="Represents a user or entity with an image, initials fallback, and an optional status dot."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties">
+
+  <div docFeatures>
+    <section id="sizes" class="doc-page__section">
+      <app-doc-example
+        title="Sizes"
+        sourceId="p-avatar"
+        code='<p-avatar name="Alex Morgan" size="xs" />
+<p-avatar name="Alex Morgan" size="sm" />
+<p-avatar name="Alex Morgan" size="md" />
+<p-avatar name="Alex Morgan" size="lg" />
+<p-avatar name="Alex Morgan" size="xl" />'>
+        <p-avatar name="Alex Morgan" size="xs" />
+        <p-avatar name="Alex Morgan" size="sm" />
+        <p-avatar name="Alex Morgan" size="md" />
+        <p-avatar name="Alex Morgan" size="lg" />
+        <p-avatar name="Alex Morgan" size="xl" />
+      </app-doc-example>
+    </section>
+
+    <section id="shapes" class="doc-page__section">
+      <app-doc-example
+        title="Shapes"
+        sourceId="p-avatar"
+        code='<p-avatar name="Alex Morgan" shape="circle" />
+<p-avatar name="Alex Morgan" shape="rounded" />
+<p-avatar name="Alex Morgan" shape="square" />'>
+        <p-avatar name="Alex Morgan" shape="circle" />
+        <p-avatar name="Alex Morgan" shape="rounded" />
+        <p-avatar name="Alex Morgan" shape="square" />
+      </app-doc-example>
+    </section>
+
+    <section id="initials" class="doc-page__section">
+      <app-doc-example
+        title="Initials fallback"
+        description="Without a src, the avatar derives up to two initials from name."
+        sourceId="p-avatar"
+        code='<p-avatar name="Alice B" size="lg" />
+<p-avatar name="Carol D" size="lg" />
+<p-avatar size="lg" />'>
+        <p-avatar name="Alice B" size="lg" />
+        <p-avatar name="Carol D" size="lg" />
+        <p-avatar size="lg" />
+      </app-doc-example>
+    </section>
+
+    <section id="status" class="doc-page__section">
+      <app-doc-example
+        title="Status indicator"
+        sourceId="p-avatar"
+        code='<p-avatar name="Alice B" status="online" />
+<p-avatar name="Bob C" status="away" />
+<p-avatar name="Carol D" status="busy" />
+<p-avatar name="David E" status="offline" />'>
+        <p-avatar name="Alice B" status="online" />
+        <p-avatar name="Bob C" status="away" />
+        <p-avatar name="Carol D" status="busy" />
+        <p-avatar name="David E" status="offline" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Avatar reads its default fill from Angular Material system tokens and shares the library's
+        shape tokens. Override these custom properties on an ancestor to re-theme every avatar at once.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-primary-container</code></td><td>Default avatar background.</td></tr>
+          <tr><td><code>--mat-sys-on-primary-container</code></td><td>Initials text color.</td></tr>
+          <tr><td><code>--cui-radius-md</code></td><td>Corner radius for the <code>rounded</code> shape.</td></tr>
+          <tr><td><code>--mat-sys-background</code></td><td>Border color around the status indicator dot, creating a cutout against the page background.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-avatar&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

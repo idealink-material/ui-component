@@ -1,0 +1,112 @@
+<app-doc-shell
+  name="Select"
+  lead="A dropdown selection field wrapping Angular Material's select. Implements ControlValueAccessor and supports grouped options, filtering, and multiple selection."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-select"
+        code='<p-select label="Risk Level" [options]="riskOptions"
+  placeholder="Select risk level…" [(value)]="single" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-select label="Risk Level" [options]="riskOptions"
+            placeholder="Select risk level…" [(value)]="single" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="grouped" class="doc-page__section">
+      <app-doc-example
+        title="Grouped options"
+        description="Options with a matching group label are rendered under a mat-optgroup."
+        sourceId="p-select"
+        code='riskOptions = [
+  { value: "low", label: "Low Risk" },
+  { value: "medium", label: "Medium Risk" },
+  { value: "high", label: "High Risk", group: "Critical" },
+  { value: "severe", label: "Severe Risk", group: "Critical" },
+];'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-select label="Risk Level" [options]="riskOptions" placeholder="Select risk level…" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="multiple" class="doc-page__section">
+      <app-doc-example
+        title="Multiple selection"
+        sourceId="p-select"
+        code='<p-select label="Risk Levels" [options]="riskOptions"
+  [multiple]="true" [(value)]="multi" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-select label="Risk Levels" [options]="riskOptions"
+            [multiple]="true" [(value)]="multi" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="filter" class="doc-page__section">
+      <app-doc-example
+        title="Filterable & clearable"
+        description="filter adds a search box in the options panel; showClear adds a button to reset the selection."
+        sourceId="p-select"
+        code='<p-select label="Risk Level" [options]="riskOptions"
+  [filter]="true" [showClear]="true" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-select label="Risk Level" [options]="riskOptions" [filter]="true" [showClear]="true" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="states" class="doc-page__section">
+      <app-doc-example
+        title="States"
+        sourceId="p-select"
+        code='<p-select label="Disabled" [options]="riskOptions" [disabled]="true" />
+<p-select label="Required" [options]="riskOptions" [required]="true" />
+<p-select label="Risk Level" [options]="riskOptions" error="Selection required" />'>
+        <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
+          <p-select label="Disabled" [options]="riskOptions" [disabled]="true" />
+          <p-select label="Required" [options]="riskOptions" [required]="true" />
+          <p-select label="Risk Level" [options]="riskOptions" error="Selection required" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline-variant</code></td><td>Filter box divider and virtual-scroll list borders.</td></tr>
+          <tr><td><code>--mat-sys-surface</code></td><td>Sticky filter box background.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code> / <code>-on-surface-variant</code></td><td>Filter input and clear-button text/icon color.</td></tr>
+          <tr><td><code>--mat-sys-surface-container-high</code></td><td>Clear-button hover background.</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Clear-button corner radius.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-select&gt;</code> wraps Angular Material's <code>&lt;mat-form-field&gt;</code>
+        around a native <code>&lt;mat-select&gt;</code>. Attributes you set on the tag that aren't
+        recognized inputs are applied to the <code>p-select</code> host element (the wrapper), not
+        automatically forwarded to the inner control.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

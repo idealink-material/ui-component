@@ -1,0 +1,35 @@
+:host { display: inline-block; }
+
+.p-color-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  &--inline {
+    padding: 6px 10px;
+    border: 1px solid var(--mat-sys-outline);
+    border-radius: 9999px;
+    background: var(--mat-sys-surface);
+  }
+}
+
+.p-color-picker__swatch {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 9999px;
+  cursor: pointer;
+  background: none;
+
+  &::-webkit-color-swatch-wrapper { padding: 2px; }
+  &::-webkit-color-swatch { border: none; border-radius: 4px; }
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+.p-color-picker__label {
+  font-size: 13px;
+  font-family: 'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace;
+  color: var(--mat-sys-on-surface-variant);
+}

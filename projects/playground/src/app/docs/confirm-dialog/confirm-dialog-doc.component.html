@@ -1,0 +1,56 @@
+<app-doc-shell
+  name="Confirm Dialog"
+  lead="An imperative yes/no confirmation dialog. Unlike the other overlay components, there's no template tag to place — you call a service method and await the result."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Inject CuiConfirmService and call confirm() — it returns a Promise<boolean> that resolves once the user picks an option."
+        sourceId="CuiConfirmService"
+        code='private readonly confirmService = inject(CuiConfirmService);
+
+async confirmClose(): Promise<void> {
+  const confirmed = await this.confirmService.confirm({
+    title: "Close Case",
+    message: "Are you sure you want to close this case? This action cannot be undone.",
+    acceptLabel: "Close Case",
+    rejectLabel: "Cancel",
+    severity: "error",
+  });
+  if (confirmed) { /* … */ }
+}'>
+        <p-button variant="filled" color="error" (onClick)="confirmClose()">Close Case</p-button>
+        <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          Last result: {{ lastResult() || '—' }}
+        </p>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        The dialog itself is a <code>p-dialog-container</code> under the hood, so it inherits that
+        component's design tokens — see the Dialog doc page's Theming tab. <code>severity: 'error'</code>
+        colors the confirm button using <code>p-button</code>'s <code>error</code> color.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        There's no host tag to attach attributes to — the dialog is opened imperatively via Angular
+        CDK's <code>Dialog</code> service, which renders <code>p-confirm-dialog</code> into the
+        overlay container rather than at your call site.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

@@ -25,8 +25,22 @@ html {
   height: 100%;
   @include mat.theme((
     typography: Roboto,
-    density: 0,
+    density: -2,
   ));
+
+  // Form fields default to Material's 16px body-large text, which reads
+  // large next to the rest of the app's UI copy (13-14px). Scope the
+  // override to form fields only so unrelated typography is untouched.
+  --mat-form-field-container-text-size: 14px;
+  --mat-form-field-container-text-line-height: 20px;
+  --mat-form-field-subscript-text-size: 12px;
+
+  // Material's outline text-field defaults to its own small corner radius,
+  // independent of --cui-radius-*. Pill-shape it to match the rest of the
+  // library's custom-built fields (Multi Select, Autocomplete, etc.) —
+  // 9999px is the standard CSS trick that auto-caps at half the box's own
+  // height, so it always renders as a true pill regardless of field size.
+  --mdc-outlined-text-field-container-shape: 9999px;
 }
 
 body {
@@ -35,9 +49,17 @@ body {
   background-color: var(--mat-sys-background);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
+  // Font family comes from the active theme's --cui-font-family token
+  // (written by ThemeService). Apps opt in here; the token itself only
+  // selects the family — loading the font file is still the app's job.
+  font-family: var(--cui-font-family, system-ui, -apple-system, sans-serif);
   // color-scheme mirrors cui-is-dark so the browser applies correct
   // scrollbar/input system colours.
   color-scheme: light;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--cui-font-family-heading, var(--cui-font-family, inherit));
 }
 
 // When ThemeService marks the root as dark, update color-scheme

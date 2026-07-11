@@ -1,9 +1,18 @@
 <mat-slider
   class="p-slider"
+  [class.p-slider--vertical]="orientation() === 'vertical'"
   [min]="min()"
   [max]="max()"
   [step]="step()"
   [discrete]="discrete()"
   [disabled]="disabled()">
-  <input matSliderThumb [value]="value()" (valueChange)="onValueChange($event)">
+  @if (range()) {
+    <input matSliderStartThumb [value]="rangeStart()"
+      (valueChange)="onRangeStartChange($event)" (dragEnd)="slideEnd($event)">
+    <input matSliderEndThumb [value]="rangeEnd()"
+      (valueChange)="onRangeEndChange($event)" (dragEnd)="slideEnd($event)">
+  } @else {
+    <input matSliderThumb [value]="singleValue()"
+      (valueChange)="onValueChange($event)" (dragEnd)="slideEnd($event)">
+  }
 </mat-slider>

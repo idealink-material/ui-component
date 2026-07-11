@@ -1,0 +1,23 @@
+<svg #svg
+  [attr.width]="size" [attr.height]="size" [attr.viewBox]="'0 0 ' + size + ' ' + size"
+  class="p-knob" [class.p-knob--disabled]="disabled()"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp()"
+  (pointercancel)="onPointerUp()">
+
+  <circle [attr.cx]="size / 2" [attr.cy]="size / 2" [attr.r]="radius"
+    fill="none" [attr.stroke]="rangeColor()" stroke-width="10" />
+
+  <circle [attr.cx]="size / 2" [attr.cy]="size / 2" [attr.r]="radius"
+    fill="none" [attr.stroke]="valueColor()" stroke-width="10"
+    stroke-linecap="round"
+    [attr.stroke-dasharray]="circumference"
+    [attr.stroke-dashoffset]="dashOffset()"
+    [attr.transform]="'rotate(-90 ' + size / 2 + ' ' + size / 2 + ')'" />
+
+  @if (showValue()) {
+    <text [attr.x]="size / 2" [attr.y]="size / 2" text-anchor="middle" dominant-baseline="central"
+      class="p-knob__text">{{ value() }}</text>
+  }
+</svg>

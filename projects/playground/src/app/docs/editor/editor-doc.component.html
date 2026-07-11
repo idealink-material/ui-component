@@ -1,0 +1,69 @@
+<app-doc-shell
+  name="Editor"
+  lead="A rich-text editor wrapping Quill, with a familiar formatting toolbar and HTML output."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="[(value)] holds the current HTML content; onTextChange fires on every edit with the HTML, plain text, and change source."
+        sourceId="p-editor"
+        code='<p-editor placeholder="Write something…" [(value)]="html" (onTextChange)="lastChange.set($event)" />'>
+        <div style="width: 100%; max-width: 480px;">
+          <p-editor placeholder="Write something…" [(value)]="html" (onTextChange)="lastChange.set($event)" />
+          <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+            Last change source: {{ lastChange()?.source ?? '—' }}
+          </p>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="readonly" class="doc-page__section">
+      <app-doc-example
+        title="Readonly"
+        description="readonly hides the toolbar and disables editing."
+        sourceId="p-editor"
+        code='<p-editor [readonly]="true" [value]="readonlyHtml" />'>
+        <div style="width: 100%; max-width: 480px;">
+          <p-editor [readonly]="true" [value]="readonlyHtml" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Editor imports Quill's own "snow" theme stylesheet for the toolbar and content surface, so
+        its look isn't driven by this library's <code>--mat-sys-*</code> tokens. The wrapper itself
+        only contributes shape:
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--cui-radius-md</code></td><td>Corner radius of the editor's outer wrapper.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-editor&gt;</code> renders as its own host element wrapping a Quill instance. Any
+        attribute you set on the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>,
+        <code>aria-*</code>, etc. — is applied directly to that host element by Angular, so it passes
+        through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

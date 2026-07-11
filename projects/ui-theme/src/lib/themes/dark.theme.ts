@@ -7,6 +7,9 @@ export const darkTheme: ThemeDefinition = {
   palette: {
     'cui-is-dark': '1',
 
+    'cui-font-family': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    'cui-font-family-heading': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+
     // Primary — Indigo (lighter for dark surfaces)
     'mat-sys-primary': '#818cf8',
     'mat-sys-on-primary': '#1e1b4b',

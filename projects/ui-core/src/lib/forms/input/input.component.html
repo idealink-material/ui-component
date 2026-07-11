@@ -1,42 +1,66 @@
-<mat-form-field
-  [appearance]="matAppearance()"
-  [class.p-input--sm]="size() === 'sm'"
-  [class.p-input--lg]="size() === 'lg'"
-  [class.p-input--full]="fullWidth()"
-  class="p-input">
-
+<div class="p-field" [class.p-field--full]="fullWidth()">
   @if (label()) {
-    <mat-label>{{ label() }}@if (required()) { <span aria-hidden="true"> *</span> }</mat-label>
+    <label class="p-field__label" [for]="fieldId">
+      {{ label() }}@if (required()) { <span class="p-field__required" aria-hidden="true">*</span> }
+    </label>
   }
 
-  @if (prefixIcon()) {
-    <cui-icon matPrefix [name]="prefixIcon()!" size="sm"
-      color="var(--mat-sys-on-surface-variant)" class="mr-1" />
-  }
+  <mat-form-field
+    [appearance]="matAppearance()"
+    [class.p-input--sm]="size() === 'sm'"
+    [class.p-input--lg]="size() === 'lg'"
+    [class.p-input--full]="fullWidth()"
+    class="p-input">
 
-  <input matInput
-    [type]="type()"
-    [value]="value()"
-    [placeholder]="placeholder()"
-    [disabled]="disabled()"
-    [readonly]="readonly()"
-    [required]="required()"
-    [autocomplete]="autocomplete()"
-    [attr.aria-invalid]="hasError() ? 'true' : null"
-    (input)="onInput($event)"
-    (blur)="onBlur($event)"
-    (focus)="onFocus($event)" />
+    @if (prefixIcon()) {
+      <cui-icon matPrefix [name]="prefixIcon()!" size="sm"
+        color="var(--mat-sys-on-surface-variant)" class="p-input__prefix-icon" />
+    }
+    <ng-content select="[prefixIcon]" />
 
-  @if (suffixIcon()) {
-    <cui-icon matSuffix [name]="suffixIcon()!" size="sm"
-      color="var(--mat-sys-on-surface-variant)" class="ml-1" />
-  }
+    @if (multiline()) {
+      <textarea matInput
+        [id]="fieldId"
+        [rows]="rows()"
+        [cols]="cols() ?? null"
+        [value]="value()"
+        [placeholder]="placeholder()"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        [required]="required()"
+        [class.p-input__textarea--autoresize]="autoResize()"
+        [attr.aria-invalid]="hasError() ? 'true' : null"
+        (input)="onInput($event)"
+        (blur)="onBlur($event)"
+        (focus)="onFocus($event)"></textarea>
+    } @else {
+      <input matInput
+        [id]="fieldId"
+        [type]="type()"
+        [value]="value()"
+        [placeholder]="placeholder()"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        [required]="required()"
+        [autocomplete]="autocomplete()"
+        [attr.aria-invalid]="hasError() ? 'true' : null"
+        (input)="onInput($event)"
+        (blur)="onBlur($event)"
+        (focus)="onFocus($event)" />
+    }
 
-  @if (hint() && !error()) {
-    <mat-hint>{{ hint() }}</mat-hint>
-  }
-  @if (error()) {
-    <mat-error>{{ error() }}</mat-error>
-  }
+    @if (suffixIcon()) {
+      <cui-icon matSuffix [name]="suffixIcon()!" size="sm"
+        color="var(--mat-sys-on-surface-variant)" class="p-input__suffix-icon" />
+    }
+    <ng-content select="[suffixIcon]" />
 
-</mat-form-field>
+    @if (hint() && !error()) {
+      <mat-hint>{{ hint() }}</mat-hint>
+    }
+    @if (error()) {
+      <mat-error>{{ error() }}</mat-error>
+    }
+
+  </mat-form-field>
+</div>

@@ -1,0 +1,72 @@
+<app-doc-shell
+  name="Fieldset"
+  lead="A grouping container with a legend overlapping its border, matching the native HTML fieldset/legend pattern — with an optional collapse toggle."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-fieldset"
+        code='<p-fieldset legend="Shipping Address">
+  <p><strong>Jane Cooper</strong> — (415) 555-0132</p>
+  <p>1234 Elm Street, Apt 5B<br>San Francisco, CA 94102</p>
+</p-fieldset>'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-fieldset legend="Shipping Address">
+            <p style="margin: 0 0 8px;"><strong>Jane Cooper</strong> — (415) 555-0132</p>
+            <p style="margin: 0;">1234 Elm Street, Apt 5B<br>San Francisco, CA 94102</p>
+          </p-fieldset>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="toggleable" class="doc-page__section">
+      <app-doc-example
+        title="Toggleable"
+        description="toggleable adds a chevron to the legend; collapsed is two-way bindable."
+        sourceId="p-fieldset"
+        code='<p-fieldset legend="Advanced Options" [toggleable]="true" [(collapsed)]="collapsed">
+  <p>Content hidden when collapsed.</p>
+</p-fieldset>'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-fieldset legend="Advanced Options" [toggleable]="true" [(collapsed)]="collapsed">
+            <p style="margin: 0;">Content hidden when collapsed.</p>
+          </p-fieldset>
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--cui-card-border</code> (falls back to <code>--mat-sys-outline-variant</code>)</td><td>Fieldset border color.</td></tr>
+          <tr><td><code>--cui-card-bg</code> (falls back to <code>--mat-sys-surface</code>)</td><td>Legend background, so it cleanly masks the border it overlaps.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code></td><td>Legend text color.</td></tr>
+          <tr><td><code>--mat-sys-primary</code></td><td>Legend hover/focus color when toggleable.</td></tr>
+          <tr><td><code>--cui-radius-md</code></td><td>Corner radius.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-fieldset&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. —
+        is applied directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

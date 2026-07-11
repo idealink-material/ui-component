@@ -1,0 +1,90 @@
+<app-doc-shell
+  name="Input Group"
+  lead="Lays out an input alongside fixed prefix/suffix addons — like a currency symbol or unit — as one continuous field."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="p-input-group-addon renders a fixed prefix; any input/select child fills the remaining space."
+        sourceId="p-input-group"
+        code='<p-input-group>
+  <p-input-group-addon>$</p-input-group-addon>
+  <p-input placeholder="0.00" />
+</p-input-group>'>
+        <p-input-group>
+          <p-input-group-addon>$</p-input-group-addon>
+          <p-input placeholder="0.00" />
+        </p-input-group>
+      </app-doc-example>
+    </section>
+
+    <section id="both" class="doc-page__section">
+      <app-doc-example
+        title="Prefix & suffix"
+        description="Add a second p-input-group-addon after the field for a trailing unit or currency code."
+        sourceId="p-input-group"
+        code='<p-input-group>
+  <p-input-group-addon>$</p-input-group-addon>
+  <p-input placeholder="0.00" />
+  <p-input-group-addon>USD</p-input-group-addon>
+</p-input-group>'>
+        <p-input-group>
+          <p-input-group-addon>$</p-input-group-addon>
+          <p-input placeholder="0.00" />
+          <p-input-group-addon>USD</p-input-group-addon>
+        </p-input-group>
+      </app-doc-example>
+    </section>
+
+    <section id="multi" class="doc-page__section">
+      <app-doc-example
+        title="Multiple fields"
+        description="Any number of children are laid out flush together — not limited to a single input."
+        sourceId="p-input-group"
+        code='<p-input-group>
+  <p-input-group-addon>https://</p-input-group-addon>
+  <p-input placeholder="yourcompany" />
+  <p-select [options]="currencyOptions" placeholder="TLD" />
+</p-input-group>'>
+        <p-input-group>
+          <p-input-group-addon>https://</p-input-group-addon>
+          <p-input placeholder="yourcompany" />
+          <p-select [options]="currencyOptions" placeholder="Currency" />
+        </p-input-group>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline</code></td><td>Addon border color.</td></tr>
+          <tr><td><code>--mat-sys-surface-container-low</code></td><td>Addon background.</td></tr>
+          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Addon text color.</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Corner radius applied to the group's first/last child only.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-input-group&gt;</code> and <code>&lt;p-input-group-addon&gt;</code> each render as
+        their own host element. Any attribute you set on either tag that isn't a recognized input —
+        <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. — is applied directly to that
+        host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

@@ -1,0 +1,75 @@
+<app-doc-shell
+  name="Data Table"
+  lead="A composed table with a search toolbar, sortable columns, and pagination footer, built on top of the lower-level p-table primitive."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [templates]="templates"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="stateChange fires with the combined sort/page/pageSize/search state whenever any of them changes — use it as the single trigger to re-fetch rows from your backend."
+        sourceId="p-data-table"
+        code='<p-data-table
+  [columns]="columns"
+  [rows]="rows()"
+  [total]="rows().length"
+  [selectable]="true"
+  searchPlaceholder="Search cases…"
+  (stateChange)="onTableChange($event)">
+  <p-data-table-actions>
+    <p-button size="sm" variant="outlined" icon="download">Export</p-button>
+  </p-data-table-actions>
+</p-data-table>
+
+columns: TableColumn<CaseRow>[] = [
+  { key: "caseNo",  header: "Case No.", sortable: true, width: "110px" },
+  { key: "subject", header: "Subject",  sortable: true },
+  { key: "status",  header: "Status",   sortable: true, width: "100px", align: "center" },
+  { key: "risk",    header: "Risk",     sortable: true, width: "100px", align: "center" },
+];'>
+        <p-data-table
+          [columns]="columns"
+          [rows]="rows()"
+          [total]="rows().length"
+          [selectable]="true"
+          searchPlaceholder="Search cases…"
+          (stateChange)="onTableChange($event)">
+          <p-data-table-actions>
+            <p-button size="sm" variant="outlined" icon="download">Export</p-button>
+          </p-data-table-actions>
+        </p-data-table>
+        <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          Last state: {{ lastEvent() | json }}
+        </p>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Data Table composes <code>p-input</code>, <code>p-table</code>, and <code>p-pagination</code>,
+        each themed independently through Angular Material system tokens — see their individual doc
+        pages for the full token list. The toolbar and footer wrappers add only layout, no color.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-data-table&gt;</code> renders as its own host element. Any attribute you set on
+        the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

@@ -1,0 +1,47 @@
+<app-doc-shell
+  name="Pick List"
+  lead="A dual-listbox picker for moving items between an available pool and a chosen set, with per-item and move-all controls."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Highlight items in either list, then use the arrow buttons to move them — or double-click/drag depending on the underlying listbox interaction."
+        sourceId="p-pick-list"
+        code='<p-pick-list [options]="people" sourceLabel="Available" targetLabel="Assigned" [(value)]="assigned" />'>
+        <p-pick-list [options]="people" sourceLabel="Available" targetLabel="Assigned" [(value)]="assigned" />
+        <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          Assigned: {{ assigned().join(', ') || '—' }}
+        </p>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Pick List composes two <code>p-listbox</code> instances and a column of <code>p-button</code>
+        move controls — see their respective doc pages' Theming tabs for the full token list it
+        inherits. The layout wrapper itself adds no color of its own.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-pick-list&gt;</code> renders as its own host element. Any attribute you set on
+        the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

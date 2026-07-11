@@ -1,6 +1,7 @@
 @if (icon()) {
   <cui-icon [name]="icon()!" size="xs" color="currentColor" />
 }
+<ng-content select="[icon]" />
 <span class="p-chip__label"><ng-content /></span>
 @if (dismissible()) {
   <button class="p-chip__dismiss"

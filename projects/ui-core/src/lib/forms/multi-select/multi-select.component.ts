@@ -4,15 +4,18 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CuiIconComponent } from '@votha-sok/ui-icons';
 import { CuiChipComponent } from '../../atoms/chip/chip.component';
 import { CuiCheckboxComponent } from '../checkbox/checkbox.component';
 import { SelectOption } from '../select/select.component';
 
+export type MultiSelectDisplay = 'comma' | 'chip';
+
 @Component({
   selector: 'p-multi-select',
   standalone: true,
-  imports: [OverlayModule, CuiIconComponent, CuiChipComponent, CuiCheckboxComponent],
+  imports: [OverlayModule, ScrollingModule, CuiIconComponent, CuiChipComponent, CuiCheckboxComponent],
   templateUrl: './multi-select.component.html',
   styleUrl: './multi-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,19 +29,32 @@ export class CuiMultiSelectComponent<T = string> implements ControlValueAccessor
   // ── Inputs ─────────────────────────────────────────────────────────────────
   readonly options     = input<SelectOption<T>[]>([]);
   readonly placeholder = input<string>('Select…');
+  /** Shows a search box in the panel. `filter` is an alias for `filterable`. */
   readonly filterable  = input<boolean>(true);
+  readonly filter      = input<boolean | null>(null);
   readonly disabled    = input<boolean>(false);
   readonly fullWidth   = input<boolean>(true);
+
+  /** How selected items are rendered on the closed control. */
+  readonly display        = input<MultiSelectDisplay>('chip');
+  readonly selectionLimit = input<number | null>(null);
+  readonly showToggleAll  = input<boolean>(false);
+  readonly virtualScroll  = input<boolean>(false);
+  readonly virtualItemSize = input<number>(36);
 
   // ── Model ──────────────────────────────────────────────────────────────────
   readonly value = model<T[]>([]);
 
   // ── Outputs ────────────────────────────────────────────────────────────────
-  readonly cuiChange = output<T[]>();
+  readonly cuiChange        = output<T[]>();
+  readonly onFilter         = output<string>();
+  readonly onSelectAllChange = output<boolean>();
 
   // ── Internal state ────────────────────────────────────────────────────────
   readonly open   = signal(false);
-  readonly filter = signal('');
+  readonly filterText = signal('');
+
+  readonly showFilter = computed(() => this.filter() ?? this.filterable());
 
   readonly selectedOptions = computed(() => {
     const selected = new Set(this.value());
@@ -46,9 +62,22 @@ export class CuiMultiSelectComponent<T = string> implements ControlValueAccessor
   });
 
   readonly filteredOptions = computed(() => {
-    const q = this.filter().trim().toLowerCase();
+    const q = this.filterText().trim().toLowerCase();
     if (!q) return this.options();
     return this.options().filter(o => o.label.toLowerCase().includes(q));
+  });
+
+  readonly allSelected = computed(() =>
+    this.options().length > 0 && this.value().length === this.options().length
+  );
+
+  readonly displayText = computed(() =>
+    this.selectedOptions().map((o) => o.label).join(', ')
+  );
+
+  readonly atLimit = computed(() => {
+    const limit = this.selectionLimit();
+    return limit != null && this.value().length >= limit;
   });
 
   // ── CVA state ─────────────────────────────────────────────────────────────
@@ -65,8 +94,10 @@ export class CuiMultiSelectComponent<T = string> implements ControlValueAccessor
     this._onTouched();
   }
 
-  onFilter(e: Event): void {
-    this.filter.set((e.target as HTMLInputElement).value);
+  onFilterInput(e: Event): void {
+    const text = (e.target as HTMLInputElement).value;
+    this.filterText.set(text);
+    this.onFilter.emit(text);
   }
 
   isSelected(v: T): boolean {
@@ -75,8 +106,16 @@ export class CuiMultiSelectComponent<T = string> implements ControlValueAccessor
 
   toggleValue(v: T): void {
     const current = this.value();
-    const next = current.includes(v) ? current.filter(x => x !== v) : [...current, v];
+    const isCurrentlySelected = current.includes(v);
+    if (!isCurrentlySelected && this.atLimit()) return;
+    const next = isCurrentlySelected ? current.filter(x => x !== v) : [...current, v];
     this.emit(next);
+  }
+
+  toggleSelectAll(): void {
+    const next = this.allSelected() ? [] : this.options().map((o) => o.value);
+    this.emit(next);
+    this.onSelectAllChange.emit(!this.allSelected());
   }
 
   removeValue(v: T): void {

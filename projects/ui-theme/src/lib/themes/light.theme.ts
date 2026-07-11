@@ -7,6 +7,9 @@ export const lightTheme: ThemeDefinition = {
   palette: {
     'cui-is-dark': '0',
 
+    'cui-font-family': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    'cui-font-family-heading': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+
     // Primary — Indigo
     'mat-sys-primary': '#4f46e5',
     'mat-sys-on-primary': '#ffffff',

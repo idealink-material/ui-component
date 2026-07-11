@@ -1,0 +1,99 @@
+<app-doc-shell
+  name="Panel"
+  lead="A bordered content container with a header row and optional collapse toggle — like a single, standalone accordion panel."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-panel"
+        code='<p-panel header="Order Summary">
+  <p>Wireless Headphones — $79.00</p>
+  <p>Phone Case — $15.00</p>
+</p-panel>'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-panel header="Order Summary">
+            <p style="margin: 0 0 4px;">Wireless Headphones — $79.00</p>
+            <p style="margin: 0;">Phone Case — $15.00</p>
+          </p-panel>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="toggleable" class="doc-page__section">
+      <app-doc-example
+        title="Toggleable"
+        description="toggleable adds a chevron to the header; collapsed is two-way bindable, and onToggle fires on every click."
+        sourceId="p-panel"
+        code='<p-panel header="Order Summary" [toggleable]="true" [(collapsed)]="collapsed">
+  <p>Wireless Headphones — $79.00</p>
+  <p>Phone Case — $15.00</p>
+</p-panel>'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-panel header="Order Summary" [toggleable]="true" [(collapsed)]="collapsed">
+            <p style="margin: 0 0 4px;">Wireless Headphones — $79.00</p>
+            <p style="margin: 0;">Phone Case — $15.00</p>
+          </p-panel>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="footer" class="doc-page__section">
+      <app-doc-example
+        title="With footer"
+        description="p-panel-footer renders below the body content, below a divider — typically for action buttons."
+        sourceId="p-panel"
+        code='<p-panel header="Order Summary">
+  <p>Total: $99.99</p>
+  <p-panel-footer>
+    <p-button size="sm" variant="text">Cancel</p-button>
+    <p-button size="sm" variant="filled">Checkout</p-button>
+  </p-panel-footer>
+</p-panel>'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-panel header="Order Summary">
+            <p style="margin: 0;">Total: $99.99</p>
+            <p-panel-footer>
+              <p-button size="sm" variant="text">Cancel</p-button>
+              <p-button size="sm" variant="filled">Checkout</p-button>
+            </p-panel-footer>
+          </p-panel>
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--cui-card-bg</code> / <code>-card-border</code> (fall back to <code>--mat-sys-surface</code> / <code>-outline-variant</code>)</td><td>Panel background and border.</td></tr>
+          <tr><td><code>--mat-sys-surface-container-low</code></td><td>Header row background.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code> / <code>-on-surface-variant</code></td><td>Title and toggle icon color.</td></tr>
+          <tr><td><code>--mat-sys-surface-container-high</code></td><td>Toggle button hover background.</td></tr>
+          <tr><td><code>--cui-radius-md</code></td><td>Corner radius.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-panel&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. —
+        is applied directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

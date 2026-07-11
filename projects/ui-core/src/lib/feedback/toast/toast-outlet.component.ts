@@ -1,17 +1,8 @@
 import {
-  ChangeDetectionStrategy, Component, computed, inject,
+  ChangeDetectionStrategy, Component, inject,
 } from '@angular/core';
 import { ToastService, ToastItem, ToastPosition } from '@votha-sok/ui-utils';
 import { CuiIconComponent } from '@votha-sok/ui-icons';
-
-const POSITION_CLASSES: Record<ToastPosition, string> = {
-  'top-right':     'top-4 right-4 items-end',
-  'top-left':      'top-4 left-4 items-start',
-  'top-center':    'top-4 left-1/2 -translate-x-1/2 items-center',
-  'bottom-right':  'bottom-4 right-4 items-end',
-  'bottom-left':   'bottom-4 left-4 items-start',
-  'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2 items-center',
-};
 
 const TOAST_ICONS: Record<string, string> = {
   success: 'check_circle',
@@ -39,10 +30,6 @@ export class CuiToastOutletComponent {
 
   toastsForPosition(pos: ToastPosition): ToastItem[] {
     return this.toastService.toasts().filter(t => t.position === pos);
-  }
-
-  positionClass(pos: ToastPosition): string {
-    return POSITION_CLASSES[pos];
   }
 
   iconFor(level: string): string {

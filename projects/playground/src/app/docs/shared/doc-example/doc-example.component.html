@@ -1,0 +1,27 @@
+<div class="doc-example">
+  @if (title()) {
+    <h3 class="doc-example__title">{{ title() }}</h3>
+  }
+  @if (description()) {
+    <p class="doc-example__description">{{ description() }}</p>
+  }
+
+  <div class="doc-example__box">
+    <div class="doc-example__preview">
+      <ng-content />
+    </div>
+    <div class="doc-example__toolbar">
+      @if (sourceId()) {
+        <span class="doc-example__tag">{{ sourceId() }}</span>
+      }
+      <span class="doc-example__spacer"></span>
+      <button type="button" class="doc-example__icon-btn" (click)="toggleCode()" [attr.aria-pressed]="showCode()" title="View code">
+        &lt;/&gt;
+      </button>
+    </div>
+  </div>
+
+  @if (showCode()) {
+    <app-doc-code [code]="code()" [language]="language()" />
+  }
+</div>

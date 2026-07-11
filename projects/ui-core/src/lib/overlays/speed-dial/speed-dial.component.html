@@ -13,5 +13,12 @@
 }
 
 <button type="button" class="p-speed-dial__toggle" (click)="toggle()" [attr.aria-expanded]="open()">
-  <cui-icon [name]="open() ? 'close' : icon()" size="md" color="currentColor" />
+  @if (open()) {
+    <cui-icon name="close" size="md" color="currentColor" />
+  } @else if (icon()) {
+    <cui-icon [name]="icon()" size="md" color="currentColor" />
+  }
+  @if (!open()) {
+    <ng-content select="[toggleIcon]" />
+  }
 </button>

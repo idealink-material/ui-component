@@ -25,6 +25,10 @@
     "@angular/material": "22.0.4",
     "@angular/platform-browser": "22.0.4",
     "@angular/router": "22.0.4",
+    "@types/prismjs": "^1.26.6",
+    "@types/quill": "^2.0.14",
+    "prismjs": "^1.30.0",
+    "quill": "^2.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -36,6 +40,7 @@
     "concurrently": "^9.1.2",
     "jsdom": "^28.0.0",
     "ng-packagr": "22.0.1",
+    "playwright": "^1.61.1",
     "postcss": "^8.5.0",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.0.0",

@@ -1,0 +1,84 @@
+<app-doc-shell
+  name="Knob"
+  lead="An SVG circular control set by dragging or clicking around its ring, for compact numeric input like volume or intensity."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="default" class="doc-page__section">
+      <app-doc-example
+        title="Default"
+        description="Drag around the ring, or click a point on it, to set the value between 0 and 100."
+        sourceId="p-knob"
+        code='<p-knob [(value)]="volume" />'>
+        <p-knob [(value)]="volume" />
+      </app-doc-example>
+    </section>
+
+    <section id="range" class="doc-page__section">
+      <app-doc-example
+        title="Custom range & step"
+        description="min, max, and step control the mapped range and the snap increment."
+        sourceId="p-knob"
+        code='<p-knob [min]="-20" [max]="40" [step]="2" [(value)]="temp" />'>
+        <p-knob [min]="-20" [max]="40" [step]="2" [(value)]="temp" />
+      </app-doc-example>
+    </section>
+
+    <section id="colors" class="doc-page__section">
+      <app-doc-example
+        title="Colors"
+        description="valueColor and rangeColor accept any CSS color, including var(--mat-sys-*) tokens."
+        sourceId="p-knob"
+        code='<p-knob valueColor="var(--mat-sys-tertiary)" rangeColor="var(--mat-sys-surface-container-high)" [(value)]="accent" />'>
+        <p-knob valueColor="var(--mat-sys-tertiary)" rangeColor="var(--mat-sys-surface-container-high)" [(value)]="accent" />
+      </app-doc-example>
+    </section>
+
+    <section id="states" class="doc-page__section">
+      <app-doc-example
+        title="States"
+        description="readonly still displays the value but blocks dragging; showValue can hide the centered label."
+        sourceId="p-knob"
+        code='<p-knob [readonly]="true" [(value)]="readonlyVal" />
+<p-knob [disabled]="true" [(value)]="readonlyVal" />
+<p-knob [showValue]="false" [(value)]="readonlyVal" />'>
+        <p-knob [readonly]="true" [(value)]="readonlyVal" />
+        <p-knob [disabled]="true" [(value)]="readonlyVal" />
+        <p-knob [showValue]="false" [(value)]="readonlyVal" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Knob's arc colors are controlled through the <code>valueColor</code> and <code>rangeColor</code>
+        inputs rather than fixed CSS custom properties — they default to Material system tokens, but
+        accept any CSS color. The component's own stylesheet pulls one token directly:
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-on-surface</code></td><td>Color of the centered value label (when <code>showValue</code> is true).</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-knob&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. —
+        is applied directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

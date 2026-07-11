@@ -1,0 +1,11 @@
+<div class="p-color-picker" [class.p-color-picker--inline]="inline()">
+  <input type="color"
+    class="p-color-picker__swatch"
+    [value]="value()"
+    [disabled]="disabled()"
+    (input)="handleInput($any($event.target).value)"
+    (blur)="handleBlur()" />
+  @if (inline()) {
+    <span class="p-color-picker__label">{{ formatted() }}</span>
+  }
+</div>

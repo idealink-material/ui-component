@@ -1,0 +1,83 @@
+<app-doc-shell
+  name="InputOtp"
+  lead="A segmented one-time-passcode input, one character per slot, with arrow-key navigation and paste support."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="default" class="doc-page__section">
+      <app-doc-example
+        title="Default"
+        description="Four numeric segments; typing a digit auto-advances focus to the next slot."
+        sourceId="p-input-otp"
+        code='<p-input-otp [(value)]="code4" />'>
+        <p-input-otp [(value)]="code4" />
+      </app-doc-example>
+    </section>
+
+    <section id="length" class="doc-page__section">
+      <app-doc-example
+        title="Custom length"
+        description="Set length to match the code size your backend issues."
+        sourceId="p-input-otp"
+        code='<p-input-otp [length]="6" [(value)]="code6" />'>
+        <p-input-otp [length]="6" [(value)]="code6" />
+      </app-doc-example>
+    </section>
+
+    <section id="masked" class="doc-page__section">
+      <app-doc-example
+        title="Masked"
+        description="Filled slots render as dots instead of the typed character."
+        sourceId="p-input-otp"
+        code='<p-input-otp [length]="6" [mask]="true" [(value)]="codeMasked" />'>
+        <p-input-otp [length]="6" [mask]="true" [(value)]="codeMasked" />
+      </app-doc-example>
+    </section>
+
+    <section id="alphanumeric" class="doc-page__section">
+      <app-doc-example
+        title="Alphanumeric"
+        description="Setting integerOnly to false allows letters as well as digits."
+        sourceId="p-input-otp"
+        code='<p-input-otp [length]="5" [integerOnly]="false" [(value)]="codeAlpha" />'>
+        <p-input-otp [length]="5" [integerOnly]="false" [(value)]="codeAlpha" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        InputOtp reads its slot border, surface, and focus colors from Angular Material system tokens.
+        Override these custom properties on an ancestor to re-theme every slot at once.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline</code></td><td>Slot border color.</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Slot corner radius.</td></tr>
+          <tr><td><code>--mat-sys-surface</code></td><td>Slot background color.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code></td><td>Typed character color.</td></tr>
+          <tr><td><code>--mat-sys-primary</code></td><td>Focus outline color.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-input-otp&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. —
+        is applied directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

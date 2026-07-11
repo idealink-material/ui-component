@@ -1,0 +1,51 @@
+<app-doc-shell
+  name="Context Menu"
+  lead="A directive that wires any element to open a p-menu on right-click, built on Angular Material's context-menu trigger."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Right-click the box below to open the menu."
+        sourceId="pContextMenu"
+        code='<div [pContextMenu]="menu.menu()"
+  style="border:1px dashed var(--mat-sys-outline-variant); border-radius:8px; padding:24px; text-align:center;">
+  Right-click me
+</div>
+<p-menu #menu [items]="rowMenuItems" />'>
+        <div [pContextMenu]="menu.menu()"
+          style="border:1px dashed var(--mat-sys-outline-variant); border-radius:8px; padding:24px; text-align:center; width: 100%; color: var(--mat-sys-on-surface-variant);">
+          Right-click me
+        </div>
+        <p-menu #menu [items]="rowMenuItems" />
+        <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          Last action: {{ lastAction() || '—' }}
+        </p>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Context Menu adds no visual styling of its own — the popup it opens is a standard
+        <code>p-menu</code>, themed the same way. See the Menu doc page's Theming tab.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        Applying <code>pContextMenu</code> doesn't add any wrapper element — the directive attaches
+        behavior directly to whatever host element it's placed on, so all of that element's own
+        attributes behave normally.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

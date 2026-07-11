@@ -4,4 +4,11 @@
 
 .p-slider {
   width: 100%;
+
+  &--vertical {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    width: 32px;
+    height: 200px;
+  }
 }

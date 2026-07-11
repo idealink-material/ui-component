@@ -1,8 +1,7 @@
 /**
- * All recognized theme names in the company-ui framework.
- * Extending themes means adding a value here AND a matching ThemePalette object.
+ * The theme names that ship with the framework.
  */
-export type ThemeName =
+export type BuiltInThemeName =
   | 'light'
   | 'dark'
   | 'banking'
@@ -10,6 +9,13 @@ export type ThemeName =
   | 'blue'
   | 'green'
   | 'purple';
+
+/**
+ * Any theme name accepted by ThemeService. Consuming apps register their own
+ * brand palettes via `ThemeService.registerTheme(...)`, so this allows any
+ * string while `& {}` preserves editor autocomplete for the built-in names.
+ */
+export type ThemeName = BuiltInThemeName | (string & {});
 
 /**
  * A palette maps every CSS custom property we override onto a concrete value.
@@ -65,6 +71,15 @@ export interface ThemePalette {
   // ── Framework-specific tokens (no Material equivalent) ───────────────────
   /** Whether this palette is a dark-mode palette. Used by ThemeService. */
   'cui-is-dark': '0' | '1';
+
+  /**
+   * Font stacks. Body applies to all UI text; heading is used where a
+   * distinct display face is wanted (defaults to the same value). The token
+   * only selects WHICH family — the app is still responsible for loading the
+   * actual font file (Google Fonts link, @font-face, etc.).
+   */
+  'cui-font-family': string;
+  'cui-font-family-heading': string;
 
   /** Sidebar background — distinct from surface to allow richer branding */
   'cui-sidebar-bg': string;

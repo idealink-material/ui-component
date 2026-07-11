@@ -1,14 +1,33 @@
-<ul class="p-listbox"
-  cdkListbox
-  [cdkListboxValue]="value()"
-  [cdkListboxMultiple]="multiple()"
-  [cdkListboxDisabled]="disabled()"
-  (cdkListboxValueChange)="onValueChange($event.value)">
-  @for (option of options(); track option.value) {
-    <li class="p-listbox__option"
-      [cdkOption]="option.value"
-      [cdkOptionDisabled]="option.disabled">
-      {{ option.label }}
-    </li>
+<div class="p-listbox-wrap">
+  @if (filter()) {
+    <div class="p-listbox__filter">
+      <cui-icon name="search" size="xs" color="var(--mat-sys-on-surface-variant)" />
+      <input type="text" placeholder="Search…" [value]="filterText()"
+        (input)="onFilterInput($any($event.target).value)" />
+    </div>
   }
-</ul>
+  <ul class="p-listbox"
+    cdkListbox
+    [cdkListboxValue]="value()"
+    [cdkListboxMultiple]="multiple()"
+    [cdkListboxDisabled]="disabled()"
+    (cdkListboxValueChange)="onValueChange($event.value)">
+    @for (option of filteredOptions(); track option.value) {
+      <li class="p-listbox__option"
+        [class.p-listbox__option--checkbox]="checkbox() && multiple()"
+        [cdkOption]="option.value"
+        [cdkOptionDisabled]="option.disabled">
+        @if (checkbox() && multiple()) {
+          <span class="p-listbox__checkbox" [class.p-listbox__checkbox--checked]="isSelected(option.value)">
+            @if (isSelected(option.value)) {
+              <cui-icon name="check" size="xs" color="currentColor" />
+            }
+          </span>
+        }
+        {{ option.label }}
+      </li>
+    } @empty {
+      <li class="p-listbox__empty">No options found</li>
+    }
+  </ul>
+</div>

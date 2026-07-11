@@ -1,0 +1,86 @@
+<app-doc-shell
+  name="Color Picker"
+  lead="A color swatch button backed by the native OS color picker. Values are always stored internally as hex; format controls how onChange formats its output."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-color-picker"
+        code='<p-color-picker [(value)]="brandColor" />'>
+        <p-color-picker [(value)]="brandColor" />
+      </app-doc-example>
+    </section>
+
+    <section id="formats" class="doc-page__section">
+      <app-doc-example
+        title="Output formats"
+        description="value() is always hex; format only affects the string emitted by onChange and shown by inline mode."
+        sourceId="p-color-picker"
+        code='<p-color-picker format="rgb" [(value)]="rgbColor" [inline]="true" />
+<p-color-picker format="hsb" [(value)]="hsbColor" [inline]="true" />'>
+        <div style="display: flex; gap: 16px;">
+          <p-color-picker format="rgb" [(value)]="rgbColor" [inline]="true" />
+          <p-color-picker format="hsb" [(value)]="hsbColor" [inline]="true" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="inline" class="doc-page__section">
+      <app-doc-example
+        title="Inline label"
+        description="inline wraps the swatch in a bordered panel and shows the formatted color value next to it."
+        sourceId="p-color-picker"
+        code='<p-color-picker [inline]="true" [(value)]="inlineColor" />'>
+        <p-color-picker [inline]="true" [(value)]="inlineColor" />
+      </app-doc-example>
+    </section>
+
+    <section id="states" class="doc-page__section">
+      <app-doc-example
+        title="States"
+        sourceId="p-color-picker"
+        code='<p-color-picker [disabled]="true" [(value)]="disabledColor" />'>
+        <p-color-picker [disabled]="true" [(value)]="disabledColor" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Color Picker reads its border and surface colors from Angular Material system tokens and
+        shares the library's shape tokens. Override these custom properties on an ancestor to
+        re-theme every color picker at once.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline-variant</code></td><td>Swatch and inline-panel border color.</td></tr>
+          <tr><td><code>--mat-sys-surface</code></td><td>Inline-panel background.</td></tr>
+          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Formatted color label text color (inline mode).</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Swatch and inline-panel corner radius.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-color-picker&gt;</code> renders as its own host element. Any attribute you set
+        on the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>,
+        <code>aria-*</code>, etc. — is applied directly to that host element by Angular, so it
+        passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

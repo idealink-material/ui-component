@@ -1,0 +1,28 @@
+:host { display: block; }
+
+.p-input-otp {
+  display: flex;
+  gap: 8px;
+}
+
+.p-input-otp__slot {
+  width: 40px;
+  height: 48px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 9999px;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+
+  &:focus {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: -1px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

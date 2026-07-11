@@ -1,0 +1,49 @@
+:host {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    border-top: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  // Give the (optional) projected label breathing room from the lines.
+  &:not(:empty)::before { margin-right: 12px; }
+  &:not(:empty)::after  { margin-left: 12px; }
+
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+// ── Line style ─────────────────────────────────────────────────────────────
+:host(.p-divider--dashed)::before,
+:host(.p-divider--dashed)::after { border-style: dashed; }
+
+:host(.p-divider--dotted)::before,
+:host(.p-divider--dotted)::after { border-style: dotted; }
+
+// ── Horizontal alignment (where the label sits along the line) ─────────────
+:host(.p-divider--horizontal.p-divider--align-left)::before   { flex: 0 0 24px; }
+:host(.p-divider--horizontal.p-divider--align-right)::after   { flex: 0 0 24px; }
+
+// ── Vertical orientation ─────────────────────────────────────────────────────
+:host(.p-divider--vertical) {
+  flex-direction: column;
+  width: auto;
+  height: 100%;
+  min-height: 24px;
+
+  &::before, &::after {
+    border-top: none;
+    border-left: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  &:not(:empty)::before { margin-right: 0; margin-bottom: 12px; }
+  &:not(:empty)::after  { margin-left: 0; margin-top: 12px; }
+}
+
+:host(.p-divider--vertical.p-divider--align-top)::before    { flex: 0 0 12px; }
+:host(.p-divider--vertical.p-divider--align-bottom)::after  { flex: 0 0 12px; }

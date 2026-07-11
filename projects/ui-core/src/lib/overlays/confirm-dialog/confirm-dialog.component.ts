@@ -20,8 +20,8 @@ export interface ConfirmOptions {
     <p-dialog-container [title]="data.title ?? 'Confirm'">
       <p>{{ data.message }}</p>
       <p-dialog-footer>
-        <p-button variant="text" (cuiClick)="reject()">{{ data.rejectLabel ?? 'Cancel' }}</p-button>
-        <p-button variant="filled" [color]="data.severity === 'error' ? 'error' : 'primary'" (cuiClick)="accept()">
+        <p-button variant="text" (onClick)="reject()">{{ data.rejectLabel ?? 'Cancel' }}</p-button>
+        <p-button variant="filled" [color]="data.severity === 'error' ? 'error' : 'primary'" (onClick)="accept()">
           {{ data.acceptLabel ?? 'Confirm' }}
         </p-button>
       </p-dialog-footer>

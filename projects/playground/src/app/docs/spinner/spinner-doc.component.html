@@ -1,0 +1,80 @@
+<app-doc-shell
+  name="Spinner"
+  lead="An indeterminate loading indicator for inline or small-scale loading states, such as inside a button or a card."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties">
+
+  <div docFeatures>
+    <section id="sizes" class="doc-page__section">
+      <app-doc-example
+        title="Sizes"
+        sourceId="p-spinner"
+        code='<p-spinner size="xs" />
+<p-spinner size="sm" />
+<p-spinner size="md" />
+<p-spinner size="lg" />
+<p-spinner size="xl" />'>
+        <p-spinner size="xs" />
+        <p-spinner size="sm" />
+        <p-spinner size="md" />
+        <p-spinner size="lg" />
+        <p-spinner size="xl" />
+      </app-doc-example>
+    </section>
+
+    <section id="color" class="doc-page__section">
+      <app-doc-example
+        title="Color"
+        description="color accepts any valid CSS color value, including design tokens."
+        sourceId="p-spinner"
+        code='<p-spinner color="var(--mat-sys-primary)" />
+<p-spinner color="var(--mat-sys-error)" />
+<p-spinner color="#22c55e" />'>
+        <p-spinner color="var(--mat-sys-primary)" />
+        <p-spinner color="var(--mat-sys-error)" />
+        <p-spinner color="#22c55e" />
+      </app-doc-example>
+    </section>
+
+    <section id="label" class="doc-page__section">
+      <app-doc-example
+        title="Accessible label"
+        description="label sets aria-label on the role=status host; screen readers announce it via aria-live=polite."
+        sourceId="p-spinner"
+        code='<p-spinner label="Loading cases…" />'>
+        <p-spinner label="Loading cases…" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Spinner reads its default stroke color from a single Material system token; the
+        rest of its ring (the low-opacity track) is derived from that same token.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-primary</code></td><td>Default stroke color (both the spinning arc and the faint background track, via <code>color-mix</code>). Overridden per-instance by the <code>color</code> input.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-spinner&gt;</code> renders as its own host element (<code>role="status"</code>,
+        <code>aria-live="polite"</code>). Any attribute you set on the tag that isn't a
+        recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. — is applied
+        directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

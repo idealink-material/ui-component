@@ -1,0 +1,119 @@
+<app-doc-shell
+  name="Autocomplete"
+  lead="A typeahead text field that suggests matches as you type. You own the filtering — listen for completeMethod and populate suggestions() with the results."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="completeMethod fires (debounced) as the user types; populate suggestions() with matches."
+        sourceId="p-auto-complete"
+        code='<p-auto-complete placeholder="Search a country…"
+  [suggestions]="filteredCountries()"
+  (completeMethod)="search($event)"
+  [(value)]="country" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-auto-complete placeholder="Search a country…"
+            [suggestions]="filteredCountries()"
+            (completeMethod)="search($event)"
+            [(value)]="country" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="objects" class="doc-page__section">
+      <app-doc-example
+        title="Object suggestions"
+        description="field reads the display label from each suggestion object; the bound value is still the full object."
+        sourceId="p-auto-complete"
+        code='<p-auto-complete placeholder="Search a country…"
+  [suggestions]="filteredCountryObjects()" field="name"
+  (completeMethod)="searchObjects($event)"
+  [(value)]="countryObj" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-auto-complete placeholder="Search a country…"
+            [suggestions]="filteredCountryObjects()" field="name"
+            (completeMethod)="searchObjects($event)"
+            [(value)]="countryObj" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="multiple" class="doc-page__section">
+      <app-doc-example
+        title="Multiple selection"
+        description="In multiple mode, selections render as dismissible chips inside the field and value() is an array."
+        sourceId="p-auto-complete"
+        code='<p-auto-complete placeholder="Add countries…" [multiple]="true"
+  [suggestions]="filteredMulti()"
+  (completeMethod)="searchMulti($event)"
+  [(value)]="countries" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-auto-complete placeholder="Add countries…" [multiple]="true"
+            [suggestions]="filteredMulti()"
+            (completeMethod)="searchMulti($event)"
+            [(value)]="countries" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="dropdown" class="doc-page__section">
+      <app-doc-example
+        title="Dropdown & states"
+        description="dropdown adds a trailing button that opens the full suggestions list without typing; disabled blocks interaction."
+        sourceId="p-auto-complete"
+        code='<p-auto-complete placeholder="Browse all…" [dropdown]="true"
+  [suggestions]="filteredCountries()"
+  (completeMethod)="search($event)" />
+<p-auto-complete placeholder="Disabled" [disabled]="true" />'>
+        <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
+          <p-auto-complete placeholder="Browse all…" [dropdown]="true"
+            [suggestions]="filteredCountries()"
+            (completeMethod)="search($event)" />
+          <p-auto-complete placeholder="Disabled" [disabled]="true" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Autocomplete reads its border, surface, and focus colors from Angular Material system
+        tokens and shares the library's shape tokens. Override these custom properties on an
+        ancestor to re-theme every autocomplete field at once.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline-variant</code></td><td>Default field border color.</td></tr>
+          <tr><td><code>--mat-sys-primary</code></td><td>Border and outline color when the field is focused.</td></tr>
+          <tr><td><code>--mat-sys-surface</code></td><td>Field background.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code></td><td>Input text color.</td></tr>
+          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Clear and dropdown icon color.</td></tr>
+          <tr><td><code>--mat-sys-surface-container-high</code></td><td>Clear/dropdown button hover background.</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Field and button corner radius.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-auto-complete&gt;</code> renders as its own host element. Any attribute you set
+        on the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>,
+        <code>aria-*</code>, etc. — is applied directly to that host element by Angular, so it
+        passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

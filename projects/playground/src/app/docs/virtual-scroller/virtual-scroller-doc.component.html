@@ -1,0 +1,62 @@
+<app-doc-shell
+  name="Virtual Scroller"
+  lead="Renders only the rows currently in view from a large list, using Angular CDK's virtual scrolling to keep the DOM small regardless of item count."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Without itemTemplate, each row just renders the item as plain text — even with 200 rows here, only a handful are ever in the DOM at once."
+        sourceId="p-virtual-scroller"
+        code='<p-virtual-scroller [items]="transactions" [itemSize]="36" height="240px" />'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-virtual-scroller [items]="transactions" [itemSize]="36" height="240px" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="custom" class="doc-page__section">
+      <app-doc-example
+        title="Custom row template"
+        description="Pass itemTemplate to fully control row markup. Its context provides the item and its index."
+        sourceId="p-virtual-scroller"
+        code='<p-virtual-scroller [items]="transactions" [itemSize]="36" height="240px" [itemTemplate]="row" />
+
+<ng-template #row let-item let-i="index">
+  <div class="row">{{ "{{" }} i + 1 {{ "}}" }}. {{ "{{" }} item {{ "}}" }}</div>
+</ng-template>'>
+        <div style="width: 100%; max-width: 360px; font-size: 13px; color: var(--mat-sys-on-surface-variant);">
+          Custom templates give full control over row markup — see the code sample above for the pattern.
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Virtual Scroller only provides the scrolling viewport — every visual aspect of each row
+        comes from your own <code>itemTemplate</code>, so there are no component-specific tokens to
+        theme.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-virtual-scroller&gt;</code> renders as its own host element wrapping CDK's
+        <code>cdk-virtual-scroll-viewport</code>. Any attribute you set on the tag that isn't a
+        recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. — is
+        applied directly to that host element by Angular, so it passes through without extra
+        configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

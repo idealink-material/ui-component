@@ -24,6 +24,9 @@ export type InputSize    = 'sm' | 'md' | 'lg';
   }],
 })
 export class CuiInputComponent implements ControlValueAccessor {
+  private static nextId = 0;
+  readonly fieldId = `p-input-${++CuiInputComponent.nextId}`;
+
   // ── Inputs ─────────────────────────────────────────────────────────────────
   readonly label       = input<string>('');
   readonly placeholder = input<string>('');
@@ -39,6 +42,13 @@ export class CuiInputComponent implements ControlValueAccessor {
   readonly required    = input<boolean>(false);
   readonly fullWidth   = input<boolean>(true);
   readonly autocomplete = input<string>('off');
+
+  /** Renders a <textarea> instead of a single-line <input>. */
+  readonly multiline  = input<boolean>(false);
+  readonly rows       = input<number>(3);
+  readonly cols       = input<number | null>(null);
+  /** Grows the textarea height to fit its content (multiline only). */
+  readonly autoResize = input<boolean>(false);
 
   // ── Model ──────────────────────────────────────────────────────────────────
   readonly value = model<string>('');
@@ -59,10 +69,17 @@ export class CuiInputComponent implements ControlValueAccessor {
   readonly hasError = computed(() => !!this.error());
 
   onInput(e: Event): void {
-    const v = (e.target as HTMLInputElement).value;
+    const el = e.target as HTMLInputElement | HTMLTextAreaElement;
+    const v = el.value;
     this.value.set(v);
     this._onChange(v);
     this.cuiChange.emit(v);
+    if (this.multiline() && this.autoResize()) this.resize(el as HTMLTextAreaElement);
+  }
+
+  private resize(el: HTMLTextAreaElement): void {
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
   }
 
   onBlur(e: FocusEvent): void { this._onTouched(); this.cuiBlur.emit(e); }

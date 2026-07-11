@@ -1,0 +1,79 @@
+<app-doc-shell
+  name="Drawer"
+  lead="A slide-in side panel with a header, scrollable body, and optional footer. Fully declarative — driven by a plain open boolean, no service required."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-drawer"
+        code='<p-button variant="filled" (onClick)="rightOpen.set(true)">Open Drawer</p-button>
+
+<p-drawer [open]="rightOpen()" title="Case Details" (closed)="rightOpen.set(false)">
+  <p>Case AML-2401 — Suspicious wire transfer</p>
+  <p-drawer-footer>
+    <p-button variant="filled" (onClick)="rightOpen.set(false)">Done</p-button>
+  </p-drawer-footer>
+</p-drawer>'>
+        <p-button variant="filled" (onClick)="rightOpen.set(true)">Open Drawer</p-button>
+        <p-drawer [open]="rightOpen()" title="Case Details" (closed)="rightOpen.set(false)">
+          <p>Case AML-2401 — Suspicious wire transfer</p>
+          <p-drawer-footer>
+            <p-button variant="filled" (onClick)="rightOpen.set(false)">Done</p-button>
+          </p-drawer-footer>
+        </p-drawer>
+      </app-doc-example>
+    </section>
+
+    <section id="position" class="doc-page__section">
+      <app-doc-example
+        title="Position & size"
+        description="position picks the edge it slides from; size maps to a fixed width (left/right) or height (top/bottom)."
+        sourceId="p-drawer"
+        code='<p-drawer [open]="bottomOpen()" title="Filters" position="bottom" size="sm" (closed)="bottomOpen.set(false)">
+  <p>Filter controls go here.</p>
+</p-drawer>'>
+        <p-button variant="outlined" (onClick)="bottomOpen.set(true)">Open Bottom Sheet</p-button>
+        <p-drawer [open]="bottomOpen()" title="Filters" position="bottom" size="sm" (closed)="bottomOpen.set(false)">
+          <p>Filter controls go here.</p>
+        </p-drawer>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--cui-card-bg</code> / <code>-card-border</code></td><td>Panel background and header border.</td></tr>
+          <tr><td><code>--cui-radius-xl</code></td><td>Corner radius on the panel's leading edge.</td></tr>
+          <tr><td><code>--cui-shadow-lg</code></td><td>Panel elevation.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code> / <code>-on-surface-variant</code></td><td>Title/body text and close-button icon color.</td></tr>
+          <tr><td><code>--mat-sys-surface-container</code></td><td>Close-button hover background.</td></tr>
+          <tr><td><code>--mat-sys-primary</code></td><td>Close-button focus ring.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-drawer&gt;</code> has <code>display: contents</code> on its own host, so it
+        doesn't introduce an extra box in the layout — the backdrop and panel are its only visible
+        elements. Any attribute you set on the tag that isn't a recognized input is still applied to
+        the (invisible) host element by Angular.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

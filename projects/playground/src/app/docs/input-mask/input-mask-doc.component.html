@@ -1,0 +1,84 @@
+<app-doc-shell
+  name="InputMask"
+  lead="A text field that formats input against a literal/placeholder pattern as the user types, e.g. phone numbers, dates, or SSNs."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="phone" class="doc-page__section">
+      <app-doc-example
+        title="Phone number"
+        description="'9' slots accept digits only; parentheses, the space, and the dash are literals."
+        sourceId="p-input-mask"
+        code='<p-input-mask mask="(999) 999-9999" placeholder="(999) 999-9999" [(value)]="phone" />'>
+        <p-input-mask mask="(999) 999-9999" placeholder="(999) 999-9999" [(value)]="phone" />
+      </app-doc-example>
+    </section>
+
+    <section id="date" class="doc-page__section">
+      <app-doc-example
+        title="Date"
+        description="A custom slotChar changes the unfilled-slot placeholder character."
+        sourceId="p-input-mask"
+        code='<p-input-mask mask="99/99/9999" slotChar="-" placeholder="MM/DD/YYYY" [(value)]="date" />'>
+        <p-input-mask mask="99/99/9999" slotChar="-" placeholder="MM/DD/YYYY" [(value)]="date" />
+      </app-doc-example>
+    </section>
+
+    <section id="unmask" class="doc-page__section">
+      <app-doc-example
+        title="Unmasked value"
+        description="With unmask, value holds only the typed characters (no dashes), while the field still displays the masked format."
+        sourceId="p-input-mask"
+        code='<p-input-mask mask="999-99-9999" [unmask]="true" placeholder="999-99-9999" [(value)]="ssn" />
+<p>Raw value: {{ ssn() }}</p>'>
+        <p-input-mask mask="999-99-9999" [unmask]="true" placeholder="999-99-9999" [(value)]="ssn" />
+        <p>Raw value: {{ ssn() }}</p>
+      </app-doc-example>
+    </section>
+
+    <section id="states" class="doc-page__section">
+      <app-doc-example
+        title="States"
+        sourceId="p-input-mask"
+        code='<p-input-mask mask="(999) 999-9999" value="(555) 123-4567" [disabled]="true" />'>
+        <p-input-mask mask="(999) 999-9999" value="(555) 123-4567" [disabled]="true" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        InputMask reads its border, surface, and focus colors from Angular Material system tokens.
+        Override these custom properties on an ancestor to re-theme the field.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline</code></td><td>Field border color.</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Field corner radius.</td></tr>
+          <tr><td><code>--mat-sys-surface</code></td><td>Field background color.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code></td><td>Typed text color.</td></tr>
+          <tr><td><code>--mat-sys-primary</code></td><td>Focus outline color.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-input-mask&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. —
+        is applied directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

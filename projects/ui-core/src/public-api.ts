@@ -80,3 +80,22 @@ export * from './lib/data/tree/tree.component';
 export * from './lib/data/pick-list/pick-list.component';
 export * from './lib/data/virtual-scroller/virtual-scroller.component';
 export * from './lib/data/tree-table/tree-table.component';
+
+// ── Wave 5: PrimeNG-parity form components ────────────────────────────────────
+export * from './lib/forms/chips/chips.component';
+export * from './lib/forms/autocomplete/autocomplete.component';
+export * from './lib/forms/color-picker/color-picker.component';
+export * from './lib/forms/editor/editor.component';
+export * from './lib/forms/input-group/input-group.component';
+export * from './lib/forms/input-group-addon/input-group-addon.component';
+export * from './lib/forms/input-mask/input-mask.component';
+export * from './lib/forms/input-otp/input-otp.component';
+export * from './lib/forms/knob/knob.component';
+export * from './lib/forms/password/password.component';
+export * from './lib/forms/rating/rating.component';
+
+// ── Wave 6: Layout completeness ─────────────────────────────────────────────────
+export * from './lib/layout/divider/divider.component';
+export * from './lib/layout/fieldset/fieldset.component';
+export * from './lib/layout/panel/panel.component';
+export * from './lib/layout/panel/panel-footer.component';

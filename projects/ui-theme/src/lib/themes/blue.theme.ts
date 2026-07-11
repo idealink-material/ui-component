@@ -7,6 +7,9 @@ export const blueTheme: ThemeDefinition = {
   palette: {
     'cui-is-dark': '0',
 
+    'cui-font-family': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    'cui-font-family-heading': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+
     // Primary — Bright Blue
     'mat-sys-primary': '#2563eb',
     'mat-sys-on-primary': '#ffffff',

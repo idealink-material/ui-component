@@ -1,0 +1,99 @@
+<app-doc-shell
+  name="Chips"
+  lead="A free-text token input: type a value, press Enter, and it becomes a removable chip. Implements ControlValueAccessor over a string[] value."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Type a value and press Enter to commit it as a chip. Backspace on an empty input removes the last chip."
+        sourceId="p-chips"
+        code='<p-chips placeholder="Add a tag…" [(value)]="tags" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-chips placeholder="Add a tag…" [(value)]="tags" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="limits" class="doc-page__section">
+      <app-doc-example
+        title="Limits & duplicates"
+        description="max caps the number of chips; allowDuplicate=false silently ignores tokens that already exist."
+        sourceId="p-chips"
+        code='<p-chips placeholder="Up to 3, no duplicates…"
+  [max]="3" [allowDuplicate]="false" [(value)]="limited" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-chips placeholder="Up to 3, no duplicates…"
+            [max]="3" [allowDuplicate]="false" [(value)]="limited" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="separator" class="doc-page__section">
+      <app-doc-example
+        title="Custom separator"
+        description="Setting separator lets a character (here a comma) commit a chip in addition to Enter."
+        sourceId="p-chips"
+        code='<p-chips placeholder="Type, then comma or Enter…"
+  separator="," [(value)]="separated" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-chips placeholder="Type, then comma or Enter…"
+            separator="," [(value)]="separated" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="states" class="doc-page__section">
+      <app-doc-example
+        title="States"
+        description="addOnBlur commits pending text when the field loses focus; disabled blocks all interaction."
+        sourceId="p-chips"
+        code='<p-chips placeholder="Blurs to commit…" [addOnBlur]="true" />
+<p-chips [disabled]="true" [(value)]="disabledTags" />'>
+        <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
+          <p-chips placeholder="Blurs to commit…" [addOnBlur]="true" />
+          <p-chips [disabled]="true" [(value)]="disabledTags" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Chips reads its border, surface, and focus colors from Angular Material system tokens
+        and shares the library's shape tokens. Override these custom properties on an ancestor
+        to re-theme every chips field at once.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline-variant</code></td><td>Default field border color.</td></tr>
+          <tr><td><code>--mat-sys-primary</code></td><td>Border and outline color when the field is focused.</td></tr>
+          <tr><td><code>--mat-sys-surface</code></td><td>Field background.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code></td><td>Token input text color.</td></tr>
+          <tr><td><code>--cui-radius-sm</code></td><td>Field corner radius.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-chips&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

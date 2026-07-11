@@ -1,17 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { CuiIconComponent } from '@votha-sok/ui-icons';
 
 export type ButtonVariant = 'filled' | 'outlined' | 'text' | 'elevated' | 'tonal';
-export type ButtonSize    = 'sm' | 'md' | 'lg';
-export type ButtonColor   = 'primary' | 'secondary' | 'tertiary' | 'error' | 'neutral';
-
+export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonColor = 'primary' | 'secondary' | 'tertiary' | 'error' | 'neutral';
+export type IconPosition = 'left' | 'right';
 @Component({
   selector: 'p-button',
   standalone: true,
@@ -30,18 +24,18 @@ export type ButtonColor   = 'primary' | 'secondary' | 'tertiary' | 'error' | 'ne
 })
 export class CuiButtonComponent {
   // ── Inputs ─────────────────────────────────────────────────────────────────
-  readonly variant  = input<ButtonVariant>('filled');
-  readonly size     = input<ButtonSize>('md');
-  readonly color    = input<ButtonColor>('primary');
+  readonly variant = input<ButtonVariant>('filled');
+  readonly size = input<ButtonSize>('md');
+  readonly color = input<ButtonColor>('primary');
   readonly disabled = input<boolean>(false);
-  readonly loading  = input<boolean>(false);
+  readonly loading = input<boolean>(false);
   readonly fullWidth = input<boolean>(false);
-  readonly iconLeft  = input<string | null>(null);
-  readonly iconRight = input<string | null>(null);
-  readonly type      = input<'button' | 'submit' | 'reset'>('button');
+  readonly icon = input<string>('');
+  readonly iconPos = input<IconPosition>('right');
+  readonly type = input<'button' | 'submit' | 'reset'>('button');
 
   // ── Outputs ────────────────────────────────────────────────────────────────
-  readonly cuiClick = output<MouseEvent>();
+  readonly onClick = output<MouseEvent>();
 
   // ── Derived ────────────────────────────────────────────────────────────────
   readonly hostClass = computed(() => {
@@ -58,12 +52,19 @@ export class CuiButtonComponent {
   });
 
   readonly iconSize = computed(() =>
-    this.size() === 'sm' ? 'xs' as const : this.size() === 'lg' ? 'md' as const : 'sm' as const
+    this.size() === 'sm'
+      ? ('xs' as const)
+      : this.size() === 'lg'
+        ? ('md' as const)
+        : ('sm' as const),
   );
 
   handleClick(e: MouseEvent): void {
-    if (this.disabled() || this.loading()) { e.stopPropagation(); return; }
-    this.cuiClick.emit(e);
+    if (this.disabled() || this.loading()) {
+      e.stopPropagation();
+      return;
+    }
+    this.onClick.emit(e);
   }
 
   handleKeydown(e: Event): void {

@@ -1,28 +1,121 @@
-<mat-form-field
-  [appearance]="matAppearance()"
-  [class.p-datepicker--full]="fullWidth()"
-  class="p-datepicker">
+@if (inline() && selectionMode() !== 'range') {
+  <div class="p-datepicker-inline">
+    @if (label()) {
+      <label class="p-datepicker-inline__label">{{ label() }}@if (required()) {
+        <span aria-hidden="true"> *</span>
+      }</label>
+    }
+    <div class="p-datepicker-inline__calendars">
+      @for (offset of inlineMonths(); track offset) {
+        <mat-calendar
+          [startAt]="startAtForMonth(offset)"
+          [selected]="selectionMode()==='multiple' ? null : singleValue()"
+          [minDate]="min()"
+          [maxDate]="max()"
+          [dateFilter]="dateFilter"
+          [dateClass]="cellClass"
+          [startView]="startView()"
+          (selectedChange)="onCalendarSelected($event)" />
+      }
+    </div>
+    <div class="p-datepicker-inline__actions">
+      <p-button size="sm" variant="text" (onClick)="today()">Today</p-button>
+      <p-button size="sm" variant="text" (onClick)="clear()">Clear</p-button>
+    </div>
+    @if (hint() && !error()) {
+      <p class="p-datepicker-inline__hint">{{ hint() }}</p>
+    }
+    @if (error()) {
+      <p class="p-datepicker-inline__error">{{ error() }}</p>
+    }
+  </div>
+} @else if (selectionMode() === 'range') {
+  <div class="p-field" [class.p-field--full]="fullWidth()">
+    @if (label()) {
+      <label class="p-field__label">
+        {{ label() }}@if (required()) { <span class="p-field__required" aria-hidden="true">*</span> }
+      </label>
+    }
 
-  @if (label()) {
-    <mat-label>{{ label() }}@if (required()) {<span aria-hidden="true"> *</span>}</mat-label>
-  }
+    <mat-form-field
+      [appearance]="matAppearance()"
+      [class.p-datepicker--full]="fullWidth()"
+      class="p-datepicker">
 
-  <input matInput
-    [matDatepicker]="picker"
-    [value]="value()"
-    [placeholder]="placeholder()"
-    [disabled]="disabled()"
-    [required]="required()"
-    [min]="min() ?? undefined"
-    [max]="max() ?? undefined"
-    [attr.aria-invalid]="hasError() ? 'true' : null"
-    (dateChange)="onDateChange($event.value)"
-    (blur)="onBlur()" />
+      <mat-date-range-input [rangePicker]="rangePicker"
+                            [min]="min()" [max]="max()"
+                            [disabled]="disabled()" [dateFilter]="dateFilter">
+        <input matStartDate placeholder="Start date" [value]="rangeStart()"
+               (dateChange)="onRangeStartChange($event.value)" />
+        <input matEndDate placeholder="End date" [value]="rangeEnd()"
+               (dateChange)="onRangeEndChange($event.value)" (blur)="onBlur()" />
+      </mat-date-range-input>
 
-  <mat-datepicker-toggle matIconSuffix [for]="picker" />
-  <mat-datepicker #picker />
+      @if (showIcon()) {
+        <mat-datepicker-toggle matIconSuffix [for]="rangePicker" />
+      }
+      <mat-date-range-picker #rangePicker (closed)="closed()" />
 
-  @if (hint() && !error()) { <mat-hint>{{ hint() }}</mat-hint> }
-  @if (error())             { <mat-error>{{ error() }}</mat-error> }
+      @if (hint() && !error()) {
+        <mat-hint>{{ hint() }}</mat-hint>
+      }
+      @if (error()) {
+        <mat-error>{{ error() }}</mat-error>
+      }
+    </mat-form-field>
+    <div class="p-datepicker__actions">
+      <p-button size="sm" variant="text" (onClick)="clear()">Clear</p-button>
+    </div>
+  </div>
+} @else {
+  <div class="p-field" [class.p-field--full]="fullWidth()">
+    @if (label()) {
+      <label class="p-field__label" [for]="fieldId">
+        {{ label() }}@if (required()) { <span class="p-field__required" aria-hidden="true">*</span> }
+      </label>
+    }
 
-</mat-form-field>
+    <mat-form-field
+      [appearance]="matAppearance()"
+      [class.p-datepicker--full]="fullWidth()"
+      class="p-datepicker">
+
+      <input matInput
+             [id]="fieldId"
+             [matDatepicker]="picker"
+             [value]="singleValue()"
+             [placeholder]="placeholder()"
+             [disabled]="disabled()"
+             [required]="required()"
+             [min]="min()"
+             [max]="max()"
+             [matDatepickerFilter]="dateFilter"
+             [attr.aria-invalid]="hasError() ? 'true' : null"
+             (dateChange)="onDateChange($event)"
+             (blur)="onBlur()" />
+
+      @if (showIcon()) {
+        <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      }
+      <mat-datepicker #picker [startView]="startView()" (closed)="closed()"
+                      (monthSelected)="onMonthSelected($event, picker)"
+                      (yearSelected)="onYearSelected($event, picker)" />
+
+      @if (hint() && !error()) {
+        <mat-hint>{{ hint() }}</mat-hint>
+      }
+      @if (error()) {
+        <mat-error>{{ error() }}</mat-error>
+      }
+    </mat-form-field>
+
+    @if (showTime()) {
+      <input type="time" class="p-datepicker__time" [value]="timeValue()"
+             [disabled]="disabled()" (change)="onTimeChange($any($event.target).value)" />
+    }
+    <div class="p-datepicker__actions">
+      <p-button size="sm" variant="text" (onClick)="today()">Today</p-button>
+      <p-button size="sm" variant="text" (onClick)="clear()">Clear</p-button>
+    </div>
+  </div>
+}

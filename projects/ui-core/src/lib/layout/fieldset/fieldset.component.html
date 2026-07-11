@@ -1,0 +1,23 @@
+<div class="p-fieldset">
+  @if (legend()) {
+    <div class="p-fieldset__legend"
+      [class.p-fieldset__legend--toggleable]="toggleable()"
+      [attr.role]="toggleable() ? 'button' : null"
+      [attr.tabindex]="toggleable() ? 0 : null"
+      [attr.aria-expanded]="toggleable() ? !collapsed() : null"
+      (click)="toggle()"
+      (keydown.enter)="toggle()"
+      (keydown.space)="toggle()">
+      @if (toggleable()) {
+        <cui-icon [name]="collapsed() ? 'chevron_right' : 'expand_more'" size="xs" />
+      }
+      <span>{{ legend() }}</span>
+    </div>
+  }
+
+  @if (!toggleable() || !collapsed()) {
+    <div class="p-fieldset__content">
+      <ng-content />
+    </div>
+  }
+</div>

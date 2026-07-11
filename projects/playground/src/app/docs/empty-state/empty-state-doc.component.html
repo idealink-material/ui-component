@@ -1,0 +1,106 @@
+<app-doc-shell
+  name="Empty State"
+  lead="A placeholder shown when a list, table, or search has no results. Accepts an optional action via p-empty-state-action."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-empty-state"
+        code='<p-empty-state icon="search_off"
+  title="No matching cases"
+  description="Adjust your filters to find matching cases." />'>
+        <p-empty-state icon="search_off"
+          title="No matching cases"
+          description="Adjust your filters to find the cases you're looking for." />
+      </app-doc-example>
+    </section>
+
+    <section id="action" class="doc-page__section">
+      <app-doc-example
+        title="With action"
+        description="Wrap a p-button in p-empty-state-action to give the empty state a call to action."
+        sourceId="p-empty-state"
+        code='<p-empty-state icon="search_off"
+  title="No matching cases"
+  description="Adjust your filters to find matching cases.">
+  <p-empty-state-action>
+    <p-button size="sm" variant="outlined" icon="tune">
+      Adjust Filters
+    </p-button>
+  </p-empty-state-action>
+</p-empty-state>'>
+        <p-empty-state icon="search_off"
+          title="No matching cases"
+          description="Adjust your filters to find the cases you're looking for.">
+          <p-empty-state-action>
+            <p-button size="sm" variant="outlined" icon="tune">
+              Adjust Filters
+            </p-button>
+          </p-empty-state-action>
+        </p-empty-state>
+      </app-doc-example>
+    </section>
+
+    <section id="no-icon" class="doc-page__section">
+      <app-doc-example
+        title="Without an icon"
+        description="Pass icon as null to omit it."
+        sourceId="p-empty-state"
+        code='<p-empty-state [icon]="null" title="Nothing here yet" />'>
+        <p-empty-state [icon]="null" title="Nothing here yet" />
+      </app-doc-example>
+    </section>
+
+    <section id="custom-icon" class="doc-page__section">
+      <app-doc-example
+        title="Custom icon content"
+        description="Set icon to null to suppress the default cui-icon, then project your own into the [icon] slot."
+        sourceId="p-empty-state"
+        code='<p-empty-state [icon]="null" title="No matching cases">
+  <svg icon width="48" height="48" viewBox="0 0 24 24" fill="none" style="opacity: 0.4;">
+    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5" />
+    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+  </svg>
+</p-empty-state>'>
+        <p-empty-state [icon]="null" title="No matching cases">
+          <svg icon width="48" height="48" viewBox="0 0 24 24" fill="none" style="opacity: 0.4; color: var(--mat-sys-on-surface-variant);">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5" />
+            <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </p-empty-state>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Icon color (at reduced opacity) and description text.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code></td><td>Title text color.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-empty-state&gt;</code> renders as its own host element. Any attribute you set on
+        the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

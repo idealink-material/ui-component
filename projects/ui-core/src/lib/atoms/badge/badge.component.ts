@@ -8,8 +8,11 @@ export type BadgeSize    = 'sm' | 'md' | 'lg';
   selector: 'p-badge',
   standalone: true,
   template: `
-    <span class="p-badge__dot" *ngIf="dot()" aria-hidden="true"></span>
-    @if (!dot()) { <ng-content /> }
+    @if (dot()) {
+      <span class="p-badge__dot" aria-hidden="true"></span>
+    } @else {
+      <ng-content />
+    }
   `,
   styleUrl: './badge.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -23,21 +23,30 @@ export class CuiCheckboxComponent implements ControlValueAccessor {
   readonly indeterminate = input<boolean>(false);
   readonly disabled      = input<boolean>(false);
   readonly required      = input<boolean>(false);
+  /** Always true — this checkbox binds a single boolean value, not a value from a group array. */
+  readonly binary        = input<boolean>(true);
+  /** When true, the checkbox stays focusable but its value cannot be toggled. */
+  readonly readonly      = input<boolean>(false);
+  readonly tabindex      = input<number>(0);
 
   // ── Model ──────────────────────────────────────────────────────────────────
   readonly value = model<boolean>(false);
 
   // ── Outputs ────────────────────────────────────────────────────────────────
-  readonly cuiChange = output<boolean>();
+  readonly onChange = output<boolean>();
 
   // ── CVA state ─────────────────────────────────────────────────────────────
   private _onChange: (v: boolean) => void = () => {};
   private _onTouched: () => void = () => {};
 
-  onChange(e: MatCheckboxChange): void {
+  change(e: MatCheckboxChange): void {
+    if (this.readonly()) {
+      e.source.checked = this.value();
+      return;
+    }
     this.value.set(e.checked);
     this._onChange(e.checked);
-    this.cuiChange.emit(e.checked);
+    this.onChange.emit(e.checked);
   }
 
   onTouched(): void { this._onTouched(); }

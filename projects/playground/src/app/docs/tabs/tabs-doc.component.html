@@ -1,0 +1,85 @@
+<app-doc-shell
+  name="Tabs"
+  lead="A tab bar (built on Angular Material tabs) that drives content you switch on activeIndex, or content projected per-tab via TabItem.content."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [templates]="templates"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="tabChange emits the newly selected index; drive your own content switch off it."
+        sourceId="p-tabs"
+        code='<p-tabs [tabs]="basicTabs" [activeIndex]="activeTab()" (tabChange)="activeTab.set($event)" />
+
+@switch (activeTab()) {
+  @case (0) { <p>Overview content…</p> }
+  @case (1) { <p>Forms content…</p> }
+  @case (2) { <p>Data content…</p> }
+}'>
+        <div style="width: 100%;">
+          <p-tabs [tabs]="basicTabs" [activeIndex]="activeTab()" (tabChange)="activeTab.set($event)" />
+          <div style="padding: 16px 4px; font-size: 14px; color: var(--mat-sys-on-surface-variant);">
+            @switch (activeTab()) {
+              @case (0) { Overview content… }
+              @case (1) { Forms content… }
+              @case (2) { Data content… }
+            }
+          </div>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="badges" class="doc-page__section">
+      <app-doc-example
+        title="Icons & badges"
+        description="Each TabItem can carry an icon, a badge, or be disabled."
+        sourceId="p-tabs"
+        code='<p-tabs [tabs]="iconTabs" />
+
+iconTabs = [
+  { id: "alerts", label: "Alerts", icon: "aml_flag", badge: 12 },
+  { id: "transactions", label: "Transactions", icon: "swap_horiz" },
+  { id: "settings", label: "Settings", icon: "settings", disabled: true },
+];'>
+        <p-tabs [tabs]="iconTabs" />
+      </app-doc-example>
+    </section>
+
+    <section id="stretch" class="doc-page__section">
+      <app-doc-example
+        title="Stretch & secondary"
+        description="stretchTabs fills the available width; variant='secondary' swaps to the lower-emphasis style."
+        sourceId="p-tabs"
+        code='<p-tabs [tabs]="basicTabs" [stretchTabs]="true" variant="secondary" />'>
+        <p-tabs [tabs]="basicTabs" [stretchTabs]="true" variant="secondary" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Tabs is a thin wrapper around Angular Material's <code>mat-tab-group</code>, so its
+        colors and ink-bar styling come from Material's own tab theme tokens rather than this
+        library's <code>--cui-*</code> tokens.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-tabs&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. —
+        is applied directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

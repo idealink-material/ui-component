@@ -1,0 +1,137 @@
+<app-doc-shell
+  name="Input"
+  lead="A text field wrapping Angular Material's form field. Implements ControlValueAccessor, so it works with formControlName or [(value)]."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="[(value)] gives two-way binding without a form group."
+        sourceId="p-input"
+        code='<p-input label="Subject" placeholder="Describe the issue…" [(value)]="demoValue" />'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-input label="Subject" placeholder="Describe the issue…" [(value)]="demoValue" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="variants" class="doc-page__section">
+      <app-doc-example
+        title="Variants & sizes"
+        sourceId="p-input"
+        code='<p-input label="Outline" variant="outline" size="sm" />
+<p-input label="Fill" variant="fill" size="md" />
+<p-input label="Large" size="lg" />'>
+        <div style="width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
+          <p-input label="Outline" variant="outline" size="sm" />
+          <p-input label="Fill" variant="fill" size="md" />
+          <p-input label="Large" size="lg" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="icons" class="doc-page__section">
+      <app-doc-example
+        title="Icons"
+        sourceId="p-input"
+        code='<p-input label="Search" prefixIcon="search" placeholder="Search cases…" />
+<p-input label="Email" type="email" suffixIcon="mail" />'>
+        <div style="width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
+          <p-input label="Search" prefixIcon="search" placeholder="Search cases…" />
+          <p-input label="Email" type="email" suffixIcon="mail" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="custom-icons" class="doc-page__section">
+      <app-doc-example
+        title="Custom icon content"
+        description="prefixIcon/suffixIcon cover the common named-icon case. For a hand-written SVG or anything more dynamic, project your own element instead — mark it matPrefix / matSuffix so Angular Material still positions it correctly."
+        sourceId="p-input"
+        code='<p-input label="Card number">
+  <svg matSuffix suffixIcon width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5" />
+    <path d="M2 10H22" stroke="currentColor" stroke-width="1.5" />
+  </svg>
+</p-input>'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-input label="Card number">
+            <svg matSuffix suffixIcon width="18" height="18" viewBox="0 0 24 24" fill="none" style="color: var(--mat-sys-on-surface-variant); margin-left: 4px; margin-right: 4px;">
+              <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5" />
+              <path d="M2 10H22" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          </p-input>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="hint" class="doc-page__section">
+      <app-doc-example
+        title="Hint & error"
+        description="error takes priority over hint when both are set."
+        sourceId="p-input"
+        code='<p-input label="Investigator Email" hint="We will never share this." />
+<p-input label="Investigator Email" error="Valid email required" />'>
+        <div style="width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
+          <p-input label="Investigator Email" hint="We will never share this." />
+          <p-input label="Investigator Email" error="Valid email required" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="states" class="doc-page__section">
+      <app-doc-example
+        title="States"
+        sourceId="p-input"
+        code='<p-input label="Disabled" [disabled]="true" value="Read only value" />
+<p-input label="Readonly" [readonly]="true" value="Cannot edit" />
+<p-input label="Required" [required]="true" />'>
+        <div style="width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
+          <p-input label="Disabled" [disabled]="true" value="Read only value" />
+          <p-input label="Readonly" [readonly]="true" value="Cannot edit" />
+          <p-input label="Required" [required]="true" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="multiline" class="doc-page__section">
+      <app-doc-example
+        title="Multiline"
+        description="multiline renders a textarea; autoResize grows it to fit content."
+        sourceId="p-input"
+        code='<p-input label="Notes" [multiline]="true" [rows]="4" [autoResize]="true" />'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-input label="Notes" [multiline]="true" [rows]="4" [autoResize]="true" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Input delegates its color and typography to Angular Material's form-field theme;
+        <code>size</code> is implemented by overriding <code>--mat-form-field-container-height</code>
+        internally, so there's no separate custom-property API to theme directly.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-input&gt;</code> wraps Angular Material's <code>&lt;mat-form-field&gt;</code>
+        around a native <code>&lt;input&gt;</code>/<code>&lt;textarea&gt;</code>. Attributes you set
+        on the tag that aren't recognized inputs are applied to the <code>p-input</code> host
+        element (the wrapper), not automatically forwarded to the inner native control.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

@@ -3,7 +3,9 @@
   [indeterminate]="indeterminate()"
   [disabled]="disabled()"
   [required]="required()"
-  (change)="onChange($event)"
+  [tabIndex]="tabindex()"
+  [attr.aria-readonly]="readonly() ? 'true' : null"
+  (change)="change($event)"
   (blur)="onTouched()">
   {{ label() }}
 </mat-checkbox>

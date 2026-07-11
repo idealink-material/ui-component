@@ -1,0 +1,42 @@
+<div class="p-autocomplete" [class.p-autocomplete--disabled]="disabled()">
+
+  @if (multiple()) {
+    @for (item of selectedList; track item) {
+      <p-chip [dismissible]="!disabled()" (dismissed)="removeSelected(item)">
+        {{ displayLabel(item) }}
+      </p-chip>
+    }
+  }
+
+  <input #ac
+    class="p-autocomplete__input"
+    type="text"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [matAutocomplete]="auto"
+    #trigger="matAutocompleteTrigger"
+    (input)="onInput(ac.value)"
+    (focus)="onFocus(ac)"
+    (blur)="onBlur(ac)" />
+
+  @if (value() && !multiple()) {
+    <button type="button" class="p-autocomplete__clear" (click)="clear(ac)" aria-label="Clear">
+      <cui-icon name="close" size="xs" color="currentColor" />
+    </button>
+  }
+
+  @if (dropdown()) {
+    <button type="button" class="p-autocomplete__dropdown"
+      (click)="trigger.openPanel(); onDropdownClick.emit()"
+      [disabled]="disabled()" aria-label="Show suggestions">
+      <cui-icon name="expand_more" size="sm" color="currentColor" />
+    </button>
+  }
+
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLabel"
+    (optionSelected)="onOptionSelected($event, ac)">
+    @for (item of suggestions(); track item) {
+      <mat-option [value]="item">{{ displayLabel(item) }}</mat-option>
+    }
+  </mat-autocomplete>
+</div>

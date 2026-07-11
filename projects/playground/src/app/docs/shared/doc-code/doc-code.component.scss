@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+.doc-code {
+  border-radius: var(--cui-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--cui-code-bg, #1e1e2e);
+}
+
+.doc-code__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: color-mix(in srgb, var(--cui-code-bg, #1e1e2e) 85%, white 15%);
+}
+
+.doc-code__lang {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.doc-code__copy {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: var(--cui-radius-sm);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+}
+
+.doc-code__pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}

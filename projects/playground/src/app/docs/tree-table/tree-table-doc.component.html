@@ -1,0 +1,62 @@
+<app-doc-shell
+  name="Tree Table"
+  lead="A tabular view of hierarchical data — each row can expand into nested child rows, reusing Data Table's column shape."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Rows with children render an expand toggle in the first column."
+        sourceId="p-tree-table"
+        code='<p-tree-table [columns]="columns" [nodes]="nodes" />
+
+columns: TableColumn<AccountRow>[] = [
+  { key: "name",   header: "Account" },
+  { key: "amount", header: "Amount", align: "right" },
+  { key: "status", header: "Status" },
+];
+
+nodes: TreeTableNode<AccountRow>[] = [
+  { id: "g1", data: { name: "Corporate Accounts", amount: "$1.2M", status: "Active" }, children: [
+    { id: "g1-1", data: { name: "Acme Holdings",  amount: "$820K", status: "Active" } },
+    { id: "g1-2", data: { name: "Bright Capital", amount: "$380K", status: "Review" } },
+  ]},
+];'>
+        <p-tree-table [columns]="columns" [nodes]="nodes" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline-variant</code></td><td>Row and header borders.</td></tr>
+          <tr><td><code>--mat-sys-surface-container-low</code></td><td>Header background.</td></tr>
+          <tr><td><code>--mat-sys-surface-container</code></td><td>Row hover background.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code> / <code>-on-surface-variant</code></td><td>Cell text and header label color.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-tree-table&gt;</code> renders as its own host element. Any attribute you set on
+        the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

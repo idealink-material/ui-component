@@ -7,6 +7,9 @@ export const purpleTheme: ThemeDefinition = {
   palette: {
     'cui-is-dark': '0',
 
+    'cui-font-family': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    'cui-font-family-heading': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+
     // Primary — Violet
     'mat-sys-primary': '#7c3aed',
     'mat-sys-on-primary': '#ffffff',

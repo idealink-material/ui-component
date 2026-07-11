@@ -1,0 +1,92 @@
+<app-doc-shell
+  name="Datepicker"
+  lead="A date field wrapping Angular Material's datepicker. Supports single, multiple, and range selection, an inline calendar, and month/year-only views."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-datepicker"
+        code='<p-datepicker label="Filed on" [(value)]="single" />'>
+        <div style="width: 100%; max-width: 280px;">
+          <p-datepicker label="Filed on" [(value)]="single" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="range" class="doc-page__section">
+      <app-doc-example
+        title="Range & multiple"
+        description="selectionMode controls whether value is a single Date or a Date[]."
+        sourceId="p-datepicker"
+        code='<p-datepicker label="Date range" selectionMode="range" [(value)]="range" />
+<p-datepicker label="Specific dates" selectionMode="multiple" [(value)]="multi" />'>
+        <div style="width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 16px;">
+          <p-datepicker label="Date range" selectionMode="range" [(value)]="range" />
+          <p-datepicker label="Specific dates" selectionMode="multiple" [(value)]="multi" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="inline" class="doc-page__section">
+      <app-doc-example
+        title="Inline"
+        description="inline renders the calendar directly in the page with Today/Clear actions, instead of a popup triggered from a text field."
+        sourceId="p-datepicker"
+        code='<p-datepicker label="Review date" [inline]="true" [(value)]="inlineDate" />'>
+        <p-datepicker label="Review date" [inline]="true" [(value)]="inlineDate" />
+      </app-doc-example>
+    </section>
+
+    <section id="views" class="doc-page__section">
+      <app-doc-example
+        title="Month/year picker"
+        description="view='month' or 'year' stops the picker at that granularity and closes as soon as a unit is chosen."
+        sourceId="p-datepicker"
+        code='<p-datepicker label="Reporting month" view="month" dateFormat="mm/yyyy" [(value)]="monthValue" />'>
+        <div style="width: 100%; max-width: 280px;">
+          <p-datepicker label="Reporting month" view="month" dateFormat="mm/yyyy" [(value)]="monthValue" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-primary</code> / <code>-on-primary</code></td><td>Selected-cell background/text in multiple-selection mode.</td></tr>
+          <tr><td><code>--mat-sys-outline-variant</code></td><td>Inline calendar border and the time input's border.</td></tr>
+          <tr><td><code>--mat-sys-surface</code></td><td>Time input background.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code> / <code>-on-surface-variant</code></td><td>Time input text and inline hint text.</td></tr>
+          <tr><td><code>--mat-sys-error</code></td><td>Inline error text.</td></tr>
+          <tr><td><code>--cui-radius-sm</code> / <code>-md</code></td><td>Corner radius for the time input and inline calendar frame.</td></tr>
+        </tbody>
+      </table>
+      <p class="doc-page__lead">
+        The popup calendar itself is Angular Material's own <code>mat-datepicker</code>, themed via
+        Material's date-picker tokens rather than this list.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-datepicker&gt;</code> wraps Angular Material's <code>&lt;mat-form-field&gt;</code>
+        around a native <code>&lt;input&gt;</code>. Attributes you set on the tag that aren't
+        recognized inputs are applied to the <code>p-datepicker</code> host element (the wrapper), not
+        automatically forwarded to the inner native control.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

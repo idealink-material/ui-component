@@ -4,6 +4,8 @@
   <div class="p-multi-select__control">
     @if (selectedOptions().length === 0) {
       <span class="p-multi-select__placeholder">{{ placeholder() }}</span>
+    } @else if (display() === 'comma') {
+      <span class="p-multi-select__comma-text">{{ displayText() }}</span>
     } @else {
       <div class="p-multi-select__chips">
         @for (option of selectedOptions(); track option.value) {
@@ -27,19 +29,35 @@
   (backdropClick)="close()"
   (detach)="close()">
   <div class="p-multi-select__panel">
-    @if (filterable()) {
+    @if (showFilter()) {
       <input class="p-multi-select__filter" type="text" placeholder="Search…"
-        [value]="filter()" (input)="onFilter($event)" />
+        [value]="filterText()" (input)="onFilterInput($event)" />
     }
-    <ul class="p-multi-select__list">
-      @for (option of filteredOptions(); track option.value) {
-        <li class="p-multi-select__option">
-          <p-checkbox [value]="isSelected(option.value)" [label]="option.label"
-            [disabled]="!!option.disabled" (cuiChange)="toggleValue(option.value)" />
-        </li>
-      } @empty {
-        <li class="p-multi-select__empty">No options found</li>
-      }
-    </ul>
+    @if (showToggleAll()) {
+      <div class="p-multi-select__toggle-all">
+        <p-checkbox [value]="allSelected()" label="Select All" (onChange)="toggleSelectAll()" />
+      </div>
+    }
+    @if (virtualScroll()) {
+      <cdk-virtual-scroll-viewport [itemSize]="virtualItemSize()" class="p-multi-select__viewport">
+        <ul class="p-multi-select__list">
+          <li *cdkVirtualFor="let option of filteredOptions()" class="p-multi-select__option">
+            <p-checkbox [value]="isSelected(option.value)" [label]="option.label"
+              [disabled]="!!option.disabled" (onChange)="toggleValue(option.value)" />
+          </li>
+        </ul>
+      </cdk-virtual-scroll-viewport>
+    } @else {
+      <ul class="p-multi-select__list">
+        @for (option of filteredOptions(); track option.value) {
+          <li class="p-multi-select__option">
+            <p-checkbox [value]="isSelected(option.value)" [label]="option.label"
+              [disabled]="!!option.disabled" (onChange)="toggleValue(option.value)" />
+          </li>
+        } @empty {
+          <li class="p-multi-select__empty">No options found</li>
+        }
+      </ul>
+    }
   </div>
 </ng-template>

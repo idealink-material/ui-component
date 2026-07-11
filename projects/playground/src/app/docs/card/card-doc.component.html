@@ -1,0 +1,114 @@
+<app-doc-shell
+  name="Card"
+  lead="A container for grouping related content. Supports an optional header and footer slot via p-card-header / p-card-footer."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="variants" class="doc-page__section">
+      <app-doc-example
+        title="Variants"
+        sourceId="p-card"
+        code='<p-card variant="elevated">Elevated</p-card>
+<p-card variant="outlined">Outlined</p-card>
+<p-card variant="filled">Filled</p-card>'>
+        <p-card variant="elevated" style="width: 160px;">Elevated</p-card>
+        <p-card variant="outlined" style="width: 160px;">Outlined</p-card>
+        <p-card variant="filled" style="width: 160px;">Filled</p-card>
+      </app-doc-example>
+    </section>
+
+    <section id="hoverable" class="doc-page__section">
+      <app-doc-example
+        title="Hoverable & selected"
+        description="hoverable adds a hover transition; selected applies a persistent selected state."
+        sourceId="p-card"
+        code='<p-card [hoverable]="true">Hover me</p-card>
+<p-card [selected]="true">Selected</p-card>'>
+        <p-card [hoverable]="true" style="width: 160px;">Hover me</p-card>
+        <p-card [selected]="true" style="width: 160px;">Selected</p-card>
+      </app-doc-example>
+    </section>
+
+    <section id="sections" class="doc-page__section">
+      <app-doc-example
+        title="Header & footer"
+        description="Project p-card-header and p-card-footer as direct children; they render above and below the default content slot."
+        sourceId="p-card"
+        code='<p-card variant="outlined">
+  <p-card-header>
+    <strong>Case AML-2401</strong>
+    <p-badge color="error" size="sm">High</p-badge>
+  </p-card-header>
+
+  <p>Suspicious wire transfer flagged for review.</p>
+
+  <p-card-footer>
+    <p-button size="sm" variant="text">Dismiss</p-button>
+    <p-button size="sm" variant="filled">Review</p-button>
+  </p-card-footer>
+</p-card>'>
+        <p-card variant="outlined" style="width: 280px;">
+          <p-card-header style="display:flex; align-items:center; justify-content:space-between;">
+            <strong>Case AML-2401</strong>
+            <p-badge color="error" size="sm">High</p-badge>
+          </p-card-header>
+
+          <p style="font-size: 14px; color: var(--mat-sys-on-surface-variant); margin: 8px 0;">
+            Suspicious wire transfer flagged for review.
+          </p>
+
+          <p-card-footer style="display:flex; gap:8px; justify-content:flex-end;">
+            <p-button size="sm" variant="text">Dismiss</p-button>
+            <p-button size="sm" variant="filled">Review</p-button>
+          </p-card-footer>
+        </p-card>
+      </app-doc-example>
+    </section>
+
+    <section id="padding" class="doc-page__section">
+      <app-doc-example
+        title="Padding"
+        description="Set padding to false to control spacing yourself, e.g. for edge-to-edge media."
+        sourceId="p-card"
+        code='<p-card [padding]="true">Padded (default)</p-card>
+<p-card [padding]="false">No padding</p-card>'>
+        <p-card [padding]="true" style="width: 160px;">Padded (default)</p-card>
+        <p-card [padding]="false" style="width: 160px;">No padding</p-card>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--cui-card-bg</code></td><td>Background for the <code>elevated</code> and <code>outlined</code> variants.</td></tr>
+          <tr><td><code>--cui-card-border</code></td><td>Border color for the <code>outlined</code> variant.</td></tr>
+          <tr><td><code>--mat-sys-surface-container</code></td><td>Background for the <code>filled</code> variant.</td></tr>
+          <tr><td><code>--mat-sys-primary</code></td><td>Border/ring color when <code>selected</code>.</td></tr>
+          <tr><td><code>--cui-radius-lg</code></td><td>Corner radius.</td></tr>
+          <tr><td><code>--cui-shadow-md</code> / <code>-lg</code></td><td>Elevation for the <code>elevated</code> variant and its hover state.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-card&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

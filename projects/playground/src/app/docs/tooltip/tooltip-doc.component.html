@@ -1,0 +1,74 @@
+<app-doc-shell
+  name="Tooltip"
+  lead="An attribute directive that wraps Angular Material's tooltip with company-ui defaults. Hover an example below to see it."
+  [featureSections]="featureSections"
+  [properties]="properties">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Apply cuiTooltip to any element."
+        sourceId="cuiTooltip"
+        code='<p-button cuiTooltip="Save changes">Save</p-button>'>
+        <p-button cuiTooltip="Save changes">Save</p-button>
+      </app-doc-example>
+    </section>
+
+    <section id="position" class="doc-page__section">
+      <app-doc-example
+        title="Position"
+        sourceId="cuiTooltip"
+        code='<p-button cuiTooltip="Above" cuiTooltipPosition="above">Above</p-button>
+<p-button cuiTooltip="Below" cuiTooltipPosition="below">Below</p-button>
+<p-button cuiTooltip="Left" cuiTooltipPosition="left">Left</p-button>
+<p-button cuiTooltip="Right" cuiTooltipPosition="right">Right</p-button>'>
+        <p-button cuiTooltip="Above" cuiTooltipPosition="above">Above</p-button>
+        <p-button cuiTooltip="Below" cuiTooltipPosition="below">Below</p-button>
+        <p-button cuiTooltip="Left" cuiTooltipPosition="left">Left</p-button>
+        <p-button cuiTooltip="Right" cuiTooltipPosition="right">Right</p-button>
+      </app-doc-example>
+    </section>
+
+    <section id="disabled" class="doc-page__section">
+      <app-doc-example
+        title="Disabled"
+        description="cuiTooltipDisabled suppresses the tooltip without removing the directive, useful when the message is conditional."
+        sourceId="cuiTooltip"
+        code='<p-button cuiTooltip="You will not see this" [cuiTooltipDisabled]="true">
+  Disabled tooltip
+</p-button>'>
+        <p-button cuiTooltip="You will not see this" [cuiTooltipDisabled]="true">
+          Disabled tooltip
+        </p-button>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-overview" class="doc-page__section">
+      <h2 class="doc-page__section-title">Overview</h2>
+      <p class="doc-page__lead">
+        <code>cuiTooltip</code> has no stylesheet of its own — it's a thin wrapper around
+        Angular Material's <code>MatTooltip</code> (via <code>hostDirectives</code>), so the
+        popup's color, shape, and elevation come entirely from Material's built-in tooltip
+        tokens (e.g. <code>--mat-sys-inverse-surface</code> / <code>--mat-sys-inverse-on-surface</code>).
+        The directive tags the overlay with a <code>p-tooltip</code> CSS class as a hook for
+        future custom styling, and fixes <code>showDelay</code> to 300ms and <code>hideDelay</code>
+        to 0ms.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>cuiTooltip</code> is an attribute directive, not a component — it has no host
+        element of its own. It attaches to whichever element or component you place it on
+        (e.g. <code>&lt;p-button&gt;</code>), so every attribute you set on that host, recognized
+        or not, is governed entirely by that host element/component, not by the directive.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

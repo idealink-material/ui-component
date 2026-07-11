@@ -1,0 +1,9 @@
+@use '../shared/doc-page';
+
+.p-spin {
+  animation: p-spin 0.7s linear infinite;
+}
+
+@keyframes p-spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,15 @@
+<div class="p-input-otp">
+  @for (i of slots(); track i) {
+    <input #slot
+      class="p-input-otp__slot"
+      [type]="mask() ? 'password' : 'text'"
+      inputmode="numeric"
+      maxlength="1"
+      [value]="charAt(i)"
+      [disabled]="disabled()"
+      (input)="handleInput(i, $event)"
+      (keydown)="handleKeydown(i, $event)"
+      (paste)="handlePaste($event)"
+      (blur)="handleBlur()" />
+  }
+</div>

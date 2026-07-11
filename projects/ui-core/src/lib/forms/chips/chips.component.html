@@ -1,0 +1,14 @@
+<div class="p-chips" [class.p-chips--disabled]="disabled()">
+  @for (token of value(); track token) {
+    <p-chip [dismissible]="!disabled()" (dismissed)="remove(token)" (click)="chipClick(token)">
+      {{ token }}
+    </p-chip>
+  }
+  <input #tokenInput
+    class="p-chips__input"
+    type="text"
+    [placeholder]="value().length ? '' : placeholder()"
+    [disabled]="disabled()"
+    (keydown)="onKeydown($event)"
+    (blur)="onBlur(tokenInput)" />
+</div>

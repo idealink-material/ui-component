@@ -17,33 +17,40 @@ import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/sl
     multi: true,
   }],
 })
-export class CuiToggleSwitchComponent implements ControlValueAccessor {
+export class CuiToggleSwitchComponent<T = boolean> implements ControlValueAccessor {
   // ── Inputs ─────────────────────────────────────────────────────────────────
-  readonly label    = input<string>('');
-  readonly disabled = input<boolean>(false);
-  readonly required = input<boolean>(false);
+  readonly label     = input<string>('');
+  readonly disabled  = input<boolean>(false);
+  readonly required  = input<boolean>(false);
+  /** Value stored in `value` when the switch is on. Defaults to boolean true. */
+  readonly trueValue  = input<T>(true as unknown as T);
+  /** Value stored in `value` when the switch is off. Defaults to boolean false. */
+  readonly falseValue = input<T>(false as unknown as T);
 
   // ── Model ──────────────────────────────────────────────────────────────────
-  readonly value = model<boolean>(false);
+  readonly value = model<T>(false as unknown as T);
 
   // ── Outputs ────────────────────────────────────────────────────────────────
-  readonly cuiChange = output<boolean>();
+  readonly cuiChange = output<T>();
 
   // ── CVA state ─────────────────────────────────────────────────────────────
-  private _onChange: (v: boolean) => void = () => {};
+  private _onChange: (v: T) => void = () => {};
   private _onTouched: () => void = () => {};
 
+  readonly isChecked = () => this.value() === this.trueValue();
+
   onChange(e: MatSlideToggleChange): void {
-    this.value.set(e.checked);
-    this._onChange(e.checked);
-    this.cuiChange.emit(e.checked);
+    const v = e.checked ? this.trueValue() : this.falseValue();
+    this.value.set(v);
+    this._onChange(v);
+    this.cuiChange.emit(v);
   }
 
   onTouched(): void { this._onTouched(); }
 
   // ── ControlValueAccessor ──────────────────────────────────────────────────
-  writeValue(v: boolean): void               { this.value.set(!!v); }
-  registerOnChange(fn: (v: boolean) => void): void { this._onChange = fn; }
+  writeValue(v: T): void                     { this.value.set(v ?? this.falseValue()); }
+  registerOnChange(fn: (v: T) => void): void { this._onChange = fn; }
   registerOnTouched(fn: () => void): void    { this._onTouched = fn; }
   setDisabledState(_: boolean): void         { /* handled via input() */ }
 }

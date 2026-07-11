@@ -1,0 +1,88 @@
+<app-doc-shell
+  name="Speed Dial"
+  lead="A floating action button that fans out a stack of secondary actions when opened."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [interfaces]="interfaces"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Click the main button to reveal the action items; clicking an action invokes its command and closes the dial."
+        sourceId="p-speed-dial"
+        code='<p-speed-dial [items]="caseActions" />
+
+caseActions = [
+  { id: "flag", icon: "aml_flag", label: "Flag Case", command: () => … },
+  { id: "assign", icon: "person_add", label: "Assign", command: () => … },
+  { id: "close", icon: "check", label: "Close Case", command: () => … },
+];'>
+        <p-speed-dial [items]="caseActions" />
+        <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          Last action: {{ lastAction() || '—' }}
+        </p>
+      </app-doc-example>
+    </section>
+
+    <section id="direction" class="doc-page__section">
+      <app-doc-example
+        title="Direction"
+        description="direction='down' fans the items out below the trigger instead of above it."
+        sourceId="p-speed-dial"
+        code='<p-speed-dial [items]="caseActions" direction="down" />'>
+        <p-speed-dial [items]="caseActions" direction="down" />
+      </app-doc-example>
+    </section>
+
+    <section id="custom-icon" class="doc-page__section">
+      <app-doc-example
+        title="Custom toggle icon"
+        description="Set icon to '' to suppress the default cui-icon, then project your own into the [toggleIcon] slot for the closed state."
+        sourceId="p-speed-dial"
+        code='<p-speed-dial [items]="caseActions" icon="">
+  <svg toggleIcon width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  </svg>
+</p-speed-dial>'>
+        <p-speed-dial [items]="caseActions" icon="">
+          <svg toggleIcon width="24" height="24" viewBox="0 0 24 24" fill="none" style="color: currentColor;">
+            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </p-speed-dial>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-primary</code> / <code>-on-primary</code></td><td>Main toggle button background/icon.</td></tr>
+          <tr><td><code>--mat-sys-surface</code> / <code>-on-surface</code></td><td>Action item background/icon.</td></tr>
+          <tr><td><code>--mat-sys-surface-container</code></td><td>Action item hover background.</td></tr>
+          <tr><td><code>--cui-shadow-lg</code> / <code>-md</code></td><td>Elevation for the main button and action items respectively.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-speed-dial&gt;</code> renders as its own host element. Any attribute you set on
+        the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration. Note the component doesn't fix itself to a screen corner — wrap it in
+        a positioned container if you want the classic floating placement.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

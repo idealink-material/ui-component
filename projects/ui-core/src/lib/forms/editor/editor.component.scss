@@ -1,0 +1,11 @@
+@import 'quill/dist/quill.snow.css';
+
+.p-editor {
+  display: block;
+  border-radius: var(--cui-radius-md);
+  overflow: hidden;
+}
+
+.p-editor--readonly .ql-toolbar {
+  display: none;
+}

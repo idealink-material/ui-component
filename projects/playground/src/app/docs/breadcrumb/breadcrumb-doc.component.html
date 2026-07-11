@@ -1,0 +1,89 @@
+<app-doc-shell
+  name="Breadcrumb"
+  lead="Shows the current page's location within a navigational hierarchy. Reads from a shared BreadcrumbService by default, or accepts items directly."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="manual-items" class="doc-page__section">
+      <app-doc-example
+        title="Manual items"
+        description="Pass items directly to render a static trail, bypassing the shared service."
+        sourceId="p-breadcrumb"
+        code='<p-breadcrumb [items]="caseItems" />
+
+caseItems = [
+  { label: "Home", routerLink: "/" },
+  { label: "Cases", routerLink: "/cases" },
+  { label: "AML Dashboard", isCurrent: true },
+];'>
+        <p-breadcrumb [items]="caseItems" />
+      </app-doc-example>
+    </section>
+
+    <section id="service" class="doc-page__section">
+      <app-doc-example
+        title="Service-driven"
+        description="Omit items and p-breadcrumb reads the current trail from BreadcrumbService (from @votha-sok/ui-utils) — call breadcrumbService.setBreadcrumbs(...) once, e.g. in a route's ngOnInit, and every p-breadcrumb on the page stays in sync."
+        sourceId="p-breadcrumb"
+        code='// case-detail.component.ts
+private readonly breadcrumbService = inject(BreadcrumbService);
+
+ngOnInit(): void {
+  this.breadcrumbService.setBreadcrumbs([
+    { label: "Home", routerLink: "/" },
+    { label: "Cases", routerLink: "/cases" },
+    { label: "AML Dashboard", isCurrent: true },
+  ]);
+}
+
+// case-detail.component.html
+<p-breadcrumb />'>
+        <p-breadcrumb [items]="caseItems" />
+      </app-doc-example>
+    </section>
+
+    <section id="separator" class="doc-page__section">
+      <app-doc-example
+        title="Custom separator"
+        description="separator takes any icon name rendered between crumbs."
+        sourceId="p-breadcrumb"
+        code='<p-breadcrumb [items]="caseItems" separator="arrow_forward_ios" />'>
+        <p-breadcrumb [items]="caseItems" separator="arrow_forward_ios" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Breadcrumb text and separator icons inherit their color from Angular Material
+        system tokens; there are no component-specific custom properties to override.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Crumb text and separator icon color.</td></tr>
+          <tr><td><code>--mat-sys-on-surface</code></td><td>Current (last) crumb text color.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-breadcrumb&gt;</code> renders as its own host element (<code>role="navigation"</code>).
+        Any attribute you set on the tag that isn't a recognized input — <code>id</code>,
+        <code>data-*</code>, <code>aria-*</code>, etc. — is applied directly to that host element
+        by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

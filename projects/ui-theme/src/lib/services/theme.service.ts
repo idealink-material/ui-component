@@ -22,8 +22,8 @@ const STORAGE_KEY = 'cui-theme';
 /** Default theme applied when no persisted preference exists. */
 const DEFAULT_THEME: ThemeName = 'light';
 
-/** The complete registry of all available themes. */
-const THEMES: Record<ThemeName, ThemeDefinition> = {
+/** The themes that ship with the framework. */
+const BUILT_IN_THEMES: Record<string, ThemeDefinition> = {
   light: lightTheme,
   dark: darkTheme,
   banking: bankingTheme,
@@ -37,6 +37,13 @@ const THEMES: Record<ThemeName, ThemeDefinition> = {
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
 
+  // ── Theme registry ─────────────────────────────────────────────────────────
+  // A signal (not a const) so consuming apps can register their own brand
+  // palettes at runtime via registerTheme(), and availableThemes reacts.
+  private readonly _themes = signal<Record<string, ThemeDefinition>>({
+    ...BUILT_IN_THEMES,
+  });
+
   // ── Private writable signal ────────────────────────────────────────────────
   private readonly _currentThemeName = signal<ThemeName>(
     this.resolveInitialTheme()
@@ -47,18 +54,24 @@ export class ThemeService {
   /** The currently active theme name. */
   readonly currentThemeName = this._currentThemeName.asReadonly();
 
-  /** The full ThemeDefinition for the active theme. */
-  readonly currentTheme = computed<ThemeDefinition>(
-    () => THEMES[this._currentThemeName()]
+  /**
+   * The full ThemeDefinition for the active theme, or undefined if the active
+   * name refers to a custom theme that hasn't been registered yet (e.g. a
+   * persisted name restored before the app calls registerTheme()).
+   */
+  readonly currentTheme = computed<ThemeDefinition | undefined>(
+    () => this._themes()[this._currentThemeName()]
   );
 
   /** True when the active theme's palette is dark. */
   readonly isDarkMode = computed<boolean>(
-    () => this.currentTheme().isDark
+    () => this.currentTheme()?.isDark ?? false
   );
 
-  /** All available theme definitions, ordered for display in a switcher. */
-  readonly availableThemes: ThemeDefinition[] = Object.values(THEMES);
+  /** All registered theme definitions, for display in a switcher. */
+  readonly availableThemes = computed<ThemeDefinition[]>(
+    () => Object.values(this._themes())
+  );
 
   // ── Constructor ────────────────────────────────────────────────────────────
 
@@ -79,11 +92,32 @@ export class ThemeService {
   // ── Public methods ─────────────────────────────────────────────────────────
 
   /**
-   * Switch to any named theme.
-   * Has no effect if the requested theme is already active.
+   * Register (or replace) a theme by name. Lets a consuming app supply its
+   * own brand palette without forking this library:
+   *
+   * ```ts
+   * themeService.registerTheme(myBrandTheme);
+   * themeService.setTheme(myBrandTheme.name);
+   * ```
+   *
+   * If the registered theme is already the active one (e.g. a persisted
+   * custom theme being defined at startup), its CSS variables are applied
+   * immediately.
+   */
+  registerTheme(theme: ThemeDefinition): void {
+    this._themes.update((themes) => ({ ...themes, [theme.name]: theme }));
+    if (theme.name === this._currentThemeName()) {
+      this.applyTheme(theme.name);
+    }
+  }
+
+  /**
+   * Switch to any registered theme (built-in or app-registered).
+   * No-ops if the theme is already active or hasn't been registered.
    */
   setTheme(name: ThemeName): void {
     if (name === this._currentThemeName()) return;
+    if (!(name in this._themes())) return;
     this._currentThemeName.set(name);
   }
 
@@ -101,15 +135,17 @@ export class ThemeService {
 
   /**
    * Read localStorage for a previously persisted theme name.
-   * Falls back to DEFAULT_THEME if nothing is stored or the stored value is
-   * not a recognised ThemeName (guards against stale/invalid stored data).
+   * Returns the stored value as-is (it may name an app-registered theme not
+   * yet in the registry — applyTheme no-ops until it's registered, and
+   * registerTheme() re-applies it). Falls back to DEFAULT_THEME if nothing
+   * is stored.
    */
   private resolveInitialTheme(): ThemeName {
     try {
       const stored = this.document.defaultView?.localStorage.getItem(
         STORAGE_KEY
       );
-      if (stored && stored in THEMES) {
+      if (stored) {
         return stored as ThemeName;
       }
     } catch {
@@ -126,13 +162,17 @@ export class ThemeService {
    *
    * Also sets a `data-cui-theme` attribute so CSS can target theme-specific
    * styles via `[data-cui-theme="dark"] { ... }` selectors when needed.
+   *
+   * No-ops if the name refers to a theme that isn't registered yet.
    */
   private applyTheme(name: ThemeName): void {
-    const { palette } = THEMES[name];
+    const theme = this._themes()[name];
+    if (!theme) return;
+
     const root = this.document.documentElement;
 
     // Write every palette key as a CSS variable on :root
-    for (const [key, value] of Object.entries(palette)) {
+    for (const [key, value] of Object.entries(theme.palette)) {
       root.style.setProperty(`--${key}`, value);
     }
 
@@ -140,8 +180,7 @@ export class ThemeService {
     root.setAttribute('data-cui-theme', name);
 
     // Also toggle a class for consumers who prefer class-based selectors
-    const isDark = THEMES[name].isDark;
-    root.classList.toggle('cui-dark', isDark);
+    root.classList.toggle('cui-dark', theme.isDark);
   }
 
   /**

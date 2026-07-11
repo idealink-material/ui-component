@@ -1,19 +1,19 @@
 <span class="p-btn__inner" (click)="handleClick($event)" matRipple
-  [matRippleDisabled]="disabled() || loading()"
-  [matRippleColor]="'var(--cui-btn-ripple, rgba(255,255,255,0.2))'">
+      [matRippleDisabled]="disabled() || loading()"
+      [matRippleColor]="'var(--cui-btn-ripple, rgba(255,255,255,0.2))'">
 
   @if (loading()) {
     <span class="p-btn__spinner" aria-hidden="true"></span>
-  } @else if (iconLeft()) {
-    <cui-icon [name]="iconLeft()!" [size]="iconSize()" color="currentColor" />
+  } @else if (icon() && iconPos() == 'left') {
+    <cui-icon [name]="icon()" [size]="iconSize()" color="currentColor" />
   }
 
   <span class="p-btn__label">
     <ng-content />
   </span>
 
-  @if (!loading() && iconRight()) {
-    <cui-icon [name]="iconRight()!" [size]="iconSize()" color="currentColor" />
+  @if (!loading() && icon() && iconPos() == 'right') {
+    <cui-icon [name]="icon()" [size]="iconSize()" color="currentColor" />
   }
 
 </span>

@@ -1,0 +1,53 @@
+<app-doc-shell
+  name="Popover"
+  lead="A directive that opens a click-triggered CDK overlay showing arbitrary template content, anchored to the host element."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="Pass an ng-template's reference to pPopover. Clicking the host toggles the overlay; a transparent backdrop closes it on outside click."
+        sourceId="pPopover"
+        code='<p-button variant="outlined" [pPopover]="panel">Details</p-button>
+
+<ng-template #panel>
+  <div style="padding:12px 16px; background:var(--cui-card-bg); border-radius:8px; box-shadow:var(--cui-shadow-md);">
+    Custom popover content here.
+  </div>
+</ng-template>'>
+        <p-button variant="outlined" [pPopover]="panel">Details</p-button>
+        <ng-template #panel>
+          <div style="padding:12px 16px; background:var(--cui-card-bg); border-radius:8px; box-shadow:var(--cui-shadow-md); max-width: 240px;">
+            Custom popover content here — any template you like.
+          </div>
+        </ng-template>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Popover renders whatever template you give it with no styling of its own — the overlay
+        panel's look is entirely up to your template's own styles. The examples above use
+        <code>--cui-card-bg</code> and <code>--cui-shadow-md</code> to match this library's card
+        styling, but that's a convention, not a requirement.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        Applying <code>pPopover</code> doesn't add any wrapper element — the directive attaches a
+        click handler directly to whatever host element it's placed on, so all of that element's
+        own attributes behave normally.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

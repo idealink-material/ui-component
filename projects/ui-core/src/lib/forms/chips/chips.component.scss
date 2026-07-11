@@ -1,0 +1,35 @@
+:host { display: block; }
+
+.p-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 9999px;
+  background: var(--mat-sys-surface);
+
+  &:focus-within {
+    border-color: var(--mat-sys-primary);
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: -1px;
+  }
+
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.p-chips__input {
+  flex: 1;
+  min-width: 80px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--mat-sys-on-surface);
+  font: inherit;
+  padding: 4px 2px;
+}

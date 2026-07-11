@@ -1,0 +1,66 @@
+<app-doc-shell
+  name="Slider"
+  lead="A draggable numeric range control wrapping Angular Material's slider, with an optional two-thumb range mode."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-slider"
+        code='<p-slider [(value)]="basic" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-slider [(value)]="basic" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="range" class="doc-page__section">
+      <app-doc-example
+        title="Range"
+        description="range renders two thumbs; value becomes a [start, end] tuple."
+        sourceId="p-slider"
+        code='<p-slider [range]="true" [(value)]="rangeVal" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-slider [range]="true" [(value)]="rangeVal" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="step" class="doc-page__section">
+      <app-doc-example
+        title="Custom range & step"
+        sourceId="p-slider"
+        code='<p-slider [min]="-20" [max]="20" [step]="5" [(value)]="stepped" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-slider [min]="-20" [max]="20" [step]="5" [(value)]="stepped" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Slider has no stylesheet of its own — its track, thumb, and value-bubble colors come
+        entirely from Angular Material's slider theme tokens.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-slider&gt;</code> renders as its own host element wrapping
+        <code>&lt;mat-slider&gt;</code>. Any attribute you set on the tag that isn't a recognized
+        input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. — is applied
+        directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

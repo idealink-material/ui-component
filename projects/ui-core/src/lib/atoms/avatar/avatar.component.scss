@@ -10,7 +10,7 @@
   overflow: visible;
 
   &.p-avatar--circle  { border-radius: 50%; }
-  &.p-avatar--rounded { border-radius: var(--cui-radius-md); }
+  &.p-avatar--rounded { border-radius: var(--cui-radius-xl); }
   &.p-avatar--square  { border-radius: 0; }
 }
 

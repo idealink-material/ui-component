@@ -1,0 +1,82 @@
+<app-doc-shell
+  name="Accordion"
+  lead="A set of collapsible panels wrapping Angular Material's expansion panel, with an optional multi-open mode."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="By default, only one panel can be open at a time."
+        sourceId="p-accordion"
+        code='<p-accordion>
+  <p-accordion-panel title="Case Details" [expanded]="true">
+    <p>Case AML-2401 — Suspicious wire transfer.</p>
+  </p-accordion-panel>
+  <p-accordion-panel title="Evidence" description="3 attachments">
+    <p>Bank statements, transaction logs, and correspondence.</p>
+  </p-accordion-panel>
+  <p-accordion-panel title="Notes" [disabled]="true">
+    <p>No notes yet.</p>
+  </p-accordion-panel>
+</p-accordion>'>
+        <p-accordion style="width: 100%; max-width: 420px;">
+          <p-accordion-panel title="Case Details" [expanded]="true">
+            <p style="font-size: 14px; color: var(--mat-sys-on-surface-variant);">Case AML-2401 — Suspicious wire transfer.</p>
+          </p-accordion-panel>
+          <p-accordion-panel title="Evidence" description="3 attachments">
+            <p style="font-size: 14px; color: var(--mat-sys-on-surface-variant);">Bank statements, transaction logs, and correspondence.</p>
+          </p-accordion-panel>
+          <p-accordion-panel title="Notes" [disabled]="true">
+            <p style="font-size: 14px; color: var(--mat-sys-on-surface-variant);">No notes yet.</p>
+          </p-accordion-panel>
+        </p-accordion>
+      </app-doc-example>
+    </section>
+
+    <section id="multi" class="doc-page__section">
+      <app-doc-example
+        title="Multiple open panels"
+        description="multi=true lets more than one panel stay expanded at once."
+        sourceId="p-accordion"
+        code='<p-accordion [multi]="true">
+  <p-accordion-panel title="Section A" [expanded]="true">A</p-accordion-panel>
+  <p-accordion-panel title="Section B" [expanded]="true">B</p-accordion-panel>
+</p-accordion>'>
+        <p-accordion [multi]="true" style="width: 100%; max-width: 420px;">
+          <p-accordion-panel title="Section A" [expanded]="true">
+            <p style="font-size: 14px; color: var(--mat-sys-on-surface-variant);">Content A</p>
+          </p-accordion-panel>
+          <p-accordion-panel title="Section B" [expanded]="true">
+            <p style="font-size: 14px; color: var(--mat-sys-on-surface-variant);">Content B</p>
+          </p-accordion-panel>
+        </p-accordion>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Accordion and Accordion Panel have no stylesheet of their own — panel background, header,
+        and expand-icon styling all come from Angular Material's expansion-panel theme tokens.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-accordion&gt;</code> and <code>&lt;p-accordion-panel&gt;</code> each render as
+        their own host element. Any attribute you set on either tag that isn't a recognized input —
+        <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. — is applied directly to that
+        host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

@@ -1,0 +1,63 @@
+<app-doc-shell
+  name="Toggle Switch"
+  lead="A binary on/off switch wrapping Angular Material's slide toggle. Accepts custom on/off values, not just booleans."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-toggle-switch"
+        code='<p-toggle-switch label="Enable notifications" [(value)]="basic" />'>
+        <p-toggle-switch label="Enable notifications" [(value)]="basic" />
+      </app-doc-example>
+    </section>
+
+    <section id="custom-value" class="doc-page__section">
+      <app-doc-example
+        title="Custom on/off values"
+        description="trueValue/falseValue let value hold something other than a plain boolean."
+        sourceId="p-toggle-switch"
+        code='<p-toggle-switch label="Status" trueValue="active" falseValue="inactive" [(value)]="status" />'>
+        <p-toggle-switch label="Status" trueValue="active" falseValue="inactive" [(value)]="status" />
+      </app-doc-example>
+    </section>
+
+    <section id="states" class="doc-page__section">
+      <app-doc-example
+        title="States"
+        sourceId="p-toggle-switch"
+        code='<p-toggle-switch label="Disabled, on" [disabled]="true" [value]="true" />
+<p-toggle-switch label="Disabled, off" [disabled]="true" [value]="false" />'>
+        <p-toggle-switch label="Disabled, on" [disabled]="true" [value]="true" />
+        <p-toggle-switch label="Disabled, off" [disabled]="true" [value]="false" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Toggle Switch has no stylesheet of its own — its track, thumb, and state colors come
+        entirely from Angular Material's slide-toggle theme tokens.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-toggle-switch&gt;</code> renders as its own host element wrapping
+        <code>&lt;mat-slide-toggle&gt;</code>. Any attribute you set on the tag that isn't a
+        recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. — is
+        applied directly to that host element by Angular, so it passes through without extra
+        configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

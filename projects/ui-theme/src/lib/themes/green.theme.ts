@@ -7,6 +7,9 @@ export const greenTheme: ThemeDefinition = {
   palette: {
     'cui-is-dark': '0',
 
+    'cui-font-family': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+    'cui-font-family-heading': "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+
     // Primary — Emerald
     'mat-sys-primary': '#059669',
     'mat-sys-on-primary': '#ffffff',

@@ -1,35 +1,32 @@
 @for (pos of positions; track pos) {
   @if (toastsForPosition(pos).length > 0) {
-    <div class="p-toast-stack fixed z-50 flex flex-col gap-2 pointer-events-none"
-      [class]="positionClass(pos)"
-      style="max-width: 380px; min-width: 280px;">
+    <div class="p-toast-stack" [class]="'p-toast-stack--' + pos">
 
       @for (toast of toastsForPosition(pos); track toast.id) {
-        <div class="p-toast pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-lg shadow-lg"
+        <div class="p-toast"
           [class]="'p-toast--' + toast.level"
           role="alert"
           [attr.aria-live]="toast.level === 'error' ? 'assertive' : 'polite'">
 
           <cui-icon [name]="iconFor(toast.level)" size="sm"
-            color="currentColor" class="shrink-0 mt-0.5" />
+            color="currentColor" class="p-toast__icon" />
 
-          <div class="flex-1 min-w-0">
+          <div class="p-toast__body">
             @if (toast.title) {
-              <p class="font-semibold text-sm leading-snug">{{ toast.title }}</p>
+              <p class="p-toast__title">{{ toast.title }}</p>
             }
-            <p class="text-sm leading-snug" [class.mt-0.5]="toast.title">
+            <p class="p-toast__message" [class.p-toast__message--with-title]="toast.title">
               {{ toast.message }}
             </p>
             @if (toast.actionLabel && toast.onAction) {
-              <button class="p-toast__action mt-2 text-xs font-bold uppercase tracking-wide"
-                (click)="toast.onAction!()">
+              <button class="p-toast__action" (click)="toast.onAction!()">
                 {{ toast.actionLabel }}
               </button>
             }
           </div>
 
           @if (toast.dismissible) {
-            <button class="p-toast__close shrink-0 opacity-70 hover:opacity-100"
+            <button class="p-toast__close"
               (click)="dismiss(toast.id)"
               aria-label="Dismiss notification">
               <cui-icon name="close" size="xs" color="currentColor" />

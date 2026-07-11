@@ -1,0 +1,20 @@
+:host {
+  display: inline-block;
+}
+
+.p-knob {
+  cursor: pointer;
+  touch-action: none;
+
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.p-knob__text {
+  font-size: 18px;
+  font-weight: 600;
+  fill: var(--mat-sys-on-surface);
+}

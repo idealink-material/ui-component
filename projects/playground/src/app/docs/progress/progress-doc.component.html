@@ -1,0 +1,110 @@
+<app-doc-shell
+  name="Progress"
+  lead="A horizontal progress bar for determinate or indeterminate operations."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties">
+
+  <div docFeatures>
+    <section id="colors" class="doc-page__section">
+      <app-doc-example
+        title="Colors"
+        sourceId="p-progress"
+        code='<p-progress [value]="72" color="primary" />
+<p-progress [value]="54" color="warning" />
+<p-progress [value]="89" color="success" />
+<p-progress [value]="30" color="error" />'>
+        <div style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px;">
+          <p-progress [value]="72" color="primary" />
+          <p-progress [value]="54" color="warning" />
+          <p-progress [value]="89" color="success" />
+          <p-progress [value]="30" color="error" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="label" class="doc-page__section">
+      <app-doc-example
+        title="Label"
+        description="showLabel renders the percentage next to the bar."
+        sourceId="p-progress"
+        code='<p-progress [value]="value()" [showLabel]="true" />'>
+        <div style="width: 100%; max-width: 480px;">
+          <p-progress [value]="value()" [showLabel]="true" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="indeterminate" class="doc-page__section">
+      <app-doc-example
+        title="Indeterminate"
+        description="Use when the operation's duration or completion percentage is unknown."
+        sourceId="p-progress"
+        code='<p-progress [indeterminate]="true" />'>
+        <div style="width: 100%; max-width: 480px;">
+          <p-progress [indeterminate]="true" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="striped" class="doc-page__section">
+      <app-doc-example
+        title="Striped"
+        sourceId="p-progress"
+        code='<p-progress [value]="60" [striped]="true" color="primary" />'>
+        <div style="width: 100%; max-width: 480px;">
+          <p-progress [value]="60" [striped]="true" color="primary" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="height" class="doc-page__section">
+      <app-doc-example
+        title="Height"
+        description="height accepts any CSS length."
+        sourceId="p-progress"
+        code='<p-progress [value]="45" height="4px" />
+<p-progress [value]="45" height="8px" />
+<p-progress [value]="45" height="14px" />'>
+        <div style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px;">
+          <p-progress [value]="45" height="4px" />
+          <p-progress [value]="45" height="8px" />
+          <p-progress [value]="45" height="14px" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Progress reads its fill color from Angular Material system tokens (one per <code>color</code>)
+        and its track/label colors from the surface tokens. Override these custom properties on an
+        ancestor to re-theme every progress bar at once.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-primary</code> / <code>-secondary</code> / <code>-tertiary</code> / <code>-error</code></td><td>Fill color for the corresponding <code>color</code>.</td></tr>
+          <tr><td><code>--mat-sys-surface-container-high</code></td><td>Track (background) color.</td></tr>
+          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Percentage label text color.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-progress&gt;</code> renders as its own host element. Any attribute you set on the
+        tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

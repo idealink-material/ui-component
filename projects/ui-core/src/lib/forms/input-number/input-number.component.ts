@@ -1,9 +1,11 @@
 import {
-  ChangeDetectionStrategy, Component, computed,
+  ChangeDetectionStrategy, Component, computed, signal,
   forwardRef, input, model, output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CuiButtonComponent } from '../../atoms/button/button.component';
+
+export type InputNumberMode = 'decimal' | 'currency';
 
 @Component({
   selector: 'p-input-number',
@@ -28,15 +30,26 @@ export class CuiInputNumberComponent implements ControlValueAccessor {
   readonly placeholder = input<string>('');
   readonly fullWidth   = input<boolean>(false);
 
+  readonly mode        = input<InputNumberMode>('decimal');
+  readonly currency    = input<string>('USD');
+  readonly useGrouping = input<boolean>(true);
+  readonly prefix      = input<string>('');
+  readonly suffix      = input<string>('');
+
   // ── Model ──────────────────────────────────────────────────────────────────
   readonly value = model<number | null>(null);
 
   // ── Outputs ────────────────────────────────────────────────────────────────
   readonly cuiChange = output<number | null>();
+  readonly onInput   = output<number | null>();
+  readonly onFocus   = output<FocusEvent>();
+  readonly onBlur    = output<FocusEvent>();
 
   // ── CVA state ─────────────────────────────────────────────────────────────
   private _onChange: (v: number | null) => void = () => {};
   private _onTouched: () => void = () => {};
+
+  readonly focused = signal(false);
 
   readonly atMin = computed(() => {
     const min = this.min();
@@ -48,9 +61,39 @@ export class CuiInputNumberComponent implements ControlValueAccessor {
     return max !== null && (this.value() ?? 0) >= max;
   });
 
-  onInput(e: Event): void {
+  private readonly formatter = computed(() => {
+    if (this.mode() === 'currency') {
+      return new Intl.NumberFormat(undefined, {
+        style: 'currency', currency: this.currency(), useGrouping: this.useGrouping(),
+      });
+    }
+    return new Intl.NumberFormat(undefined, { useGrouping: this.useGrouping() });
+  });
+
+  /** Formatted display value, shown only while the field is not focused. */
+  readonly displayValue = computed(() => {
+    const v = this.value();
+    if (v == null) return '';
+    if (this.focused()) return String(v);
+    return `${this.prefix()}${this.formatter().format(v)}${this.suffix()}`;
+  });
+
+  handleInput(e: Event): void {
     const raw = (e.target as HTMLInputElement).value;
-    this.emit(raw === '' ? null : Number(raw));
+    const parsed = raw === '' ? null : Number(raw);
+    this.emit(parsed);
+    this.onInput.emit(parsed);
+  }
+
+  handleFocus(e: FocusEvent): void {
+    this.focused.set(true);
+    this.onFocus.emit(e);
+  }
+
+  handleBlur(e: FocusEvent): void {
+    this.focused.set(false);
+    this._onTouched();
+    this.onBlur.emit(e);
   }
 
   increment(): void { this.emit(this.clamp((this.value() ?? 0) + this.step())); }

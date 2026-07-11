@@ -1,0 +1,21 @@
+<div class="p-panel">
+  @if (header() || toggleable()) {
+    <div class="p-panel__header">
+      <span class="p-panel__title">{{ header() }}</span>
+      <ng-content select="[panelIcons]" />
+      @if (toggleable()) {
+        <button type="button" class="p-panel__toggle" (click)="toggle()"
+          [attr.aria-expanded]="!collapsed()" aria-label="Toggle panel">
+          <cui-icon [name]="collapsed() ? 'expand_more' : 'expand_less'" size="sm" color="currentColor" />
+        </button>
+      }
+    </div>
+  }
+
+  @if (!toggleable() || !collapsed()) {
+    <div class="p-panel__content">
+      <ng-content />
+    </div>
+    <ng-content select="p-panel-footer" />
+  }
+</div>

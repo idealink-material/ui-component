@@ -1,0 +1,18 @@
+<div class="p-empty">
+  @if (icon()) {
+    <div class="p-empty__icon-wrap">
+      <cui-icon [name]="icon()!" size="xl" color="var(--mat-sys-on-surface-variant)" style="opacity: 0.4;" />
+    </div>
+  }
+  <ng-content select="[icon]" />
+
+  <div class="p-empty__text">
+    <p class="p-empty__title">{{ title() }}</p>
+    @if (description()) {
+      <p class="p-empty__description">{{ description() }}</p>
+    }
+  </div>
+
+  <!-- Action slot — consumer wraps a <p-button> in <p-empty-state-action> -->
+  <ng-content select="p-empty-state-action" />
+</div>

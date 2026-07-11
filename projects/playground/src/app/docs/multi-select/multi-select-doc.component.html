@@ -1,0 +1,70 @@
+<app-doc-shell
+  name="Multi Select"
+  lead="A closed dropdown for selecting multiple options at once, with chip or comma-separated display and an optional selection limit."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-multi-select"
+        code='<p-multi-select [options]="riskOptions" [(value)]="chipVal" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-multi-select [options]="riskOptions" [(value)]="chipVal" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="display" class="doc-page__section">
+      <app-doc-example
+        title="Display mode"
+        description="display='comma' renders selected labels as plain text instead of chips."
+        sourceId="p-multi-select"
+        code='<p-multi-select [options]="riskOptions" display="comma" [(value)]="commaVal" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-multi-select [options]="riskOptions" display="comma" [(value)]="commaVal" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="limit" class="doc-page__section">
+      <app-doc-example
+        title="Selection limit & select all"
+        description="selectionLimit caps how many options can be chosen; showToggleAll adds a select-all row."
+        sourceId="p-multi-select"
+        code='<p-multi-select [options]="riskOptions" [selectionLimit]="2" [showToggleAll]="true" [(value)]="limitedVal" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-multi-select [options]="riskOptions" [selectionLimit]="2" [showToggleAll]="true" [(value)]="limitedVal" />
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Multi Select composes <code>p-chip</code> and <code>p-checkbox</code> internally for the
+        closed-control chips and panel checkboxes respectively — see their doc pages' Theming tabs
+        for the tokens they contribute. The panel and trigger otherwise use standard Material
+        surface/outline tokens.
+      </p>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-multi-select&gt;</code> renders as its own host element. Any attribute you set on
+        the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>,
+        etc. — is applied directly to that host element by Angular, so it passes through without
+        extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

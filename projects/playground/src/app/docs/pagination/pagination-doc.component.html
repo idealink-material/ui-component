@@ -1,0 +1,74 @@
+<app-doc-shell
+  name="Pagination"
+  lead="A page navigator with first/last/prev/next controls, a numbered page window, and an optional page-size selector."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        description="pageChange fires with the new page (and, if changed, page size)."
+        sourceId="p-pagination"
+        code='<p-pagination [page]="page()" [pageSize]="10" [total]="237" (pageChange)="onPageChange($event)" />'>
+        <p-pagination [page]="page()" [pageSize]="10" [total]="237" (pageChange)="onPageChange($event)" />
+      </app-doc-example>
+    </section>
+
+    <section id="compact" class="doc-page__section">
+      <app-doc-example
+        title="Compact"
+        description="compact hides the 'showing X–Y of Z' summary, useful in tight spaces."
+        sourceId="p-pagination"
+        code='<p-pagination [compact]="true" [page]="compactPage()" [pageSize]="10" [total]="120" />'>
+        <p-pagination [compact]="true" [page]="compactPage()" [pageSize]="10" [total]="120" />
+      </app-doc-example>
+    </section>
+
+    <section id="options" class="doc-page__section">
+      <app-doc-example
+        title="Page size selector"
+        description="showPageSizeSelector is on by default; pageSizes controls the offered options. Set showFirstLast to false to drop the jump-to-first/last buttons."
+        sourceId="p-pagination"
+        code='<p-pagination [page]="1" [pageSize]="25" [total]="500"
+  [pageSizes]="[25, 50, 100]" [showFirstLast]="false" />'>
+        <p-pagination [page]="1" [pageSize]="25" [total]="500"
+          [pageSizes]="[25, 50, 100]" [showFirstLast]="false" />
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Pagination inherits its colors from Angular Material system tokens; there are no
+        component-specific custom properties to override.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-primary</code></td><td>Active page indicator.</td></tr>
+          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Inactive controls and the item-range summary text.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-pagination&gt;</code> renders as its own host element (<code>role="navigation"</code>).
+        Any attribute you set on the tag that isn't a recognized input — <code>id</code>, <code>data-*</code>,
+        <code>aria-*</code>, etc. — is applied directly to that host element by Angular, so it passes
+        through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

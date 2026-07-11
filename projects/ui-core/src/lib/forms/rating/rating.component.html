@@ -1,0 +1,26 @@
+<div class="p-rating"
+  [class.p-rating--disabled]="disabled()"
+  [class.p-rating--readonly]="readonly()"
+  (mouseleave)="leave()">
+
+  @if (cancel()) {
+    <button type="button" class="p-rating__cancel"
+      [disabled]="disabled() || readonly()"
+      (click)="clear()"
+      aria-label="Clear rating">
+      <cui-icon name="close" size="sm" />
+    </button>
+  }
+
+  @for (i of starIndexes(); track i) {
+    <button type="button" class="p-rating__star"
+      [disabled]="disabled() || readonly()"
+      [class.p-rating__star--active]="i <= displayValue()"
+      (click)="rate(i)"
+      (mouseenter)="hover(i)"
+      [attr.aria-label]="'Rate ' + i + ' out of ' + stars()"
+      [attr.aria-pressed]="i <= value()">
+      <cui-icon [name]="i <= displayValue() ? 'star' : 'star_border'" />
+    </button>
+  }
+</div>

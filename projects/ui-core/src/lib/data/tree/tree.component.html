@@ -19,7 +19,7 @@
         }
         @if (selectable()) {
           <p-checkbox [value]="isSelected(node.id)" [disabled]="!!node.disabled"
-            (cuiChange)="toggleSelect(node.id)" (click)="$event.stopPropagation()" />
+            (onChange)="toggleSelect(node.id)" (click)="$event.stopPropagation()" />
         }
         @if (node.icon) {
           <cui-icon [name]="node.icon" size="sm" color="currentColor" />

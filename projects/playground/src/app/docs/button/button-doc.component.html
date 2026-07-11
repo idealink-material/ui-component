@@ -1,0 +1,166 @@
+<app-doc-shell
+  name="Button"
+  lead="Triggers an action or event. Supports five visual variants, three sizes, color schemes, loading/disabled states, and optional icons."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters">
+
+  <div docFeatures>
+    <section id="variants" class="doc-page__section">
+      <app-doc-example
+        title="Variants"
+        description="Filled is the default emphasis; use outlined or text for secondary actions."
+        sourceId="p-button"
+        code='<p-button variant="filled">Filled</p-button>
+<p-button variant="outlined">Outlined</p-button>
+<p-button variant="text">Text</p-button>
+<p-button variant="elevated">Elevated</p-button>
+<p-button variant="tonal">Tonal</p-button>'>
+        <p-button variant="filled">Filled</p-button>
+        <p-button variant="outlined">Outlined</p-button>
+        <p-button variant="text">Text</p-button>
+        <p-button variant="elevated">Elevated</p-button>
+        <p-button variant="tonal">Tonal</p-button>
+      </app-doc-example>
+    </section>
+
+    <section id="sizes" class="doc-page__section">
+      <app-doc-example
+        title="Sizes"
+        sourceId="p-button"
+        code='<p-button size="sm">Small</p-button>
+<p-button size="md">Medium</p-button>
+<p-button size="lg">Large</p-button>'>
+        <p-button size="sm">Small</p-button>
+        <p-button size="md">Medium</p-button>
+        <p-button size="lg">Large</p-button>
+      </app-doc-example>
+    </section>
+
+    <section id="colors" class="doc-page__section">
+      <app-doc-example
+        title="Colors"
+        sourceId="p-button"
+        code='<p-button color="primary">Primary</p-button>
+<p-button color="secondary">Secondary</p-button>
+<p-button color="tertiary">Tertiary</p-button>
+<p-button color="error">Error</p-button>
+<p-button color="neutral">Neutral</p-button>'>
+        <p-button color="primary">Primary</p-button>
+        <p-button color="secondary">Secondary</p-button>
+        <p-button color="tertiary">Tertiary</p-button>
+        <p-button color="error">Error</p-button>
+        <p-button color="neutral">Neutral</p-button>
+      </app-doc-example>
+    </section>
+
+    <section id="states" class="doc-page__section">
+      <app-doc-example
+        title="States"
+        description="Disabled and loading buttons block pointer and keyboard interaction."
+        sourceId="p-button"
+        code='<p-button [disabled]="true">Disabled</p-button>
+<p-button [loading]="loadingDemo()" (onClick)="triggerLoadingDemo()">
+  Click to load
+</p-button>'>
+        <p-button [disabled]="true">Disabled</p-button>
+        <p-button [loading]="loadingDemo()" (onClick)="triggerLoadingDemo()">
+          Click to load
+        </p-button>
+      </app-doc-example>
+    </section>
+
+    <section id="icons" class="doc-page__section">
+      <app-doc-example
+        title="Icons"
+        sourceId="p-button"
+        code='<p-button icon="save" iconPos="left">Save</p-button>
+<p-button icon="arrow_forward" iconPos="right">Next</p-button>
+<p-button icon="delete" variant="outlined" color="error">Delete</p-button>'>
+        <p-button icon="save" iconPos="left">Save</p-button>
+        <p-button icon="arrow_forward" iconPos="right">Next</p-button>
+        <p-button icon="delete" variant="outlined" color="error">Delete</p-button>
+      </app-doc-example>
+    </section>
+
+    <section id="custom-content" class="doc-page__section">
+      <app-doc-example
+        title="Custom icon content"
+        description="icon/iconPos cover the common single-icon case. For anything more dynamic — swapping icons based on state, animating one — project a cui-icon directly into the default slot instead; it's a normal standalone component, so it works anywhere you can put markup."
+        sourceId="p-button"
+        code='<p-button [disabled]="customLoading()" (onClick)="triggerCustomLoading()">
+  @if (customLoading()) {
+    <cui-icon name="autorenew" size="sm" class="p-spin" />
+    Loading…
+  } @else {
+    <cui-icon name="check" size="sm" />
+    Search
+  }
+</p-button>'>
+        <p-button [disabled]="customLoading()" (onClick)="triggerCustomLoading()">
+          @if (customLoading()) {
+            <cui-icon name="autorenew" size="sm" class="p-spin" />
+            Loading…
+          } @else {
+            <cui-icon name="check" size="sm" />
+            Search
+          }
+        </p-button>
+      </app-doc-example>
+
+      <app-doc-example
+        title="Raw inline SVG"
+        description="You aren't limited to cui-icon either — any markup goes, including hand-written <svg> paths. Angular templates don't restrict content projection to a fixed set of components."
+        sourceId="p-button"
+        code='<p-button variant="text" color="neutral" (onClick)="expanded.set(!expanded())">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" [style.transform]="expanded() ? &apos;rotate(90deg)&apos; : &apos;none&apos;">
+    <path d="M10.7383 15.5302L14.2583 12.0002L10.7383 8.47021"
+      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+</p-button>'>
+        <p-button variant="text" color="neutral" (onClick)="expanded.set(!expanded())">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" [style.transform]="expanded() ? 'rotate(90deg)' : 'none'" style="transition: transform 150ms ease;">
+            <path d="M10.7383 15.5302L14.2583 12.0002L10.7383 8.47021"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </p-button>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <p class="doc-page__lead">
+        Button reads its palette from Angular Material system tokens (one set per <code>color</code>)
+        and shares the library's shape/elevation tokens. Override these custom properties on an
+        ancestor to re-theme every button at once.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-primary</code> / <code>-secondary</code> / <code>-tertiary</code> / <code>-error</code></td><td>Background (filled), text/border (outlined, text, elevated) per <code>color</code>.</td></tr>
+          <tr><td><code>--mat-sys-on-primary</code> (and per-color equivalents)</td><td>Label/icon color on filled buttons.</td></tr>
+          <tr><td><code>--mat-sys-*-container</code> / <code>on-*-container</code></td><td>Background and text color for the <code>tonal</code> variant.</td></tr>
+          <tr><td><code>--cui-radius-md</code></td><td>Corner radius.</td></tr>
+          <tr><td><code>--cui-shadow-sm</code> / <code>-md</code> / <code>-lg</code></td><td>Elevation for filled/elevated variants and their hover states.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-button&gt;</code> renders as its own host element (<code>role="button"</code>, focusable),
+        not a wrapped native <code>&lt;button&gt;</code>. Any attribute you set on the tag that isn't a
+        recognized input — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, etc. — is applied
+        directly to that host element by Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>

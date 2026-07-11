@@ -1,0 +1,77 @@
+:host {
+  display: flex;
+  align-items: stretch;
+  width: fit-content;
+
+  // Children (p-input-group-addon, p-input, p-select, …) sit flush together.
+  // The visible border for p-input/p-select isn't on the custom element
+  // itself — it's drawn deep inside Angular Material's MDC outline markup
+  // (.mdc-notched-outline__leading / __trailing), which border-radius on
+  // the outer element can never reach (border-radius doesn't inherit).
+  ::ng-deep > * {
+    min-width: 0;
+    flex: 0 1 auto;
+  }
+
+  // p-input/p-select default to fullWidth: true, which makes their inner
+  // field wrapper width:100% — inside an auto-sized flex item that resolves
+  // to "fill remaining space", pushing later addons away. Constrain it back
+  // to content size so multiple fields in one group share space evenly.
+  ::ng-deep > * .p-field--full {
+    width: auto;
+  }
+
+  // Kill Material's own default field margin so adjacent fields sit
+  // truly flush, not just visually close.
+  ::ng-deep > * mat-form-field {
+    margin: 0;
+  }
+
+  // align-items: stretch only stretches the outer <p-input>/<p-select> box —
+  // Material renders its visible border on internal wrapper elements sized
+  // by its own density math, which does NOT automatically grow to fill a
+  // taller ancestor. Chain height:100% down to the elements that actually
+  // draw the border so it matches the addon's stretched height.
+  ::ng-deep > * {
+    .p-field,
+    mat-form-field,
+    .mat-mdc-text-field-wrapper,
+    .mat-mdc-form-field-flex,
+    .mdc-notched-outline {
+      height: 100%;
+    }
+  }
+
+  ::ng-deep > * .mdc-notched-outline__leading,
+  ::ng-deep > * .mdc-notched-outline__trailing {
+    border-radius: 0 !important;
+  }
+
+  ::ng-deep > *:first-child {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+
+    .mdc-notched-outline__leading {
+      border-top-left-radius: 9999px !important;
+      border-bottom-left-radius: 9999px !important;
+    }
+  }
+
+  ::ng-deep > *:last-child {
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+
+    .mdc-notched-outline__trailing {
+      border-top-right-radius: 9999px !important;
+      border-bottom-right-radius: 9999px !important;
+    }
+  }
+
+  ::ng-deep > *:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+
+  ::ng-deep > * + * {
+    margin-left: -1px;
+  }
+}

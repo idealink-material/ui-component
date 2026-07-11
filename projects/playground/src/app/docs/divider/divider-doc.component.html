@@ -1,0 +1,99 @@
+<app-doc-shell
+  name="Divider"
+  lead="A line used to separate content, with an optional inline label."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [templates]="templates">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic usage"
+        sourceId="p-divider"
+        code='<p>Paragraph one.</p>
+<p-divider />
+<p>Paragraph two.</p>'>
+        <div style="width: 100%;">
+          <p>Paragraph one.</p>
+          <p-divider />
+          <p>Paragraph two.</p>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="label" class="doc-page__section">
+      <app-doc-example
+        title="With a label"
+        description="Content projected into p-divider sits inline with the line; align controls where it sits."
+        sourceId="p-divider"
+        code='<p-divider>OR</p-divider>
+<p-divider align="left">Section</p-divider>'>
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 16px;">
+          <p-divider>OR</p-divider>
+          <p-divider align="left">Section</p-divider>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="type" class="doc-page__section">
+      <app-doc-example
+        title="Line style"
+        sourceId="p-divider"
+        code='<p-divider type="solid">Solid</p-divider>
+<p-divider type="dashed">Dashed</p-divider>
+<p-divider type="dotted">Dotted</p-divider>'>
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 16px;">
+          <p-divider type="solid">Solid</p-divider>
+          <p-divider type="dashed">Dashed</p-divider>
+          <p-divider type="dotted">Dotted</p-divider>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="vertical" class="doc-page__section">
+      <app-doc-example
+        title="Vertical"
+        description="orientation='vertical' requires the divider's container to give it an explicit height to fill."
+        sourceId="p-divider"
+        code='<div style="display:flex; align-items:center; height:60px;">
+  <span>Left</span>
+  <p-divider orientation="vertical" />
+  <span>Right</span>
+</div>'>
+        <div style="display:flex; align-items:center; height:60px;">
+          <span>Left</span>
+          <p-divider orientation="vertical" />
+          <span>Right</span>
+        </div>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--mat-sys-outline-variant</code></td><td>Line color.</td></tr>
+          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Label text color.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div docPassthrough>
+    <section id="passthrough-attributes" class="doc-page__section">
+      <h2 class="doc-page__section-title">Attributes</h2>
+      <p class="doc-page__lead">
+        <code>&lt;p-divider&gt;</code> renders as its own host element (<code>role="separator"</code>).
+        Any attribute you set on the tag that isn't a recognized input — <code>id</code>,
+        <code>data-*</code>, <code>aria-*</code>, etc. — is applied directly to that host element by
+        Angular, so it passes through without extra configuration.
+      </p>
+    </section>
+  </div>
+</app-doc-shell>
