@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy, Component, computed, inject, input,
 } from '@angular/core';
-import { LoadingService } from '@votha-sok/ui-utils';
+import { LoadingService } from '@idealink-material/ui-utils';
 import { CuiSpinnerComponent } from '../../atoms/spinner/spinner.component';
 
 @Component({

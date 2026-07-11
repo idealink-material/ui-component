@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-import { CuiButtonComponent } from '@votha-sok/ui-core';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiButtonComponent } from '@idealink-material/ui-core';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';

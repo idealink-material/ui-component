@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
-import { CuiButtonComponent, CuiLoadingOverlayComponent } from '@votha-sok/ui-core';
-import { LoadingService } from '@votha-sok/ui-utils';
+import { CuiButtonComponent, CuiLoadingOverlayComponent } from '@idealink-material/ui-core';
+import { LoadingService } from '@idealink-material/ui-utils';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';

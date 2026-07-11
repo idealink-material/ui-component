@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy, Component, computed, inject, input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BreadcrumbService } from '@votha-sok/ui-utils';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { BreadcrumbService } from '@idealink-material/ui-utils';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 export interface BreadcrumbItem {
   label: string;

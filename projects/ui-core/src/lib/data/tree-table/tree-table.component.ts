@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { TableColumn } from '../table/table.types';
 
 export interface TreeTableNode<T = Record<string, unknown>> {

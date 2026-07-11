@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 export interface SpeedDialItem {
   id: string;

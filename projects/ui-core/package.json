@@ -1,6 +1,6 @@
 {
-  "name": "@votha-sok/ui-core",
-  "version": "0.0.7",
+  "name": "@idealink-material/ui-core",
+  "version": "0.0.9",
   "peerDependencies": {
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/votha-sok/template-core.git"
+    "url": "git+https://github.com/idealink-material/ui-component.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

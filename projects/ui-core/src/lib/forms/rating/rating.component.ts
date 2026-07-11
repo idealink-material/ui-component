@@ -3,7 +3,7 @@ import {
   forwardRef, input, model, output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 @Component({
   selector: 'p-rating',

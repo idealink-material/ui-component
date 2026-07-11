@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, model, output, signal } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { CuiCheckboxComponent } from '../../forms/checkbox/checkbox.component';
 import { TreeNode } from './tree-node.type';
 

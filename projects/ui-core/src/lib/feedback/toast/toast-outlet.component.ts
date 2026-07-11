@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy, Component, inject,
 } from '@angular/core';
-import { ToastService, ToastItem, ToastPosition } from '@votha-sok/ui-utils';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { ToastService, ToastItem, ToastPosition } from '@idealink-material/ui-utils';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 const TOAST_ICONS: Record<string, string> = {
   success: 'check_circle',

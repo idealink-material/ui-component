@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CdkListboxModule } from '@angular/cdk/listbox';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { SelectOption } from '../select/select.component';
 
 @Component({

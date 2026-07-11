@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-import { CuiInputNumberComponent } from '@votha-sok/ui-core';
+import { CuiInputNumberComponent } from '@idealink-material/ui-core';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';

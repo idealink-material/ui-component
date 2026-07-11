@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-import { CuiRadioGroupComponent, SelectOption } from '@votha-sok/ui-core';
+import { CuiRadioGroupComponent, SelectOption } from '@idealink-material/ui-core';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';

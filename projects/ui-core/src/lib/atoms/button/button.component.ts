@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 export type ButtonVariant = 'filled' | 'outlined' | 'text' | 'elevated' | 'tonal';
 export type ButtonSize = 'sm' | 'md' | 'lg';

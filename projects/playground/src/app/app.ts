@@ -1,15 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
-import { FRAMEWORK_VERSION } from '@votha-sok/ui-utils';
-import { ThemeService } from '@votha-sok/ui-theme';
-import { CuiIconComponent, IconRegistryService } from '@votha-sok/ui-icons';
-import { MenuService, MenuItem, PermissionService } from '@votha-sok/ui-utils';
+import { FRAMEWORK_VERSION } from '@idealink-material/ui-utils';
+import { ThemeService } from '@idealink-material/ui-theme';
+import { CuiIconComponent, IconRegistryService } from '@idealink-material/ui-icons';
+import { MenuService, MenuItem, PermissionService } from '@idealink-material/ui-utils';
 
 import {
   CuiBadgeComponent, CuiAvatarComponent, CuiTooltipDirective,
   CuiToastOutletComponent,
-} from '@votha-sok/ui-core';
+} from '@idealink-material/ui-core';
 
 const CUSTOM_ICONS = [
   { name: 'shield',       svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l6 2.67V11c0 3.87-2.64 7.5-6 8.93C8.64 18.5 6 14.87 6 11V7.67L12 5z"/></svg>` },

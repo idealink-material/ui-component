@@ -5,7 +5,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { CuiChipComponent } from '../../atoms/chip/chip.component';
 import { CuiCheckboxComponent } from '../checkbox/checkbox.component';
 import { SelectOption } from '../select/select.component';

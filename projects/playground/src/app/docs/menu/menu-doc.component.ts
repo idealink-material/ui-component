@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { CuiMenuComponent, CuiButtonComponent, CuiMenuItem } from '@votha-sok/ui-core';
+import { CuiMenuComponent, CuiButtonComponent, CuiMenuItem } from '@idealink-material/ui-core';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';

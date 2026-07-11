@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { CuiIconComponent } from '@votha-sok/ui-icons';
-import { ToastService, BreadcrumbService } from '@votha-sok/ui-utils';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
+import { ToastService, BreadcrumbService } from '@idealink-material/ui-utils';
 
 import {
   CuiButtonComponent, CuiBadgeComponent, CuiAvatarComponent,
@@ -13,7 +13,7 @@ import {
   CuiTabsComponent, CuiDialogContainerComponent, PDialogFooterComponent, CuiDrawerComponent,
   CuiDataTableComponent,
   SelectOption, TabItem, TableColumn, PageEvent, DataTableChangeEvent,
-} from '@votha-sok/ui-core';
+} from '@idealink-material/ui-core';
 
 export interface CaseRow {
   id: string; caseNo: string; subject: string; status: string;

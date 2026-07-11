@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { CuiTreeTableComponent, TableColumn, TreeTableNode } from '@votha-sok/ui-core';
+import { CuiTreeTableComponent, TableColumn, TreeTableNode } from '@idealink-material/ui-core';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';

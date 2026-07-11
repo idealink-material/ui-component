@@ -4,7 +4,7 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { CuiMenuItem } from './menu-item.type';
 
 @Component({

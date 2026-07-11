@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { CuiInputComponent } from '@votha-sok/ui-core';
+import { CuiInputComponent } from '@idealink-material/ui-core';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';

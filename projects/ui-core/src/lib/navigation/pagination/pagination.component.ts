@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy, Component, computed, input, output,
 } from '@angular/core';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 export interface PageEvent {
   page: number;

@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy, Component, computed,
   input, output,
 } from '@angular/core';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 export type DrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 export type DrawerSize     = 'sm' | 'md' | 'lg' | 'full';

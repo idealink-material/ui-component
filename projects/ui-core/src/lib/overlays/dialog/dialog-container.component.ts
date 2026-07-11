@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy, Component, inject, input, output,
 } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
-import { CuiIconComponent } from '@votha-sok/ui-icons';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { CuiButtonComponent } from '../../atoms/button/button.component';
 
 /**
