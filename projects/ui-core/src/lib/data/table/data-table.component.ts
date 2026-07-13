@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, Component, computed,
-  input, output, signal,
+  input, output, signal, TemplateRef,
 } from '@angular/core';
 import { CuiTableComponent } from './table.component';
 import { CuiPaginationComponent, PageEvent } from '../../navigation/pagination/pagination.component';
@@ -34,11 +34,16 @@ export class CuiDataTableComponent<T extends Record<string, unknown> = Record<st
   readonly searchPlaceholder = input<string>('Search…');
   readonly pageSizes  = input<number[]>([10, 25, 50]);
   readonly trackBy    = input<(row: T) => unknown>((row) => row);
+  /** Renders a chevron toggle column; expanding a row projects `rowDetailTemplate` in a full-width row beneath it. */
+  readonly expandable = input<boolean>(false);
+  /** Content projected into the expanded row — e.g. a nested `<p-table>` for a "table in table" detail view. */
+  readonly rowDetailTemplate = input<TemplateRef<{ $implicit: T }> | null>(null);
 
   // ── Outputs ────────────────────────────────────────────────────────────────
   readonly stateChange     = output<DataTableChangeEvent>();
   readonly selectionChange = output<T[]>();
   readonly rowClick        = output<T>();
+  readonly expandChange    = output<{ row: T; expanded: boolean }>();
 
   // ── Internal ───────────────────────────────────────────────────────────────
   readonly _page     = signal(1);

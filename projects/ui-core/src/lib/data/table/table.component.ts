@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, Component, computed,
-  input, output, signal,
+  input, output, signal, TemplateRef,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { CuiIconComponent } from '@idealink-material/ui-icons';
@@ -24,15 +24,26 @@ export class CuiTableComponent<T extends Record<string, unknown> = Record<string
   readonly hoverable  = input<boolean>(true);
   readonly stickyHeader = input<boolean>(true);
   readonly trackBy    = input<(row: T) => unknown>((row) => row);
+  /** Renders a chevron toggle column; expanding a row projects `rowDetailTemplate` in a full-width row beneath it. */
+  readonly expandable = input<boolean>(false);
+  /** Content projected into the expanded row — e.g. a nested `<p-table>` for a "table in table" detail view. */
+  readonly rowDetailTemplate = input<TemplateRef<{ $implicit: T }> | null>(null);
 
   // ── Outputs ────────────────────────────────────────────────────────────────
   readonly sortChange      = output<SortState>();
   readonly selectionChange = output<T[]>();
   readonly rowClick        = output<T>();
+  readonly expandChange    = output<{ row: T; expanded: boolean }>();
 
   // ── Internal state ─────────────────────────────────────────────────────────
   readonly _sort     = signal<SortState>({ column: null, direction: null });
   readonly _selected = signal<Set<unknown>>(new Set());
+  readonly _expanded = signal<Set<unknown>>(new Set());
+
+  /** Total column count, including the checkbox and expand-toggle columns when present — used for the detail row's colspan. */
+  readonly colCount = computed(() =>
+    this.columns().length + (this.selectable() ? 1 : 0) + (this.expandable() ? 1 : 0)
+  );
 
   readonly allSelected = computed(() => {
     const rows = this.rows();
@@ -85,6 +96,20 @@ export class CuiTableComponent<T extends Record<string, unknown> = Record<string
 
   isSelected(row: T): boolean {
     return this._selected().has(this.trackBy()(row));
+  }
+
+  toggleExpand(row: T, event?: Event): void {
+    event?.stopPropagation();
+    const key = this.trackBy()(row);
+    const expanded = new Set(this._expanded());
+    const next = !expanded.has(key);
+    next ? expanded.add(key) : expanded.delete(key);
+    this._expanded.set(expanded);
+    this.expandChange.emit({ row, expanded: next });
+  }
+
+  isExpanded(row: T): boolean {
+    return this._expanded().has(this.trackBy()(row));
   }
 
   private emitSelection(): void {

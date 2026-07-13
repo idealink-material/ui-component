@@ -1,7 +1,8 @@
 import {
   ChangeDetectionStrategy, Component, computed, signal,
-  forwardRef, input, model, output,
+  forwardRef, input, model, output, contentChild, TemplateRef,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,10 +18,18 @@ export interface SelectOption<T = string> {
   group?: string;
 }
 
+/** Template context available to `#item` / `#selectedItem` templates via `let-x`. */
+export interface SelectItemContext<T> {
+  $implicit: SelectOption<T>;
+}
+
 @Component({
   selector: 'p-select',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatSelectModule, ScrollingModule, CuiIconComponent],
+  imports: [
+    MatFormFieldModule, MatInputModule, MatSelectModule, ScrollingModule,
+    CuiIconComponent, NgTemplateOutlet,
+  ],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,6 +63,11 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor {
   /** Wraps the (ungrouped) option list in a CDK virtual-scroll viewport for large lists. */
   readonly virtualScroll = input<boolean>(false);
   readonly virtualItemSize = input<number>(36);
+
+  /** Custom content for each option in the panel. Receives the option via `let-x`. */
+  readonly itemTemplate = contentChild<TemplateRef<SelectItemContext<T>>>('item');
+  /** Custom content for the selected value(s) shown in the closed trigger. Receives the option via `let-x`. */
+  readonly selectedItemTemplate = contentChild<TemplateRef<SelectItemContext<T>>>('selectedItem');
 
   readonly value = model<T | T[] | null>(null);
   readonly cuiChange = output<T | T[] | null>();
@@ -105,6 +119,17 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor {
   readonly hasValue = computed(() => {
     const v = this.value();
     return Array.isArray(v) ? v.length > 0 : v != null;
+  });
+
+  /** Currently selected option(s), resolved against `options()`. Used to render `selectedItemTemplate`. */
+  readonly selectedOptions = computed<SelectOption<T>[]>(() => {
+    const v = this.value();
+    if (v == null) return [];
+    const opts = this.options();
+    const values = Array.isArray(v) ? v : [v];
+    return values
+      .map((val) => opts.find((o) => o.value === val))
+      .filter((o): o is SelectOption<T> => !!o);
   });
 
   readonly editableSuggestions = computed(() => this.options());

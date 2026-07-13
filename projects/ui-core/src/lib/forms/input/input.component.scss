@@ -22,17 +22,19 @@
 
 .p-input {
   width: auto;
-  --mat-form-field-container-height: 44px;
+  --mat-form-field-container-height: 48px;
+  --mat-form-field-outlined-container-shape: var(--cui-radius-md);
+  --mat-form-field-outlined-outline-color: var(--mat-sys-outline-variant);
 
   &.p-input--full { width: 100%; }
 
   &.p-input--sm {
-    --mat-form-field-container-height: 36px;
+    --mat-form-field-container-height: 44px;
     --mat-form-field-container-text-size: 13px;
     font-size: 13px;
   }
   &.p-input--lg {
-    --mat-form-field-container-height: 52px;
+    --mat-form-field-container-height: 60px;
     --mat-form-field-container-text-size: 16px;
     font-size: 16px;
   }
@@ -43,5 +45,7 @@
   overflow: hidden;
 }
 
-.p-input__prefix-icon { margin: 0 8px 0 4px; }
-.p-input__suffix-icon { margin: 0 4px 0 8px; }
+// Edge margin matches the ~10px gap the datepicker's calendar toggle
+// keeps from the field edge (accounting for its button's own padding).
+.p-input__prefix-icon { margin: 0 8px 0 10px; }
+.p-input__suffix-icon { margin: 0 10px 0 8px; }

@@ -36,11 +36,9 @@ html {
   --mat-form-field-subscript-text-size: 12px;
 
   // Material's outline text-field defaults to its own small corner radius,
-  // independent of --cui-radius-*. Pill-shape it to match the rest of the
-  // library's custom-built fields (Multi Select, Autocomplete, etc.) —
-  // 9999px is the standard CSS trick that auto-caps at half the box's own
-  // height, so it always renders as a true pill regardless of field size.
-  --mdc-outlined-text-field-container-shape: 9999px;
+  // independent of --cui-radius-*. Match the design system's 8px input
+  // radius (see ui-core's p-input component) instead of Material's default.
+  --mdc-outlined-text-field-container-shape: var(--cui-radius-md);
 }
 
 body {

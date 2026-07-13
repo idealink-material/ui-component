@@ -54,8 +54,8 @@ export class CuiAvatarComponent {
 
   readonly statusColor = computed(() => {
     switch (this.status()) {
-      case 'online':  return '#22c55e';
-      case 'away':    return '#f59e0b';
+      case 'online':  return 'var(--mat-sys-success)';
+      case 'away':    return 'var(--mat-sys-warning)';
       case 'busy':    return 'var(--mat-sys-error)';
       case 'offline': return 'var(--mat-sys-outline)';
       default:        return null;

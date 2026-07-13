@@ -15,11 +15,12 @@ import { DocApiEmitter, DocApiInterface, DocApiProperty, DocSection } from '../s
 })
 export class SelectDocComponent {
   readonly featureSections: DocSection[] = [
-    { id: 'basic',    label: 'Basic usage' },
-    { id: 'grouped',  label: 'Grouped options' },
-    { id: 'multiple', label: 'Multiple selection' },
-    { id: 'filter',   label: 'Filterable & clearable' },
-    { id: 'states',   label: 'States' },
+    { id: 'basic',       label: 'Basic usage' },
+    { id: 'grouped',     label: 'Grouped options' },
+    { id: 'multiple',    label: 'Multiple selection' },
+    { id: 'filter',      label: 'Filterable & clearable' },
+    { id: 'custom-item', label: 'Custom item content' },
+    { id: 'states',      label: 'States' },
   ];
 
   readonly themingSections: DocSection[] = [
@@ -73,4 +74,28 @@ export class SelectDocComponent {
 
   readonly single = signal<string | null>(null);
   readonly multi  = signal<string[] | null>([]);
+  readonly customItemValue = signal<string | null>('high');
+
+  // Kept as a TS string (rather than an inline template attribute) because it
+  // contains literal `{{ }}` — Angular's HTML parser decodes entities before
+  // scanning for interpolation, so escaping them in the template doesn't work.
+  readonly customItemCode = `<p-select label="Risk Level" [options]="riskOptions" [(value)]="customItemValue">
+  <ng-template #selectedItem let-opt>
+    <span class="risk-dot" [style.background]="riskColor(opt.value)"></span>{{ opt.label }}
+  </ng-template>
+  <ng-template #item let-opt>
+    <span class="risk-dot" [style.background]="riskColor(opt.value)"></span>{{ opt.label }}
+  </ng-template>
+</p-select>`;
+
+  private readonly riskColors: Record<string, string> = {
+    low: '#22c55e',
+    medium: '#eab308',
+    high: '#f97316',
+    severe: '#ef4444',
+  };
+
+  riskColor(value: string): string {
+    return this.riskColors[value] ?? '#9ca3af';
+  }
 }

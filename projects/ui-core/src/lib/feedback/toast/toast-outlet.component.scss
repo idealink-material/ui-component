@@ -26,10 +26,10 @@
   box-shadow: var(--cui-shadow-lg);
   width: 100%;
 
-  &--success { background: var(--mat-sys-primary-container);   color: var(--mat-sys-on-primary-container); }
-  &--error   { background: var(--mat-sys-error-container);     color: var(--mat-sys-on-error-container); }
-  &--warning { background: #fef3c7;                            color: #92400e; }
-  &--info    { background: var(--mat-sys-surface-container-highest); color: var(--mat-sys-on-surface); }
+  &--success { background: var(--mat-sys-success-container); color: var(--mat-sys-on-success-container); }
+  &--error   { background: var(--mat-sys-error-container);   color: var(--mat-sys-on-error-container); }
+  &--warning { background: var(--mat-sys-warning-container); color: var(--mat-sys-on-warning-container); }
+  &--info    { background: var(--mat-sys-info-container);    color: var(--mat-sys-on-info-container); }
 }
 
 .p-toast__icon {

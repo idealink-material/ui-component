@@ -1,0 +1,38 @@
+<div
+  class="p-file-dropzone__zone"
+  [class.p-file-dropzone__zone--dragging]="dragging()"
+  [class.p-file-dropzone__zone--disabled]="disabled()"
+  (click)="browse()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave()"
+  (drop)="onDrop($event)">
+  <cui-icon name="upload_file" size="lg" color="currentColor" />
+  <span class="p-file-dropzone__hint">{{ hint() }}</span>
+  <input
+    #fileInput
+    type="file"
+    class="p-file-dropzone__input"
+    [attr.accept]="accept() || null"
+    [multiple]="multiple()"
+    [disabled]="disabled()"
+    (click)="$event.stopPropagation()"
+    (change)="onInputChange($event)" />
+</div>
+
+@if (files().length) {
+  <ul class="p-file-dropzone__list">
+    @for (file of files(); track file.name + file.size; let i = $index) {
+      <li class="p-file-dropzone__chip">
+        <cui-icon name="description" size="xs" color="currentColor" />
+        <span class="p-file-dropzone__filename">{{ file.name }}</span>
+        <button
+          type="button"
+          class="p-file-dropzone__remove"
+          (click)="remove(i)"
+          aria-label="Remove file">
+          <cui-icon name="close" size="xs" color="currentColor" />
+        </button>
+      </li>
+    }
+  </ul>
+}

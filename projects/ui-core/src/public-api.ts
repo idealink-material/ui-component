@@ -12,6 +12,7 @@ export * from './lib/atoms/skeleton/skeleton.component';
 export * from './lib/atoms/progress/progress.component';
 export * from './lib/atoms/chip/chip.component';
 export * from './lib/atoms/tooltip/tooltip.directive';
+export * from './lib/atoms/carousel-dots/carousel-dots.component';
 
 // ── Wave 2: Feedback ──────────────────────────────────────────────────────────
 export * from './lib/feedback/toast/toast-outlet.component';
@@ -32,6 +33,7 @@ export * from './lib/forms/toggle-switch/toggle-switch.component';
 export * from './lib/forms/input-number/input-number.component';
 export * from './lib/forms/listbox/listbox.component';
 export * from './lib/forms/multi-select/multi-select.component';
+export * from './lib/forms/file-dropzone/file-dropzone.component';
 
 // ── Wave 3: Layout ────────────────────────────────────────────────────────────
 export * from './lib/layout/card/card.component';
@@ -41,11 +43,15 @@ export * from './lib/layout/card/card-footer.component';
 // ── Wave 4: Layout (panels) ───────────────────────────────────────────────────
 export * from './lib/layout/accordion/accordion.component';
 export * from './lib/layout/accordion/accordion-panel.component';
+export * from './lib/layout/stat-card/stat-card.component';
+export * from './lib/layout/auth-layout/auth-layout.component';
 
 // ── Wave 3: Navigation ────────────────────────────────────────────────────────
 export * from './lib/navigation/breadcrumb/breadcrumb.component';
 export * from './lib/navigation/tabs/tabs.component';
 export * from './lib/navigation/pagination/pagination.component';
+export * from './lib/navigation/top-nav/top-nav-link.type';
+export * from './lib/navigation/top-nav/top-nav.component';
 
 // ── Wave 4: Navigation & menus ────────────────────────────────────────────────
 export * from './lib/navigation/menu/menu-item.type';

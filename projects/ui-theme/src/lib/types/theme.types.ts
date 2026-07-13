@@ -52,6 +52,24 @@ export interface ThemePalette {
   'mat-sys-error-container': string;
   'mat-sys-on-error-container': string;
 
+  // ── Status roles (success / warning / info) ─────────────────────────────
+  // No M3 equivalent, but named mat-sys-* to stay consistent with the other
+  // semantic color roles above — components read them the same way.
+  'mat-sys-success': string;
+  'mat-sys-on-success': string;
+  'mat-sys-success-container': string;
+  'mat-sys-on-success-container': string;
+
+  'mat-sys-warning': string;
+  'mat-sys-on-warning': string;
+  'mat-sys-warning-container': string;
+  'mat-sys-on-warning-container': string;
+
+  'mat-sys-info': string;
+  'mat-sys-on-info': string;
+  'mat-sys-info-container': string;
+  'mat-sys-on-info-container': string;
+
   'mat-sys-background': string;
   'mat-sys-on-background': string;
 
@@ -103,11 +121,26 @@ export interface ThemePalette {
   'cui-radius-md': string;
   'cui-radius-lg': string;
   'cui-radius-xl': string;
+  /** Fully-rounded pill shape, e.g. status badges and carousel indicators */
+  'cui-radius-pill': string;
 
   /** Shadow scale */
   'cui-shadow-sm': string;
   'cui-shadow-md': string;
   'cui-shadow-lg': string;
+  /** Soft, wide shadow used by standalone cards (auth card, stat card) */
+  'cui-shadow-card': string;
+
+  /**
+   * Fixed auth-flow brand accent (login / forgot-password / verify / set-password).
+   * Intentionally independent of mat-sys-primary: the auth flow keeps its own
+   * indigo identity regardless of which dashboard theme is active.
+   */
+  'cui-auth-primary': string;
+  'cui-auth-primary-hover': string;
+  'cui-auth-on-primary': string;
+  /** Background (gradient) for the auth split-panel illustration side */
+  'cui-auth-illustration-bg': string;
 }
 
 /**

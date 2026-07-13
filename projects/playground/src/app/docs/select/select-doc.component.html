@@ -64,6 +64,26 @@
       </app-doc-example>
     </section>
 
+    <section id="custom-item" class="doc-page__section">
+      <app-doc-example
+        title="Custom item content"
+        description="Project #item / #selectedItem &lt;ng-template&gt;s to render the option content and the closed-trigger display yourself — both receive the option via let-x."
+        sourceId="p-select"
+        [code]="customItemCode">
+        <div style="width: 100%; max-width: 320px;">
+          <p-select label="Risk Level" [options]="riskOptions"
+            placeholder="Select risk level…" [(value)]="customItemValue">
+            <ng-template #selectedItem let-opt>
+              <span class="risk-dot" [style.background]="riskColor(opt.value)"></span>{{ opt.label }}
+            </ng-template>
+            <ng-template #item let-opt>
+              <span class="risk-dot" [style.background]="riskColor(opt.value)"></span>{{ opt.label }}
+            </ng-template>
+          </p-select>
+        </div>
+      </app-doc-example>
+    </section>
+
     <section id="states" class="doc-page__section">
       <app-doc-example
         title="States"

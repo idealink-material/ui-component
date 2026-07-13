@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  padding: 16px 20px;
+  background: var(--cui-card-bg);
+  border: 1px solid var(--cui-card-border);
+  border-radius: var(--cui-radius-lg);
+  box-shadow: var(--cui-shadow-card);
+}
+
+.p-stat-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.p-stat-card__label {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.p-stat-card__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--cui-radius-sm);
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+  transition: background 120ms;
+
+  &:hover { background: var(--mat-sys-surface-container-high); }
+  &:focus-visible { outline: 2px solid var(--mat-sys-primary); outline-offset: 1px; }
+}
+
+.p-stat-card__value {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--mat-sys-primary);
+  line-height: 1.2;
+}

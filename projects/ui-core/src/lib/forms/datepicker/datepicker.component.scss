@@ -20,7 +20,14 @@
   margin-left: 2px;
 }
 
-.p-datepicker { width: auto; &--full { width: 100%; } }
+.p-datepicker {
+  width: auto;
+  --mat-form-field-container-height: 48px;
+  --mat-form-field-outlined-container-shape: var(--cui-radius-md);
+  --mat-form-field-outlined-outline-color: var(--mat-sys-outline-variant);
+
+  &--full { width: 100%; }
+}
 
 .p-datepicker__actions {
   display: flex;
@@ -82,12 +89,13 @@
   color: var(--mat-sys-on-primary) !important;
 }
 
-// The toggle renders Material's own built-in calendar icon (not cui-icon),
-// which defaults to a 24px glyph — larger than the sm (18px) icons used
-// elsewhere in form fields (e.g. Input's prefix/suffix icons).
-::ng-deep .mat-datepicker-toggle-default-icon {
-  width: 18px;
-  height: 18px;
+// The toggle renders Material's own built-in calendar icon (not cui-icon).
+// Material's own `.mat-mdc-icon-button svg` rule (2 classes) outranks a
+// bare `.mat-datepicker-toggle-default-icon` override (1 class), so the
+// icon size must be set via Material's own --mat-icon-button-icon-size
+// variable rather than fighting specificity directly.
+::ng-deep .mat-datepicker-toggle {
+  --mat-icon-button-icon-size: 20px;
 }
 
 // Give the toggle button some breathing room from the field's edge/text.

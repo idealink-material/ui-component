@@ -33,6 +33,9 @@
             </span>
           </th>
         }
+        @if (expandable()) {
+          <th class="p-table__th p-table__th--expand" scope="col" aria-hidden="true"></th>
+        }
       </tr>
     </thead>
 
@@ -48,12 +51,14 @@
                 <div class="p-table__skeleton" [style.width]="col.key === columns()[0]?.key ? '60%' : '80%'"></div>
               </td>
             }
+            @if (expandable()) {
+              <td class="p-table__td"><div class="p-table__skeleton" style="width: 60%"></div></td>
+            }
           </tr>
         }
       } @else if (rows().length === 0) {
         <tr>
-          <td class="p-table__empty"
-            [attr.colspan]="selectable() ? columns().length + 1 : columns().length">
+          <td class="p-table__empty" [attr.colspan]="colCount()">
             No data available
           </td>
         </tr>
@@ -82,7 +87,25 @@
                 }
               </td>
             }
+            @if (expandable()) {
+              <td class="p-table__td p-table__td--expand" (click)="toggleExpand(row, $event)">
+                <button type="button" class="p-table__expand-btn"
+                  [attr.aria-expanded]="isExpanded(row)"
+                  [attr.aria-label]="isExpanded(row) ? 'Collapse row' : 'Expand row'">
+                  <cui-icon [name]="isExpanded(row) ? 'expand_less' : 'expand_more'"
+                    size="sm" color="currentColor" />
+                </button>
+              </td>
+            }
           </tr>
+          @if (expandable() && rowDetailTemplate() && isExpanded(row)) {
+            <tr class="p-table__tr p-table__tr--detail">
+              <td class="p-table__td-detail" [attr.colspan]="colCount()">
+                <ng-container [ngTemplateOutlet]="rowDetailTemplate()!"
+                  [ngTemplateOutletContext]="{ $implicit: row }" />
+              </td>
+            </tr>
+          }
         }
       }
     </tbody>

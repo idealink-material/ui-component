@@ -21,9 +21,12 @@
     [selectable]="selectable()"
     [striped]="striped()"
     [trackBy]="trackBy()"
+    [expandable]="expandable()"
+    [rowDetailTemplate]="rowDetailTemplate()"
     (sortChange)="onSortChange($event)"
     (selectionChange)="selectionChange.emit($event)"
-    (rowClick)="rowClick.emit($event)" />
+    (rowClick)="rowClick.emit($event)"
+    (expandChange)="expandChange.emit($event)" />
 
   <!-- Pagination -->
   <div class="p-data-table__footer">

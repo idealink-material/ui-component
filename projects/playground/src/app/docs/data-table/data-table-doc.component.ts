@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 
 import {
-  CuiDataTableComponent, PDataTableActionsComponent, CuiButtonComponent,
+  CuiDataTableComponent, CuiTableComponent, PDataTableActionsComponent, CuiButtonComponent,
   DataTableChangeEvent, TableColumn,
 } from '@idealink-material/ui-core';
 
@@ -21,10 +21,41 @@ const CASES: CaseRow[] = [
   { id: '3', caseNo: 'AML-2403', subject: 'Shell company transactions', status: 'Closed', risk: 'Low' },
 ];
 
+interface LineItem {
+  id: string; hsCode: string; origin: string; description: string;
+  qty: string; unitPrice: number; netWeight: number; grossWeight: number;
+  [key: string]: unknown;
+}
+
+interface DeclarationRow {
+  id: string; declNo: string; date: string; company: string; co: string;
+  containers: number; amountUsd: number; status: string; officer: string;
+  lineItems: LineItem[];
+  [key: string]: unknown;
+}
+
+const DECLARATIONS: DeclarationRow[] = [
+  {
+    id: '1', declNo: 'I 37004', date: '04 Jun', company: 'S.C. Artistry Co...', co: 'E',
+    containers: 3, amountUsd: 1560, status: 'Released', officer: 'Chhuing',
+    lineItems: [
+      { id: '1-1', hsCode: '3305.90.00', origin: 'CN', description: 'New tricycle Changli CL1200ZH — model year 2026', qty: '15+0+10+0 PCS', unitPrice: 2280, netWeight: 3990, grossWeight: 4180 },
+      { id: '1-2', hsCode: '8714.99.00', origin: 'CN', description: 'Bicycle spare parts, mixed assortment',            qty: '20+0+0+0 PCS',  unitPrice: 640,  netWeight: 810,  grossWeight: 900 },
+    ],
+  },
+  {
+    id: '2', declNo: 'I 37005', date: '05 Jun', company: 'Meridian Trading Ltd', co: 'S',
+    containers: 1, amountUsd: 940, status: 'Pending', officer: 'Sopheak',
+    lineItems: [
+      { id: '2-1', hsCode: '9503.00.00', origin: 'VN', description: 'Assorted plastic toys, retail packed', qty: '8+0+0+0 PCS', unitPrice: 940, netWeight: 1120, grossWeight: 1240 },
+    ],
+  },
+];
+
 @Component({
   selector: 'app-data-table-doc',
   imports: [
-    CuiDataTableComponent, PDataTableActionsComponent, CuiButtonComponent,
+    CuiDataTableComponent, CuiTableComponent, PDataTableActionsComponent, CuiButtonComponent,
     DocExampleComponent, DocShellComponent, JsonPipe,
   ],
   templateUrl: './data-table-doc.component.html',
@@ -34,6 +65,7 @@ const CASES: CaseRow[] = [
 export class DataTableDocComponent {
   readonly featureSections: DocSection[] = [
     { id: 'basic', label: 'Basic usage' },
+    { id: 'expandable', label: 'Expandable rows' },
   ];
 
   readonly themingSections: DocSection[] = [
@@ -51,12 +83,15 @@ export class DataTableDocComponent {
     { name: 'searchPlaceholder',   type: 'string',                  default: `'Search…'`, description: 'Placeholder for the search input.' },
     { name: 'pageSizes',           type: 'number[]',                default: '[10, 25, 50]', description: 'Options offered by the pagination footer\'s page-size selector.' },
     { name: 'trackBy',             type: '(row: T) => unknown',     default: '(row) => row', description: 'Row identity function, used for selection tracking.' },
+    { name: 'expandable',          type: 'boolean',                 default: 'false',     description: 'Renders a chevron toggle column; expanding a row projects rowDetailTemplate beneath it.' },
+    { name: 'rowDetailTemplate',   type: 'TemplateRef<{ $implicit: T }> | null', default: 'null', description: 'Content projected into the expanded row — e.g. a nested p-table for a "table in table" detail view.' },
   ];
 
   readonly emitters: DocApiEmitter[] = [
     { name: 'stateChange',     type: 'EventEmitter<DataTableChangeEvent>', description: 'Emitted whenever sort, page, page size, or the search term changes — the single source of truth for re-fetching data.' },
     { name: 'selectionChange', type: 'EventEmitter<T[]>',                  description: 'Emitted with the currently selected rows (selectable must be true).' },
     { name: 'rowClick',        type: 'EventEmitter<T>',                    description: 'Emitted when a row is clicked.' },
+    { name: 'expandChange',    type: 'EventEmitter<{ row: T; expanded: boolean }>', description: 'Emitted when a row is expanded or collapsed.' },
   ];
 
   readonly templates: DocApiTemplate[] = [
@@ -101,4 +136,27 @@ export class DataTableDocComponent {
   onTableChange(e: DataTableChangeEvent): void {
     this.lastEvent.set(e);
   }
+
+  readonly declarationColumns: TableColumn<DeclarationRow>[] = [
+    { key: 'declNo',     header: 'Declaration No.' },
+    { key: 'date',       header: 'Date',       width: '90px' },
+    { key: 'company',    header: 'Company' },
+    { key: 'co',         header: 'C/O',        width: '60px',  align: 'center' },
+    { key: 'containers', header: 'Containers', width: '100px', align: 'center' },
+    { key: 'amountUsd',  header: 'Amount (USD)', width: '120px', align: 'right' },
+    { key: 'status',     header: 'Status' },
+    { key: 'officer',    header: 'Officer' },
+  ];
+
+  readonly lineItemColumns: TableColumn<LineItem>[] = [
+    { key: 'hsCode',      header: 'HS Code',    width: '110px' },
+    { key: 'origin',      header: 'Origin',     width: '80px' },
+    { key: 'description', header: 'Description' },
+    { key: 'qty',         header: 'Qty',        width: '120px' },
+    { key: 'unitPrice',   header: 'Unit Price', width: '110px', align: 'right' },
+    { key: 'netWeight',   header: 'NW (kg)',    width: '100px', align: 'right' },
+    { key: 'grossWeight', header: 'GW (kg)',    width: '100px', align: 'right' },
+  ];
+
+  readonly declarations = signal<DeclarationRow[]>(DECLARATIONS);
 }

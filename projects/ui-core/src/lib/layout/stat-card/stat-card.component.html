@@ -1,0 +1,16 @@
+<div class="p-stat-card__header">
+  <span class="p-stat-card__label">{{ label() }}</span>
+  @if (icon()) {
+    <button
+      type="button"
+      class="p-stat-card__icon-btn"
+      [attr.aria-label]="iconLabel()"
+      (click)="iconClick.emit()">
+      <cui-icon [name]="icon()!" size="sm" color="currentColor" />
+    </button>
+  }
+</div>
+
+<div class="p-stat-card__value">{{ value() }}</div>
+
+<ng-content select="[extra]" />

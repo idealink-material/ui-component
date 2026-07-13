@@ -4,7 +4,7 @@
  * Using a named scale instead of raw pixel inputs keeps sizing
  * consistent across the entire application.
  */
-export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type IconSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 /**
  * Which font family to use when rendering a Material Symbol.
@@ -32,10 +32,15 @@ export interface SvgIconEntry {
 /**
  * Pixel dimensions for each named size.
  * Exported so consuming components can reference the same scale.
+ *
+ * `xxs` covers dense inline contexts (date-chip triggers, table-row
+ * action icons, inline badge glyphs) sized below the standard `xs`
+ * used for typical button/input icons.
  */
 export const ICON_SIZE_MAP: Record<IconSize, number> = {
-  xs: 14,
-  sm: 18,
+  xxs: 13,
+  xs: 18,
+  sm: 20,
   md: 24,
   lg: 32,
   xl: 48,

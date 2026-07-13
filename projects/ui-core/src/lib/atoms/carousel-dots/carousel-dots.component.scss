@@ -1,0 +1,22 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.p-carousel-dots__dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: var(--cui-radius-pill);
+  background: var(--mat-sys-outline);
+  cursor: pointer;
+  transition: width 150ms ease, border-radius 150ms ease, background 150ms ease;
+
+  &--active {
+    width: 18px;
+    border-radius: 3px;
+    background: var(--cui-auth-primary);
+  }
+}

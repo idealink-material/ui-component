@@ -22,9 +22,23 @@
 
 .p-select {
   width: auto;
-  --mat-form-field-container-height: 44px;
+  --mat-form-field-container-height: 48px;
+  --mat-form-field-outlined-container-shape: var(--cui-radius-md);
+  --mat-form-field-outlined-outline-color: var(--mat-sys-outline-variant);
+  // Matches the 14px (md) text size used by Input/Datepicker — Material's
+  // own default (--mat-sys-body-large-size, 16px) reads larger than those.
+  --mat-select-trigger-text-size: 14px;
+  --mat-select-trigger-text-weight: 400;
 
   &.p-select--full { width: 100%; }
+}
+
+// The options panel opens in a CDK overlay outside this component's DOM
+// subtree, so its font size can't be scoped via a normal descendant rule —
+// panelClass + ::ng-deep is what reaches it.
+::ng-deep .p-select__panel .mat-mdc-option {
+  --mat-option-label-text-size: 14px;
+  --mat-option-label-text-weight: 400;
 }
 
 .p-select__filter {

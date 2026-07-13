@@ -34,6 +34,22 @@ export const purpleTheme: ThemeDefinition = {
     'mat-sys-error-container': '#fee2e2',
     'mat-sys-on-error-container': '#7f1d1d',
 
+    // Status — Success / Warning / Info
+    'mat-sys-success': '#22c55e',
+    'mat-sys-on-success': '#ffffff',
+    'mat-sys-success-container': '#dcfce7',
+    'mat-sys-on-success-container': '#166534',
+
+    'mat-sys-warning': '#d97706',
+    'mat-sys-on-warning': '#ffffff',
+    'mat-sys-warning-container': '#fef3c7',
+    'mat-sys-on-warning-container': '#92400e',
+
+    'mat-sys-info': '#3b82f6',
+    'mat-sys-on-info': '#ffffff',
+    'mat-sys-info-container': '#dbeafe',
+    'mat-sys-on-info-container': '#1e40af',
+
     // Background / Surface
     'mat-sys-background': '#faf5ff',
     'mat-sys-on-background': '#1a0533',
@@ -73,10 +89,18 @@ export const purpleTheme: ThemeDefinition = {
     'cui-radius-md': '10px',
     'cui-radius-lg': '14px',
     'cui-radius-xl': '20px',
+    'cui-radius-pill': '9999px',
 
     // Shadows (purple-tinted)
     'cui-shadow-sm': '0 1px 3px 0 rgb(124 58 237 / 0.12)',
     'cui-shadow-md': '0 4px 6px -1px rgb(124 58 237 / 0.12)',
     'cui-shadow-lg': '0 10px 15px -3px rgb(124 58 237 / 0.12)',
+    'cui-shadow-card': '0 4px 20px rgb(124 58 237 / 0.1)',
+
+    // Auth flow — fixed indigo brand, independent of the active dashboard theme
+    'cui-auth-primary': '#4f46e5',
+    'cui-auth-primary-hover': '#4338ca',
+    'cui-auth-on-primary': '#ffffff',
+    'cui-auth-illustration-bg': 'linear-gradient(135deg, #eef2ff, #e0e7ff)',
   },
 };

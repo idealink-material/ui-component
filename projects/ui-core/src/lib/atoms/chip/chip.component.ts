@@ -4,7 +4,7 @@ import {
 import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 export type ChipVariant = 'filled' | 'outlined' | 'soft';
-export type ChipColor   = 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'warning' | 'neutral';
+export type ChipColor   = 'primary' | 'secondary' | 'tertiary' | 'error' | 'success' | 'warning' | 'info' | 'neutral';
 
 @Component({
   selector: 'p-chip',

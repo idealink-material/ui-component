@@ -10,8 +10,8 @@
 :host(.p-progress--secondary) { --_fill: var(--mat-sys-secondary); }
 :host(.p-progress--tertiary)  { --_fill: var(--mat-sys-tertiary); }
 :host(.p-progress--error)     { --_fill: var(--mat-sys-error); }
-:host(.p-progress--success)   { --_fill: #059669; }
-:host(.p-progress--warning)   { --_fill: #d97706; }
+:host(.p-progress--success)   { --_fill: var(--mat-sys-success); }
+:host(.p-progress--warning)   { --_fill: var(--mat-sys-warning); }
 
 .p-progress__track {
   width: 100%;

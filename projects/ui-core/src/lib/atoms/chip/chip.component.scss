@@ -21,8 +21,9 @@
 :host(.p-chip--secondary) { --_bg: var(--mat-sys-secondary); --_fg: var(--mat-sys-on-secondary); --_soft: var(--mat-sys-secondary-container); --_soft-fg: var(--mat-sys-on-secondary-container); --_border: var(--mat-sys-secondary); }
 :host(.p-chip--tertiary)  { --_bg: var(--mat-sys-tertiary);  --_fg: var(--mat-sys-on-tertiary);  --_soft: var(--mat-sys-tertiary-container);  --_soft-fg: var(--mat-sys-on-tertiary-container);  --_border: var(--mat-sys-tertiary); }
 :host(.p-chip--error)     { --_bg: var(--mat-sys-error);     --_fg: var(--mat-sys-on-error);     --_soft: var(--mat-sys-error-container);     --_soft-fg: var(--mat-sys-on-error-container);     --_border: var(--mat-sys-error); }
-:host(.p-chip--success)   { --_bg: #059669; --_fg: #fff; --_soft: #d1fae5; --_soft-fg: #064e3b; --_border: #059669; }
-:host(.p-chip--warning)   { --_bg: #d97706; --_fg: #fff; --_soft: #fef3c7; --_soft-fg: #92400e; --_border: #d97706; }
+:host(.p-chip--success)   { --_bg: var(--mat-sys-success); --_fg: var(--mat-sys-on-success); --_soft: var(--mat-sys-success-container); --_soft-fg: var(--mat-sys-on-success-container); --_border: var(--mat-sys-success); }
+:host(.p-chip--warning)   { --_bg: var(--mat-sys-warning); --_fg: var(--mat-sys-on-warning); --_soft: var(--mat-sys-warning-container); --_soft-fg: var(--mat-sys-on-warning-container); --_border: var(--mat-sys-warning); }
+:host(.p-chip--info)      { --_bg: var(--mat-sys-info);    --_fg: var(--mat-sys-on-info);    --_soft: var(--mat-sys-info-container);    --_soft-fg: var(--mat-sys-on-info-container);    --_border: var(--mat-sys-info); }
 :host(.p-chip--neutral)   { --_bg: var(--mat-sys-surface-variant); --_fg: var(--mat-sys-on-surface-variant); --_soft: var(--mat-sys-surface-container); --_soft-fg: var(--mat-sys-on-surface); --_border: var(--mat-sys-outline); }
 
 // Variants

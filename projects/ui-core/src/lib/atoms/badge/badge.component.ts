@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 export type BadgeVariant = 'filled' | 'outlined' | 'soft';
-export type BadgeColor   = 'primary' | 'secondary' | 'tertiary' | 'error' | 'warning' | 'success' | 'neutral';
+export type BadgeColor   = 'primary' | 'secondary' | 'tertiary' | 'error' | 'warning' | 'success' | 'info' | 'neutral';
 export type BadgeSize    = 'sm' | 'md' | 'lg';
 
 @Component({

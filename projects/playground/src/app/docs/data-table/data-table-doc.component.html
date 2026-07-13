@@ -48,6 +48,37 @@ columns: TableColumn<CaseRow>[] = [
         </p>
       </app-doc-example>
     </section>
+
+    <section id="expandable" class="doc-page__section">
+      <app-doc-example
+        title="Expandable rows"
+        description="Set expandable and pass rowDetailTemplate — a TemplateRef<{ $implicit: row }> rendered in a full-width row beneath an expanded row. Nesting another p-table inside it gives you a 'table in table' detail view for free, since the nested table gets the same solid header styling automatically."
+        sourceId="p-data-table"
+        code='<p-data-table
+  [columns]="declarationColumns"
+  [rows]="declarations()"
+  [total]="declarations().length"
+  [searchable]="false"
+  [expandable]="true"
+  [rowDetailTemplate]="lineItems">
+</p-data-table>
+
+<ng-template #lineItems let-row>
+  <p-table [columns]="lineItemColumns" [rows]="row.lineItems" />
+</ng-template>'>
+        <p-data-table
+          [columns]="declarationColumns"
+          [rows]="declarations()"
+          [total]="declarations().length"
+          [searchable]="false"
+          [expandable]="true"
+          [rowDetailTemplate]="lineItems">
+        </p-data-table>
+        <ng-template #lineItems let-row>
+          <p-table [columns]="lineItemColumns" [rows]="row.lineItems" />
+        </ng-template>
+      </app-doc-example>
+    </section>
   </div>
 
   <div docTheming>

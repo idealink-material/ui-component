@@ -1,0 +1,11 @@
+@for (i of indices(); track i) {
+  <button
+    type="button"
+    class="p-carousel-dots__dot"
+    [class.p-carousel-dots__dot--active]="i === activeIndex()"
+    role="tab"
+    [attr.aria-selected]="i === activeIndex()"
+    [attr.aria-label]="'Go to slide ' + (i + 1)"
+    (click)="select(i)">
+  </button>
+}

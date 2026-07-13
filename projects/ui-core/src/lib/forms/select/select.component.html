@@ -41,8 +41,17 @@
         [disabled]="disabled()"
         [required]="required()"
         [placeholder]="placeholder()"
+        panelClass="p-select__panel"
         (valueChange)="onChange($event)"
         (openedChange)="$event ? opened() : closed()">
+
+        @if (selectedItemTemplate(); as trigger) {
+          <mat-select-trigger>
+            @for (opt of selectedOptions(); track opt.value; let last = $last) {
+              <ng-container *ngTemplateOutlet="trigger; context: { $implicit: opt }" />@if (!last) {<span>, </span>}
+            }
+          </mat-select-trigger>
+        }
 
         @if (filter()) {
           <div class="p-select__filter" (click)="$event.stopPropagation()">
@@ -57,13 +66,13 @@
         @if (virtualScroll() && filteredGroups().length === 0) {
           <cdk-virtual-scroll-viewport [itemSize]="virtualItemSize()" class="p-select__viewport">
             <mat-option *cdkVirtualFor="let opt of filteredUngrouped()" [value]="opt.value" [disabled]="opt.disabled ?? false">
-              {{ opt.label }}
+              <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
             </mat-option>
           </cdk-virtual-scroll-viewport>
         } @else {
           @for (opt of filteredUngrouped(); track opt.value) {
             <mat-option [value]="opt.value" [disabled]="opt.disabled ?? false">
-              {{ opt.label }}
+              <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
             </mat-option>
           }
         }
@@ -73,13 +82,21 @@
           <mat-optgroup [label]="group[0]">
             @for (opt of group[1]; track opt.value) {
               <mat-option [value]="opt.value" [disabled]="opt.disabled ?? false">
-                {{ opt.label }}
+                <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
               </mat-option>
             }
           </mat-optgroup>
         }
 
       </mat-select>
+
+      <ng-template #optionContent let-opt>
+        @if (itemTemplate(); as tpl) {
+          <ng-container *ngTemplateOutlet="tpl; context: { $implicit: opt }" />
+        } @else {
+          {{ opt.label }}
+        }
+      </ng-template>
 
       @if (showClear() && hasValue() && !disabled()) {
         <button type="button" matSuffix class="p-select__clear" (click)="clear($event)" aria-label="Clear selection">

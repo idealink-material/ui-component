@@ -1,0 +1,31 @@
+<div class="p-top-nav__brand">
+  <ng-content select="[logo]" />
+</div>
+
+<nav class="p-top-nav__links">
+  @for (link of links(); track link.id) {
+    <button
+      type="button"
+      class="p-top-nav__link"
+      [class.p-top-nav__link--active]="link.active"
+      [disabled]="link.disabled"
+      (click)="onLinkClick(link)">
+      {{ link.label }}
+    </button>
+  }
+</nav>
+
+<div class="p-top-nav__user">
+  <button
+    type="button"
+    class="p-top-nav__user-trigger"
+    [matMenuTriggerFor]="userMenu.menu()"
+    aria-label="Open user menu">
+    <p-avatar [src]="userAvatarSrc()" [name]="userName()" size="sm" />
+    @if (userName()) {
+      <span class="p-top-nav__user-name">{{ userName() }}</span>
+    }
+    <cui-icon name="keyboard_arrow_down" size="xs" color="currentColor" />
+  </button>
+  <p-menu #userMenu [items]="menuItems()" />
+</div>

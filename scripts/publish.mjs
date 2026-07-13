@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import { copyFileSync } from 'node:fs';
 
 const LIBS = ['ui-utils', 'ui-icons', 'ui-theme', 'ui-core', 'ui-layout'];
 const dryRun = process.argv.includes('--dry-run');
@@ -22,6 +23,10 @@ for (const lib of LIBS) {
 
 for (const lib of LIBS) {
   console.log(`\n--- Publishing ${lib} ---`);
+  // npm only reads a "project" .npmrc from the publish cwd, not from parent
+  // directories, so the repo-root .npmrc (with the right registry token)
+  // must be copied alongside the package before publishing.
+  copyFileSync('.npmrc', `dist/${lib}/.npmrc`);
   run(`npm publish${dryRun ? ' --dry-run' : ''}`, `dist/${lib}`);
 }
 

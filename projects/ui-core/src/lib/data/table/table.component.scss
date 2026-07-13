@@ -17,20 +17,19 @@
 .p-table__th {
   padding: 10px 14px;
   text-align: left;
-  font-weight: 600;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--mat-sys-on-surface-variant);
-  background: var(--mat-sys-surface-container);
-  border-bottom: 1px solid var(--cui-card-border);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--mat-sys-on-primary);
+  background: var(--mat-sys-primary);
+  border-bottom: 1px solid var(--mat-sys-primary);
   white-space: nowrap;
   user-select: none;
 
-  &--sortable { cursor: pointer; &:hover { background: var(--mat-sys-surface-container-high); } }
-  &--sorted { color: var(--mat-sys-primary); }
+  &--sortable { cursor: pointer; &:hover { background: color-mix(in srgb, var(--mat-sys-primary) 88%, black); } }
+  &--sorted { opacity: 1; }
   &--sticky { position: sticky; left: 0; z-index: 3; }
   &--check { width: 40px; }
+  &--expand { width: 44px; }
 }
 
 .p-table__th-inner {
@@ -48,6 +47,24 @@
   vertical-align: middle;
   &--sticky { position: sticky; left: 0; background: var(--cui-card-bg); z-index: 1; }
   &--check  { width: 40px; }
+  &--expand { width: 44px; text-align: center; cursor: pointer; }
+}
+
+.p-table__expand-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--cui-radius-pill);
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+
+  &:hover { background: var(--mat-sys-surface-container-high); color: var(--mat-sys-primary); }
+  &[aria-expanded="true"] { color: var(--mat-sys-primary); }
 }
 
 .p-table__tr {
@@ -55,8 +72,14 @@
   &--selected { background: color-mix(in srgb, var(--mat-sys-primary) 8%, transparent); }
 }
 
-.p-table--hoverable .p-table__tr:hover { background: var(--mat-sys-surface-container-low); }
-.p-table--striped .p-table__tr:nth-child(even) { background: var(--mat-sys-surface-container-lowest); }
+.p-table--hoverable .p-table__tr:not(.p-table__tr--detail):hover { background: var(--mat-sys-surface-container-low); }
+.p-table--striped .p-table__tr:not(.p-table__tr--detail):nth-child(even) { background: var(--mat-sys-surface-container-low); }
+
+.p-table__td-detail {
+  padding: 12px;
+  background: var(--mat-sys-surface-container-low);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
 
 .p-table__empty {
   padding: 40px;

@@ -4,11 +4,7 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "watch:base": "concurrently \"ng build ui-utils --watch\" \"ng build ui-icons --watch\" \"ng build ui-theme --watch\"",
-    "watch:core": "wait-on dist/ui-utils/package.json dist/ui-icons/package.json dist/ui-theme/package.json && ng build ui-core --watch",
-    "watch:layout": "wait-on dist/ui-core/package.json && ng build ui-layout --watch",
-    "dev:libs": "concurrently \"npm run watch:base\" \"npm run watch:core\" \"npm run watch:layout\"",
-    "dev": "npm run build:libs && concurrently \"npm run dev:libs\" \"ng serve playground\"",
+    "dev": "node scripts/dev.mjs",
     "build": "ng build",
     "test": "ng test",
     "build:libs": "npx ng build ui-utils && npx ng build ui-icons && npx ng build ui-theme && npx ng build ui-core && npx ng build ui-layout",
