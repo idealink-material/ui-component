@@ -16,8 +16,8 @@
         sourceId="p-data-table"
         code='<p-data-table
   [columns]="columns"
-  [rows]="rows()"
-  [total]="rows().length"
+  [value]="value()"
+  [total]="value().length"
   [selectable]="true"
   searchPlaceholder="Search cases…"
   (stateChange)="onTableChange($event)">
@@ -34,8 +34,8 @@ columns: TableColumn<CaseRow>[] = [
 ];'>
         <p-data-table
           [columns]="columns"
-          [rows]="rows()"
-          [total]="rows().length"
+          [value]="value()"
+          [total]="value().length"
           [selectable]="true"
           searchPlaceholder="Search cases…"
           (stateChange)="onTableChange($event)">
@@ -56,7 +56,7 @@ columns: TableColumn<CaseRow>[] = [
         sourceId="p-data-table"
         code='<p-data-table
   [columns]="declarationColumns"
-  [rows]="declarations()"
+  [value]="declarations()"
   [total]="declarations().length"
   [searchable]="false"
   [expandable]="true"
@@ -64,18 +64,88 @@ columns: TableColumn<CaseRow>[] = [
 </p-data-table>
 
 <ng-template #lineItems let-row>
-  <p-table [columns]="lineItemColumns" [rows]="row.lineItems" />
+  <p-table [columns]="lineItemColumns" [value]="row.lineItems" />
 </ng-template>'>
         <p-data-table
           [columns]="declarationColumns"
-          [rows]="declarations()"
+          [value]="declarations()"
           [total]="declarations().length"
           [searchable]="false"
           [expandable]="true"
           [rowDetailTemplate]="lineItems">
         </p-data-table>
         <ng-template #lineItems let-row>
-          <p-table [columns]="lineItemColumns" [rows]="row.lineItems" />
+          <p-table [columns]="lineItemColumns" [value]="row.lineItems" />
+        </ng-template>
+      </app-doc-example>
+    </section>
+
+    <section id="custom-templates" class="doc-page__section">
+      <app-doc-example
+        title="Custom templates"
+        description="For the p-table primitive, skip the columns config entirely and project #header/#body ng-templates instead — useful when porting markup 1:1 from another table library. columnCount drives the colspan for the loading-skeleton and empty-state rows since it can't be inferred from a template."
+        sourceId="p-table"
+        [code]="customTemplatesCode">
+        <p-table [value]="products()" [columnCount]="4">
+          <ng-template #header>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Quantity</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-product>
+            <tr>
+              <td>{{ product.code }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.category }}</td>
+              <td>{{ product.quantity }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </app-doc-example>
+    </section>
+
+    <section id="expandable-custom-templates" class="doc-page__section">
+      <app-doc-example
+        title="Child table (custom templates)"
+        description="Same 'table in table' pattern as Expandable rows, but the nested p-table uses #header/#body instead of columns — handy when the child table's markup is being ported 1:1 from another table library."
+        sourceId="p-data-table"
+        [code]="expandableCustomTemplatesCode">
+        <p-data-table
+          [columns]="declarationColumns"
+          [value]="declarations()"
+          [total]="declarations().length"
+          [searchable]="false"
+          [expandable]="true"
+          [rowDetailTemplate]="lineItemsCustom">
+        </p-data-table>
+        <ng-template #lineItemsCustom let-row>
+          <p-table [value]="row.lineItems" [columnCount]="7">
+            <ng-template #header>
+              <tr>
+                <th>HS Code</th>
+                <th>Origin</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>NW (kg)</th>
+                <th>GW (kg)</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-item>
+              <tr>
+                <td>{{ item.hsCode }}</td>
+                <td>{{ item.origin }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.unitPrice }}</td>
+                <td>{{ item.netWeight }}</td>
+                <td>{{ item.grossWeight }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
         </ng-template>
       </app-doc-example>
     </section>

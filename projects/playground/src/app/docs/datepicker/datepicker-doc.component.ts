@@ -15,10 +15,12 @@ import { DocApiEmitter, DocApiProperty, DocSection } from '../shared/doc-types';
 })
 export class DatepickerDocComponent {
   readonly featureSections: DocSection[] = [
-    { id: 'basic',  label: 'Basic usage' },
-    { id: 'range',  label: 'Range & multiple' },
-    { id: 'inline', label: 'Inline' },
-    { id: 'views',  label: 'Month/year picker' },
+    { id: 'basic',      label: 'Basic usage' },
+    { id: 'range',      label: 'Range & multiple' },
+    { id: 'inline',     label: 'Inline' },
+    { id: 'views',      label: 'Month/year picker' },
+    { id: 'format',     label: 'Format' },
+    { id: 'view-range', label: 'Month/year range' },
   ];
 
   readonly themingSections: DocSection[] = [
@@ -36,9 +38,9 @@ export class DatepickerDocComponent {
     { name: 'fullWidth',      type: 'boolean',                                 default: 'true',         description: 'Stretches the field to fill its container.' },
     { name: 'min',            type: 'Date | null',                             default: 'null',         description: 'Earliest selectable date.' },
     { name: 'max',            type: 'Date | null',                             default: 'null',         description: 'Latest selectable date.' },
-    { name: 'dateFormat',     type: 'string | null',                           default: 'null',         description: 'Best-effort token format (e.g. "mm/dd/yy") for the input\'s display text.' },
+    { name: 'dateFormat',     type: 'string | null',                           default: `'mm/dd/yy'`,   description: 'Token format for the input\'s display text and typed-input parsing — see the Format section below.' },
     { name: 'selectionMode',  type: `'single' | 'multiple' | 'range'`,         default: `'single'`,     description: 'Selection behavior.' },
-    { name: 'view',           type: `'date' | 'month' | 'year'`,               default: `'date'`,       description: 'Granularity the picker stops at; month/year close as soon as that unit is picked.' },
+    { name: 'view',           type: `'date' | 'month' | 'year'`,               default: `'date'`,       description: 'Granularity the picker stops at. Combined with selectionMode="range", month/year open a dedicated range grid panel instead.' },
     { name: 'showTime',       type: 'boolean',                                 default: 'false',        description: 'Shows a time-of-day input alongside the date (single selection mode only).' },
     { name: 'showIcon',       type: 'boolean',                                 default: 'true',         description: 'Shows the calendar trigger icon.' },
     { name: 'disabledDates',  type: 'Date[] | null',                           default: 'null',         description: 'Specific dates to disable.' },
@@ -50,9 +52,9 @@ export class DatepickerDocComponent {
   readonly emitters: DocApiEmitter[] = [
     { name: 'cuiChange',    type: 'EventEmitter<Date | Date[] | null>', description: 'Emitted whenever the value changes, alongside the value model update.' },
     { name: 'onSelect',     type: 'EventEmitter<Date | Date[] | null>', description: 'Emitted alongside cuiChange when a date is selected.' },
-    { name: 'onClose',      type: 'EventEmitter<void>',                 description: 'Emitted when the popup calendar closes.' },
-    { name: 'onTodayClick', type: 'EventEmitter<void>',                 description: "Emitted when the inline calendar's Today action is used." },
-    { name: 'onClearClick', type: 'EventEmitter<void>',                 description: "Emitted when the inline calendar's Clear action is used." },
+    { name: 'onClose',      type: 'EventEmitter<void>',                 description: 'Emitted when the popup calendar or the month/year range panel closes.' },
+    { name: 'onTodayClick', type: 'EventEmitter<void>',                 description: "Emitted when a Today action is used." },
+    { name: 'onClearClick', type: 'EventEmitter<void>',                 description: "Emitted when a Clear action is used." },
   ];
 
   readonly single = signal<Date | null>(null);
@@ -60,4 +62,8 @@ export class DatepickerDocComponent {
   readonly multi  = signal<Date[] | null>([]);
   readonly inlineDate = signal<Date | null>(null);
   readonly monthValue = signal<Date | null>(null);
+  readonly monthRange = signal<Date[] | null>(null);
+  readonly yearRange  = signal<Date[] | null>(null);
+  readonly isoValue   = signal<Date | null>(null);
+  readonly longValue  = signal<Date | null>(null);
 }

@@ -25,7 +25,7 @@ export interface DataTableChangeEvent {
 export class CuiDataTableComponent<T extends Record<string, unknown> = Record<string, unknown>> {
   // ── Inputs ─────────────────────────────────────────────────────────────────
   readonly columns    = input<TableColumn<T>[]>([]);
-  readonly rows       = input<T[]>([]);
+  readonly value      = input<T[]>([]);
   readonly total      = input<number>(0);
   readonly loading    = input<boolean>(false);
   readonly selectable = input<boolean>(false);

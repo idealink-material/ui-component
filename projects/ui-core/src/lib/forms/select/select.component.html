@@ -1,53 +1,61 @@
 <div class="p-field" [class.p-field--full]="fullWidth()">
   @if (label()) {
-    <label class="p-field__label" [for]="fieldId">
+    <label class="p-field__label" [for]="resolvedInputId()">
       {{ label() }}@if (required()) { <span class="p-field__required" aria-hidden="true">*</span> }
     </label>
   }
 
   @if (editable()) {
     <mat-form-field [appearance]="matAppearance()"
+      subscriptSizing="dynamic"
       [class.p-select--full]="fullWidth()"
       class="p-select">
 
-      <input matInput
-        [id]="fieldId"
+      <input matInput #editableInputRef
+        [id]="resolvedInputId()"
         [attr.list]="'p-select-list-' + fieldId"
         [value]="value()"
-        [disabled]="disabled()"
+        [disabled]="disabled() || loading()"
         [required]="required()"
         [placeholder]="placeholder()"
         (input)="onEditableInput($any($event.target).value)"
         (blur)="onTouched()" />
 
       <datalist [id]="'p-select-list-' + fieldId">
-        @for (opt of editableSuggestions(); track opt.value) {
-          <option [value]="opt.label"></option>
+        @for (opt of editableSuggestions(); track getOptionValue(opt)) {
+          <option [value]="getOptionLabel(opt)"></option>
         }
       </datalist>
+
+      @if (loading()) {
+        <cui-icon matSuffix [name]="loadingIcon()" size="xs" color="var(--mat-sys-on-surface-variant)" class="p-select__loading-icon" />
+      }
 
       @if (hint() && !error()) { <mat-hint>{{ hint() }}</mat-hint> }
       @if (error())             { <mat-error>{{ error() }}</mat-error> }
     </mat-form-field>
   } @else {
     <mat-form-field [appearance]="matAppearance()"
+      subscriptSizing="dynamic"
       [class.p-select--full]="fullWidth()"
+      [class.p-select--custom-icon]="!!dropdownIcon()"
       class="p-select">
 
       <mat-select
-        [id]="fieldId"
+        [id]="resolvedInputId()"
         [value]="value()"
         [multiple]="multiple()"
-        [disabled]="disabled()"
+        [disabled]="disabled() || loading()"
         [required]="required()"
         [placeholder]="placeholder()"
+        [compareWith]="compareValues"
         panelClass="p-select__panel"
         (valueChange)="onChange($event)"
         (openedChange)="$event ? opened() : closed()">
 
         @if (selectedItemTemplate(); as trigger) {
           <mat-select-trigger>
-            @for (opt of selectedOptions(); track opt.value; let last = $last) {
+            @for (opt of selectedOptions(); track getOptionValue(opt); let last = $last) {
               <ng-container *ngTemplateOutlet="trigger; context: { $implicit: opt }" />@if (!last) {<span>, </span>}
             }
           </mat-select-trigger>
@@ -56,7 +64,7 @@
         @if (filter()) {
           <div class="p-select__filter" (click)="$event.stopPropagation()">
             <cui-icon name="search" size="xs" color="var(--mat-sys-on-surface-variant)" />
-            <input type="text" placeholder="Search…" [value]="filterText()"
+            <input type="text" [placeholder]="filterPlaceholder()" [value]="filterText()"
               (input)="onFilterInput($any($event.target).value)"
               (keydown)="$event.stopPropagation()" />
           </div>
@@ -65,13 +73,13 @@
         <!-- Ungrouped options -->
         @if (virtualScroll() && filteredGroups().length === 0) {
           <cdk-virtual-scroll-viewport [itemSize]="virtualItemSize()" class="p-select__viewport">
-            <mat-option *cdkVirtualFor="let opt of filteredUngrouped()" [value]="opt.value" [disabled]="opt.disabled ?? false">
+            <mat-option *cdkVirtualFor="let opt of filteredUngrouped()" [value]="getOptionValue(opt)" [disabled]="opt.disabled ?? false">
               <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
             </mat-option>
           </cdk-virtual-scroll-viewport>
         } @else {
-          @for (opt of filteredUngrouped(); track opt.value) {
-            <mat-option [value]="opt.value" [disabled]="opt.disabled ?? false">
+          @for (opt of filteredUngrouped(); track getOptionValue(opt)) {
+            <mat-option [value]="getOptionValue(opt)" [disabled]="opt.disabled ?? false">
               <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
             </mat-option>
           }
@@ -80,8 +88,8 @@
         <!-- Grouped options -->
         @for (group of filteredGroups(); track group[0]) {
           <mat-optgroup [label]="group[0]">
-            @for (opt of group[1]; track opt.value) {
-              <mat-option [value]="opt.value" [disabled]="opt.disabled ?? false">
+            @for (opt of group[1]; track getOptionValue(opt)) {
+              <mat-option [value]="getOptionValue(opt)" [disabled]="opt.disabled ?? false">
                 <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
               </mat-option>
             }
@@ -91,17 +99,26 @@
       </mat-select>
 
       <ng-template #optionContent let-opt>
+        @if (checkmark() && isOptionSelected(opt)) {
+          <cui-icon name="check" size="xs" color="var(--mat-sys-primary)" class="p-select__checkmark" />
+        }
         @if (itemTemplate(); as tpl) {
           <ng-container *ngTemplateOutlet="tpl; context: { $implicit: opt }" />
         } @else {
-          {{ opt.label }}
+          {{ getOptionLabel(opt) }}
         }
       </ng-template>
 
-      @if (showClear() && hasValue() && !disabled()) {
+      @if (loading()) {
+        <cui-icon matSuffix [name]="loadingIcon()" size="xs" color="var(--mat-sys-on-surface-variant)" class="p-select__loading-icon" />
+      } @else if (showClear() && hasValue() && !disabled()) {
         <button type="button" matSuffix class="p-select__clear" (click)="clear($event)" aria-label="Clear selection">
           <cui-icon name="close" size="xs" color="currentColor" />
         </button>
+      }
+
+      @if (dropdownIcon() && !loading()) {
+        <cui-icon matSuffix [name]="dropdownIcon()!" size="xs" color="var(--mat-sys-on-surface-variant)" class="p-select__dropdown-icon" />
       }
 
       @if (hint() && !error()) { <mat-hint>{{ hint() }}</mat-hint> }

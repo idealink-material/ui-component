@@ -173,6 +173,7 @@
         <div class="p-5 flex flex-col gap-4">
           <h3 class="font-semibold" style="color:var(--mat-sys-on-surface)">Case Form</h3>
           <form [formGroup]="form" (ngSubmit)="submitForm()" class="flex flex-col gap-4">
+            <p-input placeholder="Playground description"></p-input>
             <p-input label="Subject / Description" formControlName="name"
               placeholder="Describe the suspicious activity…"
               prefixIcon="edit_note" [required]="true"
@@ -183,11 +184,13 @@
               prefixIcon="mail" [required]="true"
               [error]="form.controls.email.invalid && form.controls.email.touched ? 'Valid email required' : null" />
 
-            <p-select label="Risk Level" formControlName="risk"
+            <p-select label="Risk Level" formControlName="risk" optionValue="value"
               [options]="riskOptions" placeholder="Select risk level…" />
 
-            <p-datepicker label="Incident Date" formControlName="date"
-              hint="Date the suspicious activity was observed" />
+            <p-datepicker label="Incident Date" formControlName="date" dateFormat="dd-mm-yy"
+               />
+            <p-datepicker label="Reporting month" view="month" dateFormat="MM/yyyy" selectionMode="range"/>
+            <p-datepicker label="Date Range"   selectionMode="range"/>
 
             <div class="flex gap-3">
               <p-button type="submit" variant="filled" icon="save">
@@ -251,7 +254,7 @@
     <!-- Data tab -->
     <p-data-table
       [columns]="columns"
-      [rows]="tableRows()"
+      [value]="tableRows()"
       [total]="tableTotal()"
       [selectable]="true"
       [striped]="true"

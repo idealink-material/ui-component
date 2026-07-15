@@ -2,41 +2,46 @@
   <table class="p-table"
     [class.p-table--striped]="striped()"
     [class.p-table--hoverable]="hoverable()"
+    [ngStyle]="tableStyle()"
     role="grid">
 
     <thead [class.p-table__head--sticky]="stickyHeader()">
-      <tr>
-        @if (selectable()) {
-          <th class="p-table__th p-table__th--check" scope="col">
-            <input type="checkbox" class="p-table__checkbox"
-              [checked]="allSelected()"
-              [indeterminate]="!allSelected() && _selected().size > 0"
-              (change)="toggleAll()"
-              aria-label="Select all rows" />
-          </th>
-        }
-        @for (col of columns(); track col.key) {
-          <th class="p-table__th"
-            scope="col"
-            [class.p-table__th--sortable]="col.sortable"
-            [class.p-table__th--sticky]="col.sticky"
-            [class.p-table__th--sorted]="_sort().column === col.key"
-            [style.width]="col.width ?? 'auto'"
-            [style.text-align]="col.align ?? 'left'"
-            (click)="onSort(col)">
-            <span class="p-table__th-inner">
-              {{ col.header }}
-              @if (col.sortable) {
-                <cui-icon [name]="getSortIcon(col)" size="xs"
-                  color="currentColor" class="p-table__sort-icon" />
-              }
-            </span>
-          </th>
-        }
-        @if (expandable()) {
-          <th class="p-table__th p-table__th--expand" scope="col" aria-hidden="true"></th>
-        }
-      </tr>
+      @if (headerTemplateRef(); as headerTpl) {
+        <ng-container [ngTemplateOutlet]="headerTpl" />
+      } @else {
+        <tr>
+          @if (selectable()) {
+            <th class="p-table__th p-table__th--check" scope="col">
+              <input type="checkbox" class="p-table__checkbox"
+                [checked]="allSelected()"
+                [indeterminate]="!allSelected() && _selected().size > 0"
+                (change)="toggleAll()"
+                aria-label="Select all rows" />
+            </th>
+          }
+          @for (col of columns(); track col.key) {
+            <th class="p-table__th"
+              scope="col"
+              [class.p-table__th--sortable]="col.sortable"
+              [class.p-table__th--sticky]="col.sticky"
+              [class.p-table__th--sorted]="_sort().column === col.key"
+              [style.width]="col.width ?? 'auto'"
+              [style.text-align]="col.align ?? 'left'"
+              (click)="onSort(col)">
+              <span class="p-table__th-inner">
+                {{ col.header }}
+                @if (col.sortable) {
+                  <cui-icon [name]="getSortIcon(col)" size="xs"
+                    color="currentColor" class="p-table__sort-icon" />
+                }
+              </span>
+            </th>
+          }
+          @if (expandable()) {
+            <th class="p-table__th p-table__th--expand" scope="col" aria-hidden="true"></th>
+          }
+        </tr>
+      }
     </thead>
 
     <tbody>
@@ -56,14 +61,18 @@
             }
           </tr>
         }
-      } @else if (rows().length === 0) {
+      } @else if (value().length === 0) {
         <tr>
           <td class="p-table__empty" [attr.colspan]="colCount()">
             No data available
           </td>
         </tr>
+      } @else if (bodyTemplateRef(); as bodyTpl) {
+        @for (row of value(); track trackBy()(row)) {
+          <ng-container [ngTemplateOutlet]="bodyTpl" [ngTemplateOutletContext]="{ $implicit: row }" />
+        }
       } @else {
-        @for (row of rows(); track trackBy()(row)) {
+        @for (row of value(); track trackBy()(row)) {
           <tr class="p-table__tr"
             [class.p-table__tr--selected]="isSelected(row)"
             (click)="rowClick.emit(row)">

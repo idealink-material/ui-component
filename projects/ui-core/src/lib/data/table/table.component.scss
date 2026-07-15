@@ -32,6 +32,27 @@
   &--expand { width: 44px; }
 }
 
+// Fallback styling for plain <th>/<td> markup projected via #header/#body templates. These
+// elements come from an ng-template declared in the *consumer's* component and keep that
+// component's view-encapsulation attribute when projected via ngTemplateOutlet, so a normal
+// scoped selector here never matches them — ::ng-deep is required to reach across that boundary.
+:host ::ng-deep .p-table thead th {
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--mat-sys-on-primary);
+  background: var(--mat-sys-primary);
+  border-bottom: 1px solid var(--mat-sys-primary);
+  white-space: nowrap;
+}
+
+:host ::ng-deep .p-table tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  vertical-align: middle;
+}
+
 .p-table__th-inner {
   display: inline-flex;
   align-items: center;
@@ -72,8 +93,9 @@
   &--selected { background: color-mix(in srgb, var(--mat-sys-primary) 8%, transparent); }
 }
 
-.p-table--hoverable .p-table__tr:not(.p-table__tr--detail):hover { background: var(--mat-sys-surface-container-low); }
-.p-table--striped .p-table__tr:not(.p-table__tr--detail):nth-child(even) { background: var(--mat-sys-surface-container-low); }
+// ::ng-deep since tbody may contain rows projected from a #body template (see note above).
+:host ::ng-deep .p-table--hoverable tbody tr:not(.p-table__tr--detail):hover { background: var(--mat-sys-surface-container-low); }
+:host ::ng-deep .p-table--striped tbody tr:not(.p-table__tr--detail):nth-child(even) { background: var(--mat-sys-surface-container-low); }
 
 .p-table__td-detail {
   padding: 12px;

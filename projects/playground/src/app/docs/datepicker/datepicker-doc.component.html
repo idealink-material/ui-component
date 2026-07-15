@@ -1,6 +1,6 @@
 <app-doc-shell
   name="Datepicker"
-  lead="A date field wrapping Angular Material's datepicker. Supports single, multiple, and range selection, an inline calendar, and month/year-only views."
+  lead="A date field wrapping Angular Material's datepicker. Supports single, multiple, and range selection, an inline calendar, month/year-only views, and month/year range selection."
   [featureSections]="featureSections"
   [themingSections]="themingSections"
   [properties]="properties"
@@ -45,11 +45,67 @@
     <section id="views" class="doc-page__section">
       <app-doc-example
         title="Month/year picker"
-        description="view='month' or 'year' stops the picker at that granularity and closes as soon as a unit is chosen."
+        description="view='month' or 'year' stops the picker at that granularity — picking a unit commits and closes right away. Today/Clear/Done live inside the popup panel for the cases where you haven't picked a cell yet."
         sourceId="p-datepicker"
-        code='<p-datepicker label="Reporting month" view="month" dateFormat="mm/yyyy" [(value)]="monthValue" />'>
+        code='<p-datepicker label="Reporting month" view="month" dateFormat="mm/yy" [(value)]="monthValue" />'>
         <div style="width: 100%; max-width: 280px;">
-          <p-datepicker label="Reporting month" view="month" dateFormat="mm/yyyy" [(value)]="monthValue" />
+          <p-datepicker label="Reporting month" view="month" dateFormat="mm/yy" [(value)]="monthValue" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="format" class="doc-page__section">
+      <h2 class="doc-page__section-title">Format</h2>
+      <p class="doc-page__lead">
+        Default date format is <code>mm/dd/yy</code>, which can be customized using the
+        <code>dateFormat</code> property. Following options can be a part of the format.
+      </p>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>d</code></td><td>day of month (no leading zero)</td></tr>
+          <tr><td><code>dd</code></td><td>day of month (two digit)</td></tr>
+          <tr><td><code>o</code></td><td>day of the year (no leading zeros)</td></tr>
+          <tr><td><code>oo</code></td><td>day of the year (three digit)</td></tr>
+          <tr><td><code>D</code></td><td>day name short</td></tr>
+          <tr><td><code>DD</code></td><td>day name long</td></tr>
+          <tr><td><code>m</code></td><td>month of year (no leading zero)</td></tr>
+          <tr><td><code>mm</code></td><td>month of year (two digit)</td></tr>
+          <tr><td><code>M</code></td><td>month name short</td></tr>
+          <tr><td><code>MM</code></td><td>month name long</td></tr>
+          <tr><td><code>y</code></td><td>year (two digit)</td></tr>
+          <tr><td><code>yy</code></td><td>year (four digit)</td></tr>
+          <tr><td><code>&#64;</code></td><td>Unix timestamp (ms since 01/01/1970)</td></tr>
+          <tr><td><code>!</code></td><td>Windows ticks (100ns since 01/01/0001)</td></tr>
+          <tr><td><code>'...'</code></td><td>literal text</td></tr>
+          <tr><td><code>''</code></td><td>single quote</td></tr>
+          <tr><td>anything else</td><td>literal text</td></tr>
+        </tbody>
+      </table>
+      <app-doc-example
+        title="Custom formats"
+        sourceId="p-datepicker"
+        code='<p-datepicker label="ISO" dateFormat="yy-mm-dd" [(value)]="isoValue" />
+<p-datepicker label="Long" dateFormat="DD, MM d, yy" [(value)]="longValue" />'>
+        <div style="width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 16px;">
+          <p-datepicker label="ISO" dateFormat="yy-mm-dd" [(value)]="isoValue" />
+          <p-datepicker label="Long" dateFormat="DD, MM d, yy" [(value)]="longValue" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="view-range" class="doc-page__section">
+      <app-doc-example
+        title="Month/year range"
+        description="selectionMode='range' combined with view='month' or 'year' opens a dedicated grid panel — pick a start then an end unit, see the range highlighted, then Clear or Done."
+        sourceId="p-datepicker"
+        code='<p-datepicker label="Reporting period" view="month" selectionMode="range" [(value)]="monthRange" />
+<p-datepicker label="Fiscal years" view="year" selectionMode="range" [(value)]="yearRange" />'>
+        <div style="width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 16px;">
+          <p-datepicker label="Reporting period" view="month" selectionMode="range" [(value)]="monthRange" />
+          <p-datepicker label="Fiscal years" view="year" selectionMode="range" [(value)]="yearRange" />
         </div>
       </app-doc-example>
     </section>

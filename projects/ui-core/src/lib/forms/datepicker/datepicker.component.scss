@@ -29,12 +29,6 @@
   &--full { width: 100%; }
 }
 
-.p-datepicker__actions {
-  display: flex;
-  gap: 4px;
-  margin-top: -4px;
-}
-
 .p-datepicker__time {
   margin-top: 6px;
   padding: 6px 10px;
@@ -102,4 +96,119 @@
 ::ng-deep .mat-datepicker-toggle {
   margin-left: 4px;
   margin-right: 4px;
+}
+
+// `p-button` isn't a `.mat-mdc-button-base`, so Material's own sibling-margin rule for
+// `.mat-datepicker-actions` doesn't apply to it — set the gap directly instead.
+::ng-deep .mat-datepicker-actions {
+  gap: 8px;
+}
+
+// Material's `.mat-mdc-form-field-flex` uses `align-items: baseline`, but the toggle
+// icon overrides itself to `align-self: center`. That leaves the input as the only
+// baseline-aligned child, which pins it to the top of the row instead of centering it
+// against the (taller) icon — force the whole row to center instead.
+::ng-deep .p-datepicker .mat-mdc-form-field-flex {
+  align-items: center;
+}
+
+// The row fix above isn't enough on its own: `.mat-mdc-form-field-infix` is a plain
+// block box whose min-height (48px, set above) already fills the row, so the row's
+// align-items has nothing left to redistribute. Inside the infix the input is just
+// top-padded — when its line-height doesn't exactly consume the padded content area,
+// the leftover space collects below instead of splitting evenly. Make the infix itself
+// a centered flex container so the input centers within it directly.
+::ng-deep .p-datepicker .mat-mdc-form-field-infix {
+  display: flex;
+  align-items: center;
+}
+
+// ── Month/year range grid trigger + panel (view='month'|'year' + selectionMode='range') ──────
+.p-datepicker-gridtrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 48px;
+  padding: 6px 12px;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: var(--cui-radius-md);
+  background: var(--mat-sys-surface);
+  cursor: pointer;
+
+  &--full { display: flex; width: 100%; }
+  &--disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+}
+
+.p-datepicker-gridtrigger__text {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &--placeholder { color: var(--mat-sys-on-surface-variant); }
+}
+
+.p-datepicker-gridpanel {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  margin-top: 4px;
+  padding: 8px;
+  background: var(--mat-sys-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--cui-radius-md);
+  box-shadow: var(--cui-shadow-md);
+}
+
+.p-datepicker-gridpanel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px 8px;
+}
+
+.p-datepicker-gridpanel__title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+}
+
+.p-datepicker-gridpanel__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+
+  &:hover { background: var(--mat-sys-surface-container); }
+}
+
+.p-datepicker-gridpanel__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 4px 0;
+}
+
+// Material's mat-calendar-body paints the range highlight as independently absolutely-positioned
+// ::before pseudo-elements per cell (inset 5% for range-start/end, flush 0-100% for plain in-range
+// cells). At numCols=4 (our month/year grid, vs Material's usual numCols=7) the shared edge between
+// a range-start/end cell and its in-range neighbor can round to different device pixels, leaving a
+// 1px seam of the panel background showing through — most visible when the range starts in a row's
+// first column. A same-color 1px box-shadow closes that seam without changing the visible shape.
+::ng-deep .p-datepicker-gridpanel {
+  .mat-calendar-body-range-start::before,
+  .mat-calendar-body-range-end::before,
+  .mat-calendar-body-in-range::before {
+    box-shadow: 0 0 0 1px
+      var(--mat-datepicker-calendar-date-in-range-state-background-color, var(--mat-sys-primary-container));
+  }
 }

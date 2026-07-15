@@ -80,3 +80,47 @@
 
   &:hover { background: var(--mat-sys-surface-container-high); }
 }
+
+.p-select__loading-icon {
+  margin-right: 4px;
+  animation: p-select-spin 1s linear infinite;
+}
+
+.p-select__dropdown-icon {
+  margin-right: 4px;
+  pointer-events: none;
+}
+
+.p-select__checkmark {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+// Hides the native mat-select arrow when a custom dropdownIcon is supplied.
+::ng-deep .p-select--custom-icon .mat-mdc-select-arrow-wrapper {
+  display: none;
+}
+
+// Material's `.mat-mdc-form-field-flex` uses `align-items: baseline`, but the arrow/
+// suffix icons override themselves to `align-self: center`. That leaves the select
+// trigger (or editable input) as the only baseline-aligned child, which pins it to
+// the top of the row instead of centering it against the (taller) icon.
+::ng-deep .p-select .mat-mdc-form-field-flex {
+  align-items: center;
+}
+
+// The row fix above isn't enough on its own: `.mat-mdc-form-field-infix` is a plain
+// block box whose min-height (48px, set above) already fills the row, so the row's
+// align-items has nothing left to redistribute. Inside the infix the trigger/input is
+// just top-padded — when its line-height doesn't exactly consume the padded content
+// area, the leftover space collects below instead of splitting evenly. Make the infix
+// itself a centered flex container so its content centers directly.
+::ng-deep .p-select .mat-mdc-form-field-infix {
+  display: flex;
+  align-items: center;
+}
+
+@keyframes p-select-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

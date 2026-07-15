@@ -29,6 +29,95 @@
       <p class="p-datepicker-inline__error">{{ error() }}</p>
     }
   </div>
+} @else if (isMonthRangeView() || isYearRangeView()) {
+  <div class="p-field" [class.p-field--full]="fullWidth()">
+    @if (label()) {
+      <label class="p-field__label">
+        {{ label() }}@if (required()) { <span class="p-field__required" aria-hidden="true">*</span> }
+      </label>
+    }
+
+    <div class="p-datepicker-gridtrigger"
+         [class.p-datepicker-gridtrigger--full]="fullWidth()"
+         [class.p-datepicker-gridtrigger--disabled]="disabled()"
+         cdkOverlayOrigin #gridTrigger="cdkOverlayOrigin"
+         (click)="openGrid()">
+      <span class="p-datepicker-gridtrigger__text"
+            [class.p-datepicker-gridtrigger__text--placeholder]="!gridRangeLabel()">
+        {{ gridRangeLabel() || placeholder() }}
+      </span>
+      <cui-icon [name]="gridOpen() ? 'expand_less' : 'expand_more'" size="sm" color="var(--mat-sys-on-surface-variant)" />
+    </div>
+
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="gridTrigger"
+      [cdkConnectedOverlayOpen]="gridOpen()"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+      (backdropClick)="closeGrid()"
+      (detach)="closeGrid()">
+      <div class="p-datepicker-gridpanel">
+        <div class="p-datepicker-gridpanel__header">
+          <button type="button" class="p-datepicker-gridpanel__nav"
+                  (click)="isMonthRangeView() ? shiftMonthGridYear(-1) : shiftYearGridPage(-1)"
+                  aria-label="Previous">
+            <cui-icon name="chevron_left" size="sm" color="currentColor" />
+          </button>
+          <span class="p-datepicker-gridpanel__title">
+            {{ isMonthRangeView() ? monthGridYearLabel() : yearGridPageLabel() }}
+          </span>
+          <button type="button" class="p-datepicker-gridpanel__nav"
+                  (click)="isMonthRangeView() ? shiftMonthGridYear(1) : shiftYearGridPage(1)"
+                  aria-label="Next">
+            <cui-icon name="chevron_right" size="sm" color="currentColor" />
+          </button>
+        </div>
+
+        <table class="mat-calendar-table">
+          @if (isMonthRangeView()) {
+            <tbody mat-calendar-body
+                   [rows]="monthGridRows()"
+                   [todayValue]="monthGridTodayValue()"
+                   [startValue]="monthRangeStartValue()"
+                   [endValue]="monthRangeEndValue()"
+                   [isRange]="true"
+                   [numCols]="4"
+                   [cellAspectRatio]="4/7"
+                   [labelMinRequiredCells]="0"
+                   [activeCell]="monthGridActiveCell()"
+                   (selectedValueChange)="onGridCellSelect($event.value)">
+            </tbody>
+          } @else {
+            <tbody mat-calendar-body
+                   [rows]="yearGridRows()"
+                   [todayValue]="yearGridTodayValue()"
+                   [startValue]="yearRangeStartValue()"
+                   [endValue]="yearRangeEndValue()"
+                   [isRange]="true"
+                   [numCols]="4"
+                   [cellAspectRatio]="4/7"
+                   [labelMinRequiredCells]="0"
+                   [activeCell]="yearGridActiveCell()"
+                   (selectedValueChange)="onGridCellSelect($event.value)">
+            </tbody>
+          }
+        </table>
+
+        <div class="p-datepicker-gridpanel__actions">
+          <p-button size="sm" variant="tonal" color="neutral" (onClick)="clearGridRange()">Clear</p-button>
+          <p-button size="sm" variant="filled" color="primary" (onClick)="commitGridRange()">Done</p-button>
+        </div>
+      </div>
+    </ng-template>
+
+    @if (hint() && !error()) {
+      <p class="p-datepicker-inline__hint">{{ hint() }}</p>
+    }
+    @if (error()) {
+      <p class="p-datepicker-inline__error">{{ error() }}</p>
+    }
+  </div>
 } @else if (selectionMode() === 'range') {
   <div class="p-field" [class.p-field--full]="fullWidth()">
     @if (label()) {
@@ -39,6 +128,7 @@
 
     <mat-form-field
       [appearance]="matAppearance()"
+      subscriptSizing="dynamic"
       [class.p-datepicker--full]="fullWidth()"
       class="p-datepicker">
 
@@ -54,7 +144,12 @@
       @if (showIcon()) {
         <mat-datepicker-toggle matIconSuffix [for]="rangePicker" />
       }
-      <mat-date-range-picker #rangePicker (closed)="closed()" />
+      <mat-date-range-picker #rangePicker (closed)="closed()">
+        <mat-date-range-picker-actions>
+          <p-button size="sm" variant="tonal" color="neutral" (onClick)="clear()">Clear</p-button>
+          <p-button size="sm" variant="filled" color="primary" matDatepickerApply>Done</p-button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
 
       @if (hint() && !error()) {
         <mat-hint>{{ hint() }}</mat-hint>
@@ -63,9 +158,6 @@
         <mat-error>{{ error() }}</mat-error>
       }
     </mat-form-field>
-    <div class="p-datepicker__actions">
-      <p-button size="sm" variant="text" (onClick)="clear()">Clear</p-button>
-    </div>
   </div>
 } @else {
   <div class="p-field" [class.p-field--full]="fullWidth()">
@@ -77,6 +169,7 @@
 
     <mat-form-field
       [appearance]="matAppearance()"
+      subscriptSizing="dynamic"
       [class.p-datepicker--full]="fullWidth()"
       class="p-datepicker">
 
@@ -99,7 +192,13 @@
       }
       <mat-datepicker #picker [startView]="startView()" (closed)="closed()"
                       (monthSelected)="onMonthSelected($event, picker)"
-                      (yearSelected)="onYearSelected($event, picker)" />
+                      (yearSelected)="onYearSelected($event, picker)">
+        <mat-datepicker-actions>
+          <p-button size="sm" variant="text" color="neutral" (onClick)="today()">Today</p-button>
+          <p-button size="sm" variant="tonal" color="neutral" (onClick)="clear()">Clear</p-button>
+          <p-button size="sm" variant="filled" color="primary" matDatepickerApply>Done</p-button>
+        </mat-datepicker-actions>
+      </mat-datepicker>
 
       @if (hint() && !error()) {
         <mat-hint>{{ hint() }}</mat-hint>
@@ -113,9 +212,5 @@
       <input type="time" class="p-datepicker__time" [value]="timeValue()"
              [disabled]="disabled()" (change)="onTimeChange($any($event.target).value)" />
     }
-    <div class="p-datepicker__actions">
-      <p-button size="sm" variant="text" (onClick)="today()">Today</p-button>
-      <p-button size="sm" variant="text" (onClick)="clear()">Clear</p-button>
-    </div>
   </div>
 }

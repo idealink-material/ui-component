@@ -49,3 +49,11 @@
 // keeps from the field edge (accounting for its button's own padding).
 .p-input__prefix-icon { margin: 0 8px 0 10px; }
 .p-input__suffix-icon { margin: 0 10px 0 8px; }
+
+// Same fix as .p-datepicker/.p-select: `.mat-mdc-form-field-infix` is a plain block
+// box whose padding doesn't always exactly match the input/textarea's line-height, so
+// leftover space collects below instead of splitting evenly. Center it directly.
+::ng-deep .p-input .mat-mdc-form-field-infix {
+  display: flex;
+  align-items: center;
+}

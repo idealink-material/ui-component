@@ -1,15 +1,15 @@
 import {
-  ChangeDetectionStrategy, Component, computed,
+  ChangeDetectionStrategy, Component, computed, contentChild,
   input, output, signal, TemplateRef,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { TableColumn, SortDirection, SortState } from './table.types';
 
 @Component({
   selector: 'p-table',
   standalone: true,
-  imports: [NgTemplateOutlet, CuiIconComponent],
+  imports: [NgTemplateOutlet, NgStyle, CuiIconComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,17 +17,26 @@ import { TableColumn, SortDirection, SortState } from './table.types';
 export class CuiTableComponent<T extends Record<string, unknown> = Record<string, unknown>> {
   // ── Inputs ─────────────────────────────────────────────────────────────────
   readonly columns    = input<TableColumn<T>[]>([]);
-  readonly rows       = input<T[]>([]);
+  readonly value      = input<T[]>([]);
   readonly loading    = input<boolean>(false);
   readonly selectable = input<boolean>(false);
   readonly striped    = input<boolean>(false);
   readonly hoverable  = input<boolean>(true);
   readonly stickyHeader = input<boolean>(true);
+  /** Inline styles applied to the `<table>` element, e.g. `{ 'min-width': '50rem' }`. */
+  readonly tableStyle = input<Record<string, string> | null>(null);
   readonly trackBy    = input<(row: T) => unknown>((row) => row);
   /** Renders a chevron toggle column; expanding a row projects `rowDetailTemplate` in a full-width row beneath it. */
   readonly expandable = input<boolean>(false);
   /** Content projected into the expanded row — e.g. a nested `<p-table>` for a "table in table" detail view. */
   readonly rowDetailTemplate = input<TemplateRef<{ $implicit: T }> | null>(null);
+  /** Total column count for the loading/empty-state colspan when using `#header`/`#body` templates instead of `columns`. */
+  readonly columnCount = input<number | null>(null);
+
+  /** `<ng-template #header>` — replaces the generated `<tr><th>…</th></tr>` header row entirely. */
+  readonly headerTemplateRef = contentChild<TemplateRef<void>>('header');
+  /** `<ng-template #body let-row>` — replaces the generated `<tr><td>…</td></tr>` row markup entirely; `$implicit` is the row. */
+  readonly bodyTemplateRef = contentChild<TemplateRef<{ $implicit: T }>>('body');
 
   // ── Outputs ────────────────────────────────────────────────────────────────
   readonly sortChange      = output<SortState>();
@@ -42,11 +51,11 @@ export class CuiTableComponent<T extends Record<string, unknown> = Record<string
 
   /** Total column count, including the checkbox and expand-toggle columns when present — used for the detail row's colspan. */
   readonly colCount = computed(() =>
-    this.columns().length + (this.selectable() ? 1 : 0) + (this.expandable() ? 1 : 0)
+    (this.columnCount() ?? this.columns().length) + (this.selectable() ? 1 : 0) + (this.expandable() ? 1 : 0)
   );
 
   readonly allSelected = computed(() => {
-    const rows = this.rows();
+    const rows = this.value();
     if (!rows.length) return false;
     const sel = this._selected();
     return rows.every(r => sel.has(this.trackBy()(r)));
@@ -78,9 +87,9 @@ export class CuiTableComponent<T extends Record<string, unknown> = Record<string
   toggleAll(): void {
     const sel = new Set(this._selected());
     if (this.allSelected()) {
-      this.rows().forEach(r => sel.delete(this.trackBy()(r)));
+      this.value().forEach(r => sel.delete(this.trackBy()(r)));
     } else {
-      this.rows().forEach(r => sel.add(this.trackBy()(r)));
+      this.value().forEach(r => sel.add(this.trackBy()(r)));
     }
     this._selected.set(sel);
     this.emitSelection();
@@ -114,6 +123,6 @@ export class CuiTableComponent<T extends Record<string, unknown> = Record<string
 
   private emitSelection(): void {
     const sel = this._selected();
-    this.selectionChange.emit(this.rows().filter(r => sel.has(this.trackBy()(r))));
+    this.selectionChange.emit(this.value().filter(r => sel.has(this.trackBy()(r))));
   }
 }

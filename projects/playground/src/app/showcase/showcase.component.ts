@@ -62,7 +62,7 @@ export class ShowcaseComponent implements OnInit {
   readonly form = this.fb.group({
     name:  ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    risk:  [null as string | null],
+    risk:  [null as any],
     date:  [null as Date | null],
   });
 
@@ -100,6 +100,9 @@ export class ShowcaseComponent implements OnInit {
       { label: 'Cases', routerLink: '/cases' },
       { label: 'AML Dashboard', isCurrent: true },
     ]);
+    setTimeout(() => {
+      this.form.patchValue({risk: 'severe'});
+    }, 300)
   }
 
   toast(level: 'success'|'error'|'warning'|'info'): void {

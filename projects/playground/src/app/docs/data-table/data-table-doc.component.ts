@@ -34,6 +34,17 @@ interface DeclarationRow {
   [key: string]: unknown;
 }
 
+interface Product {
+  code: string; name: string; category: string; quantity: number;
+  [key: string]: unknown;
+}
+
+const PRODUCTS: Product[] = [
+  { code: 'f230fh0g3', name: 'Bamboo Watch',  category: 'Accessories', quantity: 24 },
+  { code: 'nvklal433', name: 'Black Watch',    category: 'Accessories', quantity: 61 },
+  { code: 'zz21cz3c1', name: 'Blue Band',      category: 'Fitness',     quantity: 2 },
+];
+
 const DECLARATIONS: DeclarationRow[] = [
   {
     id: '1', declNo: 'I 37004', date: '04 Jun', company: 'S.C. Artistry Co...', co: 'E',
@@ -66,6 +77,8 @@ export class DataTableDocComponent {
   readonly featureSections: DocSection[] = [
     { id: 'basic', label: 'Basic usage' },
     { id: 'expandable', label: 'Expandable rows' },
+    { id: 'custom-templates', label: 'Custom templates' },
+    { id: 'expandable-custom-templates', label: 'Child table (custom templates)' },
   ];
 
   readonly themingSections: DocSection[] = [
@@ -74,7 +87,7 @@ export class DataTableDocComponent {
 
   readonly properties: DocApiProperty[] = [
     { name: 'columns',           type: 'TableColumn<T>[]',         default: '[]',        description: 'Column definitions.' },
-    { name: 'rows',               type: 'T[]',                      default: '[]',        description: 'Row data for the current page.' },
+    { name: 'value',               type: 'T[]',                      default: '[]',        description: 'Row data for the current page.' },
     { name: 'total',               type: 'number',                  default: '0',         description: 'Total row count across all pages (drives the pagination footer).' },
     { name: 'loading',             type: 'boolean',                 default: 'false',     description: 'Shows a loading state over the table.' },
     { name: 'selectable',          type: 'boolean',                 default: 'false',     description: 'Adds a checkbox column for row selection.' },
@@ -96,6 +109,8 @@ export class DataTableDocComponent {
 
   readonly templates: DocApiTemplate[] = [
     { name: 'p-data-table-actions', description: 'Toolbar slot next to the search box, typically holding buttons like Export or Add.' },
+    { name: '#header (p-table)', description: 'Replaces the generated <thead> row entirely — project a full <tr><th>…</th></tr>. Only on the p-table primitive, not p-data-table.' },
+    { name: '#body (p-table)', description: 'Replaces the generated <tr><td>…</td></tr> row markup entirely; let-row exposes the row via $implicit. Only on the p-table primitive, not p-data-table.' },
   ];
 
   readonly interfaces: DocApiInterface[] = [
@@ -130,7 +145,7 @@ export class DataTableDocComponent {
     { key: 'risk',    header: 'Risk',     sortable: true, width: '100px', align: 'center' },
   ];
 
-  readonly rows = signal<CaseRow[]>(CASES);
+  readonly value = signal<CaseRow[]>(CASES);
   readonly lastEvent = signal<DataTableChangeEvent | null>(null);
 
   onTableChange(e: DataTableChangeEvent): void {
@@ -159,4 +174,61 @@ export class DataTableDocComponent {
   ];
 
   readonly declarations = signal<DeclarationRow[]>(DECLARATIONS);
+
+  readonly products = signal<Product[]>(PRODUCTS);
+
+  readonly customTemplatesCode = `<p-table [value]="products()" [columnCount]="4">
+  <ng-template #header>
+    <tr>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Quantity</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr>
+      <td>{{ product.code }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.category }}</td>
+      <td>{{ product.quantity }}</td>
+    </tr>
+  </ng-template>
+</p-table>`;
+
+  readonly expandableCustomTemplatesCode = `<p-data-table
+  [columns]="declarationColumns"
+  [value]="declarations()"
+  [total]="declarations().length"
+  [searchable]="false"
+  [expandable]="true"
+  [rowDetailTemplate]="lineItemsCustom">
+</p-data-table>
+
+<ng-template #lineItemsCustom let-row>
+  <p-table [value]="row.lineItems" [columnCount]="7">
+    <ng-template #header>
+      <tr>
+        <th>HS Code</th>
+        <th>Origin</th>
+        <th>Description</th>
+        <th>Qty</th>
+        <th>Unit Price</th>
+        <th>NW (kg)</th>
+        <th>GW (kg)</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-item>
+      <tr>
+        <td>{{ item.hsCode }}</td>
+        <td>{{ item.origin }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.qty }}</td>
+        <td>{{ item.unitPrice }}</td>
+        <td>{{ item.netWeight }}</td>
+        <td>{{ item.grossWeight }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-template>`;
 }

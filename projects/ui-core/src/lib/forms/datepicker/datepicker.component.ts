@@ -1,46 +1,87 @@
 import {
-  ChangeDetectionStrategy, Component, computed,
-  forwardRef, inject, input, model, output,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
+  forwardRef,
+  inject,
+  input,
+  model,
+  output,
+  Injectable,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
-  DateAdapter, MAT_DATE_FORMATS, MatNativeDateModule,
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MatNativeDateModule,
+  NativeDateAdapter,
 } from '@angular/material/core';
 import {
-  MatDatepickerModule, MatDatepickerInputEvent, MatCalendarCellClassFunction,
+  MatDatepickerModule,
+  MatDatepickerInputEvent,
+  MatCalendarCellClassFunction,
+  MatCalendarBody,
+  MatCalendarCell,
 } from '@angular/material/datepicker';
+import { OverlayModule } from '@angular/cdk/overlay';
 
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { CuiButtonComponent } from '../../atoms/button/button.component';
+import { DateFormatNames, formatDate, parseDate } from './date-format.util';
 
 export type DatepickerVariant = 'outline' | 'fill';
 export type DatepickerSelectionMode = 'single' | 'multiple' | 'range';
 export type DatepickerView = 'date' | 'month' | 'year';
 
-/** Best-effort translation of common PrimeNG-style tokens (yy, yyyy, mm, dd, M, D) into Intl options. */
-function parseDateFormat(fmt: string): Intl.DateTimeFormatOptions {
-  const opts: Intl.DateTimeFormatOptions = {};
-  if (/yyyy/i.test(fmt)) opts.year = 'numeric';
-  else if (/yy/i.test(fmt)) opts.year = '2-digit';
-  if (/mm/.test(fmt)) opts.month = '2-digit';
-  else if (/\bm\b/i.test(fmt) || /M/.test(fmt)) opts.month = 'numeric';
-  if (/dd/.test(fmt)) opts.day = '2-digit';
-  else if (/\bd\b/i.test(fmt)) opts.day = 'numeric';
-  return Object.keys(opts).length ? opts : { year: 'numeric', month: 'numeric', day: 'numeric' };
-}
+/** Years shown per page in the year-range grid panel, matching Material's own multi-year view. */
+const YEARS_PER_PAGE = 24;
+
+/** Matches PrimeNG's documented default (see `dateFormat` doc). */
+export const DEFAULT_DATE_FORMAT = 'mm/dd/yy';
 
 function buildDateFormats(fmt: string | null) {
-  const display = fmt ? parseDateFormat(fmt) : { year: 'numeric', month: 'numeric', day: 'numeric' };
+  const format = fmt || DEFAULT_DATE_FORMAT;
   return {
-    parse: { dateInput: null },
+    parse: { dateInput: format },
     display: {
-      dateInput: display,
-      monthYearLabel: { year: 'numeric', month: 'short' },
-      dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
-      monthYearA11yLabel: { year: 'numeric', month: 'long' },
+      dateInput: format,
+      monthYearLabel: 'M yy',
+      dateA11yLabel: 'MM d, yy',
+      monthYearA11yLabel: 'MM yy',
     },
   };
+}
+
+/**
+ * Extends the native adapter so `format`/`parse` understand the token-string formats above
+ * (PrimeNG/jQuery UI-style `dateFormat`, see `date-format.util.ts`) instead of only Intl options.
+ */
+@Injectable()
+class CuiDatepickerDateAdapter extends NativeDateAdapter {
+  private names(): DateFormatNames {
+    return {
+      dayNamesShort: this.getDayOfWeekNames('short'),
+      dayNames: this.getDayOfWeekNames('long'),
+      monthNamesShort: this.getMonthNames('short'),
+      monthNames: this.getMonthNames('long'),
+    };
+  }
+
+  override format(date: Date, displayFormat: Object): string {
+    if (typeof displayFormat !== 'string') return super.format(date, displayFormat);
+    if (!this.isValid(date)) throw Error('NativeDateAdapter: Cannot format invalid date.');
+    return formatDate(date, displayFormat, this.names());
+  }
+
+  override parse(value: unknown, parseFormat: unknown): Date | null {
+    if (typeof value === 'string' && value.trim() && typeof parseFormat === 'string') {
+      return parseDate(value, parseFormat, this.names());
+    }
+    return super.parse(value, parseFormat);
+  }
 }
 
 @Component({
@@ -52,6 +93,9 @@ function buildDateFormats(fmt: string | null) {
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatCalendarBody,
+    OverlayModule,
+    CuiIconComponent,
     CuiButtonComponent,
   ],
   templateUrl: './datepicker.component.html',
@@ -63,6 +107,7 @@ function buildDateFormats(fmt: string | null) {
       useExisting: forwardRef(() => CuiDatepickerComponent),
       multi: true,
     },
+    { provide: DateAdapter, useClass: CuiDatepickerDateAdapter },
     {
       provide: MAT_DATE_FORMATS,
       useFactory: (host: CuiDatepickerComponent) => buildDateFormats(host.dateFormat()),
@@ -76,28 +121,33 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
 
   private readonly dateAdapter = inject(DateAdapter);
 
-  readonly label       = input<string>('');
+  readonly label = input<string>('');
   readonly placeholder = input<string>('MM/DD/YYYY');
-  readonly hint        = input<string | null>(null);
-  readonly error       = input<string | null>(null);
-  readonly variant     = input<DatepickerVariant>('outline');
-  readonly disabled    = input<boolean>(false);
-  readonly required    = input<boolean>(false);
-  readonly fullWidth   = input<boolean>(true);
-  readonly min         = input<Date | null>(null);
-  readonly max         = input<Date | null>(null);
+  readonly hint = input<string | null>(null);
+  readonly error = input<string | null>(null);
+  readonly variant = input<DatepickerVariant>('outline');
+  readonly disabled = input<boolean>(false);
+  readonly required = input<boolean>(false);
+  readonly fullWidth = input<boolean>(true);
+  readonly min = input<Date | null>(null);
+  readonly max = input<Date | null>(null);
 
-  /** Best-effort token format (e.g. "mm/dd/yy", "yyyy-mm-dd") used for the input's display text. */
-  readonly dateFormat     = input<string | null>(null);
-  readonly selectionMode  = input<DatepickerSelectionMode>('single');
+  /**
+   * Token format for the input's display text and typed-input parsing, PrimeNG/jQuery UI-style.
+   * Defaults to `'mm/dd/yy'`. Tokens: d/dd (day), o/oo (day of year), D/DD (day name),
+   * m/mm (month), M/MM (month name), y/yy (2-/4-digit year), @ (Unix ms timestamp),
+   * ! (Windows ticks), '...' literal text, '' literal single quote, anything else literal.
+   */
+  readonly dateFormat = input<string | null>(null);
+  readonly selectionMode = input<DatepickerSelectionMode>('single');
   /** Which granularity the picker stops at. 'month'/'year' close the popup as soon as that unit is picked. */
-  readonly view           = input<DatepickerView>('date');
+  readonly view = input<DatepickerView>('date');
   /** Shows a time-of-day input alongside the date (single selection mode only). */
-  readonly showTime       = input<boolean>(false);
-  readonly showIcon       = input<boolean>(true);
-  readonly disabledDates  = input<Date[] | null>(null);
+  readonly showTime = input<boolean>(false);
+  readonly showIcon = input<boolean>(true);
+  readonly disabledDates = input<Date[] | null>(null);
   /** Renders the calendar directly in the page instead of a popup. Range mode always uses the popup. */
-  readonly inline         = input<boolean>(false);
+  readonly inline = input<boolean>(false);
   /** Number of calendars shown side by side. Only honored in inline mode. */
   readonly numberOfMonths = input<number>(1);
 
@@ -105,9 +155,9 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
   readonly value = model<Date | Date[] | null>(null);
 
   // ── Outputs ────────────────────────────────────────────────────────────────
-  readonly cuiChange    = output<Date | Date[] | null>();
-  readonly onSelect     = output<Date | Date[] | null>();
-  readonly onClose      = output<void>();
+  readonly cuiChange = output<Date | Date[] | null>();
+  readonly onSelect = output<Date | Date[] | null>();
+  readonly onClose = output<void>();
   readonly onTodayClick = output<void>();
   readonly onClearClick = output<void>();
 
@@ -115,16 +165,19 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
   private _onTouched: () => void = () => {};
 
   readonly matAppearance = computed(() =>
-    this.variant() === 'fill' ? 'fill' as const : 'outline' as const
+    this.variant() === 'fill' ? ('fill' as const) : ('outline' as const),
   );
 
   readonly hasError = computed(() => !!this.error());
 
   readonly startView = computed<'month' | 'year' | 'multi-year'>(() => {
     switch (this.view()) {
-      case 'year':  return 'multi-year';
-      case 'month': return 'year';
-      default:      return 'month';
+      case 'year':
+        return 'multi-year';
+      case 'month':
+        return 'year';
+      default:
+        return 'month';
     }
   });
 
@@ -149,7 +202,7 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
   });
 
   readonly inlineMonths = computed(() =>
-    Array.from({ length: Math.max(1, this.numberOfMonths()) }, (_, i) => i)
+    Array.from({ length: Math.max(1, this.numberOfMonths()) }, (_, i) => i),
   );
 
   readonly dateFilter = (d: Date | null): boolean => {
@@ -168,6 +221,169 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
   startAtForMonth(offset: number): Date {
     const base = this.singleValue() ?? new Date();
     return new Date(base.getFullYear(), base.getMonth() + offset, 1);
+  }
+
+  // ── Month/year range grid panel (view='month'|'year' + selectionMode='range') ──────────────
+  // mat-year-view/mat-multi-year-view only ever highlight a single cell (see MatYearView
+  // `_setSelectedMonth`), so a real range with distinct start/end highlighting needs its own
+  // grid built directly on `mat-calendar-body`, which is fully generic over cell values.
+  readonly isMonthRangeView = computed(
+    () => this.selectionMode() === 'range' && this.view() === 'month',
+  );
+  readonly isYearRangeView = computed(
+    () => this.selectionMode() === 'range' && this.view() === 'year',
+  );
+
+  readonly gridOpen = signal(false);
+  readonly gridPendingRange = signal<[Date | null, Date | null]>([null, null]);
+  readonly monthGridYear = signal(new Date().getFullYear());
+  readonly yearGridPageStart = signal(
+    Math.floor(new Date().getFullYear() / YEARS_PER_PAGE) * YEARS_PER_PAGE,
+  );
+
+  readonly gridRangeLabel = computed(() => {
+    const [start, end] = this.gridCommittedRange();
+    if (!start && !end) return '';
+    const fmt = this.isMonthRangeView()
+      ? (d: Date) => d.toLocaleDateString(undefined, { month: 'short', year: 'numeric' })
+      : (d: Date) => String(d.getFullYear());
+    return start && end ? `${fmt(start)} - ${fmt(end)}` : fmt((start ?? end) as Date);
+  });
+
+  private gridCommittedRange(): [Date | null, Date | null] {
+    const v = this.value();
+    const arr = Array.isArray(v) ? v : [];
+    return [arr[0] ?? null, arr[1] ?? null];
+  }
+
+  readonly monthGridYearLabel = computed(() => String(this.monthGridYear()));
+  readonly yearGridPageLabel = computed(
+    () => `${this.yearGridPageStart()} - ${this.yearGridPageStart() + YEARS_PER_PAGE - 1}`,
+  );
+
+  readonly monthGridTodayValue = computed(() => {
+    const today = new Date();
+    return today.getFullYear() * 12 + today.getMonth();
+  });
+  readonly yearGridTodayValue = computed(() => new Date().getFullYear());
+
+  readonly monthRangeStartValue = computed(() =>
+    this.monthCompareValue(this.gridPendingRange()[0]),
+  );
+  readonly monthRangeEndValue = computed(() => this.monthCompareValue(this.gridPendingRange()[1]));
+  readonly yearRangeStartValue = computed(() => this.gridPendingRange()[0]?.getFullYear() ?? NaN);
+  readonly yearRangeEndValue = computed(() => this.gridPendingRange()[1]?.getFullYear() ?? NaN);
+
+  private monthCompareValue(d: Date | null): number {
+    return d ? d.getFullYear() * 12 + d.getMonth() : NaN;
+  }
+
+  readonly monthGridActiveCell = computed(() => {
+    const start = this.gridPendingRange()[0];
+    const year = this.monthGridYear();
+    return start && start.getFullYear() === year ? start.getMonth() : 0;
+  });
+
+  readonly yearGridActiveCell = computed(() => {
+    const start = this.gridPendingRange()[0];
+    const pageStart = this.yearGridPageStart();
+    const y = start?.getFullYear();
+    return y != null && y >= pageStart && y < pageStart + YEARS_PER_PAGE ? y - pageStart : 0;
+  });
+
+  readonly monthGridRows = computed<MatCalendarCell[][]>(() => {
+    const year = this.monthGridYear();
+    const min = this.min();
+    const max = this.max();
+    const names = this.dateAdapter.getMonthNames('short');
+    const cellFor = (month: number) => {
+      const enabled =
+        !(
+          min &&
+          (year < min.getFullYear() || (year === min.getFullYear() && month < min.getMonth()))
+        ) &&
+        !(
+          max &&
+          (year > max.getFullYear() || (year === max.getFullYear() && month > max.getMonth()))
+        );
+      const value = year * 12 + month;
+      return new MatCalendarCell(
+        value,
+        names[month],
+        `${names[month]} ${year}`,
+        enabled,
+        undefined,
+        value,
+      );
+    };
+    return [
+      [0, 1, 2, 3],
+      [4, 5, 6, 7],
+      [8, 9, 10, 11],
+    ].map((row) => row.map(cellFor));
+  });
+
+  readonly yearGridRows = computed<MatCalendarCell[][]>(() => {
+    const start = this.yearGridPageStart();
+    const min = this.min();
+    const max = this.max();
+    const cellFor = (offset: number) => {
+      const year = start + offset;
+      const enabled = !(min && year < min.getFullYear()) && !(max && year > max.getFullYear());
+      return new MatCalendarCell(year, String(year), String(year), enabled, undefined, year);
+    };
+    return Array.from({ length: 6 }, (_, r) =>
+      Array.from({ length: 4 }, (_, c) => cellFor(r * 4 + c)),
+    );
+  });
+
+  openGrid(): void {
+    if (this.disabled()) return;
+    const [start, end] = this.gridCommittedRange();
+    this.gridPendingRange.set([start, end]);
+    const anchor = start ?? new Date();
+    this.monthGridYear.set(anchor.getFullYear());
+    this.yearGridPageStart.set(Math.floor(anchor.getFullYear() / YEARS_PER_PAGE) * YEARS_PER_PAGE);
+    this.gridOpen.set(true);
+  }
+
+  closeGrid(): void {
+    this.gridOpen.set(false);
+    this._onTouched();
+    this.onClose.emit();
+  }
+
+  shiftMonthGridYear(delta: number): void {
+    this.monthGridYear.update((y) => y + delta);
+  }
+  shiftYearGridPage(delta: number): void {
+    this.yearGridPageStart.update((s) => s + delta * YEARS_PER_PAGE);
+  }
+
+  onGridCellSelect(value: number): void {
+    const rawDate = this.isMonthRangeView()
+      ? new Date(Math.floor(value / 12), value % 12, 1)
+      : new Date(value, 0, 1);
+    const [start, end] = this.gridPendingRange();
+    if (!start || end) {
+      this.gridPendingRange.set([rawDate, null]);
+    } else if (rawDate.getTime() < start.getTime()) {
+      this.gridPendingRange.set([rawDate, start]);
+    } else {
+      this.gridPendingRange.set([start, rawDate]);
+    }
+  }
+
+  clearGridRange(): void {
+    this.gridPendingRange.set([null, null]);
+    this.emit(null);
+    this.onClearClick.emit();
+  }
+
+  commitGridRange(): void {
+    const [start, end] = this.gridPendingRange();
+    this.emit(start || end ? [start, end].filter((x): x is Date => !!x) : null);
+    this.closeGrid();
   }
 
   private emit(v: Date | Date[] | null): void {
@@ -209,12 +425,22 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
     }
   }
 
+  // `picker.close()` is required here (rather than leaving the actions bar's Done button to
+  // close it): mat-year-view/mat-multi-year-view emit `selectedChange` alongside
+  // `monthSelected`/`yearSelected`, which MatCalendar wires to drop straight into the day view —
+  // without closing here, the actions panel would stay open one level past the intended granularity.
   onMonthSelected(d: Date, picker: { close(): void }): void {
-    if (this.view() === 'month') { this.emit(d); picker.close(); }
+    if (this.view() === 'month') {
+      this.emit(d);
+      picker.close();
+    }
   }
 
   onYearSelected(d: Date, picker: { close(): void }): void {
-    if (this.view() === 'year') { this.emit(d); picker.close(); }
+    if (this.view() === 'year') {
+      this.emit(d);
+      picker.close();
+    }
   }
 
   onTimeChange(time: string): void {
@@ -241,12 +467,22 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
     this.onClearClick.emit();
   }
 
-  closed(): void { this.onClose.emit(); }
+  closed(): void {
+    this.onClose.emit();
+  }
 
-  onBlur(): void { this._onTouched(); }
+  onBlur(): void {
+    this._onTouched();
+  }
 
-  writeValue(v: Date | Date[] | null): void { this.value.set(v); }
-  registerOnChange(fn: (v: Date | Date[] | null) => void): void { this._onChange = fn; }
-  registerOnTouched(fn: () => void): void { this._onTouched = fn; }
-  setDisabledState(_: boolean): void { }
+  writeValue(v: Date | Date[] | null): void {
+    this.value.set(v);
+  }
+  registerOnChange(fn: (v: Date | Date[] | null) => void): void {
+    this._onChange = fn;
+  }
+  registerOnTouched(fn: () => void): void {
+    this._onTouched = fn;
+  }
+  setDisabledState(_: boolean): void {}
 }
