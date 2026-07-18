@@ -47,6 +47,7 @@ ng build playground
 ng test                # playground app
 ng test ui-core         # a specific library, e.g. ui-core, ui-icons, ui-theme, ui-utils, ui-layout
 ```
+Test coverage is currently minimal — only `projects/playground/src/app/app.spec.ts` exists — so don't assume a spec file exists for a given component when asked to run or update its tests.
 
 **Publish all libraries to GitHub Packages** (bumps each lib's patch version in its source `package.json`, builds all libs, then `npm publish`s each from `dist/<lib>`):
 ```
@@ -64,7 +65,7 @@ To install `@idealink-material/*` packages into a different project, that projec
 @idealink-material:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=<a GitHub PAT with read:packages scope>
 ```
-Then `npm install @idealink-material/ui-core @idealink-material/ui-utils @idealink-material/ui-icons @idealink-material/ui-theme` etc. as needed — check each library's `peerDependencies` (all currently require `@angular/common`/`@angular/core` `^22.0.0`, `ui-core` additionally requires `@angular/animations`).
+Then `npm install @idealink-material/ui-core @idealink-material/ui-utils @idealink-material/ui-icons @idealink-material/ui-theme` etc. as needed — check each library's `peerDependencies` (all currently require `@angular/common`/`@angular/core` `^22.0.0`, `ui-core` additionally requires `@angular/animations` and `@angular/cdk`).
 
 This repo's own root `.npmrc` (gitignored, not committed) holds the token used by `publish:libs` and by `npm install` here. `scripts/publish.mjs` copies it into each `dist/<lib>` before publishing because npm only reads a "project" `.npmrc` from the publish cwd, not from parent directories.
 

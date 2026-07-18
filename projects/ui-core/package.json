@@ -1,10 +1,11 @@
 {
   "name": "@idealink-material/ui-core",
-  "version": "0.0.23",
+  "version": "0.0.33",
   "peerDependencies": {
     "@angular/common": "^22.0.0",
     "@angular/core": "^22.0.0",
-    "@angular/animations": "^22.0.0"
+    "@angular/animations": "^22.0.0",
+    "@angular/cdk": "^22.0.0"
   },
   "repository": {
     "type": "git",

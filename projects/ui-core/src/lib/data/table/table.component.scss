@@ -1,5 +1,7 @@
 .p-table__wrapper {
-  overflow-x: auto;
+  // Always auto: horizontal scroll kicks in whenever content overflows; vertical scroll
+  // only activates once `scrollHeight` constrains max-height via an inline style.
+  overflow: auto;
   border: 1px solid var(--cui-card-border);
   border-radius: var(--cui-radius-md);
 }
@@ -12,9 +14,14 @@
   background: var(--cui-card-bg);
 }
 
-.p-table__head--sticky thead { position: sticky; top: 0; z-index: 2; }
+// `.p-table__head--sticky` is applied to the `<thead>` element itself (see table.component.html),
+// so sticky positioning must target the `th` descendants — `position: sticky` on `<thead>` is not
+// reliably honored across browsers, and a `.p-table__head--sticky thead { … }` descendant selector
+// would never match its own element anyway.
+thead.p-table__head--sticky .p-table__th { position: sticky; top: 0; z-index: 2; }
 
 .p-table__th {
+  position: relative;
   padding: 10px 14px;
   text-align: left;
   font-weight: 700;
@@ -27,9 +34,47 @@
 
   &--sortable { cursor: pointer; &:hover { background: color-mix(in srgb, var(--mat-sys-primary) 88%, black); } }
   &--sorted { opacity: 1; }
-  &--sticky { position: sticky; left: 0; z-index: 3; }
   &--check { width: 40px; }
   &--expand { width: 44px; }
+  // Frozen-column positioning (`--sticky`/`--sticky-right`/edge-shadow variants) lives in the
+  // `::ng-deep` block below — it must be unscoped to also reach #header/#body template markup.
+}
+
+// Column resize (drag handle on the trailing edge of a `<th>`) and column reorder (drag handle
+// in the header label) — kept on opposite sides of the same `<th>` so their pointer/drag gesture
+// zones never overlap.
+.p-table__resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+  &:hover { background: color-mix(in srgb, var(--mat-sys-on-primary) 30%, transparent); }
+}
+
+.p-table__drag-handle {
+  cursor: grab;
+  opacity: 0.7;
+  &:active { cursor: grabbing; }
+}
+
+// CDK drag-drop's default preview/placeholder assume block-level layout; without these overrides
+// dragging a `<th>` (a table-cell) renders a visually broken preview and a collapsed-looking gap.
+.cdk-drag-preview.p-table__th {
+  display: table;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+// Virtual-scroll spacer rows reserve exactly their bound height with no extra chrome, so the
+// wrapper's scrollbar proportions stay accurate.
+.p-table__tr--spacer td {
+  padding: 0;
+  border: none;
 }
 
 // Fallback styling for plain <th>/<td> markup projected via #header/#body templates. These
@@ -47,10 +92,66 @@
   white-space: nowrap;
 }
 
+:host ::ng-deep thead.p-table__head--sticky th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
 :host ::ng-deep .p-table tbody td {
   padding: 10px 14px;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
   vertical-align: middle;
+}
+
+// Frozen-column utility classes, unscoped so consumers using #header/#body templates (whose
+// th/td markup keeps their *own* component's encapsulation attribute, not ui-core's) can apply
+// them directly: add the class plus an inline `left`/`right` px offset of your own choosing
+// (the automatic offset in table.component.ts only applies to the `columns`-array render path).
+:host ::ng-deep .p-table th.p-table__th--sticky,
+:host ::ng-deep .p-table th.p-table__th--sticky-right {
+  position: sticky;
+  z-index: 3;
+  background: var(--mat-sys-primary);
+}
+:host ::ng-deep thead.p-table__head--sticky th.p-table__th--sticky,
+:host ::ng-deep thead.p-table__head--sticky th.p-table__th--sticky-right {
+  z-index: 4;
+}
+:host ::ng-deep .p-table td.p-table__td--sticky,
+:host ::ng-deep .p-table td.p-table__td--sticky-right {
+  position: sticky;
+  z-index: 1;
+  background: var(--cui-card-bg);
+}
+:host ::ng-deep .p-table th.p-table__th--sticky-edge,
+:host ::ng-deep .p-table td.p-table__td--sticky-edge {
+  box-shadow: 4px 0 6px -4px rgba(0, 0, 0, 0.25);
+}
+:host ::ng-deep .p-table th.p-table__th--sticky-right-edge,
+:host ::ng-deep .p-table td.p-table__td--sticky-right-edge {
+  box-shadow: -4px 0 6px -4px rgba(0, 0, 0, 0.25);
+}
+
+// Frozen-row ("pinned") cells. `--p-table-frozen-top` is set per-`<tr>` from table.component.ts
+// (measured header/row heights, not a fixed guess) so stacked frozen rows land below the header
+// and below each other at the right pixel. `::ng-deep` + unscoped for the same cross-encapsulation
+// reason as the frozen-column rules above — #frozenbody/#body markup keeps the consumer's own
+// encapsulation attribute when projected via ngTemplateOutlet.
+:host ::ng-deep .p-table__tbody--frozen td,
+:host ::ng-deep .p-table__tbody--frozen th {
+  position: sticky;
+  top: var(--p-table-frozen-top, 0px);
+  z-index: 2;
+  background: var(--cui-card-bg);
+}
+// Cells that are *also* column-frozen (a "frozen corner") stick to both edges at once and need
+// to paint above plain frozen-row cells during horizontal scroll.
+:host ::ng-deep .p-table__tbody--frozen td.p-table__td--sticky,
+:host ::ng-deep .p-table__tbody--frozen td.p-table__td--sticky-right,
+:host ::ng-deep .p-table__tbody--frozen th.p-table__th--sticky,
+:host ::ng-deep .p-table__tbody--frozen th.p-table__th--sticky-right {
+  z-index: 3;
 }
 
 .p-table__th-inner {
@@ -66,9 +167,9 @@
   padding: 10px 14px;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
   vertical-align: middle;
-  &--sticky { position: sticky; left: 0; background: var(--cui-card-bg); z-index: 1; }
   &--check  { width: 40px; }
   &--expand { width: 44px; text-align: center; cursor: pointer; }
+  // Frozen-column positioning lives in the `::ng-deep` block below.
 }
 
 .p-table__expand-btn {
@@ -90,12 +191,27 @@
 
 .p-table__tr {
   transition: background 80ms;
-  &--selected { background: color-mix(in srgb, var(--mat-sys-primary) 8%, transparent); }
+  &--selected {
+    background: color-mix(in srgb, var(--mat-sys-primary) 8%, transparent);
+    // Sticky cells paint their own opaque background (needed to hide scrolling content
+    // behind them), which would otherwise mask the row's selected tint.
+    .p-table__td--sticky, .p-table__td--sticky-right {
+      background: color-mix(in srgb, var(--mat-sys-primary) 8%, var(--cui-card-bg));
+    }
+  }
 }
 
 // ::ng-deep since tbody may contain rows projected from a #body template (see note above).
-:host ::ng-deep .p-table--hoverable tbody tr:not(.p-table__tr--detail):hover { background: var(--mat-sys-surface-container-low); }
-:host ::ng-deep .p-table--striped tbody tr:not(.p-table__tr--detail):nth-child(even) { background: var(--mat-sys-surface-container-low); }
+// Each rule also repaints `.p-table__td--sticky(-right)` explicitly — those cells set their own
+// opaque background to hide scrolling content behind them, which otherwise masks hover/stripe tints.
+:host ::ng-deep .p-table--hoverable tbody tr:not(.p-table__tr--detail):hover {
+  background: var(--mat-sys-surface-container-low);
+  .p-table__td--sticky, .p-table__td--sticky-right { background: var(--mat-sys-surface-container-low); }
+}
+:host ::ng-deep .p-table--striped tbody tr:not(.p-table__tr--detail):nth-child(even) {
+  background: var(--mat-sys-surface-container-low);
+  .p-table__td--sticky, .p-table__td--sticky-right { background: var(--mat-sys-surface-container-low); }
+}
 
 .p-table__td-detail {
   padding: 12px;

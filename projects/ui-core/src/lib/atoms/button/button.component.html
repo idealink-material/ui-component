@@ -1,3 +1,10 @@
+@if (type() === 'submit') {
+  <!-- The host renders as a custom `<p-button>` element, not a native <button>, so the
+       browser's implicit "Enter submits the form" behavior has nothing to latch onto —
+       this hidden native submit control gives it a real form control to find. -->
+  <button type="submit" class="p-btn__native-submit" aria-hidden="true" tabindex="-1"></button>
+}
+
 <span class="p-btn__inner" (click)="handleClick($event)" matRipple
       [matRippleDisabled]="disabled() || loading()"
       [matRippleColor]="'var(--cui-btn-ripple, rgba(255,255,255,0.2))'">

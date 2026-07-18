@@ -18,9 +18,9 @@
   [(value)]="country" />'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Search a country…"
-            [suggestions]="filteredCountries()"
-            (completeMethod)="search($event)"
-            [(value)]="country" />
+                           [suggestions]="filteredCountries()"
+                           (completeMethod)="search($event)"
+                           [(value)]="country" />
         </div>
       </app-doc-example>
     </section>
@@ -36,9 +36,31 @@
   [(value)]="countryObj" />'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Search a country…"
-            [suggestions]="filteredCountryObjects()" field="name"
-            (completeMethod)="searchObjects($event)"
-            [(value)]="countryObj" />
+                           [suggestions]="filteredCountryObjects()" field="name"
+                           (completeMethod)="searchObjects($event)"
+                           [(value)]="countryObj" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="custom-item" class="doc-page__section">
+      <app-doc-example
+        title="Custom item content"
+        description="Project #item / #selectedItem &lt;ng-template&gt;s to render the suggestion and selected-chip content yourself — both receive the item via let-x. In single-selection mode the closed field is a plain text input, so #selectedItem only has visible effect in multiple mode."
+        sourceId="p-auto-complete"
+        [code]="customItemCode">
+        <div style="width: 100%; max-width: 320px;">
+          <p-auto-complete placeholder="Add countries…" [multiple]="true" field="name"
+                           [suggestions]="filteredCountryObjects()"
+                           (completeMethod)="searchObjects($event)"
+                           [(value)]="customItemCountries">
+            <ng-template #selectedItem let-c>
+              <span class="continent-dot" [style.background]="continentColor(c.code)"></span>{{ c.code }} - {{ c.name }}
+            </ng-template>
+            <ng-template #item let-c>
+              <span class="continent-dot" [style.background]="continentColor(c.code)"></span>{{ c.code }} -{{ c.name }}
+            </ng-template>
+          </p-auto-complete>
         </div>
       </app-doc-example>
     </section>
@@ -54,9 +76,9 @@
   [(value)]="countries" />'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Add countries…" [multiple]="true"
-            [suggestions]="filteredMulti()"
-            (completeMethod)="searchMulti($event)"
-            [(value)]="countries" />
+                           [suggestions]="filteredMulti()"
+                           (completeMethod)="searchMulti($event)"
+                           [(value)]="countries" />
         </div>
       </app-doc-example>
     </section>
@@ -72,8 +94,8 @@
 <p-auto-complete placeholder="Disabled" [disabled]="true" />'>
         <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
           <p-auto-complete placeholder="Browse all…" [dropdown]="true"
-            [suggestions]="filteredCountries()"
-            (completeMethod)="search($event)" />
+                           [suggestions]="filteredCountries()"
+                           (completeMethod)="search($event)" />
           <p-auto-complete placeholder="Disabled" [disabled]="true" />
         </div>
       </app-doc-example>
@@ -90,16 +112,44 @@
       </p>
       <table class="doc-page__table">
         <thead>
-          <tr><th>Token</th><th>Used for</th></tr>
+        <tr>
+          <th>Token</th>
+          <th>Used for</th>
+        </tr>
         </thead>
         <tbody>
-          <tr><td><code>--mat-sys-outline-variant</code></td><td>Default field border color.</td></tr>
-          <tr><td><code>--mat-sys-primary</code></td><td>Border and outline color when the field is focused.</td></tr>
-          <tr><td><code>--mat-sys-surface</code></td><td>Field background.</td></tr>
-          <tr><td><code>--mat-sys-on-surface</code></td><td>Input text color.</td></tr>
-          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Clear and dropdown icon color.</td></tr>
-          <tr><td><code>--mat-sys-surface-container-high</code></td><td>Clear/dropdown button hover background.</td></tr>
-          <tr><td><code>--cui-radius-sm</code></td><td>Field and button corner radius.</td></tr>
+        <tr>
+          <td><code>--mat-sys-outline-variant</code></td>
+          <td>Default field border color.</td>
+        </tr>
+        <tr>
+          <td><code>--mat-sys-primary</code></td>
+          <td>Border and outline color when the field is focused.</td>
+        </tr>
+        <tr>
+          <td><code>--mat-sys-surface</code></td>
+          <td>Field background.</td>
+        </tr>
+        <tr>
+          <td><code>--mat-sys-on-surface</code></td>
+          <td>Input text color.</td>
+        </tr>
+        <tr>
+          <td><code>--mat-sys-on-surface-variant</code></td>
+          <td>Clear and dropdown icon color.</td>
+        </tr>
+        <tr>
+          <td><code>--mat-sys-surface-container-high</code></td>
+          <td>Clear/dropdown button hover background.</td>
+        </tr>
+        <tr>
+          <td><code>--cui-radius-md</code></td>
+          <td>Field corner radius.</td>
+        </tr>
+        <tr>
+          <td><code>--cui-radius-sm</code></td>
+          <td>Clear/dropdown button corner radius.</td>
+        </tr>
         </tbody>
       </table>
     </section>

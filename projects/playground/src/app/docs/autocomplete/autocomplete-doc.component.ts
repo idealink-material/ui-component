@@ -20,10 +20,11 @@ interface Country {
 })
 export class AutocompleteDocComponent {
   readonly featureSections: DocSection[] = [
-    { id: 'basic',    label: 'Basic usage' },
-    { id: 'objects',  label: 'Object suggestions' },
-    { id: 'multiple', label: 'Multiple selection' },
-    { id: 'dropdown', label: 'Dropdown & states' },
+    { id: 'basic',       label: 'Basic usage' },
+    { id: 'objects',     label: 'Object suggestions' },
+    { id: 'custom-item', label: 'Custom item content' },
+    { id: 'multiple',    label: 'Multiple selection' },
+    { id: 'dropdown',    label: 'Dropdown & states' },
   ];
 
   readonly themingSections: DocSection[] = [
@@ -54,8 +55,10 @@ export class AutocompleteDocComponent {
 
   private readonly allCountries: string[] = [
     'Argentina', 'Australia', 'Belgium', 'Brazil', 'Canada', 'Denmark',
-    'Egypt', 'France', 'Germany', 'India', 'Japan', 'Kenya', 'Mexico',
-    'Norway', 'Portugal', 'Vietnam',
+    'Egypt', 'Finland', 'France', 'Germany', 'Greece', 'India', 'Indonesia',
+    'Italy', 'Japan', 'Kenya', 'Mexico', 'Netherlands', 'Norway', 'Poland',
+    'Portugal', 'Singapore', 'South Korea', 'Spain', 'Sweden', 'Switzerland',
+    'Thailand', 'Turkey', 'Vietnam',
   ];
 
   private readonly allCountryObjects: Country[] = [
@@ -65,8 +68,28 @@ export class AutocompleteDocComponent {
     { name: 'Brazil', code: 'BR' },
     { name: 'Canada', code: 'CA' },
     { name: 'Denmark', code: 'DK' },
+    { name: 'Egypt', code: 'EG' },
+    { name: 'Finland', code: 'FI' },
     { name: 'France', code: 'FR' },
     { name: 'Germany', code: 'DE' },
+    { name: 'Greece', code: 'GR' },
+    { name: 'India', code: 'IN' },
+    { name: 'Indonesia', code: 'ID' },
+    { name: 'Italy', code: 'IT' },
+    { name: 'Japan', code: 'JP' },
+    { name: 'Kenya', code: 'KE' },
+    { name: 'Mexico', code: 'MX' },
+    { name: 'Netherlands', code: 'NL' },
+    { name: 'Norway', code: 'NO' },
+    { name: 'Poland', code: 'PL' },
+    { name: 'Portugal', code: 'PT' },
+    { name: 'Singapore', code: 'SG' },
+    { name: 'South Korea', code: 'KR' },
+    { name: 'Spain', code: 'ES' },
+    { name: 'Sweden', code: 'SE' },
+    { name: 'Switzerland', code: 'CH' },
+    { name: 'Thailand', code: 'TH' },
+    { name: 'Turkey', code: 'TR' },
     { name: 'Vietnam', code: 'VN' },
   ];
 
@@ -79,12 +102,44 @@ export class AutocompleteDocComponent {
   readonly countries    = signal<string[]>([]);
   readonly filteredMulti = signal<string[]>([]);
 
-  search(query: string): void {
+  readonly customItemCountries = signal<Country[]>([this.allCountryObjects[0], this.allCountryObjects[1],this.allCountryObjects[2]]);
+
+  // Kept as a TS string (rather than an inline template attribute) because it
+  // contains literal `{{ }}` — Angular's HTML parser decodes entities before
+  // scanning for interpolation, so escaping them in the template doesn't work.
+  readonly customItemCode = `<p-auto-complete placeholder="Add countries…" [multiple]="true" field="name"
+  [suggestions]="filteredCountryObjects()"
+  (completeMethod)="searchObjects($event)"
+  [(value)]="customItemCountries">
+  <ng-template #selectedItem let-c>
+    <span class="continent-dot" [style.background]="continentColor(c.code)"></span>{{ c.name }}
+  </ng-template>
+  <ng-template #item let-c>
+    <span class="continent-dot" [style.background]="continentColor(c.code)"></span>{{ c.name }}
+  </ng-template>
+</p-auto-complete>`;
+
+  private readonly continentColors: Record<string, string> = {
+    AR: '#f97316', BR: '#f97316', CA: '#f97316', MX: '#f97316',
+    BE: '#3b82f6', DK: '#3b82f6', FI: '#3b82f6', FR: '#3b82f6', DE: '#3b82f6',
+    GR: '#3b82f6', IT: '#3b82f6', NL: '#3b82f6', NO: '#3b82f6', PL: '#3b82f6',
+    PT: '#3b82f6', ES: '#3b82f6', SE: '#3b82f6', CH: '#3b82f6',
+    IN: '#22c55e', ID: '#22c55e', JP: '#22c55e', SG: '#22c55e', KR: '#22c55e',
+    TH: '#22c55e', TR: '#22c55e', VN: '#22c55e',
+    EG: '#eab308', KE: '#eab308',
+    AU: '#a855f7',
+  };
+
+  continentColor(code: string): string {
+    return this.continentColors[code] ?? '#9ca3af';
+  }
+
+  search(query: any): void {
     const q = query.toLowerCase();
     this.filteredCountries.set(this.allCountries.filter((c) => c.toLowerCase().includes(q)));
   }
 
-  searchObjects(query: string): void {
+  searchObjects(query: any): void {
     const q = query.toLowerCase();
     this.filteredCountryObjects.set(
       this.allCountryObjects.filter((c) => c.name.toLowerCase().includes(q))

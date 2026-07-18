@@ -120,6 +120,11 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
   private _onChange: (v: T | T[] | null) => void = () => {};
   private _onTouched: () => void = () => {};
 
+  /** True once the field has been blurred/closed at least once. Gates when `error` is actually shown. */
+  readonly touched = signal(false);
+
+  readonly hasError = computed(() => this.touched() && !!this.error());
+
   readonly resolvedInputId = computed(() => this.inputId() ?? this.fieldId);
 
   readonly matAppearance = computed(() =>
@@ -282,5 +287,5 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
   registerOnTouched(fn: () => void): void  { this._onTouched = fn; }
   setDisabledState(_: boolean): void       { }
 
-  onTouched(): void { this._onTouched(); }
+  onTouched(): void { this.touched.set(true); this._onTouched(); }
 }

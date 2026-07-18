@@ -18,8 +18,9 @@
           <span class="p-tree__toggle-spacer"></span>
         }
         @if (selectable()) {
-          <p-checkbox [value]="isSelected(node.id)" [disabled]="!!node.disabled"
-            (onChange)="toggleSelect(node.id)" (click)="$event.stopPropagation()" />
+          <p-checkbox [value]="isSelected(node.id)" [indeterminate]="isIndeterminate(node.id)"
+            [disabled]="!!node.disabled"
+            (onChange)="toggleSelect(node)" (click)="$event.stopPropagation()" />
         }
         @if (node.icon) {
           <cui-icon [name]="node.icon" size="sm" color="currentColor" />

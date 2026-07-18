@@ -1,16 +1,22 @@
 import {
-  ChangeDetectionStrategy, Component, forwardRef, input, model, output,
+  ChangeDetectionStrategy, Component, contentChild, forwardRef, input, model, output, TemplateRef,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 import { CuiChipComponent } from '../../atoms/chip/chip.component';
 
+/** Template context available to `#item` / `#selectedItem` templates via `let-x`. */
+export interface AutoCompleteItemContext<T> {
+  $implicit: T;
+}
+
 @Component({
   selector: 'p-auto-complete',
   standalone: true,
-  imports: [MatAutocompleteModule, CuiChipComponent, CuiIconComponent],
+  imports: [MatAutocompleteModule, CuiChipComponent, CuiIconComponent, NgTemplateOutlet],
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,6 +41,11 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
   readonly disabled         = input<boolean>(false);
   readonly placeholder      = input<string>('');
   readonly completeOnFocus  = input<boolean>(false);
+
+  /** Custom content for each suggestion in the panel. Receives the item via `let-x`. */
+  readonly itemTemplate = contentChild<TemplateRef<AutoCompleteItemContext<T>>>('item');
+  /** Custom content for selected chips in multiple mode. Receives the item via `let-x`. */
+  readonly selectedItemTemplate = contentChild<TemplateRef<AutoCompleteItemContext<T>>>('selectedItem');
 
   readonly value = model<T | T[] | null>(null);
 

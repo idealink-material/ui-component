@@ -149,6 +149,251 @@ columns: TableColumn<CaseRow>[] = [
         </ng-template>
       </app-doc-example>
     </section>
+
+    <section id="vertical-scroll" class="doc-page__section">
+      <app-doc-example
+        title="Vertical scroll"
+        description="Set scrollHeight on p-table to constrain the wrapper's height and enable vertical scrolling; the header (stickyHeader, on by default) stays pinned in view as rows scroll beneath it."
+        sourceId="p-table"
+        [code]="verticalScrollCode">
+        <p-table [columns]="accountColumnsCompact" [value]="accounts()" scrollHeight="320px" />
+      </app-doc-example>
+    </section>
+
+    <section id="horizontal-scroll" class="doc-page__section">
+      <app-doc-example
+        title="Horizontal scroll"
+        description="Horizontal scrolling activates automatically whenever the columns' combined width overflows the wrapper — give tableStyle a min-width (or size columns explicitly) to force it in a demo like this one."
+        sourceId="p-table"
+        [code]="horizontalScrollCode">
+        <p-table
+          [columns]="accountColumns"
+          [value]="accounts()"
+          [tableStyle]="{ 'min-width': '1100px' }">
+        </p-table>
+      </app-doc-example>
+    </section>
+
+    <section id="frozen-columns" class="doc-page__section">
+      <app-doc-example
+        title="Frozen columns"
+        description="Set sticky: true (or 'left'/'right') on a column to pin it while the table scrolls horizontally — give it an explicit pixel width for a correctly computed offset. Combine with scrollHeight to freeze on both axes at once."
+        sourceId="p-table"
+        [code]="frozenColumnsCode">
+        <p-table
+          [columns]="accountColumnsFrozenLeft"
+          [value]="accounts()"
+          scrollHeight="320px"
+          [tableStyle]="{ 'min-width': '1100px' }">
+        </p-table>
+      </app-doc-example>
+    </section>
+
+    <section id="frozen-columns-multiple" class="doc-page__section">
+      <app-doc-example
+        title="Frozen columns (multiple)"
+        description="Multiple columns can freeze on the same edge — their offsets stack automatically in column order — and different columns can freeze on opposite edges at once."
+        sourceId="p-table"
+        [code]="frozenColumnsMultipleCode">
+        <p-table
+          [columns]="accountColumnsFrozenMultiple"
+          [value]="accounts()"
+          scrollHeight="320px"
+          [tableStyle]="{ 'min-width': '1100px' }">
+        </p-table>
+      </app-doc-example>
+    </section>
+
+    <section id="frozen-rows" class="doc-page__section">
+      <app-doc-example
+        title="Frozen rows"
+        description="Pass frozenValue a separate list of rows to pin them to the top of the scroll area — they stay in view while value scrolls beneath them. Works with the columns array (shown here) or a #frozenbody template for custom row markup."
+        sourceId="p-table"
+        [code]="frozenRowsCode">
+        <p-table
+          [columns]="accountColumnsCompact"
+          [value]="scrollAccounts()"
+          [frozenValue]="pinnedAccounts()"
+          scrollHeight="280px">
+        </p-table>
+      </app-doc-example>
+    </section>
+
+    <section id="controlled-selection" class="doc-page__section">
+      <app-doc-example
+        title="Controlled selection"
+        description="selection is a bindable model — use [(selection)] to read and drive it externally. Add/remove is tracked against the full array, so selection survives pagination."
+        sourceId="p-data-table"
+        [code]="controlledSelectionCode">
+        <p-data-table
+          [columns]="accountColumnsCompact"
+          [value]="accounts()"
+          [total]="accounts().length"
+          [searchable]="false"
+          [selectable]="true"
+          [(selection)]="selectedAccounts">
+        </p-data-table>
+        <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          {{ selectedAccounts().length }} selected: {{ selectedAccounts().map(a => a.holder).join(', ') || '—' }}
+        </p>
+      </app-doc-example>
+    </section>
+
+    <section id="selection-mode-single" class="doc-page__section">
+      <app-doc-example
+        title="Selection mode (single)"
+        description="selectionMode=&quot;single&quot; hides the checkbox column entirely — clicking a row selects it (replacing any prior selection), and clicking the selected row again deselects it."
+        sourceId="p-table"
+        [code]="selectionModeSingleCode">
+        <p-table
+          [columns]="accountColumnsCompact"
+          [value]="accounts()"
+          [selectable]="true"
+          selectionMode="single"
+          [(selection)]="singleSelected">
+        </p-table>
+        <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          Selected: {{ singleSelected()[0]?.holder ?? '—' }}
+        </p>
+      </app-doc-example>
+    </section>
+
+    <section id="controlled-expansion" class="doc-page__section">
+      <app-doc-example
+        title="Controlled row expansion"
+        description="expandedRowKeys is a bindable model — use [(expandedRowKeys)] to read/drive it externally. rowExpandMode=&quot;single&quot; collapses any previously-expanded row when a new one is expanded (accordion-style)."
+        sourceId="p-data-table"
+        [code]="controlledExpansionCode">
+        <p-data-table
+          [columns]="declarationColumns"
+          [value]="declarations()"
+          [total]="declarations().length"
+          [searchable]="false"
+          [expandable]="true"
+          rowExpandMode="single"
+          [(expandedRowKeys)]="expandedKeys"
+          [rowDetailTemplate]="lineItemsExpandMode">
+        </p-data-table>
+        <ng-template #lineItemsExpandMode let-row>
+          <p-table [columns]="lineItemColumns" [value]="row.lineItems" />
+        </ng-template>
+      </app-doc-example>
+    </section>
+
+    <section id="controlled-sort" class="doc-page__section">
+      <app-doc-example
+        title="Controlled sort"
+        description="sortField/sortOrder are bindable models — use [(sortField)]/[(sortOrder)] to read the current sort or drive it externally, e.g. from buttons outside the table."
+        sourceId="p-table"
+        [code]="controlledSortCode">
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+          <div style="display: flex; gap: 8px;">
+            <p-button size="sm" variant="outlined" (click)="sortFieldCtrl.set('status'); sortOrderCtrl.set('asc')">Sort by Status ↑</p-button>
+            <p-button size="sm" variant="outlined" (click)="sortFieldCtrl.set('risk'); sortOrderCtrl.set('asc')">Sort by Risk ↑</p-button>
+            <p-button size="sm" variant="outlined" (click)="sortFieldCtrl.set(null); sortOrderCtrl.set(null)">Clear sort</p-button>
+          </div>
+          <p-table [columns]="columns" [value]="value()" [(sortField)]="sortFieldCtrl" [(sortOrder)]="sortOrderCtrl" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="paginator-position" class="doc-page__section">
+      <app-doc-example
+        title="Paginator position & toggle"
+        description="paginator hides the footer entirely; paginatorPosition renders it above the table, below it, or both."
+        sourceId="p-data-table"
+        [code]="paginatorPositionCode">
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+          <p-button size="sm" variant="outlined" (click)="showPaginator.set(!showPaginator())">
+            {{ showPaginator() ? 'Hide' : 'Show' }} paginator
+          </p-button>
+          <p-data-table
+            [columns]="accountColumnsCompact"
+            [value]="accounts()"
+            [total]="accounts().length"
+            [searchable]="false"
+            [paginator]="showPaginator()"
+            paginatorPosition="both">
+          </p-data-table>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="state-persistence" class="doc-page__section">
+      <app-doc-example
+        title="State persistence"
+        description="stateKey persists {sort, page, pageSize, search} to sessionStorage (or localStorage via stateStorage) and restores it on init — sort/search/page a few times, then reload this doc page to see it come back."
+        sourceId="p-data-table"
+        [code]="statePersistenceCode">
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+          <p-data-table
+            [columns]="columns"
+            [value]="value()"
+            [total]="value().length"
+            stateKey="data-table-doc-demo"
+            (stateChange)="onTableChange($event)">
+          </p-data-table>
+          <p-button size="sm" variant="outlined" (click)="clearSavedState()">Clear saved state</p-button>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="virtual-scroll" class="doc-page__section">
+      <app-doc-example
+        title="Virtual scroll"
+        description="virtualScroll only renders rows in (and just around) the visible window — here with 2,000 rows. Requires scrollHeight and the columns-array render path (not a custom #body template)."
+        sourceId="p-table"
+        [code]="virtualScrollCode">
+        <p-table
+          [columns]="accountColumnsCompact"
+          [value]="largeAccounts()"
+          scrollHeight="320px"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="40">
+        </p-table>
+      </app-doc-example>
+    </section>
+
+    <section id="resizable-columns" class="doc-page__section">
+      <app-doc-example
+        title="Resizable columns"
+        description="resizableColumns shows a drag handle on each column's trailing edge. columnResizeMode=&quot;fit&quot; (default) borrows/gives width with the neighboring column so total table width stays fixed; &quot;expand&quot; only changes the dragged column."
+        sourceId="p-table"
+        [code]="resizableColumnsCode">
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+          <div style="display: flex; gap: 8px;">
+            <p-button size="sm" [variant]="resizeMode() === 'fit' ? 'filled' : 'outlined'" (click)="resizeMode.set('fit')">fit</p-button>
+            <p-button size="sm" [variant]="resizeMode() === 'expand' ? 'filled' : 'outlined'" (click)="resizeMode.set('expand')">expand</p-button>
+          </div>
+          <p-table
+            [columns]="accountColumnsCompact"
+            [value]="accounts()"
+            [resizableColumns]="true"
+            [columnResizeMode]="resizeMode()">
+          </p-table>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="reorderable-columns" class="doc-page__section">
+      <app-doc-example
+        title="Reorderable columns"
+        description="reorderableColumns shows a drag handle in each column header for reordering via @angular/cdk/drag-drop — dragging is limited to the handle so clicking the header still sorts."
+        sourceId="p-table"
+        [code]="reorderableColumnsCode">
+        <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+          <p-table
+            [columns]="accountColumnsCompact"
+            [value]="accounts()"
+            [reorderableColumns]="true"
+            (onColReorder)="lastReorder.set($event)">
+          </p-table>
+          <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant);">
+            Last reorder: {{ lastReorder() | json }}
+          </p>
+        </div>
+      </app-doc-example>
+    </section>
   </div>
 
   <div docTheming>

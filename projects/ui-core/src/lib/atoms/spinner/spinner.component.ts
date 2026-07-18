@@ -12,6 +12,8 @@ const SPIN_SIZE: Record<SpinnerSize, number> = { xs: 14, sm: 18, md: 24, lg: 32,
   host: {
     '[style.width.px]': 'px()',
     '[style.height.px]': 'px()',
+    '[style.--p-spinner-color]': 'color()',
+    '[style.--p-spinner-border-width.px]': 'borderPx()',
     '[attr.role]': '"status"',
     '[attr.aria-label]': 'label()',
     '[attr.aria-live]': '"polite"',
@@ -23,4 +25,5 @@ export class CuiSpinnerComponent {
   readonly color = input<string>('var(--mat-sys-primary)');
   readonly label = input<string>('Loading…');
   readonly px    = computed(() => SPIN_SIZE[this.size()]);
+  readonly borderPx = computed(() => Math.max(2, this.px() * 0.1));
 }

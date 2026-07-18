@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  computed,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { CuiIconComponent } from '@idealink-material/ui-icons';
 
@@ -23,6 +31,8 @@ export type IconPosition = 'left' | 'right';
   },
 })
 export class CuiButtonComponent {
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
+
   // ── Inputs ─────────────────────────────────────────────────────────────────
   readonly variant = input<ButtonVariant>('filled');
   readonly size = input<ButtonSize>('md');
@@ -31,7 +41,7 @@ export class CuiButtonComponent {
   readonly loading = input<boolean>(false);
   readonly fullWidth = input<boolean>(false);
   readonly icon = input<string>('');
-  readonly iconPos = input<IconPosition>('right');
+  readonly iconPos = input<IconPosition>('left');
   readonly type = input<'button' | 'submit' | 'reset'>('button');
 
   // ── Outputs ────────────────────────────────────────────────────────────────
@@ -65,6 +75,15 @@ export class CuiButtonComponent {
       return;
     }
     this.onClick.emit(e);
+
+    // The host renders as a custom `<p-button>` element, not a native <button>,
+    // so `type="submit"/"reset"` has no built-in browser behavior — trigger it manually.
+    const form = this.elementRef.nativeElement.closest('form');
+    if (this.type() === 'submit') {
+      form?.requestSubmit();
+    } else if (this.type() === 'reset') {
+      form?.reset();
+    }
   }
 
   handleKeydown(e: Event): void {

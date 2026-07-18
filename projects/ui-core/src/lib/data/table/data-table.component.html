@@ -4,6 +4,7 @@
   @if (searchable()) {
     <div class="p-data-table__toolbar">
       <p-input
+        [value]="_search()"
         [placeholder]="searchPlaceholder()"
         prefixIcon="search"
         size="sm"
@@ -13,29 +14,61 @@
     </div>
   }
 
+  <!-- Pagination (top) -->
+  @if (paginator() && (paginatorPosition() === 'top' || paginatorPosition() === 'both')) {
+    <div class="p-data-table__footer p-data-table__footer--top">
+      <ng-container [ngTemplateOutlet]="paginatorTpl" />
+    </div>
+  }
+
   <!-- Table -->
   <p-table
     [columns]="columns()"
     [value]="value()"
     [loading]="loading()"
     [selectable]="selectable()"
+    [selectionMode]="selectionMode()"
     [striped]="striped()"
+    [scrollHeight]="scrollHeight()"
     [trackBy]="trackBy()"
     [expandable]="expandable()"
+    [rowExpandMode]="rowExpandMode()"
     [rowDetailTemplate]="rowDetailTemplate()"
+    [frozenValue]="frozenValue()"
+    [virtualScroll]="virtualScroll()"
+    [virtualScrollItemSize]="virtualScrollItemSize()"
+    [resizableColumns]="resizableColumns()"
+    [columnResizeMode]="columnResizeMode()"
+    [reorderableColumns]="reorderableColumns()"
+    [(selection)]="selection"
+    [(expandedRowKeys)]="expandedRowKeys"
+    [(sortField)]="sortField"
+    [(sortOrder)]="sortOrder"
     (sortChange)="onSortChange($event)"
-    (selectionChange)="selectionChange.emit($event)"
     (rowClick)="rowClick.emit($event)"
-    (expandChange)="expandChange.emit($event)" />
+    (expandChange)="expandChange.emit($event)"
+    (onRowSelect)="onRowSelect.emit($event)"
+    (onRowUnselect)="onRowUnselect.emit($event)"
+    (onHeaderCheckboxToggle)="onHeaderCheckboxToggle.emit($event)"
+    (onRowExpand)="onRowExpand.emit($event)"
+    (onRowCollapse)="onRowCollapse.emit($event)"
+    (onColResize)="onColResize.emit($event)"
+    (onColReorder)="onColReorder.emit($event)" />
 
-  <!-- Pagination -->
-  <div class="p-data-table__footer">
-    <p-pagination
-      [page]="_page()"
-      [pageSize]="_pageSize()"
-      [total]="total()"
-      [pageSizes]="pageSizes()"
-      (pageChange)="onPageChange($event)" />
-  </div>
+  <!-- Pagination (bottom) -->
+  @if (paginator() && (paginatorPosition() === 'bottom' || paginatorPosition() === 'both')) {
+    <div class="p-data-table__footer">
+      <ng-container [ngTemplateOutlet]="paginatorTpl" />
+    </div>
+  }
 
 </div>
+
+<ng-template #paginatorTpl>
+  <p-pagination
+    [page]="page()"
+    [pageSize]="pageSize()"
+    [total]="total()"
+    [pageSizes]="pageSizes()"
+    (pageChange)="onPageChange($event)" />
+</ng-template>

@@ -67,6 +67,29 @@
         }
       </app-doc-example>
     </section>
+
+    <section id="maximizable" class="doc-page__section">
+      <app-doc-example
+        title="Maximize / restore"
+        description="[maximizable]='true' adds an expand icon next to the close button that resizes the CDK overlay pane to fill the viewport. Pass [dialogId] to remember the maximized state — including across page reloads — the next time this dialog opens. Requires opening via DialogService.open() since it resizes a real overlay pane."
+        sourceId="p-dialog-container"
+        code='private readonly dialogService = inject(DialogService);
+
+openMaximizableDemo(): void {
+  this.dialogService.open(MaximizableDialogDemoComponent, {
+    width: "480px",
+    maxWidth: "90vw",
+    maxHeight: "90vh",
+  });
+}
+
+// MaximizableDialogDemoComponent template:
+// <p-dialog-container title="Maximizable Dialog" [maximizable]="true" dialogId="doc-maximizable-demo">
+//   ...
+// </p-dialog-container>'>
+        <p-button variant="filled" (onClick)="openMaximizableDemo()">Open Maximizable Dialog</p-button>
+      </app-doc-example>
+    </section>
   </div>
 
   <div docTheming>

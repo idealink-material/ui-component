@@ -16,6 +16,11 @@
   &.p-btn--disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
 }
 
+// ── Hidden native submit anchor (see button.component.html) ──────────────────
+.p-btn__native-submit {
+  display: none;
+}
+
 // ── Inner wrapper (holds ripple + content) ────────────────────────────────────
 .p-btn__inner {
   display: inline-flex;

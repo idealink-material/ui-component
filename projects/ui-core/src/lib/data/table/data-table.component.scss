@@ -26,4 +26,9 @@
   padding: 10px 16px;
   border-top: 1px solid var(--cui-card-border);
   background: var(--mat-sys-surface-container);
+
+  &--top {
+    border-top: none;
+    border-bottom: 1px solid var(--cui-card-border);
+  }
 }

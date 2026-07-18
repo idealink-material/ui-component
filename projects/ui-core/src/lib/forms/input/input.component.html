@@ -56,10 +56,10 @@
     }
     <ng-content select="[suffixIcon]" />
 
-    @if (hint() && !error()) {
+    @if (hint() && !hasError()) {
       <mat-hint>{{ hint() }}</mat-hint>
     }
-    @if (error()) {
+    @if (hasError()) {
       <mat-error>{{ error() }}</mat-error>
     }
 

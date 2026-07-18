@@ -8,7 +8,7 @@
   min-height: 40px;
   padding: 6px 8px;
   border: 1px solid var(--mat-sys-outline);
-  border-radius: 9999px;
+  border-radius: var(--cui-radius-md);
   background: var(--mat-sys-surface);
 
   &:focus-within {
@@ -47,4 +47,23 @@
   border-radius: var(--cui-radius-sm);
 
   &:hover { background: var(--mat-sys-surface-container-high); }
+}
+
+// The suggestions panel opens in a CDK overlay outside this component's DOM
+// subtree, so it can only be reached via the mat-autocomplete's classList
+// (set as `class` on <mat-autocomplete>) + ::ng-deep. matAutocompleteConnectedTo
+// (see .html) makes the overlay match this field's full border-box width
+// instead of just the inner <input>'s width.
+::ng-deep .p-autocomplete__panel.mat-mdc-autocomplete-panel {
+  margin-top: 4px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--cui-radius-md);
+  box-shadow: var(--cui-shadow-md);
+  background: var(--mat-sys-surface);
+
+  .mat-mdc-option {
+    min-height: 40px;
+    font-size: 14px;
+    color: var(--mat-sys-on-surface);
+  }
 }

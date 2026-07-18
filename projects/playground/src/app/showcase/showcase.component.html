@@ -173,6 +173,11 @@
         <div class="p-5 flex flex-col gap-4">
           <h3 class="font-semibold" style="color:var(--mat-sys-on-surface)">Case Form</h3>
           <form [formGroup]="form" (ngSubmit)="submitForm()" class="flex flex-col gap-4">
+            <div class="flex flex-row">
+              <div><p-input placeholder="Playground description"></p-input></div>
+              <div> <p-input-number mode="currency" currency="USD" locale="en-US" />
+              </div>
+            </div>
             <p-input placeholder="Playground description"></p-input>
             <p-input label="Subject / Description" formControlName="name"
               placeholder="Describe the suspicious activity…"

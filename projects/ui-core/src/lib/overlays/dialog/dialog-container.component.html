@@ -1,13 +1,24 @@
-<div class="p-dialog">
+<div class="p-dialog" [class.p-dialog--maximized]="maximized()">
 
   <!-- Header -->
   <div class="p-dialog__header" [class.p-dialog__header--divided]="dividers()">
     <h2 class="p-dialog__title">{{ title() }}</h2>
-    @if (showClose()) {
-      <button class="p-dialog__close" (click)="close()" aria-label="Close dialog">
-        <cui-icon name="close" size="sm" color="currentColor" />
-      </button>
-    }
+    <div class="p-dialog__header-actions">
+      @if (maximizable()) {
+        <button
+          class="p-dialog__icon-btn"
+          (click)="toggleMaximize()"
+          [attr.aria-label]="maximized() ? 'Restore dialog' : 'Maximize dialog'"
+        >
+          <cui-icon [name]="maximized() ? 'close_fullscreen' : 'open_in_full'" size="sm" color="currentColor" />
+        </button>
+      }
+      @if (showClose()) {
+        <button class="p-dialog__icon-btn" (click)="close()" aria-label="Close dialog">
+          <cui-icon name="close" size="sm" color="currentColor" />
+        </button>
+      }
+    </div>
   </div>
 
   <!-- Body -->

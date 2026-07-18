@@ -38,11 +38,73 @@ export class CuiTreeComponent<T = unknown> {
     return this.selectedIds().includes(id);
   }
 
-  toggleSelect(id: string): void {
-    const current = this.selectedIds();
-    const next = current.includes(id) ? current.filter(x => x !== id) : [...current, id];
-    this.selectedIds.set(next);
-    this.selectionChange.emit(next);
+  isIndeterminate(id: string): boolean {
+    const node = this.findNode(id);
+    if (!node?.children?.length || this.isSelected(id)) return false;
+    return this.hasSelectedDescendant(node);
+  }
+
+  toggleSelect(node: TreeNode<T>): void {
+    if (node.disabled) return;
+    const shouldSelect = !this.isSelected(node.id);
+    const next = new Set(this.selectedIds());
+    this.setDescendantSelection(node, shouldSelect, next);
+    this.updateAncestors(node.id, next);
+    const result = [...next];
+    this.selectedIds.set(result);
+    this.selectionChange.emit(result);
+  }
+
+  private setDescendantSelection(node: TreeNode<T>, selected: boolean, set: Set<string>): void {
+    if (node.disabled) return;
+    if (selected) set.add(node.id); else set.delete(node.id);
+    for (const child of node.children ?? []) {
+      this.setDescendantSelection(child, selected, set);
+    }
+  }
+
+  private updateAncestors(id: string, set: Set<string>): void {
+    const path = this.findPath(id);
+    if (!path) return;
+    for (let i = path.length - 2; i >= 0; i--) {
+      const ancestor = path[i];
+      const selectableChildren = (ancestor.children ?? []).filter(c => !c.disabled);
+      const allSelected = selectableChildren.length > 0 && selectableChildren.every(c => set.has(c.id));
+      if (allSelected) set.add(ancestor.id); else set.delete(ancestor.id);
+    }
+  }
+
+  private hasSelectedDescendant(node: TreeNode<T>): boolean {
+    for (const child of node.children ?? []) {
+      if (this.isSelected(child.id) || this.hasSelectedDescendant(child)) return true;
+    }
+    return false;
+  }
+
+  private findNode(id: string, list: TreeNode<T>[] = this.nodes()): TreeNode<T> | null {
+    for (const n of list) {
+      if (n.id === id) return n;
+      if (n.children?.length) {
+        const found = this.findNode(id, n.children);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+
+  private findPath(
+    id: string,
+    list: TreeNode<T>[] = this.nodes(),
+    path: TreeNode<T>[] = [],
+  ): TreeNode<T>[] | null {
+    for (const n of list) {
+      if (n.id === id) return [...path, n];
+      if (n.children?.length) {
+        const found = this.findPath(id, n.children, [...path, n]);
+        if (found) return found;
+      }
+    }
+    return null;
   }
 
   onNodeClick(node: TreeNode<T>): void {

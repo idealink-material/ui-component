@@ -1,40 +1,58 @@
-<div class="p-table__wrapper">
+<div class="p-table__wrapper" #wrapperRef [style.max-height]="scrollHeight()" (scroll)="onWrapperScroll($event)">
   <table class="p-table"
     [class.p-table--striped]="striped()"
     [class.p-table--hoverable]="hoverable()"
     [ngStyle]="tableStyle()"
+    [style.table-layout]="resizableColumns() ? 'fixed' : null"
+    [style.width.px]="resizableColumns() && columnResizeMode() === 'expand' ? tableTotalWidthPx() : null"
     role="grid">
 
-    <thead [class.p-table__head--sticky]="stickyHeader()">
+    <thead #theadRef [class.p-table__head--sticky]="stickyHeader()">
       @if (headerTemplateRef(); as headerTpl) {
         <ng-container [ngTemplateOutlet]="headerTpl" />
       } @else {
-        <tr>
-          @if (selectable()) {
+        <tr cdkDropList cdkDropListOrientation="horizontal"
+          [cdkDropListDisabled]="!reorderableColumns()"
+          (cdkDropListDropped)="onColumnDrop($event)">
+          @if (selectable() && selectionMode() === 'multiple') {
             <th class="p-table__th p-table__th--check" scope="col">
               <input type="checkbox" class="p-table__checkbox"
                 [checked]="allSelected()"
-                [indeterminate]="!allSelected() && _selected().size > 0"
+                [indeterminate]="!allSelected() && selection().length > 0"
                 (change)="toggleAll()"
                 aria-label="Select all rows" />
             </th>
           }
-          @for (col of columns(); track col.key) {
+          @for (col of orderedColumns(); track col.key) {
             <th class="p-table__th"
               scope="col"
+              cdkDrag
+              [cdkDragDisabled]="!reorderableColumns()"
               [class.p-table__th--sortable]="col.sortable"
-              [class.p-table__th--sticky]="col.sticky"
-              [class.p-table__th--sorted]="_sort().column === col.key"
-              [style.width]="col.width ?? 'auto'"
+              [class.p-table__th--sticky]="isStickyLeft(col)"
+              [class.p-table__th--sticky-right]="isStickyRight(col)"
+              [class.p-table__th--sticky-edge]="isStickyLeftEdge(col)"
+              [class.p-table__th--sticky-right-edge]="isStickyRightEdge(col)"
+              [class.p-table__th--sorted]="sortField() === col.key"
+              [style.width]="resizableColumns() ? effectiveColWidth(col) + 'px' : (col.width ?? 'auto')"
               [style.text-align]="col.align ?? 'left'"
+              [style.left.px]="isStickyLeft(col) ? leftOffset(col) : null"
+              [style.right.px]="isStickyRight(col) ? rightOffset(col) : null"
               (click)="onSort(col)">
               <span class="p-table__th-inner">
+                @if (reorderableColumns()) {
+                  <cui-icon name="drag_indicator" size="xs" color="currentColor"
+                    class="p-table__drag-handle" cdkDragHandle (click)="$event.stopPropagation()" />
+                }
                 {{ col.header }}
                 @if (col.sortable) {
                   <cui-icon [name]="getSortIcon(col)" size="xs"
                     color="currentColor" class="p-table__sort-icon" />
                 }
               </span>
+              @if (resizableColumns()) {
+                <span class="p-table__resize-handle" (pointerdown)="onResizeStart($event, col)"></span>
+              }
             </th>
           }
           @if (expandable()) {
@@ -44,16 +62,34 @@
       }
     </thead>
 
+    @if (frozenValue().length > 0) {
+      <tbody #frozenTbodyRef class="p-table__tbody--frozen">
+        @if (frozenBodyTemplateRef(); as frozenBodyTpl) {
+          @for (row of frozenValue(); track trackBy()(row)) {
+            <ng-container [ngTemplateOutlet]="frozenBodyTpl" [ngTemplateOutletContext]="{ $implicit: row }" />
+          }
+        } @else if (bodyTemplateRef(); as bodyTpl) {
+          @for (row of frozenValue(); track trackBy()(row)) {
+            <ng-container [ngTemplateOutlet]="bodyTpl" [ngTemplateOutletContext]="{ $implicit: row }" />
+          }
+        } @else {
+          @for (row of frozenValue(); track trackBy()(row)) {
+            <ng-container [ngTemplateOutlet]="rowTpl" [ngTemplateOutletContext]="{ $implicit: row }" />
+          }
+        }
+      </tbody>
+    }
+
     <tbody>
       @if (loading()) {
         @for (_ of [1,2,3,4,5]; track $index) {
           <tr class="p-table__tr">
-            @if (selectable()) {
+            @if (selectable() && selectionMode() === 'multiple') {
               <td class="p-table__td"><div class="p-table__skeleton"></div></td>
             }
-            @for (col of columns(); track col.key) {
+            @for (col of orderedColumns(); track col.key) {
               <td class="p-table__td">
-                <div class="p-table__skeleton" [style.width]="col.key === columns()[0]?.key ? '60%' : '80%'"></div>
+                <div class="p-table__skeleton" [style.width]="col.key === orderedColumns()[0]?.key ? '60%' : '80%'"></div>
               </td>
             }
             @if (expandable()) {
@@ -72,42 +108,12 @@
           <ng-container [ngTemplateOutlet]="bodyTpl" [ngTemplateOutletContext]="{ $implicit: row }" />
         }
       } @else {
-        @for (row of value(); track trackBy()(row)) {
-          <tr class="p-table__tr"
-            [class.p-table__tr--selected]="isSelected(row)"
-            (click)="rowClick.emit(row)">
-            @if (selectable()) {
-              <td class="p-table__td p-table__td--check" (click)="$event.stopPropagation()">
-                <input type="checkbox" class="p-table__checkbox"
-                  [checked]="isSelected(row)"
-                  (change)="toggleRow(row)"
-                  [attr.aria-label]="'Select row'" />
-              </td>
-            }
-            @for (col of columns(); track col.key) {
-              <td class="p-table__td"
-                [class.p-table__td--sticky]="col.sticky"
-                [style.text-align]="col.align ?? 'left'">
-                @if (col.cellTemplate) {
-                  <ng-container [ngTemplateOutlet]="col.cellTemplate"
-                    [ngTemplateOutletContext]="{ $implicit: row, value: getValue(row, col) }" />
-                } @else {
-                  {{ getValue(row, col) }}
-                }
-              </td>
-            }
-            @if (expandable()) {
-              <td class="p-table__td p-table__td--expand" (click)="toggleExpand(row, $event)">
-                <button type="button" class="p-table__expand-btn"
-                  [attr.aria-expanded]="isExpanded(row)"
-                  [attr.aria-label]="isExpanded(row) ? 'Collapse row' : 'Expand row'">
-                  <cui-icon [name]="isExpanded(row) ? 'expand_less' : 'expand_more'"
-                    size="sm" color="currentColor" />
-                </button>
-              </td>
-            }
-          </tr>
-          @if (expandable() && rowDetailTemplate() && isExpanded(row)) {
+        @if (effectiveVirtualScroll()) {
+          <tr class="p-table__tr--spacer" [style.height.px]="vsTopPx()"><td [attr.colspan]="colCount()"></td></tr>
+        }
+        @for (row of visibleRows(); track trackBy()(row)) {
+          <ng-container [ngTemplateOutlet]="rowTpl" [ngTemplateOutletContext]="{ $implicit: row }" />
+          @if (expandable() && rowDetailTemplate() && isExpanded(row) && !effectiveVirtualScroll()) {
             <tr class="p-table__tr p-table__tr--detail">
               <td class="p-table__td-detail" [attr.colspan]="colCount()">
                 <ng-container [ngTemplateOutlet]="rowDetailTemplate()!"
@@ -116,8 +122,56 @@
             </tr>
           }
         }
+        @if (effectiveVirtualScroll()) {
+          <tr class="p-table__tr--spacer" [style.height.px]="vsBottomPx()"><td [attr.colspan]="colCount()"></td></tr>
+        }
       }
     </tbody>
 
   </table>
 </div>
+
+<!-- Shared row markup for the `columns`-array render path — used by both the regular and
+     frozen tbody so frozen rows automatically get the same selection/expand/sticky-column
+     behavior without duplicating this block. -->
+<ng-template #rowTpl let-row>
+  <tr class="p-table__tr"
+    [class.p-table__tr--selected]="isSelected(row)"
+    (click)="onRowClick(row)">
+    @if (selectable() && selectionMode() === 'multiple') {
+      <td class="p-table__td p-table__td--check" (click)="$event.stopPropagation()">
+        <input type="checkbox" class="p-table__checkbox"
+          [checked]="isSelected(row)"
+          (change)="toggleRow(row)"
+          [attr.aria-label]="'Select row'" />
+      </td>
+    }
+    @for (col of orderedColumns(); track col.key) {
+      <td class="p-table__td"
+        [class.p-table__td--sticky]="isStickyLeft(col)"
+        [class.p-table__td--sticky-right]="isStickyRight(col)"
+        [class.p-table__td--sticky-edge]="isStickyLeftEdge(col)"
+        [class.p-table__td--sticky-right-edge]="isStickyRightEdge(col)"
+        [style.text-align]="col.align ?? 'left'"
+        [style.left.px]="isStickyLeft(col) ? leftOffset(col) : null"
+        [style.right.px]="isStickyRight(col) ? rightOffset(col) : null">
+        @if (col.cellTemplate) {
+          <ng-container [ngTemplateOutlet]="col.cellTemplate"
+            [ngTemplateOutletContext]="{ $implicit: row, value: getValue(row, col) }" />
+        } @else {
+          {{ getValue(row, col) }}
+        }
+      </td>
+    }
+    @if (expandable()) {
+      <td class="p-table__td p-table__td--expand" (click)="toggleExpand(row, $event)">
+        <button type="button" class="p-table__expand-btn"
+          [attr.aria-expanded]="isExpanded(row)"
+          [attr.aria-label]="isExpanded(row) ? 'Collapse row' : 'Expand row'">
+          <cui-icon [name]="isExpanded(row) ? 'expand_less' : 'expand_more'"
+            size="sm" color="currentColor" />
+        </button>
+      </td>
+    }
+  </tr>
+</ng-template>

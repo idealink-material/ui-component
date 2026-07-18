@@ -31,8 +31,8 @@
         <cui-icon matSuffix [name]="loadingIcon()" size="xs" color="var(--mat-sys-on-surface-variant)" class="p-select__loading-icon" />
       }
 
-      @if (hint() && !error()) { <mat-hint>{{ hint() }}</mat-hint> }
-      @if (error())             { <mat-error>{{ error() }}</mat-error> }
+      @if (hint() && !hasError()) { <mat-hint>{{ hint() }}</mat-hint> }
+      @if (hasError())             { <mat-error>{{ error() }}</mat-error> }
     </mat-form-field>
   } @else {
     <mat-form-field [appearance]="matAppearance()"
@@ -121,8 +121,8 @@
         <cui-icon matSuffix [name]="dropdownIcon()!" size="xs" color="var(--mat-sys-on-surface-variant)" class="p-select__dropdown-icon" />
       }
 
-      @if (hint() && !error()) { <mat-hint>{{ hint() }}</mat-hint> }
-      @if (error())             { <mat-error>{{ error() }}</mat-error> }
+      @if (hint() && !hasError()) { <mat-hint>{{ hint() }}</mat-hint> }
+      @if (hasError())             { <mat-error>{{ error() }}</mat-error> }
 
     </mat-form-field>
   }

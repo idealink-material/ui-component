@@ -17,8 +17,17 @@ export interface TableColumn<T = Record<string, unknown>> {
   width?: string;
   /** Text alignment. Default: 'left'. */
   align?: 'left' | 'center' | 'right';
-  /** When true, the cell is sticky to the left edge. */
-  sticky?: boolean;
+  /**
+   * Freezes ("pins") the column at the given edge while the table scrolls horizontally.
+   * `true` is shorthand for `'left'`. Multiple columns may be frozen on the same edge —
+   * their offsets stack in column order automatically.
+   *
+   * For a correct offset, give every frozen column an explicit pixel `width` (e.g. `'140px'`);
+   * columns without one fall back to a 150px assumption which may misalign.
+   */
+  sticky?: boolean | 'left' | 'right';
+  /** Floor (px) for interactive resizing via `resizableColumns` on `p-table`. Default: 40. */
+  minWidth?: number;
 }
 
 export interface SortState {

@@ -74,10 +74,10 @@
           <p-select label="Risk Level" [options]="riskOptions"
             placeholder="Select risk level…" [(value)]="customItemValue">
             <ng-template #selectedItem let-opt>
-              <span class="risk-dot" [style.background]="riskColor(opt.value)"></span>{{ opt.label }}
+              <span class="risk-dot" [style.background]="riskColor(opt.value)"></span>{{ opt.label }} - {{ opt.label }}
             </ng-template>
             <ng-template #item let-opt>
-              <span class="risk-dot" [style.background]="riskColor(opt.value)"></span>{{ opt.label }}
+              <span class="risk-dot" [style.background]="riskColor(opt.value)"></span>{{ opt.label }} - {{ opt.label }}
             </ng-template>
           </p-select>
         </div>

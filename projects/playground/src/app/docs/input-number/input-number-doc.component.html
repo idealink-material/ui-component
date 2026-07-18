@@ -16,13 +16,147 @@
       </app-doc-example>
     </section>
 
+    <section id="variants" class="doc-page__section">
+      <app-doc-example
+        title="Variants & sizes"
+        sourceId="p-input-number"
+        code='<p-input-number label="Outline" variant="outline" size="sm" [(value)]="basic" />
+<p-input-number label="Fill" variant="fill" size="md" [(value)]="basic" />
+<p-input-number label="Large" size="lg" [(value)]="basic" />'>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+          <p-input-number label="Outline" variant="outline" size="sm" [(value)]="basic" />
+          <p-input-number label="Fill" variant="fill" size="md" [(value)]="basic" />
+          <p-input-number label="Large" size="lg" [(value)]="basic" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="hint" class="doc-page__section">
+      <app-doc-example
+        title="Label, hint & error"
+        description="error takes priority over hint when both are set, and only shows once the field has been touched."
+        sourceId="p-input-number"
+        code='<p-input-number label="Quantity" hint="Whole units only." [(value)]="basic" />
+<p-input-number label="Quantity" error="Must be between 0 and 100." [(value)]="basic" />'>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+          <p-input-number label="Quantity" hint="Whole units only." [(value)]="basic" />
+          <p-input-number label="Quantity" error="Must be between 0 and 100." [(value)]="basic" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="button-layouts" class="doc-page__section">
+      <app-doc-example
+        title="Button layouts"
+        description="buttonLayout='stacked' (the default) embeds a chevron up/down pair inside the field's right edge — showButtons=true is on by default, shown here explicitly. 'horizontal' and 'vertical' render separate p-button controls instead."
+        sourceId="p-input-number"
+        code='<p-input-number mode="currency" currency="USD" locale="en-US" [showButtons]="true" [(value)]="usdValue" />
+<p-input-number buttonLayout="horizontal" [(value)]="basic" />
+<p-input-number buttonLayout="vertical" [(value)]="basic" />'>
+        <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px;">
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Stacked (default)</label>
+            <p-input-number mode="currency" currency="USD" locale="en-US" [showButtons]="true" [(value)]="usdValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Horizontal</label>
+            <p-input-number buttonLayout="horizontal" [(value)]="basic" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Vertical</label>
+            <p-input-number buttonLayout="vertical" [(value)]="basic" />
+          </div>
+        </div>
+      </app-doc-example>
+    </section>
+
     <section id="currency" class="doc-page__section">
       <app-doc-example
-        title="Currency"
-        description="mode='currency' formats the display value using Intl.NumberFormat; prefix/suffix add static text on top of that."
+        title="Currency across locales"
+        description="mode='currency' formats the display value using Intl.NumberFormat; locale controls the symbol placement, decimal/grouping punctuation, and digit script for each country."
         sourceId="p-input-number"
-        code='<p-input-number mode="currency" currency="USD" [step]="50" [(value)]="price" />'>
-        <p-input-number mode="currency" currency="USD" [step]="50" [(value)]="price" />
+        code='<p-input-number mode="currency" currency="USD" locale="en-US" [(value)]="usdValue" />
+<p-input-number mode="currency" currency="EUR" locale="de-DE" [(value)]="eurValue" />
+<p-input-number mode="currency" currency="INR" currencyDisplay="code" locale="en-IN" [(value)]="inrValue" />
+<p-input-number mode="currency" currency="JPY" locale="ja-JP" [(value)]="jpyValue" />'>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">United States</label>
+            <p-input-number mode="currency" currency="USD" locale="en-US" [(value)]="usdValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Germany</label>
+            <p-input-number mode="currency" currency="EUR" locale="de-DE" [(value)]="eurValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">India</label>
+            <p-input-number mode="currency" currency="INR" currencyDisplay="code" locale="en-IN" [(value)]="inrValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Japan</label>
+            <p-input-number mode="currency" currency="JPY" locale="ja-JP" [(value)]="jpyValue" />
+          </div>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="locales" class="doc-page__section">
+      <app-doc-example
+        title="Number formatting across locales"
+        description="locale also changes plain (non-currency) grouping — compare the same value rendered under different locales, including the Indian lakh/crore grouping."
+        sourceId="p-input-number"
+        code='<p-input-number [(value)]="userLocaleValue" />
+<p-input-number locale="en-US" [(value)]="usLocaleValue" />
+<p-input-number locale="de-DE" [(value)]="deLocaleValue" />
+<p-input-number locale="en-IN" [(value)]="inLocaleValue" />'>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">User Locale</label>
+            <p-input-number [showButtons]="false" [(value)]="userLocaleValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">United States Locale</label>
+            <p-input-number locale="en-US" [showButtons]="false" [(value)]="usLocaleValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">German Locale</label>
+            <p-input-number locale="de-DE" [showButtons]="false" [(value)]="deLocaleValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Indian Locale</label>
+            <p-input-number locale="en-IN" [showButtons]="false" [(value)]="inLocaleValue" />
+          </div>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="format-options" class="doc-page__section">
+      <app-doc-example
+        title="Formatting options"
+        description="minFractionDigits/maxFractionDigits control decimal precision, useGrouping toggles thousands separators, and min/max clamp the value on blur even without the stepper buttons."
+        sourceId="p-input-number"
+        code='<p-input-number [minFractionDigits]="0" [maxFractionDigits]="0" [showButtons]="false" [(value)]="integerValue" />
+<p-input-number [useGrouping]="false" [showButtons]="false" [(value)]="noGroupingValue" />
+<p-input-number [minFractionDigits]="2" [maxFractionDigits]="5" [showButtons]="false" [(value)]="fractionValue" />
+<p-input-number [min]="0" [max]="100" [showButtons]="false" [(value)]="boundaryValue" />'>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Integer Only</label>
+            <p-input-number [minFractionDigits]="0" [maxFractionDigits]="0" [showButtons]="false" [(value)]="integerValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Without Grouping</label>
+            <p-input-number [useGrouping]="false" [showButtons]="false" [(value)]="noGroupingValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Min-Max Fraction Digits</label>
+            <p-input-number [minFractionDigits]="2" [maxFractionDigits]="5" [showButtons]="false" [(value)]="fractionValue" />
+          </div>
+          <div>
+            <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Min-Max Boundaries</label>
+            <p-input-number [min]="0" [max]="100" [showButtons]="false" [(value)]="boundaryValue" />
+          </div>
+        </div>
       </app-doc-example>
     </section>
 

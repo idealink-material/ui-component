@@ -1,5 +1,23 @@
-:host {
-  display: inline-flex;
+:host { display: block; }
+
+.p-field {
+  display: inline-block;
+  width: auto;
+
+  &--full { display: block; width: 100%; }
+}
+
+.p-field__label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+}
+
+.p-field__required {
+  color: var(--mat-sys-error);
+  margin-left: 2px;
 }
 
 .p-input-number {
@@ -11,30 +29,85 @@
     display: flex;
     width: 100%;
 
-    .p-input-number__field { flex: 1; }
+    .p-input-number__control { flex: 1; }
+  }
+
+  &--vertical {
+    align-items: center;
   }
 }
 
-.p-input-number__field {
-  width: 72px;
-  text-align: center;
-  border-radius: 9999px;
-  border: 1px solid var(--mat-sys-outline);
-  background: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: inherit;
-  padding: 0 8px;
+.p-input-number__stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 
-  &:focus-visible {
-    outline: 2px solid var(--mat-sys-primary);
-    outline-offset: -1px;
+// Same tokens as p-input, so the field chrome (height, radius, border, sizes) matches exactly.
+.p-input {
+  width: 100px;
+  --mat-form-field-container-height: 48px;
+  --mat-form-field-outlined-container-shape: var(--cui-radius-md);
+  --mat-form-field-outlined-outline-color: var(--mat-sys-outline-variant);
+
+  &.p-input--full { width: 100%; }
+
+  &.p-input--sm {
+    --mat-form-field-container-height: 44px;
+    --mat-form-field-container-text-size: 13px;
+    font-size: 13px;
+  }
+  &.p-input--lg {
+    --mat-form-field-container-height: 60px;
+    --mat-form-field-container-text-size: 16px;
+    font-size: 16px;
+  }
+}
+
+// Embedded chevron stepper (buttonLayout="stacked", the default) — docked to the
+// field's inner right edge as a matSuffix instead of separate p-button elements.
+// Styled as two plain chevron glyphs (no box/border/fill) so it reads as a native
+// spinner control rather than a floating button.
+.p-input-number__embedded-stepper {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  justify-content: center;
+  gap: 2px;
+  margin: 0 10px 0 8px;
+}
+
+.p-input-number__embedded-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 16px;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--cui-radius-sm);
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+  transition: background 100ms ease, color 100ms ease;
+
+  &:hover:not(:disabled) {
+    background: var(--mat-sys-surface-container-high);
+    color: var(--mat-sys-on-surface);
+  }
+
+  &:active:not(:disabled) {
+    background: var(--mat-sys-surface-container-highest);
   }
 
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
   }
+}
 
+.p-input-number__native {
   // Hide native spinner buttons — increment/decrement handled by p-button
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
@@ -42,4 +115,28 @@
     margin: 0;
   }
   -moz-appearance: textfield;
+}
+
+.p-input-number__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0 10px 0 8px;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+// Same fix as .p-input/.p-select/.p-datepicker: `.mat-mdc-form-field-infix` is a plain block
+// box whose padding doesn't always exactly match the input's line-height, so leftover space
+// collects below instead of splitting evenly. Center it directly.
+::ng-deep .p-input-number__control .mat-mdc-form-field-infix {
+  display: flex;
+  align-items: center;
 }

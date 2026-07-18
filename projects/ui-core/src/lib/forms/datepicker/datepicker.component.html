@@ -55,8 +55,8 @@
       [cdkConnectedOverlayOpen]="gridOpen()"
       [cdkConnectedOverlayHasBackdrop]="true"
       cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
-      (backdropClick)="closeGrid()"
-      (detach)="closeGrid()">
+      (backdropClick)="commitGridRange()"
+      (detach)="commitGridRange()">
       <div class="p-datepicker-gridpanel">
         <div class="p-datepicker-gridpanel__header">
           <button type="button" class="p-datepicker-gridpanel__nav"
@@ -106,15 +106,15 @@
 
         <div class="p-datepicker-gridpanel__actions">
           <p-button size="sm" variant="tonal" color="neutral" (onClick)="clearGridRange()">Clear</p-button>
-          <p-button size="sm" variant="filled" color="primary" (onClick)="commitGridRange()">Done</p-button>
+          <p-button size="sm" variant="tonal" color="primary" (onClick)="commitGridRange()">Done</p-button>
         </div>
       </div>
     </ng-template>
 
-    @if (hint() && !error()) {
+    @if (hint() && !hasError()) {
       <p class="p-datepicker-inline__hint">{{ hint() }}</p>
     }
-    @if (error()) {
+    @if (hasError()) {
       <p class="p-datepicker-inline__error">{{ error() }}</p>
     }
   </div>
@@ -144,17 +144,17 @@
       @if (showIcon()) {
         <mat-datepicker-toggle matIconSuffix [for]="rangePicker" />
       }
-      <mat-date-range-picker #rangePicker (closed)="closed()">
+      <mat-date-range-picker #rangePicker (opened)="onOpened()" (closed)="closed(rangePicker)">
         <mat-date-range-picker-actions>
           <p-button size="sm" variant="tonal" color="neutral" (onClick)="clear()">Clear</p-button>
-          <p-button size="sm" variant="filled" color="primary" matDatepickerApply>Done</p-button>
+          <p-button size="sm" variant="tonal" color="primary" (onClick)="rangePicker.close()">Done</p-button>
         </mat-date-range-picker-actions>
       </mat-date-range-picker>
 
-      @if (hint() && !error()) {
+      @if (hint() && !hasError()) {
         <mat-hint>{{ hint() }}</mat-hint>
       }
-      @if (error()) {
+      @if (hasError()) {
         <mat-error>{{ error() }}</mat-error>
       }
     </mat-form-field>
@@ -190,20 +190,20 @@
       @if (showIcon()) {
         <mat-datepicker-toggle matIconSuffix [for]="picker" />
       }
-      <mat-datepicker #picker [startView]="startView()" (closed)="closed()"
+      <mat-datepicker #picker [startView]="startView()" (opened)="onOpened()" (closed)="closed(picker)"
                       (monthSelected)="onMonthSelected($event, picker)"
                       (yearSelected)="onYearSelected($event, picker)">
         <mat-datepicker-actions>
-          <p-button size="sm" variant="text" color="neutral" (onClick)="today()">Today</p-button>
+          <p-button size="sm" variant="tonal" color="primary" (onClick)="today()">Today</p-button>
           <p-button size="sm" variant="tonal" color="neutral" (onClick)="clear()">Clear</p-button>
-          <p-button size="sm" variant="filled" color="primary" matDatepickerApply>Done</p-button>
+          <p-button size="sm" variant="tonal" color="primary" (onClick)="picker.close()">Done</p-button>
         </mat-datepicker-actions>
       </mat-datepicker>
 
-      @if (hint() && !error()) {
+      @if (hint() && !hasError()) {
         <mat-hint>{{ hint() }}</mat-hint>
       }
-      @if (error()) {
+      @if (hasError()) {
         <mat-error>{{ error() }}</mat-error>
       }
     </mat-form-field>

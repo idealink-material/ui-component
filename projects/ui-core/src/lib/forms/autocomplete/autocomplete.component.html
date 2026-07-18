@@ -1,9 +1,14 @@
-<div class="p-autocomplete" [class.p-autocomplete--disabled]="disabled()">
+<div class="p-autocomplete" [class.p-autocomplete--disabled]="disabled()"
+  matAutocompleteOrigin #origin="matAutocompleteOrigin">
 
   @if (multiple()) {
     @for (item of selectedList; track item) {
       <p-chip [dismissible]="!disabled()" (dismissed)="removeSelected(item)">
-        {{ displayLabel(item) }}
+        @if (selectedItemTemplate(); as tpl) {
+          <ng-container *ngTemplateOutlet="tpl; context: { $implicit: item }" />
+        } @else {
+          {{ displayLabel(item) }}
+        }
       </p-chip>
     }
   }
@@ -14,6 +19,7 @@
     [placeholder]="placeholder()"
     [disabled]="disabled()"
     [matAutocomplete]="auto"
+    [matAutocompleteConnectedTo]="origin"
     #trigger="matAutocompleteTrigger"
     (input)="onInput(ac.value)"
     (focus)="onFocus(ac)"
@@ -33,10 +39,16 @@
     </button>
   }
 
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLabel"
+  <mat-autocomplete #auto="matAutocomplete" class="p-autocomplete__panel" [displayWith]="displayLabel"
     (optionSelected)="onOptionSelected($event, ac)">
     @for (item of suggestions(); track item) {
-      <mat-option [value]="item">{{ displayLabel(item) }}</mat-option>
+      <mat-option [value]="item">
+        @if (itemTemplate(); as tpl) {
+          <ng-container *ngTemplateOutlet="tpl; context: { $implicit: item }" />
+        } @else {
+          {{ displayLabel(item) }}
+        }
+      </mat-option>
     }
   </mat-autocomplete>
 </div>

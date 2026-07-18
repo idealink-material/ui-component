@@ -39,6 +39,33 @@
           [pageSizes]="[25, 50, 100]" [showFirstLast]="false" />
       </app-doc-example>
     </section>
+
+    <section id="report-template" class="doc-page__section">
+      <app-doc-example
+        title="Current page report"
+        description="currentPageReportTemplate overrides the default 'X–Y of Z' text with token substitution ({first}, {last}, {totalRecords}). showCurrentPageReport toggles it independently of compact."
+        sourceId="p-pagination"
+        code='<p-pagination [page]="reportPage()" [pageSize]="10" [total]="237"
+  currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries" />'>
+        <p-pagination [page]="reportPage()" [pageSize]="10" [total]="237"
+          currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries"
+          (pageChange)="reportPage.set($event.page)" />
+      </app-doc-example>
+    </section>
+
+    <section id="jump-to-page" class="doc-page__section">
+      <app-doc-example
+        title="Jump to page"
+        description="showJumpToPageDropdown and showJumpToPageInput add a direct page-jump control alongside prev/next. Set showPageLinks to false to drop the individual page-number buttons in favor of a compact 'page/total' display."
+        sourceId="p-pagination"
+        code='<p-pagination [page]="jumpPage()" [pageSize]="10" [total]="500"
+  [showPageLinks]="false" [showJumpToPageDropdown]="true" [showJumpToPageInput]="true"
+  (pageChange)="jumpPage.set($event.page)" />'>
+        <p-pagination [page]="jumpPage()" [pageSize]="10" [total]="500"
+          [showPageLinks]="false" [showJumpToPageDropdown]="true" [showJumpToPageInput]="true"
+          (pageChange)="jumpPage.set($event.page)" />
+      </app-doc-example>
+    </section>
   </div>
 
   <div docTheming>

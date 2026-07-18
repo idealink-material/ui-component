@@ -19,6 +19,17 @@
         </div>
       </app-doc-example>
     </section>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Input type number"
+        description="[(value)] gives two-way binding without a form group."
+        sourceId="p-input"
+        code='<p-input label="Subject" placeholder="Describe the issue…" [(value)]="demoValue" />'>
+        <div style="width: 100%; max-width: 360px;">
+          <p-input type="number" label="Subject" placeholder="Describe the issue…" [(value)]="demoValue" />
+        </div>
+      </app-doc-example>
+    </section>
 
     <section id="variants" class="doc-page__section">
       <app-doc-example

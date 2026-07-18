@@ -11,7 +11,7 @@ import {
   CuiCardComponent, CuiBreadcrumbComponent, CuiPaginationComponent,
   CuiInputComponent, CuiSelectComponent, CuiDatepickerComponent,
   CuiTabsComponent, CuiDialogContainerComponent, PDialogFooterComponent, CuiDrawerComponent,
-  CuiDataTableComponent,
+  CuiDataTableComponent, CuiInputNumberComponent,
   SelectOption, TabItem, TableColumn, PageEvent, DataTableChangeEvent,
 } from '@idealink-material/ui-core';
 
@@ -39,7 +39,7 @@ const CASES: CaseRow[] = [
     CuiCardComponent, CuiBreadcrumbComponent, CuiPaginationComponent,
     CuiInputComponent, CuiSelectComponent, CuiDatepickerComponent,
     CuiTabsComponent, CuiDialogContainerComponent, PDialogFooterComponent, CuiDrawerComponent,
-    CuiDataTableComponent,
+    CuiDataTableComponent, CuiInputNumberComponent,
   ],
   templateUrl: './showcase.component.html',
   styleUrl: './showcase.component.scss',

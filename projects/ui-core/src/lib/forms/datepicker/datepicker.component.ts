@@ -164,11 +164,25 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
   private _onChange: (v: Date | Date[] | null) => void = () => {};
   private _onTouched: () => void = () => {};
 
+  /**
+   * `value()` snapshotted when the popup opens. Material's actions-portal mode routes calendar
+   * picks into a private clone of the selection model that only reaches `value` when
+   * `_applyPendingSelection()` runs (normally only from the Done button); `closed()` below calls
+   * it on every close so outside-click commits too. But Today/Clear/typed input write `value`
+   * directly, bypassing that clone entirely — if one of those ran, the clone is stale and
+   * applying it would revert their change. Comparing against this snapshot tells us whether such
+   * a direct write happened since open, so we only apply the clone when it didn't.
+   */
+  private openValue: Date | Date[] | null = null;
+
   readonly matAppearance = computed(() =>
     this.variant() === 'fill' ? ('fill' as const) : ('outline' as const),
   );
 
-  readonly hasError = computed(() => !!this.error());
+  /** True once the field has been blurred/closed at least once. Gates when `error` is actually shown. */
+  readonly touched = signal(false);
+
+  readonly hasError = computed(() => this.touched() && !!this.error());
 
   readonly startView = computed<'month' | 'year' | 'multi-year'>(() => {
     switch (this.view()) {
@@ -349,6 +363,7 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
 
   closeGrid(): void {
     this.gridOpen.set(false);
+    this.touched.set(true);
     this._onTouched();
     this.onClose.emit();
   }
@@ -467,11 +482,27 @@ export class CuiDatepickerComponent implements ControlValueAccessor {
     this.onClearClick.emit();
   }
 
-  closed(): void {
+  onOpened(): void {
+    this.openValue = this.value();
+  }
+
+  // Material only commits a calendar pick into the input's value when the actions bar's
+  // Done button runs `_applyPendingSelection()` — clicking outside the panel just closes it
+  // and drops the pick. Applying it here too, on every close, makes outside-click behave like
+  // Done. Two guards keep this from clobbering a value set some other way: `view() === 'date'`
+  // skips it for month/year granularity, where `onMonthSelected`/`onYearSelected` already commit
+  // outside Material's own selection model; and the `openValue` check skips it whenever
+  // Today/Clear/typed input already wrote `value` directly since the panel opened, since in that
+  // case the pending clone is stale and applying it would revert that write.
+  closed(picker?: { _applyPendingSelection(): void }): void {
+    if (this.view() === 'date' && this.value() === this.openValue) {
+      picker?._applyPendingSelection();
+    }
     this.onClose.emit();
   }
 
   onBlur(): void {
+    this.touched.set(true);
     this._onTouched();
   }
 

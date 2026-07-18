@@ -1,3 +1,17 @@
+//.p-dialog {
+//  display: flex;
+//  flex-direction: column;
+//  background: var(--cui-card-bg);
+//  border-radius: var(--cui-radius-lg);
+//  box-shadow: var(--cui-shadow-lg);
+//  max-height: 90vh;
+//  overflow: hidden;
+//
+//  &--maximized {
+//    border-radius: 0;
+//    max-height: 100vh;
+//  }
+//}
 .p-dialog {
   display: flex;
   flex-direction: column;
@@ -6,8 +20,14 @@
   box-shadow: var(--cui-shadow-lg);
   max-height: 90vh;
   overflow: hidden;
-}
 
+  &--maximized {
+    border-radius: 0;
+    max-height: 100vh;
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+}
 .p-dialog__header {
   display: flex;
   align-items: center;
@@ -29,7 +49,14 @@
   line-height: 1.3;
 }
 
-.p-dialog__close {
+.p-dialog__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.p-dialog__icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -1,17 +1,89 @@
-<div class="p-input-number" [class.p-input-number--full]="fullWidth()">
-  @if (showButtons()) {
-    <p-button variant="outlined" size="sm" iconLeft="remove"
-      [disabled]="disabled() || atMin()" (onClick)="decrement()" />
+<div class="p-field" [class.p-field--full]="fullWidth()">
+  @if (label()) {
+    <label class="p-field__label" [for]="resolvedInputId()">
+      {{ label() }}@if (required()) { <span class="p-field__required" aria-hidden="true">*</span> }
+    </label>
   }
-  <input type="text" inputmode="decimal" class="p-input-number__field"
-    [value]="displayValue()"
-    [disabled]="disabled()"
-    [placeholder]="placeholder()"
-    (input)="handleInput($event)"
-    (focus)="handleFocus($event)"
-    (blur)="handleBlur($event)">
-  @if (showButtons()) {
-    <p-button variant="outlined" size="sm" iconLeft="add"
-      [disabled]="disabled() || atMax()" (onClick)="increment()" />
-  }
+
+  <div class="p-input-number"
+    [class.p-input-number--full]="fullWidth()"
+    [class.p-input-number--vertical]="buttonLayout() === 'vertical'"
+    [class]="styleClass()"
+    [style]="style()">
+
+    @if (showButtons() && buttonLayout() === 'horizontal') {
+      <p-button variant="outlined" size="sm" [icon]="decrementButtonIcon()" [class]="decrementButtonClass()"
+        [disabled]="disabled() || readonly() || atMin()" (onClick)="decrement()" />
+    }
+
+    <mat-form-field
+      [appearance]="matAppearance()"
+      subscriptSizing="dynamic"
+      [class.p-input--sm]="size() === 'sm'"
+      [class.p-input--lg]="size() === 'lg'"
+      [class.p-input--full]="fullWidth()"
+      class="p-input p-input-number__control">
+
+      <input matInput #inputRef type="text" inputmode="decimal" class="p-input-number__native"
+        [id]="resolvedInputId()"
+        [value]="displayValue()"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        [required]="required()"
+        [placeholder]="placeholder()"
+        [name]="name()"
+        [title]="title()"
+        [autocomplete]="autocomplete()"
+        [attr.tabindex]="tabindex()"
+        [attr.aria-label]="ariaLabel() ?? null"
+        [attr.aria-labelledby]="ariaLabelledBy() ?? null"
+        [attr.aria-invalid]="hasError() ? 'true' : null"
+        [class]="inputStyleClass()"
+        [style]="inputStyle()"
+        (input)="handleInput($event)"
+        (focus)="handleFocus($event)"
+        (blur)="handleBlur($event)"
+        (keydown)="handleKeyDown($event)">
+
+      @if (showClear() && value() != null && !disabled() && !readonly()) {
+        <button type="button" matSuffix class="p-input-number__clear" (click)="clear($event)" aria-label="Clear value">
+          <cui-icon name="close" size="xs" color="currentColor" />
+        </button>
+      }
+
+      @if (showButtons() && buttonLayout() === 'stacked') {
+        <div matSuffix class="p-input-number__embedded-stepper">
+          <button type="button" class="p-input-number__embedded-btn" [class]="incrementButtonClass()"
+            [disabled]="disabled() || readonly() || atMax()" (click)="increment()" tabindex="-1" aria-label="Increment">
+            <cui-icon [name]="incrementButtonIcon()" size="xxs" color="currentColor" />
+          </button>
+          <button type="button" class="p-input-number__embedded-btn" [class]="decrementButtonClass()"
+            [disabled]="disabled() || readonly() || atMin()" (click)="decrement()" tabindex="-1" aria-label="Decrement">
+            <cui-icon [name]="decrementButtonIcon()" size="xxs" color="currentColor" />
+          </button>
+        </div>
+      }
+
+      @if (hint() && !hasError()) {
+        <mat-hint>{{ hint() }}</mat-hint>
+      }
+      @if (hasError()) {
+        <mat-error>{{ error() }}</mat-error>
+      }
+    </mat-form-field>
+
+    @if (showButtons()) {
+      @if (buttonLayout() === 'horizontal') {
+        <p-button variant="outlined" size="sm" [icon]="incrementButtonIcon()" [class]="incrementButtonClass()"
+          [disabled]="disabled() || readonly() || atMax()" (onClick)="increment()" />
+      } @else if (buttonLayout() === 'vertical') {
+        <div class="p-input-number__stepper">
+          <p-button variant="outlined" size="sm" [icon]="incrementButtonIcon()" [class]="incrementButtonClass()"
+            [disabled]="disabled() || readonly() || atMax()" (onClick)="increment()" />
+          <p-button variant="outlined" size="sm" [icon]="decrementButtonIcon()" [class]="decrementButtonClass()"
+            [disabled]="disabled() || readonly() || atMin()" (onClick)="decrement()" />
+        </div>
+      }
+    }
+  </div>
 </div>

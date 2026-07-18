@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, computed,
+  ChangeDetectionStrategy, Component, computed, signal,
   forwardRef, input, model, output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
@@ -62,11 +62,14 @@ export class CuiInputComponent implements ControlValueAccessor {
   private _onChange: (v: string) => void = () => {};
   private _onTouched: () => void = () => {};
 
+  /** True once the field has been blurred at least once. Gates when `error` is actually shown. */
+  readonly touched = signal(false);
+
   readonly matAppearance = computed(() =>
     this.variant() === 'fill' ? 'fill' as const : 'outline' as const
   );
 
-  readonly hasError = computed(() => !!this.error());
+  readonly hasError = computed(() => this.touched() && !!this.error());
 
   onInput(e: Event): void {
     const el = e.target as HTMLInputElement | HTMLTextAreaElement;
@@ -82,7 +85,7 @@ export class CuiInputComponent implements ControlValueAccessor {
     el.style.height = `${el.scrollHeight}px`;
   }
 
-  onBlur(e: FocusEvent): void { this._onTouched(); this.cuiBlur.emit(e); }
+  onBlur(e: FocusEvent): void { this.touched.set(true); this._onTouched(); this.cuiBlur.emit(e); }
   onFocus(e: FocusEvent): void { this.cuiFocus.emit(e); }
 
   // ── ControlValueAccessor ──────────────────────────────────────────────────
