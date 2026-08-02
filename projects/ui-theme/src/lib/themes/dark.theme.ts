@@ -96,6 +96,10 @@ export const darkTheme: ThemeDefinition = {
     'cui-shadow-md': '0 4px 6px -1px rgb(0 0 0 / 0.4)',
     'cui-shadow-lg': '0 10px 15px -3px rgb(0 0 0 / 0.4)',
     'cui-shadow-card': '0 4px 20px rgb(0 0 0 / 0.3)',
+    'cui-shadow-color': 'rgb(0 0 0 / 0.5)',
+
+    // Scrim
+    'cui-scrim': 'rgb(0 0 0 / 0.6)',
 
     // Auth flow — fixed indigo brand, independent of the active dashboard theme
     'cui-auth-primary': '#4f46e5',

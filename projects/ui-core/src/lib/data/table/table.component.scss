@@ -64,7 +64,7 @@ thead.p-table__head--sticky .p-table__th { position: sticky; top: 0; z-index: 2;
 // dragging a `<th>` (a table-cell) renders a visually broken preview and a collapsed-looking gap.
 .cdk-drag-preview.p-table__th {
   display: table;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 12px var(--cui-shadow-color);
 }
 .cdk-drag-placeholder {
   opacity: 0.3;
@@ -126,11 +126,11 @@ thead.p-table__head--sticky .p-table__th { position: sticky; top: 0; z-index: 2;
 }
 :host ::ng-deep .p-table th.p-table__th--sticky-edge,
 :host ::ng-deep .p-table td.p-table__td--sticky-edge {
-  box-shadow: 4px 0 6px -4px rgba(0, 0, 0, 0.25);
+  box-shadow: 4px 0 6px -4px var(--cui-shadow-color);
 }
 :host ::ng-deep .p-table th.p-table__th--sticky-right-edge,
 :host ::ng-deep .p-table td.p-table__td--sticky-right-edge {
-  box-shadow: -4px 0 6px -4px rgba(0, 0, 0, 0.25);
+  box-shadow: -4px 0 6px -4px var(--cui-shadow-color);
 }
 
 // Frozen-row ("pinned") cells. `--p-table-frozen-top` is set per-`<tr>` from table.component.ts

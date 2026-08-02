@@ -33,6 +33,16 @@
   position: relative;
 }
 
+// Label span itself must be a flex container: consumers can project raw markup (e.g. an
+// inline <svg>) alongside text via `<ng-content>`, and without this those children have no
+// gap and no shared baseline alignment (unlike the icon/label gap, which only covers the
+// `cui-icon` set via the `icon` input).
+.p-btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 // ── Sizes ─────────────────────────────────────────────────────────────────────
 :host(.p-btn--sm) .p-btn__inner { padding: 6px 14px; font-size: 12px; }
 :host(.p-btn--md) .p-btn__inner { padding: 9px 20px; font-size: 14px; }
@@ -40,11 +50,15 @@
 
 // ── Colour maps ───────────────────────────────────────────────────────────────
 // Define per-color CSS custom properties. Variants read from these.
-:host(.p-btn--primary)   { --_bg: var(--mat-sys-primary);   --_fg: var(--mat-sys-on-primary);   --_border: var(--mat-sys-primary);   --_container: var(--mat-sys-primary-container);   --_on-container: var(--mat-sys-on-primary-container); }
-:host(.p-btn--secondary) { --_bg: var(--mat-sys-secondary); --_fg: var(--mat-sys-on-secondary); --_border: var(--mat-sys-secondary); --_container: var(--mat-sys-secondary-container); --_on-container: var(--mat-sys-on-secondary-container); }
-:host(.p-btn--tertiary)  { --_bg: var(--mat-sys-tertiary);  --_fg: var(--mat-sys-on-tertiary);  --_border: var(--mat-sys-tertiary);  --_container: var(--mat-sys-tertiary-container);  --_on-container: var(--mat-sys-on-tertiary-container); }
-:host(.p-btn--error)     { --_bg: var(--mat-sys-error);     --_fg: var(--mat-sys-on-error);     --_border: var(--mat-sys-error);     --_container: var(--mat-sys-error-container);     --_on-container: var(--mat-sys-on-error-container); }
-:host(.p-btn--neutral)   { --_bg: var(--mat-sys-surface-variant); --_fg: var(--mat-sys-on-surface-variant); --_border: var(--mat-sys-outline); --_container: var(--mat-sys-surface-container); --_on-container: var(--mat-sys-on-surface); }
+// `--_accent` is the foreground color for the outlined/text/elevated variants. It's the same
+// hue as `--_bg` for every color except `neutral`, where `--_bg` (surface-variant) is a
+// near-white *fill* color — not legible as text/icon color — so neutral needs its own on-surface
+// token instead.
+:host(.p-btn--primary)   { --_bg: var(--mat-sys-primary);   --_fg: var(--mat-sys-on-primary);   --_accent: var(--_bg); --_border: var(--mat-sys-primary);   --_container: var(--mat-sys-primary-container);   --_on-container: var(--mat-sys-on-primary-container); }
+:host(.p-btn--secondary) { --_bg: var(--mat-sys-secondary); --_fg: var(--mat-sys-on-secondary); --_accent: var(--_bg); --_border: var(--mat-sys-secondary); --_container: var(--mat-sys-secondary-container); --_on-container: var(--mat-sys-on-secondary-container); }
+:host(.p-btn--tertiary)  { --_bg: var(--mat-sys-tertiary);  --_fg: var(--mat-sys-on-tertiary);  --_accent: var(--_bg); --_border: var(--mat-sys-tertiary);  --_container: var(--mat-sys-tertiary-container);  --_on-container: var(--mat-sys-on-tertiary-container); }
+:host(.p-btn--error)     { --_bg: var(--mat-sys-error);     --_fg: var(--mat-sys-on-error);     --_accent: var(--_bg); --_border: var(--mat-sys-error);     --_container: var(--mat-sys-error-container);     --_on-container: var(--mat-sys-on-error-container); }
+:host(.p-btn--neutral)   { --_bg: var(--mat-sys-surface-variant); --_fg: var(--mat-sys-on-surface-variant); --_accent: var(--mat-sys-on-surface-variant); --_border: var(--mat-sys-outline); --_container: var(--mat-sys-surface-container); --_on-container: var(--mat-sys-on-surface); }
 
 // ── Variants ──────────────────────────────────────────────────────────────────
 :host(.p-btn--filled) {
@@ -58,7 +72,7 @@
 
 :host(.p-btn--outlined) {
   background: transparent;
-  color: var(--_bg);
+  color: var(--_accent);
   border: 2px solid var(--_border);
   &:hover:not(.p-btn--disabled) { background: color-mix(in srgb, var(--_bg) 8%, transparent); }
   &:active:not(.p-btn--disabled) { background: color-mix(in srgb, var(--_bg) 12%, transparent); }
@@ -66,7 +80,7 @@
 
 :host(.p-btn--text) {
   background: transparent;
-  color: var(--_bg);
+  color: var(--_accent);
   border: 2px solid transparent;
   &:hover:not(.p-btn--disabled) { background: color-mix(in srgb, var(--_bg) 8%, transparent); }
   &:active:not(.p-btn--disabled) { background: color-mix(in srgb, var(--_bg) 12%, transparent); }
@@ -74,7 +88,7 @@
 
 :host(.p-btn--elevated) {
   background: var(--mat-sys-surface);
-  color: var(--_bg);
+  color: var(--_accent);
   border: 2px solid transparent;
   box-shadow: var(--cui-shadow-md);
   &:hover:not(.p-btn--disabled) { box-shadow: var(--cui-shadow-lg); }

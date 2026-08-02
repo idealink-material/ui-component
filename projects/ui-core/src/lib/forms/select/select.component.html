@@ -73,13 +73,13 @@
         <!-- Ungrouped options -->
         @if (virtualScroll() && filteredGroups().length === 0) {
           <cdk-virtual-scroll-viewport [itemSize]="virtualItemSize()" class="p-select__viewport">
-            <mat-option *cdkVirtualFor="let opt of filteredUngrouped()" [value]="getOptionValue(opt)" [disabled]="opt.disabled ?? false">
+            <mat-option *cdkVirtualFor="let opt of filteredUngrouped()" [value]="getOptionValue(opt)" [disabled]="isOptionDisabled(opt)">
               <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
             </mat-option>
           </cdk-virtual-scroll-viewport>
         } @else {
           @for (opt of filteredUngrouped(); track getOptionValue(opt)) {
-            <mat-option [value]="getOptionValue(opt)" [disabled]="opt.disabled ?? false">
+            <mat-option [value]="getOptionValue(opt)" [disabled]="isOptionDisabled(opt)">
               <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
             </mat-option>
           }
@@ -89,7 +89,7 @@
         @for (group of filteredGroups(); track group[0]) {
           <mat-optgroup [label]="group[0]">
             @for (opt of group[1]; track getOptionValue(opt)) {
-              <mat-option [value]="getOptionValue(opt)" [disabled]="opt.disabled ?? false">
+              <mat-option [value]="getOptionValue(opt)" [disabled]="isOptionDisabled(opt)">
                 <ng-container *ngTemplateOutlet="optionContent; context: { $implicit: opt }" />
               </mat-option>
             }

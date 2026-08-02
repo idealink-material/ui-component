@@ -96,6 +96,10 @@ export const greenTheme: ThemeDefinition = {
     'cui-shadow-md': '0 4px 6px -1px rgb(5 150 105 / 0.12)',
     'cui-shadow-lg': '0 10px 15px -3px rgb(5 150 105 / 0.12)',
     'cui-shadow-card': '0 4px 20px rgb(5 150 105 / 0.1)',
+    'cui-shadow-color': 'rgb(0 0 0 / 0.25)',
+
+    // Scrim
+    'cui-scrim': 'rgb(0 0 0 / 0.45)',
 
     // Auth flow — fixed indigo brand, independent of the active dashboard theme
     'cui-auth-primary': '#4f46e5',

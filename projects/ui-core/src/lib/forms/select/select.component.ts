@@ -18,9 +18,15 @@ export interface SelectOption<T = string> {
   group?: string;
 }
 
+/**
+ * Anything the select can render as an option: a proper `SelectOption`, or a plain
+ * record read via `optionLabel`/`optionValue` (e.g. a domain model like `ChartOfAccountModel`).
+ */
+export type SelectOptionLike<T = string> = SelectOption<T> | Record<string, unknown>;
+
 /** Template context available to `#item` / `#selectedItem` templates via `let-x`. */
 export interface SelectItemContext<T> {
-  $implicit: SelectOption<T>;
+  $implicit: SelectOptionLike<T>;
 }
 
 @Component({
@@ -44,7 +50,7 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
   readonly fieldId = `p-select-${++CuiSelectComponent.nextId}`;
 
   readonly label       = input<string>('');
-  readonly options     = input<SelectOption<T>[]>([]);
+  readonly options     = input<SelectOptionLike<T>[]>([]);
   readonly placeholder = input<string>('Select…');
   readonly hint        = input<string | null>(null);
   readonly error       = input<string | null>(null);
@@ -134,15 +140,15 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
   readonly filterText = signal('');
 
   /** Resolves the display label of an option, honoring `optionLabel` for plain-record options. */
-  getOptionLabel(opt: SelectOption<T>): string {
-    const key = this.optionLabel();
-    return key ? (opt as unknown as Record<string, string>)[key] : opt.label;
+  getOptionLabel(opt: SelectOptionLike<T>): string {
+    const key = this.optionLabel() ?? 'label';
+    return (opt as unknown as Record<string, string>)[key];
   }
 
   /** Resolves the underlying value of an option, honoring `optionValue` for plain-record options. */
-  getOptionValue(opt: SelectOption<T>): T {
-    const key = this.optionValue();
-    return key ? (opt as unknown as Record<string, T>)[key] : opt.value;
+  getOptionValue(opt: SelectOptionLike<T>): T {
+    const key = this.optionValue() ?? 'value';
+    return (opt as unknown as Record<string, T>)[key];
   }
 
   /**
@@ -175,7 +181,7 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
     return locale ? text.toLocaleLowerCase(locale) : text.toLowerCase();
   }
 
-  private matchesFilter(opt: SelectOption<T>, q: string): boolean {
+  private matchesFilter(opt: SelectOptionLike<T>, q: string): boolean {
     const needle = this.normalize(q);
     const record = opt as unknown as Record<string, unknown>;
     return this.resolvedFilterFields().some((field) => {
@@ -187,13 +193,14 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
   /** Group options by their `group` property. */
   readonly groupedOptions = computed(() => {
     const opts = this.options();
-    const groups = new Map<string, SelectOption<T>[]>();
-    const ungrouped: SelectOption<T>[] = [];
+    const groups = new Map<string, SelectOptionLike<T>[]>();
+    const ungrouped: SelectOptionLike<T>[] = [];
     for (const o of opts) {
-      if (o.group) {
-        const g = groups.get(o.group) ?? [];
+      const group = (o as SelectOption<T>).group;
+      if (group) {
+        const g = groups.get(group) ?? [];
         g.push(o);
-        groups.set(o.group, g);
+        groups.set(group, g);
       } else {
         ungrouped.push(o);
       }
@@ -212,7 +219,7 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
     const groups = this.groupedOptions().groups;
     if (!q) return groups;
     return groups
-      .map(([name, opts]) => [name, opts.filter((o) => this.matchesFilter(o, q))] as [string, SelectOption<T>[]])
+      .map(([name, opts]) => [name, opts.filter((o) => this.matchesFilter(o, q))] as [string, SelectOptionLike<T>[]])
       .filter(([, opts]) => opts.length > 0);
   });
 
@@ -222,22 +229,27 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
   });
 
   /** Currently selected option(s), resolved against `options()`. Used to render `selectedItemTemplate`. */
-  readonly selectedOptions = computed<SelectOption<T>[]>(() => {
+  readonly selectedOptions = computed<SelectOptionLike<T>[]>(() => {
     const v = this.value();
     if (v == null) return [];
     const opts = this.options();
     const values = Array.isArray(v) ? v : [v];
     return values
       .map((val) => opts.find((o) => this.compareValues(this.getOptionValue(o), val)))
-      .filter((o): o is SelectOption<T> => !!o);
+      .filter((o): o is SelectOptionLike<T> => !!o);
   });
 
   /** Whether the given option is part of the current selection. Used to render the `checkmark`. */
-  isOptionSelected(opt: SelectOption<T>): boolean {
+  isOptionSelected(opt: SelectOptionLike<T>): boolean {
     const v = this.value();
     if (v == null) return false;
     const val = this.getOptionValue(opt);
     return Array.isArray(v) ? v.some((x) => this.compareValues(x, val)) : this.compareValues(v, val);
+  }
+
+  /** Whether the given option is disabled, for options that aren't shaped like `SelectOption`. */
+  isOptionDisabled(opt: SelectOptionLike<T>): boolean {
+    return (opt as SelectOption<T>).disabled ?? false;
   }
 
   readonly editableSuggestions = computed(() => this.options());

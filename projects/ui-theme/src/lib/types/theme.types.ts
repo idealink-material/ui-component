@@ -130,6 +130,11 @@ export interface ThemePalette {
   'cui-shadow-lg': string;
   /** Soft, wide shadow used by standalone cards (auth card, stat card) */
   'cui-shadow-card': string;
+  /** Shadow tint composed into custom directional box-shadows (drag preview, sticky-edge) */
+  'cui-shadow-color': string;
+
+  /** Full-screen dimming overlay behind modals/drawers */
+  'cui-scrim': string;
 
   /**
    * Fixed auth-flow brand accent (login / forgot-password / verify / set-password).
