@@ -36,8 +36,8 @@ export class CuiInputNumberComponent implements ControlValueAccessor, AfterViewI
   readonly variant     = input<InputVariant>('outline');
   readonly size        = input<InputSize>('md');
 
-  readonly min         = input<number | null>(null);
-  readonly max         = input<number | null>(null);
+  readonly min         = input<number | undefined>(undefined);
+  readonly max         = input<number | undefined>(undefined);
   readonly step        = input<number>(1);
   readonly showButtons = input<boolean>(true);
   readonly disabled    = input<boolean>(false);
@@ -118,12 +118,12 @@ export class CuiInputNumberComponent implements ControlValueAccessor, AfterViewI
 
   readonly atMin = computed(() => {
     const min = this.min();
-    return min !== null && (this.value() ?? 0) <= min;
+    return min !== undefined && (this.value() ?? 0) <= min;
   });
 
   readonly atMax = computed(() => {
     const max = this.max();
-    return max !== null && (this.value() ?? 0) >= max;
+    return max !== undefined && (this.value() ?? 0) >= max;
   });
 
   private readonly formatter = computed(() => {
@@ -195,8 +195,8 @@ export class CuiInputNumberComponent implements ControlValueAccessor, AfterViewI
   private clamp(v: number): number {
     const min = this.min();
     const max = this.max();
-    if (min !== null && v < min) v = min;
-    if (max !== null && v > max) v = max;
+    if (min !== undefined && v < min) v = min;
+    if (max !== undefined && v > max) v = max;
     return v;
   }
 
