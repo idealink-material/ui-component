@@ -23,6 +23,9 @@
                 aria-label="Select all rows" />
             </th>
           }
+          @if (selectable() && selectionMode() === 'single') {
+            <th class="p-table__th p-table__th--check" scope="col" aria-hidden="true"></th>
+          }
           @for (col of orderedColumns(); track col.key) {
             <th class="p-table__th"
               scope="col"
@@ -84,7 +87,7 @@
       @if (loading()) {
         @for (_ of [1,2,3,4,5]; track $index) {
           <tr class="p-table__tr">
-            @if (selectable() && selectionMode() === 'multiple') {
+            @if (selectable()) {
               <td class="p-table__td"><div class="p-table__skeleton"></div></td>
             }
             @for (col of orderedColumns(); track col.key) {
@@ -137,6 +140,7 @@
 <ng-template #rowTpl let-row>
   <tr class="p-table__tr"
     [class.p-table__tr--selected]="isSelected(row)"
+    [class.p-table__tr--selectable]="selectable() && selectionMode() === 'single'"
     (click)="onRowClick(row)">
     @if (selectable() && selectionMode() === 'multiple') {
       <td class="p-table__td p-table__td--check" (click)="$event.stopPropagation()">
@@ -144,6 +148,20 @@
           [checked]="isSelected(row)"
           (change)="toggleRow(row)"
           [attr.aria-label]="'Select row'" />
+      </td>
+    }
+    @if (selectable() && selectionMode() === 'single') {
+      <td class="p-table__td p-table__td--check" (click)="$event.stopPropagation()">
+        <span class="p-table__radio" [class.p-table__radio--checked]="isSelected(row)">
+          <input type="radio" class="p-table__radio-input"
+            [name]="radioGroupName"
+            [checked]="isSelected(row)"
+            (change)="onRowClick(row)"
+            [attr.aria-label]="'Select row'" />
+          @if (isSelected(row)) {
+            <cui-icon name="check" size="xs" color="currentColor" class="p-table__radio-check" />
+          }
+        </span>
       </td>
     }
     @for (col of orderedColumns(); track col.key) {

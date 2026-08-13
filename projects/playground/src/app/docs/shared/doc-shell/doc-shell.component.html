@@ -29,13 +29,13 @@
           <span class="doc-shell__nav-label">On this page</span>
           <span class="doc-shell__nav-current">{{ name() }}</span>
           @for (s of onThisPage(); track s.id) {
-            <a class="doc-shell__nav-subitem" [href]="'#' + s.id">{{ s.label }}</a>
+            <a class="doc-shell__nav-subitem" [href]="'#' + s.id" (click)="scrollToSection($event, s.id)">{{ s.label }}</a>
           }
         </div>
       }
     </nav>
 
-    <div class="doc-shell__content">
+    <div class="doc-shell__content" #content>
       <section class="doc-shell__panel" [hidden]="activeResource() !== 'features'">
         <ng-content select="[docFeatures]" />
       </section>

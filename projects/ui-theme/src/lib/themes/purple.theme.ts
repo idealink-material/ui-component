@@ -50,6 +50,20 @@ export const purpleTheme: ThemeDefinition = {
     'mat-sys-info-container': '#dbeafe',
     'mat-sys-on-info-container': '#1e40af',
 
+    // Scheduler / calendar event block colors
+    'cui-event-blue': '#2563eb',
+    'cui-event-blue-bg': '#dbeafe',
+    'cui-event-red': '#dc2626',
+    'cui-event-red-bg': '#fee2e2',
+    'cui-event-green': '#16a34a',
+    'cui-event-green-bg': '#dcfce7',
+    'cui-event-purple': '#7c3aed',
+    'cui-event-purple-bg': '#ede9fe',
+    'cui-event-orange': '#ea580c',
+    'cui-event-orange-bg': '#ffedd5',
+    'cui-event-neutral': '#6b21a8',
+    'cui-event-neutral-bg': '#f3e8ff',
+
     // Background / Surface
     'mat-sys-background': '#faf5ff',
     'mat-sys-on-background': '#1a0533',

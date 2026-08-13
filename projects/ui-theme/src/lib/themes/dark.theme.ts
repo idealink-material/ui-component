@@ -50,6 +50,20 @@ export const darkTheme: ThemeDefinition = {
     'mat-sys-info-container': '#1e40af',
     'mat-sys-on-info-container': '#dbeafe',
 
+    // Scheduler / calendar event block colors
+    'cui-event-blue': '#60a5fa',
+    'cui-event-blue-bg': '#1e3a8a',
+    'cui-event-red': '#f87171',
+    'cui-event-red-bg': '#7f1d1d',
+    'cui-event-green': '#4ade80',
+    'cui-event-green-bg': '#14532d',
+    'cui-event-purple': '#a78bfa',
+    'cui-event-purple-bg': '#4c1d95',
+    'cui-event-orange': '#fb923c',
+    'cui-event-orange-bg': '#7c2d12',
+    'cui-event-neutral': '#cbd5e1',
+    'cui-event-neutral-bg': '#334155',
+
     // Background / Surface
     'mat-sys-background': '#0f172a',
     'mat-sys-on-background': '#f1f5f9',

@@ -145,10 +145,16 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
     return (opt as unknown as Record<string, string>)[key];
   }
 
-  /** Resolves the underlying value of an option, honoring `optionValue` for plain-record options. */
+  /**
+   * Resolves the underlying value of an option, honoring `optionValue` for plain-record options.
+   * PrimeNG-style fallback: when no `optionValue` key is set and the option itself has no
+   * `value` property, the whole option object is used as the value (e.g. binding a full
+   * domain model like `ProvinceModel` instead of a scalar id).
+   */
   getOptionValue(opt: SelectOptionLike<T>): T {
     const key = this.optionValue() ?? 'value';
-    return (opt as unknown as Record<string, T>)[key];
+    const record = opt as unknown as Record<string, T>;
+    return key in record ? record[key] : (opt as unknown as T);
   }
 
   /**

@@ -1,1 +1,15 @@
 @use '../shared/doc-page';
+
+.file-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    width: 16px;
+    padding: 0;
+  }
+}

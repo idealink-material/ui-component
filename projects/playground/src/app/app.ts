@@ -90,6 +90,7 @@ const APP_MENU: MenuItem[] = [
     { id: 'docs-pick-list',        label: 'Pick List',        icon: 'compare_arrows', routerLink: '/docs/pick-list' },
     { id: 'docs-virtual-scroller', label: 'Virtual Scroller', icon: 'view_stream',    routerLink: '/docs/virtual-scroller' },
     { id: 'docs-tree-table',       label: 'Tree Table',       icon: 'table_view',     routerLink: '/docs/tree-table' },
+    { id: 'docs-scheduler',        label: 'Scheduler',        icon: 'calendar_view_day', routerLink: '/docs/scheduler' },
   ]},
   { id: 'docs-feedback', label: 'Docs: Feedback', icon: 'notifications', children: [
     { id: 'docs-empty-state',     label: 'Empty State',     icon: 'inbox',            routerLink: '/docs/empty-state' },

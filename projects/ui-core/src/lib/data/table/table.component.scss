@@ -191,6 +191,7 @@ thead.p-table__head--sticky .p-table__th { position: sticky; top: 0; z-index: 2;
 
 .p-table__tr {
   transition: background 80ms;
+  &--selectable { cursor: pointer; }
   &--selected {
     background: color-mix(in srgb, var(--mat-sys-primary) 8%, transparent);
     // Sticky cells paint their own opaque background (needed to hide scrolling content
@@ -227,6 +228,36 @@ thead.p-table__head--sticky .p-table__th { position: sticky; top: 0; z-index: 2;
 }
 
 .p-table__checkbox { cursor: pointer; accent-color: var(--mat-sys-primary); }
+
+.p-table__radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.p-table__radio-input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--mat-sys-primary);
+}
+
+// The check icon sits on top of the native radio dot rather than replacing it, so the control
+// stays a real, keyboard-operable <input type="radio"> at every state.
+.p-table__radio-check {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mat-sys-on-primary);
+  pointer-events: none;
+}
 
 .p-table__skeleton {
   height: 12px;

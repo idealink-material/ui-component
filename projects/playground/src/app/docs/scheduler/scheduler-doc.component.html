@@ -1,0 +1,135 @@
+<app-doc-shell
+  name="Scheduler"
+  lead="A Google-Calendar-style scheduler — day/week/month/schedule views, duration-sized event blocks with automatic side-by-side layout for overlaps, a live now-indicator, and built-in popovers to create (with title + description) and view/edit/delete events."
+  [featureSections]="featureSections"
+  [themingSections]="themingSections"
+  [properties]="properties"
+  [emitters]="emitters"
+  [interfaces]="interfaces">
+
+  <div docFeatures>
+    <section id="basic" class="doc-page__section">
+      <app-doc-example
+        title="Basic day view"
+        description="Events are positioned and sized by their start/end time. Only events on the bound date are shown."
+        sourceId="p-scheduler-basic"
+        code='<p-scheduler [events]="basicEvents()" (eventClick)="onEventClick($event)" />
+
+basicEvents = signal<SchedulerEvent[]>([
+  { id: "1", title: "Chin Panhanirarith", start: at(9, 30),  end: at(10, 0),  color: "blue" },
+  { id: "2", title: "Chin Panhanirarith", start: at(14, 0),  end: at(14, 30), color: "blue" },
+  { id: "3", title: "2 Requests",         start: at(14, 30), end: at(15, 0),  color: "red" },
+]);'>
+        <p-scheduler [events]="basicEvents()" (eventClick)="onEventClick($event)" (slotClick)="onSlotClick($event)" />
+        <p style="color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
+          Last event click: {{ lastClickedEvent() | json }}
+        </p>
+      </app-doc-example>
+    </section>
+
+    <section id="views" class="doc-page__section">
+      <app-doc-example
+        title="Day / week / month / schedule"
+        description="The header switcher toggles view — Day keeps the hourly time grid; Week and Month render lightweight per-day event chips; Schedule lists upcoming events grouped by day. Prev/Today/Next step by day, week, or month to match the active view. Clicking a day in Week/Month drills into that day's Day view."
+        sourceId="p-scheduler-views"
+        code='<p-scheduler [events]="viewsEvents" [(date)]="viewsDate" [(view)]="viewsMode" />'>
+        <p-scheduler [events]="viewsEvents" [(date)]="viewsDate" [(view)]="viewsMode" />
+      </app-doc-example>
+    </section>
+
+    <section id="quick-create" class="doc-page__section">
+      <app-doc-example
+        title="Add event (quick create)"
+        description="Click any empty slot to open the built-in quick-create popover — title, editable start/end time fields (pre-filled from the clicked slot), and description, Save/Cancel — anchored to the clicked slot, similar to Google Calendar. Saving emits eventCreate with the new event's draft data; the consumer owns persisting it (here, appended to the events array)."
+        sourceId="p-scheduler-quick-create"
+        code='<p-scheduler [events]="basicEvents()" (eventCreate)="onEventCreate($event)" />
+
+onEventCreate(draft: SchedulerEventDraft): void {
+  this.basicEvents.update(events => [
+    ...events,
+    { id: crypto.randomUUID(), title: draft.title, description: draft.description, start: draft.start, end: draft.end, color: "blue" },
+  ]);
+}'>
+        <p-scheduler [events]="basicEvents()" (eventCreate)="onEventCreate($event)" />
+      </app-doc-example>
+    </section>
+
+    <section id="event-detail" class="doc-page__section">
+      <app-doc-example
+        title="View, edit & delete an event"
+        description="Clicking an event opens a Google-Calendar-style detail popover — color dot, title, date/time, and description, with edit (pencil) and delete (trash) icon actions in the header. Edit switches the popover into an inline form (title, start/end time, description); saving emits eventUpdate with the full updated event (including the new start/end), and delete emits eventDelete. The consumer owns applying both to its events array."
+        sourceId="p-scheduler-event-detail"
+        code='<p-scheduler
+  [events]="editableEvents()"
+  (eventUpdate)="onEventUpdate($event)"
+  (eventDelete)="onEventDelete($event)" />
+
+editableEvents = signal<SchedulerEvent[]>([
+  {
+    id: "e1", title: "Meeting", start: at(11, 0), end: at(12, 0), color: "blue",
+    description: "Hi team, let have a meeting tomorrow time 13:30",
+  },
+]);
+
+onEventUpdate(updated: SchedulerEvent): void {
+  this.editableEvents.update(events => events.map(e => e.id === updated.id ? updated : e));
+}
+
+onEventDelete(deleted: SchedulerEvent): void {
+  this.editableEvents.update(events => events.filter(e => e.id !== deleted.id));
+}'>
+        <p-scheduler
+          [events]="editableEvents()"
+          (eventUpdate)="onEventUpdate($event)"
+          (eventDelete)="onEventDelete($event)" />
+      </app-doc-example>
+    </section>
+
+    <section id="overlap" class="doc-page__section">
+      <app-doc-example
+        title="Overlapping events"
+        description="Mutually-overlapping events are automatically packed into side-by-side columns."
+        sourceId="p-scheduler-overlap"
+        code='<p-scheduler [events]="overlapEvents" [startHour]="9" [endHour]="13" />'>
+        <p-scheduler [events]="overlapEvents" [startHour]="9" [endHour]="13" />
+      </app-doc-example>
+    </section>
+
+    <section id="toolbar" class="doc-page__section">
+      <app-doc-example
+        title="Toolbar actions slot"
+        description="The built-in header only owns Today/prev/next/date-label navigation. Anything else — resource filters, status filters, an 'Appointment' button — is projected in via the schedulerActions slot, composed from existing p-select / p-button primitives."
+        sourceId="p-scheduler-toolbar"
+        code='<p-scheduler [events]="basicEvents()">
+  <div schedulerActions style="display:flex; gap:8px; align-items:center;">
+    <p-select [options]="statusOptions" placeholder="All Status" [fullWidth]="false" />
+    <p-button label="Appointment" icon="add" size="sm" />
+  </div>
+</p-scheduler>'>
+        <p-scheduler [events]="basicEvents()">
+          <div schedulerActions style="display:flex; gap:8px; align-items:center;">
+            <p-select [options]="statusOptions" placeholder="All Status" [fullWidth]="false" />
+            <p-button icon="add" size="sm">Appointment</p-button>
+          </div>
+        </p-scheduler>
+      </app-doc-example>
+    </section>
+  </div>
+
+  <div docTheming>
+    <section id="theming-tokens" class="doc-page__section">
+      <h2 class="doc-page__section-title">Design tokens</h2>
+      <table class="doc-page__table">
+        <thead>
+          <tr><th>Token</th><th>Used for</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--cui-event-{{ '{' }}color{{ '}' }}</code> / <code>-bg</code></td><td>Event block border/text color and tinted background, per SchedulerEventColor ('blue', 'red', 'green', 'purple', 'orange', 'neutral').</td></tr>
+          <tr><td><code>--mat-sys-error</code></td><td>The live now-indicator line.</td></tr>
+          <tr><td><code>--mat-sys-outline-variant</code></td><td>Hour-row separators and gutter border.</td></tr>
+          <tr><td><code>--cui-card-bg</code> / <code>-card-border</code></td><td>Component surface and outer border.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</app-doc-shell>

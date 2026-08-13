@@ -4,6 +4,7 @@
   [featureSections]="featureSections"
   [themingSections]="themingSections"
   [properties]="properties"
+  [emitters]="emitters"
   [interfaces]="interfaces">
 
   <div docFeatures>
@@ -27,6 +28,88 @@ nodes: TreeTableNode<AccountRow>[] = [
   ]},
 ];'>
         <p-tree-table [columns]="columns" [nodes]="nodes" />
+      </app-doc-example>
+    </section>
+
+    <section id="striped" class="doc-page__section">
+      <app-doc-example
+        title="Striped rows"
+        description="Set striped to alternate row background color, same as p-table."
+        sourceId="p-tree-table-striped"
+        code='<p-tree-table [columns]="columns" [nodes]="nodes" [striped]="true" />'>
+        <p-tree-table [columns]="columns" [nodes]="nodes" [striped]="true" />
+      </app-doc-example>
+    </section>
+
+    <section id="row-actions" class="doc-page__section">
+      <app-doc-example
+        title="Row actions"
+        description="Add an actions column via the actions input; each action independently renders as an icon button (default) or, with display: 'text', a text button. Use actionsAlign ('left' | 'center' | 'right') to position the header/buttons within the column. actionClick reports which action fired, along with the row's data and node. hidden/disabled per action are evaluated per row."
+        sourceId="p-tree-table-actions"
+        code='<p-tree-table
+  [columns]="columns"
+  [nodes]="nodes"
+  [actions]="accountActions"
+  actionsHeader="Actions"
+  actionsAlign="right"
+  (actionClick)="onActionClick($event)" />
+
+accountActions: TreeTableAction<AccountRow>[] = [
+  { id: "edit", icon: "edit", label: "Edit" },
+  {
+    id: "delete", icon: "delete", label: "Delete",
+    disabled: (row) => row.status === "Active",
+  },
+  { id: "view", label: "View", display: "text" },
+];
+
+onActionClick(event: TreeTableActionClickEvent<AccountRow>): void {
+  this.lastActionEvent.set(event);
+}'>
+        <p-tree-table
+          [columns]="columns"
+          [nodes]="nodes"
+          [actions]="accountActions"
+          actionsHeader="Actions"
+          actionsAlign="right"
+          (actionClick)="onActionClick($event)" />
+        <p style="color: var(--mat-sys-on-surface-variant);">
+          Last action: {{ lastActionEvent() | json }}
+        </p>
+      </app-doc-example>
+    </section>
+
+    <section id="custom-template" class="doc-page__section">
+      <app-doc-example
+        title="Custom row template"
+        description="Override #header/#body to fully control markup — mirrors p-table's template API. rowNode is the flat row (node, depth, hasChildren); rowData is rowNode.node.data."
+        sourceId="p-tree-table-custom"
+        [code]="customTemplateCode">
+        <p-tree-table #tt="pTreeTable" [nodes]="fileNodes" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template #header>
+            <tr>
+              <th style="width: 34%">Name</th>
+              <th style="width: 33%">Size</th>
+              <th style="width: 33%">Type</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-rowNode>
+            <tr>
+              <td>
+                <span class="file-cell" [style.padding-left.px]="rowNode.depth * 20">
+                  @if (rowNode.hasChildren) {
+                    <span class="text-sm mr-1 cursor-pointer font-sm"   (click)="tt.toggle(rowNode.node.id)">
+                     <cui-icon name="{{ tt.isExpanded(rowNode.node.id) ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}"></cui-icon>
+                    </span>
+                  }
+                  {{ rowNode.node.data.name }}
+                </span>
+              </td>
+              <td>{{ rowNode.node.data.size }}</td>
+              <td>{{ rowNode.node.data.type }}</td>
+            </tr>
+          </ng-template>
+        </p-tree-table>
       </app-doc-example>
     </section>
   </div>

@@ -25,8 +25,7 @@
 .doc-shell__sidenav {
   flex-shrink: 0;
   width: 180px;
-  position: sticky;
-  top: 16px;
+  position: static;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -85,7 +84,10 @@
 .doc-shell__content {
   flex: 1;
   min-width: 0;
-  max-width: 760px;
+  width: 100%;
+  max-width: none;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
 }
 
 .doc-shell__api-block { margin-bottom: 32px; }

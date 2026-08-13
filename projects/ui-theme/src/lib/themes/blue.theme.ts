@@ -50,6 +50,20 @@ export const blueTheme: ThemeDefinition = {
     'mat-sys-info-container': '#dbeafe',
     'mat-sys-on-info-container': '#1e40af',
 
+    // Scheduler / calendar event block colors
+    'cui-event-blue': '#2563eb',
+    'cui-event-blue-bg': '#dbeafe',
+    'cui-event-red': '#dc2626',
+    'cui-event-red-bg': '#fee2e2',
+    'cui-event-green': '#16a34a',
+    'cui-event-green-bg': '#dcfce7',
+    'cui-event-purple': '#4f46e5',
+    'cui-event-purple-bg': '#e0e7ff',
+    'cui-event-orange': '#ea580c',
+    'cui-event-orange-bg': '#ffedd5',
+    'cui-event-neutral': '#0369a1',
+    'cui-event-neutral-bg': '#e0f2fe',
+
     // Background / Surface
     'mat-sys-background': '#f0f9ff',
     'mat-sys-on-background': '#0c1a2e',

@@ -70,6 +70,22 @@ export interface ThemePalette {
   'mat-sys-info-container': string;
   'mat-sys-on-info-container': string;
 
+  // ── Scheduler / calendar event block colors ──────────────────────────────
+  // Decorative category colors (not semantic like the roles above) — border
+  // and text color plus a tinted background, used by <p-scheduler> event blocks.
+  'cui-event-blue': string;
+  'cui-event-blue-bg': string;
+  'cui-event-red': string;
+  'cui-event-red-bg': string;
+  'cui-event-green': string;
+  'cui-event-green-bg': string;
+  'cui-event-purple': string;
+  'cui-event-purple-bg': string;
+  'cui-event-orange': string;
+  'cui-event-orange-bg': string;
+  'cui-event-neutral': string;
+  'cui-event-neutral-bg': string;
+
   'mat-sys-background': string;
   'mat-sys-on-background': string;
 

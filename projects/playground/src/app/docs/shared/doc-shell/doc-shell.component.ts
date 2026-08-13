@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, input, signal, viewChild } from '@angular/core';
 
 import {
   DocApiEmitter, DocApiInterface, DocApiProperty, DocApiTemplate, DocSection,
@@ -20,6 +20,8 @@ export type DocResource = 'features' | 'theming' | 'api' | 'passthrough';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocShellComponent {
+  private readonly content = viewChild<ElementRef<HTMLElement>>('content');
+
   readonly name = input.required<string>();
   readonly lead = input<string>('');
 
@@ -54,5 +56,15 @@ export class DocShellComponent {
 
   setResource(resource: DocResource): void {
     this.activeResource.set(resource);
+  }
+
+  scrollToSection(event: MouseEvent, id: string): void {
+    const container = this.content()?.nativeElement;
+    const target = container?.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
+    if (!container || !target) return;
+
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', `#${id}`);
   }
 }

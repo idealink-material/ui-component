@@ -1,39 +1,77 @@
 <div class="p-tree-table__wrapper">
-  <table class="p-tree-table">
+  <table class="p-tree-table" [class.p-tree-table--striped]="striped()" [ngStyle]="tableStyle()">
     <thead>
-      <tr>
-        @for (col of columns(); track col.key) {
-          <th class="p-tree-table__th" [style.width]="col.width" [style.text-align]="col.align ?? 'left'">
-            {{ col.header }}
-          </th>
-        }
-      </tr>
+      @if (headerTemplateRef(); as headerTpl) {
+        <ng-container [ngTemplateOutlet]="headerTpl" />
+      } @else {
+        <tr>
+          @for (col of columns(); track col.key) {
+            <th class="p-tree-table__th" [style.width]="col.width" [style.text-align]="col.align ?? 'left'">
+              {{ col.header }}
+            </th>
+          }
+          @if (actions().length) {
+            <th class="p-tree-table__th p-tree-table__th--actions" [style.text-align]="actionsAlign()">{{ actionsHeader() }}</th>
+          }
+        </tr>
+      }
     </thead>
     <tbody>
       @for (row of flatRows(); track row.node.id) {
-        <tr class="p-tree-table__tr">
-          @for (col of columns(); track col.key; let first = $first) {
-            <td class="p-tree-table__td" [style.text-align]="col.align ?? 'left'">
-              @if (first) {
-                <span class="p-tree-table__cell-tree" [style.padding-left.px]="row.depth * 20">
-                  @if (row.hasChildren) {
-                    <button type="button" class="p-tree-table__toggle" (click)="toggle(row.node.id)">
-                      <cui-icon [name]="isExpanded(row.node.id) ? 'expand_more' : 'chevron_right'" size="xs" color="currentColor" />
-                    </button>
-                  } @else {
-                    <span class="p-tree-table__toggle-spacer"></span>
-                  }
+        @if (bodyTemplateRef(); as bodyTpl) {
+          <ng-container [ngTemplateOutlet]="bodyTpl" [ngTemplateOutletContext]="{ $implicit: row, rowData: row.node.data }" />
+        } @else {
+          <tr class="p-tree-table__tr">
+            @for (col of columns(); track col.key; let first = $first) {
+              <td class="p-tree-table__td" [style.text-align]="col.align ?? 'left'" (click)="onCellClick(col, row)">
+                @if (first) {
+                  <span class="p-tree-table__cell-tree" [style.padding-left.px]="row.depth * 20">
+                    @if (row.hasChildren) {
+                      <button type="button" class="p-tree-table__toggle"
+                        [attr.aria-expanded]="isExpanded(row.node.id)"
+                        [attr.aria-label]="isExpanded(row.node.id) ? 'Collapse row' : 'Expand row'"
+                        (click)="toggle(row.node.id)">
+                        <cui-icon name="chevron_right" size="sm" color="currentColor"
+                          class="p-tree-table__toggle-icon" [class.p-tree-table__toggle-icon--expanded]="isExpanded(row.node.id)" />
+                      </button>
+                    } @else {
+                      <span class="p-tree-table__toggle-spacer"></span>
+                    }
+                    {{ cellValue(col, row.node.data) }}
+                  </span>
+                } @else {
                   {{ cellValue(col, row.node.data) }}
+                }
+              </td>
+            }
+            @if (actions().length) {
+              <td class="p-tree-table__td p-tree-table__td--actions"
+                [class.p-tree-table__td--actions--left]="actionsAlign() === 'left'"
+                [class.p-tree-table__td--actions--right]="actionsAlign() === 'right'">
+                <span class="p-tree-table__actions-group" [style.justify-content]="actionsJustify()">
+                  @for (action of visibleActions(row); track action.id) {
+                    <button type="button"
+                      class="p-tree-table__action"
+                      [class.p-tree-table__action--text]="action.display === 'text'"
+                      [attr.aria-label]="action.display === 'text' ? null : action.label"
+                      [attr.title]="action.display === 'text' ? null : action.label"
+                      [disabled]="isActionDisabled(action, row)"
+                      (click)="onActionClick(action, row, $event)">
+                      @if (action.display === 'text') {
+                        {{ action.label }}
+                      } @else {
+                        <cui-icon [name]="action.icon!" size="sm" color="currentColor" [label]="action.label" />
+                      }
+                    </button>
+                  }
                 </span>
-              } @else {
-                {{ cellValue(col, row.node.data) }}
-              }
-            </td>
-          }
-        </tr>
+              </td>
+            }
+          </tr>
+        }
       } @empty {
         <tr>
-          <td class="p-tree-table__empty" [attr.colspan]="columns().length">No data</td>
+          <td class="p-tree-table__empty" [attr.colspan]="columns().length + (actions().length ? 1 : 0)">No data</td>
         </tr>
       }
     </tbody>

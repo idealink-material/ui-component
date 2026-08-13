@@ -31,18 +31,18 @@
   gap: 12px;
   background: var(--mat-sys-surface);
   min-width: 0;
+  overflow-x: auto;
 }
 
 // Content here is projected from whichever doc page uses <app-doc-example> (e.g. <p-table> from
 // data-table-doc.component.html), so it keeps *that* component's view-encapsulation attribute,
 // not this one's — a plain scoped `.doc-example__preview > *` selector never matches it. ::ng-deep
 // is required to reach across that boundary, same reasoning as the sticky-column rules in
-// table.component.scss. Without this, a wide flex item can't shrink below its own intrinsic
-// content width (`min-width: auto` is the flex default) and overflows the box symmetrically,
-// which `.doc-example__box`'s `overflow: hidden` then clips.
+// table.component.scss. `flex-shrink: 0` stops the flex algorithm from squeezing a wide item (e.g.
+// a full data table) down to fit — a squeezed table just wraps its cell text and becomes unreadable
+// instead of legibly scrolling within `.doc-example__preview` (overflow-x: auto above).
 :host ::ng-deep .doc-example__preview > * {
-  min-width: 0;
-  max-width: 100%;
+  flex-shrink: 0;
 }
 
 .doc-example__toolbar {

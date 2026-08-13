@@ -65,6 +65,7 @@ import { TreeDocComponent } from './docs/tree/tree-doc.component';
 import { PickListDocComponent } from './docs/pick-list/pick-list-doc.component';
 import { VirtualScrollerDocComponent } from './docs/virtual-scroller/virtual-scroller-doc.component';
 import { TreeTableDocComponent } from './docs/tree-table/tree-table-doc.component';
+import { SchedulerDocComponent } from './docs/scheduler/scheduler-doc.component';
 
 // ── Feedback ─────────────────────────────────────────────────────────────────
 import { EmptyStateDocComponent } from './docs/empty-state/empty-state-doc.component';
@@ -136,6 +137,7 @@ export const routes: Routes = [
   { path: 'docs/pick-list',        component: PickListDocComponent },
   { path: 'docs/virtual-scroller', component: VirtualScrollerDocComponent },
   { path: 'docs/tree-table',       component: TreeTableDocComponent },
+  { path: 'docs/scheduler',        component: SchedulerDocComponent },
 
   // Feedback
   { path: 'docs/empty-state',     component: EmptyStateDocComponent },

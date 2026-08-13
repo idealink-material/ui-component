@@ -1,0 +1,605 @@
+:host {
+  display: block;
+  border: 1px solid var(--cui-card-border);
+  border-radius: var(--cui-radius-md);
+  background: var(--cui-card-bg);
+  overflow: hidden;
+}
+
+.p-scheduler__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--cui-card-border);
+  flex-wrap: wrap;
+}
+
+.p-scheduler__nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.p-scheduler__today-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--cui-radius-md);
+  background: transparent;
+  color: var(--mat-sys-on-surface);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+
+  &:hover { background: var(--mat-sys-surface-container-low); }
+  &--active { color: var(--mat-sys-primary); border-color: var(--mat-sys-primary); }
+}
+
+.p-scheduler__nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--cui-radius-pill);
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+
+  &:hover { background: var(--mat-sys-surface-container-high); color: var(--mat-sys-primary); }
+}
+
+.p-scheduler__date-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
+  margin-left: 4px;
+}
+
+.p-scheduler__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.p-scheduler__view-switcher {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: var(--cui-radius-md);
+  background: var(--mat-sys-surface-container-low);
+}
+
+.p-scheduler__view-btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: var(--cui-radius-sm);
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+
+  &:hover { color: var(--mat-sys-on-surface); }
+
+  &--active {
+    background: var(--cui-card-bg);
+    color: var(--mat-sys-primary);
+    box-shadow: var(--cui-shadow-sm);
+  }
+}
+
+.p-scheduler__body {
+  overflow: auto;
+}
+
+.p-scheduler__grid {
+  display: flex;
+  position: relative;
+}
+
+.p-scheduler__gutter {
+  flex-shrink: 0;
+  width: 72px;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+}
+
+.p-scheduler__hour-label {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 4px 10px 0 0;
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant);
+  transform: translateY(-50%);
+  box-sizing: border-box;
+}
+
+.p-scheduler__lanes {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.p-scheduler__hour-row {
+  border-bottom: 1px dashed var(--mat-sys-outline-variant);
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:hover { background: var(--mat-sys-surface-container-lowest); }
+}
+
+.p-scheduler__now-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 2px solid var(--mat-sys-error);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.p-scheduler__now-dot {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--cui-radius-pill);
+  background: var(--mat-sys-error);
+}
+
+.p-scheduler__event {
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  padding: 2px 8px;
+  margin: 0 2px;
+  border-left: 3px solid;
+  border-radius: var(--cui-radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  transition: filter 120ms;
+
+  &:hover { filter: brightness(0.97); }
+}
+
+.p-scheduler__event-title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.p-scheduler__event-subtitle {
+  font-size: 11px;
+  line-height: 14px;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@each $color in 'blue', 'red', 'green', 'purple', 'orange', 'neutral' {
+  .p-scheduler__event--#{$color} {
+    background: var(--cui-event-#{$color}-bg);
+    border-left-color: var(--cui-event-#{$color});
+    color: var(--cui-event-#{$color});
+  }
+}
+
+// ── Chips (shared by week/month summary views) ──────────────────────────────
+
+.p-scheduler__chip {
+  padding: 2px 6px;
+  border-left: 3px solid;
+  border-radius: var(--cui-radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: filter 120ms;
+
+  &:hover { filter: brightness(0.97); }
+}
+
+@each $color in 'blue', 'red', 'green', 'purple', 'orange', 'neutral' {
+  .p-scheduler__chip--#{$color} {
+    background: var(--cui-event-#{$color}-bg);
+    border-left-color: var(--cui-event-#{$color});
+    color: var(--cui-event-#{$color});
+  }
+}
+
+// ── Week (summary) view ──────────────────────────────────────────────────────
+
+.p-scheduler__week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.p-scheduler__week-col {
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  padding: 10px 8px;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  cursor: pointer;
+  transition: background 120ms;
+
+  &:last-child { border-right: none; }
+  &:hover { background: var(--mat-sys-surface-container-lowest); }
+
+  &--today {
+    background: color-mix(in srgb, var(--mat-sys-primary) 6%, transparent);
+  }
+}
+
+.p-scheduler__week-col-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.p-scheduler__week-col-weekday {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface-variant);
+  text-transform: uppercase;
+}
+
+.p-scheduler__week-col-day {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--mat-sys-on-surface);
+
+  .p-scheduler__week-col--today & {
+    color: var(--mat-sys-primary);
+  }
+}
+
+.p-scheduler__week-col-events {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.p-scheduler__week-col-empty {
+  font-size: 11px;
+  color: var(--mat-sys-on-surface-variant);
+  opacity: 0.6;
+  text-align: center;
+}
+
+// ── Month view ────────────────────────────────────────────────────────────
+
+.p-scheduler__month {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.p-scheduler__month-weekday {
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface-variant);
+  text-transform: uppercase;
+  text-align: center;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.p-scheduler__month-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 96px;
+  padding: 6px;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  cursor: pointer;
+  transition: background 120ms;
+
+  &:nth-child(7n) { border-right: none; }
+  &:hover { background: var(--mat-sys-surface-container-lowest); }
+
+  &--muted {
+    .p-scheduler__month-cell-day { color: var(--mat-sys-on-surface-variant); opacity: 0.5; }
+  }
+
+  &--today {
+    background: color-mix(in srgb, var(--mat-sys-primary) 6%, transparent);
+
+    .p-scheduler__month-cell-day {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: var(--cui-radius-pill);
+      background: var(--mat-sys-primary);
+      color: var(--mat-sys-on-primary);
+    }
+  }
+}
+
+.p-scheduler__month-cell-day {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
+}
+
+.p-scheduler__month-cell-events {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.p-scheduler__month-cell-more {
+  font-size: 11px;
+  color: var(--mat-sys-on-surface-variant);
+  padding-left: 2px;
+}
+
+// ── Schedule (agenda) view ───────────────────────────────────────────────────
+
+.p-scheduler__schedule {
+  display: flex;
+  flex-direction: column;
+}
+
+.p-scheduler__schedule-group {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  &:last-child { border-bottom: none; }
+}
+
+.p-scheduler__schedule-group-label {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--mat-sys-on-surface-variant);
+  text-transform: uppercase;
+
+  &--today { color: var(--mat-sys-primary); }
+}
+
+.p-scheduler__schedule-group-events {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.p-scheduler__schedule-event {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-left: 3px solid;
+  border-radius: var(--cui-radius-sm);
+  cursor: pointer;
+  transition: filter 120ms;
+
+  &:hover { filter: brightness(0.97); }
+}
+
+.p-scheduler__schedule-event-time {
+  flex-shrink: 0;
+  width: 120px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.p-scheduler__schedule-event-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@each $color in 'blue', 'red', 'green', 'purple', 'orange', 'neutral' {
+  .p-scheduler__schedule-event--#{$color} {
+    background: var(--cui-event-#{$color}-bg);
+    border-left-color: var(--cui-event-#{$color});
+    color: var(--cui-event-#{$color});
+  }
+}
+
+.p-scheduler__schedule-empty {
+  padding: 32px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.p-scheduler__quick-create {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 320px;
+  padding: 16px;
+  border-radius: var(--cui-radius-lg);
+  background: var(--cui-card-bg);
+  box-shadow: var(--cui-shadow-lg);
+}
+
+.p-scheduler__quick-create-time {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+
+  ::ng-deep p-datepicker {
+    display: block;
+  }
+
+  ::ng-deep p-datepicker .p-field,
+  ::ng-deep p-datepicker .p-datepicker {
+    width: 100%;
+  }
+}
+
+.p-scheduler__quick-create-time-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.p-scheduler__time-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  ::ng-deep p-input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  ::ng-deep .p-field,
+  ::ng-deep .p-input {
+    width: 100%;
+  }
+}
+
+.p-scheduler__time-range-sep {
+  flex-shrink: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.p-scheduler__time-error {
+  font-size: 12px;
+  color: var(--mat-sys-error);
+}
+
+.p-scheduler__quick-create-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+// ── Event detail popover ─────────────────────────────────────────────────────
+
+.p-scheduler__event-detail {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  border-radius: var(--cui-radius-lg);
+  background: var(--cui-card-bg);
+  box-shadow: var(--cui-shadow-lg);
+  overflow: hidden;
+}
+
+.p-scheduler__event-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 8px;
+}
+
+.p-scheduler__event-detail-spacer {
+  flex: 1;
+}
+
+.p-scheduler__event-detail-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--cui-radius-pill);
+  background: transparent;
+  color: var(--mat-sys-on-surface-variant);
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+
+  &:hover { background: var(--mat-sys-surface-container-high); color: var(--mat-sys-on-surface); }
+}
+
+.p-scheduler__event-detail-body {
+  display: flex;
+  gap: 12px;
+  padding: 4px 20px 20px;
+}
+
+.p-scheduler__event-detail-dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  margin-top: 6px;
+  border-radius: var(--cui-radius-sm);
+}
+
+@each $color in 'blue', 'red', 'green', 'purple', 'orange', 'neutral' {
+  .p-scheduler__event-detail-dot--#{$color} {
+    background: var(--cui-event-#{$color});
+  }
+}
+
+.p-scheduler__event-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.p-scheduler__event-detail-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
+}
+
+.p-scheduler__event-detail-datetime {
+  margin: 0;
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.p-scheduler__event-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.p-scheduler__event-detail-description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--mat-sys-on-surface);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.p-scheduler__event-detail-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px 20px;
+}
+
+.p-scheduler__event-detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

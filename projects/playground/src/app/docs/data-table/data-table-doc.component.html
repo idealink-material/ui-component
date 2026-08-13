@@ -242,7 +242,7 @@ columns: TableColumn<CaseRow>[] = [
     <section id="selection-mode-single" class="doc-page__section">
       <app-doc-example
         title="Selection mode (single)"
-        description="selectionMode=&quot;single&quot; hides the checkbox column entirely — clicking a row selects it (replacing any prior selection), and clicking the selected row again deselects it."
+        description="selectionMode=&quot;single&quot; renders a radio-button column instead of checkboxes — the row cursor becomes a pointer, and the selected row's radio shows a check icon. Clicking a row selects it (replacing any prior selection), and clicking the selected row again deselects it."
         sourceId="p-table"
         [code]="selectionModeSingleCode">
         <p-table

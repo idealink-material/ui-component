@@ -10,12 +10,17 @@ import { TableColumn, SortDirection, SortState } from './table.types';
 @Component({
   selector: 'p-table',
   standalone: true,
+  exportAs: 'pTable',
   imports: [NgTemplateOutlet, NgStyle, CuiIconComponent, CdkDropList, CdkDrag, CdkDragHandle],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CuiTableComponent<T extends Record<string, unknown> = Record<string, unknown>> {
+  private static nextId = 0;
+  /** Groups this instance's radio inputs (`selectionMode: 'single'`) so selecting one clears the others. */
+  readonly radioGroupName = `p-table-radio-${++CuiTableComponent.nextId}`;
+
   // ── Inputs ─────────────────────────────────────────────────────────────────
   readonly columns    = input<TableColumn<T>[]>([]);
   readonly value      = input<T[]>([]);
@@ -166,10 +171,10 @@ export class CuiTableComponent<T extends Record<string, unknown> = Record<string
     });
   }
 
-  /** Total column count, including the checkbox and expand-toggle columns when present — used for the detail row's colspan. */
+  /** Total column count, including the checkbox/radio and expand-toggle columns when present — used for the detail row's colspan. */
   readonly colCount = computed(() =>
     (this.columnCount() ?? this.columns().length)
-    + (this.selectable() && this.selectionMode() === 'multiple' ? 1 : 0)
+    + (this.selectable() ? 1 : 0)
     + (this.expandable() ? 1 : 0)
   );
 
@@ -291,7 +296,7 @@ export class CuiTableComponent<T extends Record<string, unknown> = Record<string
   /** Sum of every column's effective width (px), used for `columnResizeMode: 'expand'`'s explicit `<table>` width. */
   readonly tableTotalWidthPx = computed(() => {
     let total = this.orderedColumns().reduce((sum, c) => sum + this.effectiveColWidth(c), 0);
-    if (this.selectable() && this.selectionMode() === 'multiple') total += 40;
+    if (this.selectable()) total += 40;
     if (this.expandable()) total += 44;
     return total;
   });

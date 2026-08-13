@@ -50,6 +50,20 @@ export const bankingTheme: ThemeDefinition = {
     'mat-sys-info-container': '#dbeafe',
     'mat-sys-on-info-container': '#1e40af',
 
+    // Scheduler / calendar event block colors
+    'cui-event-blue': '#1e3a5f',
+    'cui-event-blue-bg': '#dbeafe',
+    'cui-event-red': '#dc2626',
+    'cui-event-red-bg': '#fee2e2',
+    'cui-event-green': '#166534',
+    'cui-event-green-bg': '#dcfce7',
+    'cui-event-purple': '#5b21b6',
+    'cui-event-purple-bg': '#ede9fe',
+    'cui-event-orange': '#b45309',
+    'cui-event-orange-bg': '#fef3c7',
+    'cui-event-neutral': '#3d5166',
+    'cui-event-neutral-bg': '#e8edf2',
+
     // Background / Surface
     'mat-sys-background': '#f0f4f8',
     'mat-sys-on-background': '#0d1b2a',

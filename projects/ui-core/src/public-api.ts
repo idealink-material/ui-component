@@ -105,3 +105,7 @@ export * from './lib/layout/divider/divider.component';
 export * from './lib/layout/fieldset/fieldset.component';
 export * from './lib/layout/panel/panel.component';
 export * from './lib/layout/panel/panel-footer.component';
+
+// ── Wave 7: Scheduler ────────────────────────────────────────────────────────
+export * from './lib/data/scheduler/scheduler.types';
+export * from './lib/data/scheduler/scheduler.component';

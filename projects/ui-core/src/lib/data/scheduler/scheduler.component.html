@@ -1,0 +1,303 @@
+<div class="p-scheduler__header">
+  <div class="p-scheduler__nav">
+    <button
+      type="button"
+      class="p-scheduler__today-btn"
+      [class.p-scheduler__today-btn--active]="isToday()"
+      (click)="goToToday()">
+      Today
+    </button>
+    <button type="button" class="p-scheduler__nav-btn" aria-label="Previous" (click)="goToPrevious()">
+      <cui-icon name="chevron_left" size="sm" />
+    </button>
+    <button type="button" class="p-scheduler__nav-btn" aria-label="Next" (click)="goToNext()">
+      <cui-icon name="chevron_right" size="sm" />
+    </button>
+    <span class="p-scheduler__date-label">{{ dateLabel() }}</span>
+  </div>
+
+  <div class="p-scheduler__actions">
+    <ng-content select="[schedulerActions]" />
+
+    @if (views().length > 1) {
+      <div class="p-scheduler__view-switcher">
+        @for (v of views(); track v) {
+          <button
+            type="button"
+            class="p-scheduler__view-btn"
+            [class.p-scheduler__view-btn--active]="view() === v"
+            (click)="setView(v)">
+            {{ viewLabel(v) }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<div class="p-scheduler__body">
+  @switch (view()) {
+    @case ('day') {
+      <div class="p-scheduler__grid" [style.height.px]="gridHeight()">
+        <div class="p-scheduler__gutter">
+          @for (hour of hours(); track hour) {
+            <div class="p-scheduler__hour-label" [style.height.px]="rowHeightPx">{{ formatHour(hour) }}</div>
+          }
+        </div>
+
+        <div class="p-scheduler__lanes">
+          @for (hour of hours(); track hour) {
+            <div
+              class="p-scheduler__hour-row"
+              [style.height.px]="rowHeightPx"
+              (click)="onSlotClick(hour, $event.currentTarget)">
+            </div>
+          }
+
+          @if (nowOffsetPx(); as offset) {
+            <div class="p-scheduler__now-line" [style.top.px]="offset">
+              <span class="p-scheduler__now-dot"></span>
+            </div>
+          }
+
+          @for (ev of positionedEvents(); track ev.id) {
+            <div
+              class="p-scheduler__event"
+              [class]="'p-scheduler__event--' + (ev.color ?? 'blue')"
+              [style.top.px]="ev.top"
+              [style.height.px]="ev.height"
+              [style.left.%]="ev.leftPct"
+              [style.width.%]="ev.widthPct"
+              (click)="onEventClick(ev, $event.currentTarget)">
+              @if (eventTemplate(); as tpl) {
+                <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{ $implicit: ev }" />
+              } @else {
+                <span class="p-scheduler__event-title">{{ ev.title }}</span>
+                <span class="p-scheduler__event-subtitle">{{ ev.subtitle ?? formatEventTime(ev) }}</span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @case ('week') {
+      <div class="p-scheduler__week">
+        @for (col of weekColumns(); track col.date) {
+          <div class="p-scheduler__week-col" [class.p-scheduler__week-col--today]="col.isToday" (click)="selectDay(col.date)">
+            <div class="p-scheduler__week-col-header">
+              <span class="p-scheduler__week-col-weekday">{{ formatWeekdayShort(col.date) }}</span>
+              <span class="p-scheduler__week-col-day">{{ formatDayNumber(col.date) }}</span>
+            </div>
+            <div class="p-scheduler__week-col-events">
+              @for (ev of col.events; track ev.id) {
+                <div
+                  class="p-scheduler__chip"
+                  [class]="'p-scheduler__chip--' + (ev.color ?? 'blue')"
+                  (click)="onEventClick(ev, $event.currentTarget); $event.stopPropagation()">
+                  {{ ev.title }}
+                </div>
+              } @empty {
+                <span class="p-scheduler__week-col-empty">No events</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('month') {
+      <div class="p-scheduler__month">
+        @for (weekday of weekDays(); track $index) {
+          <div class="p-scheduler__month-weekday">{{ formatWeekdayShort(weekday) }}</div>
+        }
+        @for (cell of monthCells(); track cell.date) {
+          <div
+            class="p-scheduler__month-cell"
+            [class.p-scheduler__month-cell--muted]="!cell.inMonth"
+            [class.p-scheduler__month-cell--today]="cell.isToday"
+            (click)="selectDay(cell.date)">
+            <span class="p-scheduler__month-cell-day">{{ formatDayNumber(cell.date) }}</span>
+            <div class="p-scheduler__month-cell-events">
+              @for (ev of cell.events.slice(0, 3); track ev.id) {
+                <div
+                  class="p-scheduler__chip"
+                  [class]="'p-scheduler__chip--' + (ev.color ?? 'blue')"
+                  (click)="onEventClick(ev, $event.currentTarget); $event.stopPropagation()">
+                  {{ ev.title }}
+                </div>
+              }
+              @if (cell.events.length > 3) {
+                <span class="p-scheduler__month-cell-more">+{{ cell.events.length - 3 }} more</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    @case ('schedule') {
+      <div class="p-scheduler__schedule">
+        @for (group of scheduleGroups(); track group.date) {
+          <div class="p-scheduler__schedule-group">
+            <div class="p-scheduler__schedule-group-label" [class.p-scheduler__schedule-group-label--today]="group.isToday">
+              {{ formatScheduleGroupLabel(group.date, group.isToday) }}
+            </div>
+            <div class="p-scheduler__schedule-group-events">
+              @for (ev of group.events; track ev.id) {
+                <div
+                  class="p-scheduler__schedule-event"
+                  [class]="'p-scheduler__schedule-event--' + (ev.color ?? 'blue')"
+                  (click)="onEventClick(ev, $event.currentTarget)">
+                  <span class="p-scheduler__schedule-event-time">{{ formatEventTime(ev) }}</span>
+                  <span class="p-scheduler__schedule-event-title">{{ ev.title }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        } @empty {
+          <div class="p-scheduler__schedule-empty">No upcoming events.</div>
+        }
+      </div>
+    }
+  }
+</div>
+
+<ng-template #quickCreatePanel>
+  <div class="p-scheduler__quick-create" (click)="$event.stopPropagation()">
+    <p-input
+      [(value)]="quickCreateTitle"
+      placeholder="Add title"
+      [autofocus]="true"
+      (keydown.escape)="closeQuickCreate()" />
+    <div class="p-scheduler__quick-create-time">
+      <p-datepicker
+        [(value)]="quickCreateDate"
+        [dateFormat]="dateFormat()"
+        [fullWidth]="false" />
+      <div class="p-scheduler__quick-create-time-fields">
+        <div class="p-scheduler__time-range">
+          <p-input
+            type="time"
+            prefixIcon="schedule"
+            [(value)]="quickCreateStartTime"
+            [fullWidth]="false"
+            (keydown.escape)="closeQuickCreate()" />
+          <span class="p-scheduler__time-range-sep">–</span>
+          <p-input
+            type="time"
+            [(value)]="quickCreateEndTime"
+            [fullWidth]="false"
+            (keydown.escape)="closeQuickCreate()" />
+        </div>
+        @if (quickCreateTimeInvalid()) {
+          <span class="p-scheduler__time-error">End time must be after start time.</span>
+        }
+      </div>
+    </div>
+    <p-input
+      [(value)]="quickCreateDescription"
+      placeholder="Add description"
+      [multiline]="true"
+      [rows]="3"
+      [autoResize]="true"
+      (keydown.escape)="closeQuickCreate()" />
+    <div class="p-scheduler__quick-create-actions">
+      <p-button variant="text" size="sm" (onClick)="closeQuickCreate()">Cancel</p-button>
+      <p-button
+        size="sm"
+        [disabled]="!quickCreateTitle().trim() || quickCreateTimeInvalid()"
+        (onClick)="saveQuickCreate()">
+        Save
+      </p-button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #eventDetailPanel>
+  @if (eventDetailEvent(); as ev) {
+    <div class="p-scheduler__event-detail" (click)="$event.stopPropagation()">
+      @if (!eventDetailEditing()) {
+        <div class="p-scheduler__event-detail-header">
+          <button type="button" class="p-scheduler__event-detail-icon-btn" aria-label="Edit" (click)="startEditEvent()">
+            <cui-icon name="edit" size="sm" />
+          </button>
+          <button type="button" class="p-scheduler__event-detail-icon-btn" aria-label="Delete" (click)="deleteEvent()">
+            <cui-icon name="delete" size="sm" />
+          </button>
+          <span class="p-scheduler__event-detail-spacer"></span>
+          <button type="button" class="p-scheduler__event-detail-icon-btn" aria-label="Close" (click)="closeEventDetail()">
+            <cui-icon name="close" size="sm" />
+          </button>
+        </div>
+
+        <div class="p-scheduler__event-detail-body">
+          <span class="p-scheduler__event-detail-dot" [class]="'p-scheduler__event-detail-dot--' + (ev.color ?? 'blue')"></span>
+          <div class="p-scheduler__event-detail-content">
+            <h3 class="p-scheduler__event-detail-title">{{ ev.title }}</h3>
+            <p class="p-scheduler__event-detail-datetime">{{ eventDetailDateTimeLabel() }}</p>
+
+            @if (ev.description) {
+              <div class="p-scheduler__event-detail-row">
+                <cui-icon name="notes" size="sm" />
+                <p class="p-scheduler__event-detail-description">{{ ev.description }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="p-scheduler__event-detail-header">
+          <span class="p-scheduler__event-detail-spacer"></span>
+          <button type="button" class="p-scheduler__event-detail-icon-btn" aria-label="Close" (click)="closeEventDetail()">
+            <cui-icon name="close" size="sm" />
+          </button>
+        </div>
+
+        <div class="p-scheduler__event-detail-edit">
+          <p-input [(value)]="eventDetailTitle" placeholder="Title" [autofocus]="true" (keydown.escape)="cancelEditEvent()" />
+          <div class="p-scheduler__quick-create-time">
+            <p-datepicker
+              [(value)]="eventDetailDate"
+              [dateFormat]="dateFormat()"
+              [fullWidth]="false" />
+            <div class="p-scheduler__quick-create-time-fields">
+              <div class="p-scheduler__time-range">
+                <p-input
+                  type="time"
+                  prefixIcon="schedule"
+                  [(value)]="eventDetailStartTime"
+                  [fullWidth]="false"
+                  (keydown.escape)="cancelEditEvent()" />
+                <span class="p-scheduler__time-range-sep">–</span>
+                <p-input
+                  type="time"
+                  [(value)]="eventDetailEndTime"
+                  [fullWidth]="false"
+                  (keydown.escape)="cancelEditEvent()" />
+              </div>
+              @if (eventDetailTimeInvalid()) {
+                <span class="p-scheduler__time-error">End time must be after start time.</span>
+              }
+            </div>
+          </div>
+          <p-input
+            [(value)]="eventDetailDescription"
+            placeholder="Add description"
+            [multiline]="true"
+            [rows]="3"
+            [autoResize]="true"
+            (keydown.escape)="cancelEditEvent()" />
+          <div class="p-scheduler__event-detail-actions">
+            <p-button variant="text" size="sm" (onClick)="cancelEditEvent()">Cancel</p-button>
+            <p-button
+              size="sm"
+              [disabled]="!eventDetailTitle().trim() || eventDetailTimeInvalid()"
+              (onClick)="saveEditEvent()">
+              Save
+            </p-button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</ng-template>
