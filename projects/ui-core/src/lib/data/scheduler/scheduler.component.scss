@@ -497,6 +497,36 @@
   gap: 8px;
 }
 
+// ── Color swatches (shared by quick-create and event-detail edit) ───────────
+
+.p-scheduler__color-swatches {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.p-scheduler__color-swatch {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--cui-radius-pill);
+  cursor: pointer;
+  transition: transform 120ms, border-color 120ms;
+
+  &:hover { transform: scale(1.1); }
+
+  &--active {
+    border-color: var(--mat-sys-on-surface);
+  }
+}
+
+@each $color in 'blue', 'red', 'green', 'purple', 'orange', 'neutral' {
+  .p-scheduler__color-swatch--#{$color} {
+    background: var(--cui-event-#{$color});
+  }
+}
+
 // ── Event detail popover ─────────────────────────────────────────────────────
 
 .p-scheduler__event-detail {

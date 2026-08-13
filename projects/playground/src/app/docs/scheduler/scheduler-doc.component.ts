@@ -3,7 +3,7 @@ import { JsonPipe } from '@angular/common';
 
 import {
   CuiButtonComponent, CuiSchedulerComponent, CuiSelectComponent, SchedulerEvent,
-  SchedulerEventDraft, SchedulerView, SelectOptionLike,
+  SchedulerEventDraft, SchedulerPanelPosition, SchedulerView, SelectOptionLike,
 } from '@idealink-material/ui-core';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
@@ -43,6 +43,7 @@ export class SchedulerDocComponent {
     { id: 'views', label: 'Day / week / month / schedule' },
     { id: 'quick-create', label: 'Add event (quick create)' },
     { id: 'event-detail', label: 'View, edit & delete an event' },
+    { id: 'panel-position', label: 'Popover position' },
     { id: 'overlap', label: 'Overlapping events' },
     { id: 'toolbar', label: 'Toolbar actions slot' },
   ];
@@ -61,6 +62,7 @@ export class SchedulerDocComponent {
     { name: 'enableQuickCreate', type: 'boolean', default: 'true', description: 'Open a built-in title + description + time "quick create" popover (anchored to the clicked slot, à la Google Calendar) when an empty slot is clicked.' },
     { name: 'enableEventDetail', type: 'boolean', default: 'true', description: 'Open a built-in event detail popover (view, edit, delete — anchored to the clicked event, à la Google Calendar) when an event is clicked.' },
     { name: 'dateFormat', type: 'string', default: `'DD-dd-MM-yy'`, description: 'Token format (PrimeNG/jQuery UI-style) for the date field in the quick-create/event-detail popovers, e.g. "Monday-13-May-2026". The field is manually editable as text, or via the calendar icon\'s picker.' },
+    { name: 'panelPosition', type: `'auto' | 'top' | 'bottom' | 'left' | 'right'`, default: `'auto'`, description: 'Preferred side for the quick-create/event-detail popovers relative to the clicked slot/event, tooltip-style. \'auto\' anchors to the right and flips to the left when it doesn\'t fit; a specific side still flips to its opposite when it doesn\'t fit.' },
     { name: '#eventTemplate', type: 'TemplateRef<{ $implicit: SchedulerEvent }>', default: '—', description: 'Custom content for each event block, replacing the default title/subtitle markup.' },
   ];
 
@@ -95,6 +97,7 @@ export class SchedulerDocComponent {
         { name: 'description', type: 'string | undefined', description: 'Entered description, if any.' },
         { name: 'start', type: 'Date', description: 'Slot start time.' },
         { name: 'end', type: 'Date', description: 'Slot end time.' },
+        { name: 'color', type: `'blue' | 'red' | 'green' | 'purple' | 'orange' | 'neutral' | undefined`, description: 'Color chosen via the quick-create swatches.' },
       ],
     },
   ];
@@ -130,6 +133,18 @@ export class SchedulerDocComponent {
     { id: 'c', title: 'Lab Review', start: at(10, 45), end: at(11, 15), color: 'orange' },
   ];
 
+  readonly panelPositionEvents: SchedulerEvent[] = [
+    { id: 'p1', title: 'Standup', start: at(9, 30), end: at(10, 0), color: 'blue' },
+  ];
+  readonly panelPositionOptions: SelectOptionLike<SchedulerPanelPosition>[] = [
+    { label: 'Auto', value: 'auto' },
+    { label: 'Top', value: 'top' },
+    { label: 'Bottom', value: 'bottom' },
+    { label: 'Left', value: 'left' },
+    { label: 'Right', value: 'right' },
+  ];
+  readonly panelPosition = signal<SchedulerPanelPosition>('auto');
+
   readonly statusOptions: SelectOptionLike<string>[] = [
     { label: 'All Status', value: 'all' },
     { label: 'Confirmed', value: 'confirmed' },
@@ -148,6 +163,7 @@ export class SchedulerDocComponent {
   }
 
   onEventCreate(draft: SchedulerEventDraft): void {
+    console.log('onEventCreate ', draft);
     this.basicEvents.update((events) => [
       ...events,
       {

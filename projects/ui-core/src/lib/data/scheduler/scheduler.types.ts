@@ -3,6 +3,12 @@ export type SchedulerEventColor = 'blue' | 'red' | 'green' | 'purple' | 'orange'
 /** Active layout mode. 'day' renders the hourly time grid; 'week'/'month'/'schedule' are summary views. */
 export type SchedulerView = 'day' | 'week' | 'month' | 'schedule';
 
+/**
+ * Preferred side for the quick-create/event-detail popovers, tooltip-style. 'auto' (default) picks
+ * the side with more room and flips to the opposite side when the preferred side doesn't fit.
+ */
+export type SchedulerPanelPosition = 'auto' | 'top' | 'bottom' | 'left' | 'right';
+
 export interface SchedulerEvent {
   /** Unique id. */
   id: string;
@@ -25,6 +31,7 @@ export interface SchedulerEventDraft {
   description?: string;
   start: Date;
   end: Date;
+  color?: SchedulerEventColor;
 }
 
 /** Internal — a SchedulerEvent with computed pixel/percentage layout. */

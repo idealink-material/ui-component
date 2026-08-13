@@ -85,6 +85,20 @@ onEventDelete(deleted: SchedulerEvent): void {
       </app-doc-example>
     </section>
 
+    <section id="panel-position" class="doc-page__section">
+      <app-doc-example
+        title="Popover position"
+        description="panelPosition controls which side the quick-create/event-detail popovers prefer relative to the clicked slot or event, tooltip-style ('auto' | 'top' | 'bottom' | 'left' | 'right'). Whichever side is chosen still flips to its opposite when there isn't room. Click the event, or an empty slot, to see it in action."
+        sourceId="p-scheduler-panel-position"
+        code='<p-select [options]="panelPositionOptions" [(value)]="panelPosition" [fullWidth]="false" />
+<p-scheduler [events]="panelPositionEvents" [panelPosition]="panelPosition()" />'>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <p-select [options]="panelPositionOptions" [(value)]="panelPosition" [fullWidth]="false" />
+          <p-scheduler [events]="panelPositionEvents" [panelPosition]="panelPosition()" />
+        </div>
+      </app-doc-example>
+    </section>
+
     <section id="overlap" class="doc-page__section">
       <app-doc-example
         title="Overlapping events"

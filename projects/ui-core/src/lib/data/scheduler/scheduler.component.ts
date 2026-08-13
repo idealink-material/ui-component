@@ -4,15 +4,18 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { CuiIconComponent } from '@idealink-material/ui-icons';
 import { CuiButtonComponent } from '../../atoms/button/button.component';
 import { CuiInputComponent } from '../../forms/input/input.component';
 import { CuiDatepickerComponent } from '../../forms/datepicker/datepicker.component';
 import {
-  PositionedSchedulerEvent, SchedulerEvent, SchedulerEventDraft, SchedulerView,
+  PositionedSchedulerEvent, SchedulerEvent, SchedulerEventColor, SchedulerEventDraft,
+  SchedulerPanelPosition, SchedulerView,
 } from './scheduler.types';
+
+const EVENT_COLORS: SchedulerEventColor[] = ['blue', 'red', 'green', 'purple', 'orange', 'neutral'];
 
 /** One day cell in the month grid. */
 interface MonthCell {
@@ -67,6 +70,8 @@ export class CuiSchedulerComponent implements OnDestroy {
    * UI-style (see `date-format.util.ts`). Defaults to `'DD-dd-MM-yy'`, e.g. "Monday-13-May-2026".
    */
   readonly dateFormat = input<string>('DD-dd-MM-yy');
+  /** Preferred side for the quick-create/event-detail popovers, tooltip-style. Default: 'auto'. */
+  readonly panelPosition = input<SchedulerPanelPosition>('auto');
 
   readonly eventClick = output<SchedulerEvent>();
   readonly slotClick = output<{ start: Date; end: Date }>();
@@ -87,6 +92,7 @@ export class CuiSchedulerComponent implements OnDestroy {
     viewChild.required<TemplateRef<unknown>>('eventDetailPanel');
 
   readonly rowHeightPx = ROW_HEIGHT_PX;
+  readonly eventColors = EVENT_COLORS;
 
   readonly hours = computed<number[]>(() => {
     const list: number[] = [];
@@ -242,6 +248,7 @@ export class CuiSchedulerComponent implements OnDestroy {
   readonly quickCreateOpen = signal(false);
   readonly quickCreateTitle = signal('');
   readonly quickCreateDescription = signal('');
+  readonly quickCreateColor = signal<SchedulerEventColor>('blue');
   readonly quickCreateSlot = signal<{ start: Date; end: Date } | null>(null);
   /** Date portion, editable via the calendar field (manual typing or the picker). */
   readonly quickCreateDate = signal<Date | null>(null);
@@ -323,6 +330,7 @@ export class CuiSchedulerComponent implements OnDestroy {
 
     this.quickCreateTitle.set('');
     this.quickCreateDescription.set('');
+    this.quickCreateColor.set('blue');
     this.quickCreateSlot.set({ start, end });
     this.quickCreateDate.set(start);
     this.quickCreateStartTime.set(this.toTimeValue(start));
@@ -336,6 +344,10 @@ export class CuiSchedulerComponent implements OnDestroy {
 
   closeQuickCreate(): void {
     this.closePopovers();
+  }
+
+  setQuickCreateColor(color: SchedulerEventColor): void {
+    this.quickCreateColor.set(color);
   }
 
   saveQuickCreate(): void {
@@ -352,6 +364,7 @@ export class CuiSchedulerComponent implements OnDestroy {
       description: this.quickCreateDescription().trim() || undefined,
       start,
       end,
+      color: this.quickCreateColor(),
     });
     this.closePopovers();
   }
@@ -362,6 +375,7 @@ export class CuiSchedulerComponent implements OnDestroy {
   readonly eventDetailEvent = signal<SchedulerEvent | null>(null);
   readonly eventDetailTitle = signal('');
   readonly eventDetailDescription = signal('');
+  readonly eventDetailColor = signal<SchedulerEventColor>('blue');
   /** Date portion, editable via the calendar field (manual typing or the picker). */
   readonly eventDetailDate = signal<Date | null>(null);
   /** Time-of-day inputs, "HH:mm" (native <input type="time"> value format). */
@@ -386,6 +400,7 @@ export class CuiSchedulerComponent implements OnDestroy {
     this.eventDetailEditing.set(false);
     this.eventDetailTitle.set(ev.title);
     this.eventDetailDescription.set(ev.description ?? '');
+    this.eventDetailColor.set(ev.color ?? 'blue');
     this.eventDetailDate.set(ev.start);
     this.eventDetailStartTime.set(this.toTimeValue(ev.start));
     this.eventDetailEndTime.set(this.toTimeValue(ev.end));
@@ -405,10 +420,15 @@ export class CuiSchedulerComponent implements OnDestroy {
     if (!ev) return;
     this.eventDetailTitle.set(ev.title);
     this.eventDetailDescription.set(ev.description ?? '');
+    this.eventDetailColor.set(ev.color ?? 'blue');
     this.eventDetailDate.set(ev.start);
     this.eventDetailStartTime.set(this.toTimeValue(ev.start));
     this.eventDetailEndTime.set(this.toTimeValue(ev.end));
     this.eventDetailEditing.set(false);
+  }
+
+  setEventDetailColor(color: SchedulerEventColor): void {
+    this.eventDetailColor.set(color);
   }
 
   saveEditEvent(): void {
@@ -424,6 +444,7 @@ export class CuiSchedulerComponent implements OnDestroy {
       ...ev,
       title,
       description: this.eventDetailDescription().trim() || undefined,
+      color: this.eventDetailColor(),
       start,
       end,
     };
@@ -446,10 +467,7 @@ export class CuiSchedulerComponent implements OnDestroy {
   private createOverlay(target: HTMLElement): OverlayRef {
     const positionStrategy = this.overlay.position()
       .flexibleConnectedTo(new ElementRef(target))
-      .withPositions([
-        { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top', offsetX: 8 },
-        { originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'top', offsetX: -8 },
-      ]);
+      .withPositions(this.panelConnectedPositions());
 
     return this.overlay.create({
       positionStrategy,
@@ -457,6 +475,27 @@ export class CuiSchedulerComponent implements OnDestroy {
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
     });
+  }
+
+  /**
+   * Connected-position list for the quick-create/event-detail overlay, ordered preferred-first so the
+   * CDK flips to the fallback when the preferred side doesn't fit. 'auto' keeps the original
+   * right-then-left behavior.
+   */
+  private panelConnectedPositions(): ConnectedPosition[] {
+    const OFFSET = 8;
+    const right: ConnectedPosition = { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top', offsetX: OFFSET };
+    const left: ConnectedPosition = { originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'top', offsetX: -OFFSET };
+    const top: ConnectedPosition = { originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: -OFFSET };
+    const bottom: ConnectedPosition = { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: OFFSET };
+
+    switch (this.panelPosition()) {
+      case 'right': return [right, left];
+      case 'left': return [left, right];
+      case 'top': return [top, bottom];
+      case 'bottom': return [bottom, top];
+      default: return [right, left];
+    }
   }
 
   private closePopovers(): void {

@@ -202,6 +202,18 @@
       [rows]="3"
       [autoResize]="true"
       (keydown.escape)="closeQuickCreate()" />
+    <div class="p-scheduler__color-swatches">
+      @for (color of eventColors; track color) {
+        <button
+          type="button"
+          class="p-scheduler__color-swatch"
+          [class]="'p-scheduler__color-swatch--' + color"
+          [class.p-scheduler__color-swatch--active]="quickCreateColor() === color"
+          [attr.aria-label]="color"
+          [attr.aria-pressed]="quickCreateColor() === color"
+          (click)="setQuickCreateColor(color)"></button>
+      }
+    </div>
     <div class="p-scheduler__quick-create-actions">
       <p-button variant="text" size="sm" (onClick)="closeQuickCreate()">Cancel</p-button>
       <p-button
@@ -287,6 +299,18 @@
             [rows]="3"
             [autoResize]="true"
             (keydown.escape)="cancelEditEvent()" />
+          <div class="p-scheduler__color-swatches">
+            @for (color of eventColors; track color) {
+              <button
+                type="button"
+                class="p-scheduler__color-swatch"
+                [class]="'p-scheduler__color-swatch--' + color"
+                [class.p-scheduler__color-swatch--active]="eventDetailColor() === color"
+                [attr.aria-label]="color"
+                [attr.aria-pressed]="eventDetailColor() === color"
+                (click)="setEventDetailColor(color)"></button>
+            }
+          </div>
           <div class="p-scheduler__event-detail-actions">
             <p-button variant="text" size="sm" (onClick)="cancelEditEvent()">Cancel</p-button>
             <p-button
