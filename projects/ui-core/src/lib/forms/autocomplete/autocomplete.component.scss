@@ -1,5 +1,18 @@
 :host { display: block; }
 
+.p-field__label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
+}
+
+.p-field__required {
+  color: var(--mat-sys-error);
+  margin-left: 2px;
+}
+
 .p-autocomplete {
   display: flex;
   flex-wrap: wrap;

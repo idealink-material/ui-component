@@ -1,54 +1,64 @@
-<div class="p-autocomplete" [class.p-autocomplete--disabled]="disabled()"
-  matAutocompleteOrigin #origin="matAutocompleteOrigin">
+<div class="p-field">
+  @if (label()) {
+    <label class="p-field__label" [for]="resolvedInputId()">
+      {{ label() }}@if (required()) { <span class="p-field__required" aria-hidden="true">*</span> }
+    </label>
+  }
 
-  @if (multiple()) {
-    @for (item of selectedList; track item) {
-      <p-chip [dismissible]="!disabled()" (dismissed)="removeSelected(item)">
-        @if (selectedItemTemplate(); as tpl) {
-          <ng-container *ngTemplateOutlet="tpl; context: { $implicit: item }" />
-        } @else {
-          {{ displayLabel(item) }}
-        }
-      </p-chip>
+  <div class="p-autocomplete" [class.p-autocomplete--disabled]="disabled()"
+    matAutocompleteOrigin #origin="matAutocompleteOrigin">
+
+    @if (multiple()) {
+      @for (item of selectedOptions(); track item) {
+        <p-chip [dismissible]="!disabled()" (dismissed)="removeSelected(item)">
+          @if (selectedItemTemplate(); as tpl) {
+            <ng-container *ngTemplateOutlet="tpl; context: { $implicit: item }" />
+          } @else {
+            {{ displayLabel(item) }}
+          }
+        </p-chip>
+      }
     }
-  }
 
-  <input #ac
-    class="p-autocomplete__input"
-    type="text"
-    [placeholder]="placeholder()"
-    [disabled]="disabled()"
-    [matAutocomplete]="auto"
-    [matAutocompleteConnectedTo]="origin"
-    #trigger="matAutocompleteTrigger"
-    (input)="onInput(ac.value)"
-    (focus)="onFocus(ac)"
-    (blur)="onBlur(ac)" />
+    <input #ac
+      [id]="resolvedInputId()"
+      class="p-autocomplete__input"
+      type="text"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
+      [required]="required()"
+      [matAutocomplete]="auto"
+      [matAutocompleteConnectedTo]="origin"
+      #trigger="matAutocompleteTrigger"
+      (input)="onInput(ac.value)"
+      (focus)="onFocus(ac)"
+      (blur)="onBlur(ac)" />
 
-  @if (value() && !multiple()) {
-    <button type="button" class="p-autocomplete__clear" (click)="clear(ac)" aria-label="Clear">
-      <cui-icon name="close" size="xs" color="currentColor" />
-    </button>
-  }
-
-  @if (dropdown()) {
-    <button type="button" class="p-autocomplete__dropdown"
-      (click)="trigger.openPanel(); onDropdownClick.emit()"
-      [disabled]="disabled()" aria-label="Show suggestions">
-      <cui-icon name="expand_more" size="sm" color="currentColor" />
-    </button>
-  }
-
-  <mat-autocomplete #auto="matAutocomplete" class="p-autocomplete__panel" [displayWith]="displayLabel"
-    (optionSelected)="onOptionSelected($event, ac)">
-    @for (item of suggestions(); track item) {
-      <mat-option [value]="item">
-        @if (itemTemplate(); as tpl) {
-          <ng-container *ngTemplateOutlet="tpl; context: { $implicit: item }" />
-        } @else {
-          {{ displayLabel(item) }}
-        }
-      </mat-option>
+    @if (value() && !multiple()) {
+      <button type="button" class="p-autocomplete__clear" (click)="clear(ac)" aria-label="Clear">
+        <cui-icon name="close" size="xs" color="currentColor" />
+      </button>
     }
-  </mat-autocomplete>
+
+    @if (dropdown()) {
+      <button type="button" class="p-autocomplete__dropdown"
+        (click)="trigger.openPanel(); onDropdownClick.emit()"
+        [disabled]="disabled()" aria-label="Show suggestions">
+        <cui-icon name="expand_more" size="sm" color="currentColor" />
+      </button>
+    }
+
+    <mat-autocomplete #auto="matAutocomplete" class="p-autocomplete__panel" [displayWith]="displayLabel"
+      (optionSelected)="onOptionSelected($event, ac)">
+      @for (item of suggestions(); track item) {
+        <mat-option [value]="item">
+          @if (itemTemplate(); as tpl) {
+            <ng-container *ngTemplateOutlet="tpl; context: { $implicit: item }" />
+          } @else {
+            {{ displayLabel(item) }}
+          }
+        </mat-option>
+      }
+    </mat-autocomplete>
+  </div>
 </div>

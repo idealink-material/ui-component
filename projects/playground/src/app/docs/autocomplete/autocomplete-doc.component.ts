@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { JsonPipe } from '@angular/common';
 
 import { CuiAutoCompleteComponent } from '@idealink-material/ui-core';
 
@@ -9,22 +10,25 @@ import { DocApiEmitter, DocApiProperty, DocSection } from '../shared/doc-types';
 interface Country {
   name: string;
   code: string;
+  [key: string]: unknown;
 }
 
 @Component({
   selector: 'app-autocomplete-doc',
-  imports: [CuiAutoCompleteComponent, DocExampleComponent, DocShellComponent],
+  imports: [CuiAutoCompleteComponent, DocExampleComponent, DocShellComponent, JsonPipe],
   templateUrl: './autocomplete-doc.component.html',
   styleUrl: './autocomplete-doc.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutocompleteDocComponent {
   readonly featureSections: DocSection[] = [
-    { id: 'basic',       label: 'Basic usage' },
-    { id: 'objects',     label: 'Object suggestions' },
-    { id: 'custom-item', label: 'Custom item content' },
-    { id: 'multiple',    label: 'Multiple selection' },
-    { id: 'dropdown',    label: 'Dropdown & states' },
+    { id: 'basic',        label: 'Basic usage' },
+    { id: 'objects',      label: 'Object suggestions' },
+    { id: 'option-value', label: 'Dynamic object binding' },
+    { id: 'custom-item',  label: 'Custom item content' },
+    { id: 'label',        label: 'Label' },
+    { id: 'multiple',     label: 'Multiple selection' },
+    { id: 'dropdown',     label: 'Dropdown & states' },
   ];
 
   readonly themingSections: DocSection[] = [
@@ -32,8 +36,13 @@ export class AutocompleteDocComponent {
   ];
 
   readonly properties: DocApiProperty[] = [
+    { name: 'label',           type: 'string',               default: `''`,    description: 'Floating label text, shown above the field.' },
+    { name: 'required',        type: 'boolean',              default: 'false', description: 'Marks the field required, showing a * next to the label.' },
+    { name: 'inputId',         type: 'string | undefined',   default: 'undefined', description: 'Identifier of the accessible input element. Falls back to an auto-generated id.' },
     { name: 'suggestions',     type: 'T[]',                 default: '[]',    description: 'Suggestion list currently shown in the panel.' },
-    { name: 'field',           type: 'string | null',       default: 'null',  description: 'Property name used to read the display label when suggestions are objects.' },
+    { name: 'optionLabel',     type: 'string | undefined',  default: 'undefined', description: 'Name of the label field of a suggestion, for plain-record suggestions. Alias: field.' },
+    { name: 'optionValue',     type: 'string | undefined',  default: 'undefined', description: 'Name of the value field of a suggestion. When unset, the whole suggestion object is used as the value.' },
+    { name: 'dataKey',         type: 'string | undefined',  default: 'undefined', description: 'Property to uniquely identify a value in suggestions, used to compare values by key instead of by reference.' },
     { name: 'dropdown',        type: 'boolean',              default: 'false', description: 'Shows a trailing button that opens the panel with the current suggestions list.' },
     { name: 'multiple',        type: 'boolean',              default: 'false', description: 'Allows selecting more than one suggestion.' },
     { name: 'minLength',       type: 'number',               default: '1',     description: 'Minimum input length before completeMethod is triggered.' },
@@ -99,6 +108,8 @@ export class AutocompleteDocComponent {
   readonly countryObj             = signal<Country | null>(null);
   readonly filteredCountryObjects = signal<Country[]>([]);
 
+  readonly countryCodes = signal<string[]>([]);
+
   readonly countries    = signal<string[]>([]);
   readonly filteredMulti = signal<string[]>([]);
 
@@ -107,7 +118,7 @@ export class AutocompleteDocComponent {
   // Kept as a TS string (rather than an inline template attribute) because it
   // contains literal `{{ }}` — Angular's HTML parser decodes entities before
   // scanning for interpolation, so escaping them in the template doesn't work.
-  readonly customItemCode = `<p-auto-complete placeholder="Add countries…" [multiple]="true" field="name"
+  readonly customItemCode = `<p-auto-complete placeholder="Add countries…" [multiple]="true" optionLabel="name"
   [suggestions]="filteredCountryObjects()"
   (completeMethod)="searchObjects($event)"
   [(value)]="customItemCountries">

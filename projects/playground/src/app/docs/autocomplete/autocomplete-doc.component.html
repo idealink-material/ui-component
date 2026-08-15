@@ -28,18 +28,39 @@
     <section id="objects" class="doc-page__section">
       <app-doc-example
         title="Object suggestions"
-        description="field reads the display label from each suggestion object; the bound value is still the full object."
+        description="optionLabel (alias: field) reads the display label from each suggestion object; the bound value is still the full object."
         sourceId="p-auto-complete"
         code='<p-auto-complete placeholder="Search a country…"
-  [suggestions]="filteredCountryObjects()" field="name"
+  [suggestions]="filteredCountryObjects()" optionLabel="name"
   (completeMethod)="searchObjects($event)"
   [(value)]="countryObj" />'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Search a country…"
-                           [suggestions]="filteredCountryObjects()" field="name"
+                           [suggestions]="filteredCountryObjects()" optionLabel="name"
                            (completeMethod)="searchObjects($event)"
                            [(value)]="countryObj" />
         </div>
+      </app-doc-example>
+    </section>
+
+    <section id="option-value" class="doc-page__section">
+      <app-doc-example
+        title="Dynamic object binding"
+        description="optionValue binds a scalar field (e.g. an id/code) as the value instead of the whole suggestion object — the same optionLabel/optionValue/dataKey pattern p-select uses. dataKey lets selection/removal match objects by key instead of by reference, which matters once suggestions() is re-fetched with new object identities."
+        sourceId="p-auto-complete"
+        code='<p-auto-complete placeholder="Add countries…" [multiple]="true"
+  [suggestions]="filteredCountryObjects()"
+  optionLabel="name" optionValue="code" dataKey="code"
+  (completeMethod)="searchObjects($event)"
+  [(value)]="countryCodes" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-auto-complete placeholder="Add countries…" [multiple]="true"
+                           [suggestions]="filteredCountryObjects()"
+                           optionLabel="name" optionValue="code" dataKey="code"
+                           (completeMethod)="searchObjects($event)"
+                           [(value)]="countryCodes" />
+        </div>
+        <p class="doc-page__lead" style="margin-top: 8px;">Selected codes: {{ countryCodes() | json }}</p>
       </app-doc-example>
     </section>
 
@@ -50,7 +71,7 @@
         sourceId="p-auto-complete"
         [code]="customItemCode">
         <div style="width: 100%; max-width: 320px;">
-          <p-auto-complete placeholder="Add countries…" [multiple]="true" field="name"
+          <p-auto-complete placeholder="Add countries…" [multiple]="true" optionLabel="name"
                            [suggestions]="filteredCountryObjects()"
                            (completeMethod)="searchObjects($event)"
                            [(value)]="customItemCountries">
@@ -64,7 +85,23 @@
         </div>
       </app-doc-example>
     </section>
-
+    <section id="label" class="doc-page__section">
+      <app-doc-example
+        title="Label"
+        description="label renders a floating label above the field, matching p-select. required additionally shows a trailing asterisk."
+        sourceId="p-auto-complete"
+        code='<p-auto-complete label="Country" [required]="true" placeholder="Search a country…"
+  [suggestions]="filteredCountries()"
+  (completeMethod)="search($event)"
+  [(value)]="country" />'>
+        <div style="width: 100%; max-width: 320px;">
+          <p-auto-complete label="Country" [required]="true" placeholder="Search a country…"
+                           [suggestions]="filteredCountries()"
+                           (completeMethod)="search($event)"
+                           [(value)]="country" />
+        </div>
+      </app-doc-example>
+    </section>
     <section id="multiple" class="doc-page__section">
       <app-doc-example
         title="Multiple selection"
