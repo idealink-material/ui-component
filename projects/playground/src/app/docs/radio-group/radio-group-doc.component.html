@@ -1,6 +1,6 @@
 <app-doc-shell
   name="Radio Group"
-  lead="A set of mutually-exclusive radio options wrapping Angular Material's radio button, sharing the same SelectOption shape as Select and Multi-Select."
+  lead="A set of mutually-exclusive radio options wrapping Angular Material's radio button, sharing the same SelectOption/SelectOptionLike shape as Select and Multi-Select."
   [featureSections]="featureSections"
   [themingSections]="themingSections"
   [properties]="properties"
@@ -33,6 +33,42 @@
         sourceId="p-radio-group"
         code='<p-radio-group [options]="riskOptions" [disabled]="true" [(value)]="riskValue" />'>
         <p-radio-group [options]="riskOptions" [disabled]="true" [(value)]="riskValue" />
+      </app-doc-example>
+    </section>
+
+    <section id="dynamic" class="doc-page__section">
+      <app-doc-example
+        title="Dynamic options"
+        description="options also accepts plain records — e.g. a lookup fetched from an API with no value/label fields — via optionLabel/optionValue."
+        sourceId="p-radio-group"
+        code='<p-radio-group
+  [options]="productTypeOptions"
+  optionLabel="dataName"
+  optionValue="id"
+  [(value)]="productTypeValue" />'>
+        <p-radio-group
+          [options]="productTypeOptions"
+          optionLabel="dataName"
+          optionValue="id"
+          [(value)]="productTypeValue" />
+      </app-doc-example>
+    </section>
+
+    <section id="data-key" class="doc-page__section">
+      <app-doc-example
+        title="Get full object with dataKey"
+        description="Omit optionValue to bind the whole option object as value instead of a scalar id. Set dataKey so the correct radio re-selects by key even when value holds a different object reference (e.g. re-fetched from an API) than the one in options."
+        sourceId="p-radio-group"
+        code='<p-radio-group
+  [options]="productTypeOptions"
+  optionLabel="dataName"
+  dataKey="id"
+  [(value)]="productTypeObjectValue" />'>
+        <p-radio-group
+          [options]="productTypeOptions"
+          optionLabel="dataName"
+          dataKey="id"
+          [(value)]="productTypeObjectValue" />
       </app-doc-example>
     </section>
   </div>

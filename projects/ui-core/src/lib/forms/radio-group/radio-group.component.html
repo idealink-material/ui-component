@@ -4,11 +4,13 @@
   [name]="name()"
   [disabled]="disabled()"
   [required]="required()"
-  [value]="value()"
   (change)="onChange($event)">
-  @for (option of options(); track option.value) {
-    <mat-radio-button [value]="option.value" [disabled]="option.disabled">
-      {{ option.label }}
+  @for (option of options(); track getOptionValue(option)) {
+    <mat-radio-button
+      [value]="getOptionValue(option)"
+      [checked]="isChecked(option)"
+      [disabled]="getOptionDisabled(option)">
+      {{ getOptionLabel(option) }}
     </mat-radio-button>
   }
 </mat-radio-group>
