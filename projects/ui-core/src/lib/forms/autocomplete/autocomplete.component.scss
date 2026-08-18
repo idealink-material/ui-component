@@ -45,6 +45,25 @@
   color: var(--mat-sys-on-surface);
   font: inherit;
   padding: 4px 2px;
+
+  // Kept in the DOM (rather than removed) so focus/typing still works — the
+  // selected-item template overlay above it shows the custom content instead.
+  &--hidden {
+    position: absolute;
+    width: 1px;
+    opacity: 0;
+  }
+}
+
+// Renders selectedItemTemplate over the input in single-select mode, matching
+// how multi-select mode shows it via chips instead of raw displayLabel() text.
+.p-autocomplete__selected {
+  flex: 1;
+  min-width: 80px;
+  padding: 4px 2px;
+  color: var(--mat-sys-on-surface);
+  font: inherit;
+  cursor: text;
 }
 
 .p-autocomplete__clear,

@@ -28,7 +28,7 @@
     <section id="objects" class="doc-page__section">
       <app-doc-example
         title="Object suggestions"
-        description="optionLabel (alias: field) reads the display label from each suggestion object; the bound value is still the full object."
+        description="optionLabel reads the display label from each suggestion object; the bound value is still the full object."
         sourceId="p-auto-complete"
         code='<p-auto-complete placeholder="Search a country…"
   [suggestions]="filteredCountryObjects()" optionLabel="name"
@@ -67,7 +67,7 @@
     <section id="custom-item" class="doc-page__section">
       <app-doc-example
         title="Custom item content"
-        description="Project #item / #selectedItem &lt;ng-template&gt;s to render the suggestion and selected-chip content yourself — both receive the item via let-x. In single-selection mode the closed field is a plain text input, so #selectedItem only has visible effect in multiple mode."
+        description="Project #item / #selectedItem &lt;ng-template&gt;s to render the suggestion and selected content yourself — both receive the item via let-x. #selectedItem renders inside chips in multiple mode, and over the input (until you click to edit) in single-selection mode."
         sourceId="p-auto-complete"
         [code]="customItemCode">
         <div style="width: 100%; max-width: 320px;">
@@ -105,15 +105,15 @@
     <section id="multiple" class="doc-page__section">
       <app-doc-example
         title="Multiple selection"
-        description="In multiple mode, selections render as dismissible chips inside the field and value() is an array."
+        description="In multiple mode, selections render as dismissible chips inside the field and value() is an array. Suggestions here are plain dynamic objects (LookupOption) read via optionLabel, same pattern p-select uses."
         sourceId="p-auto-complete"
         code='<p-auto-complete placeholder="Add countries…" [multiple]="true"
-  [suggestions]="filteredMulti()"
+  [suggestions]="filteredMulti()" optionLabel="dataName"
   (completeMethod)="searchMulti($event)"
   [(value)]="countries" />'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Add countries…" [multiple]="true"
-                           [suggestions]="filteredMulti()"
+                           [suggestions]="filteredMulti()" optionLabel="dataName"
                            (completeMethod)="searchMulti($event)"
                            [(value)]="countries" />
         </div>
@@ -134,6 +134,50 @@
                            [suggestions]="filteredCountries()"
                            (completeMethod)="search($event)" />
           <p-auto-complete placeholder="Disabled" [disabled]="true" />
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="customer-model" class="doc-page__section">
+      <app-doc-example
+        title="Customer model (single-select)"
+        description="optionLabel reads customerName for the input's search-match text, while #selectedItem renders 'customerNo - customerName' both in the suggestions panel and over the input once a customer is picked."
+        sourceId="p-auto-complete"
+        [code]="customerModelCode">
+        <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
+          <p-auto-complete placeholder="Search a customer…" optionLabel="customerName" [dropdown]="true"
+                           [suggestions]="customerOptions()"
+                           (completeMethod)="searchCustomer($event)"
+                           [(value)]="customer">
+            <ng-template #selectedItem let-c>
+              <span>{{ c.customerNo }} - {{ c.customerName }}</span>
+            </ng-template>
+            <ng-template #item let-c>
+              <span>{{ c.customerNo }} - {{ c.customerName }}</span>
+            </ng-template>
+          </p-auto-complete>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="product-model" class="doc-page__section">
+      <app-doc-example
+        title="Product model (formControl-free, single-select)"
+        description="Same customerNo-style pattern as above, using optionValue to bind productCode as the value instead of the whole product object."
+        sourceId="p-auto-complete"
+        [code]="productModelCode">
+        <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
+          <p-auto-complete placeholder="Search a product…" optionLabel="productName" optionValue="productCode" [dropdown]="true"
+                           [suggestions]="productOptions()"
+                           (completeMethod)="searchProduct($event)"
+                           [(value)]="productCode">
+            <ng-template #selectedItem let-p>
+              <span>{{ p.productCode }} - {{ p.productName }}</span>
+            </ng-template>
+            <ng-template #item let-p>
+              <span>{{ p.productCode }} - {{ p.productName }}</span>
+            </ng-template>
+          </p-auto-complete>
         </div>
       </app-doc-example>
     </section>

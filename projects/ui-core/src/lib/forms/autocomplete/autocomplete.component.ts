@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, computed, contentChild, forwardRef, input, model, output, TemplateRef,
+  ChangeDetectionStrategy, Component, computed, contentChild, forwardRef, input, model, output, signal, TemplateRef,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -19,6 +19,13 @@ export interface AutoCompleteItemContext<T> {
   $implicit: AutoCompleteSuggestionLike<T>;
 }
 
+/**
+ * `value`'s shape: a single value, multiple values (multi mode), or empty. `undefined` is
+ * accepted alongside `null` so binding optional source fields (e.g. `model.customer?: number`)
+ * type-checks without a cast.
+ */
+export type AutoCompleteValue<T> = T | T[] | null | undefined;
+
 @Component({
   selector: 'p-auto-complete',
   standalone: true,
@@ -32,7 +39,7 @@ export interface AutoCompleteItemContext<T> {
     multi: true,
   }],
 })
-export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccessor {
+export class CuiAutoCompleteComponent<T = unknown, V = T> implements ControlValueAccessor {
   private static nextId = 0;
   readonly fieldId = `p-auto-complete-${++CuiAutoCompleteComponent.nextId}`;
 
@@ -48,7 +55,7 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
    * Name of the label field of a suggestion, for suggestions that are plain records
    * (e.g. a domain model like `ChartOfAccountModel`). Defaults to `label`.
    */
-  readonly optionLabel      = input<string | undefined>(undefined, { alias: 'field' });
+  readonly optionLabel      = input<string | undefined>(undefined);
   /**
    * Name of the value field of a suggestion, for suggestions that are plain records.
    * When unset, the whole suggestion object is used as the value (matching the historical
@@ -74,7 +81,7 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
   /** Custom content for selected chips in multiple mode. Receives the item via `let-x`. */
   readonly selectedItemTemplate = contentChild<TemplateRef<AutoCompleteItemContext<T>>>('selectedItem');
 
-  readonly value = model<T | T[] | null>(null);
+  readonly value = model<AutoCompleteValue<V>>(null);
 
   readonly completeMethod  = output<string>();
   readonly onSelect        = output<AutoCompleteSuggestionLike<T>>();
@@ -82,7 +89,7 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
   readonly onClear         = output<void>();
   readonly onDropdownClick = output<void>();
 
-  private _onChange: (v: T | T[] | null) => void = () => {};
+  private _onChange: (v: AutoCompleteValue<V>) => void = () => {};
   private _onTouched: () => void = () => {};
   private debounceHandle: ReturnType<typeof setTimeout> | undefined;
 
@@ -100,10 +107,10 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
    * Resolves the underlying value of a suggestion, honoring `optionValue` for plain-record
    * suggestions. When unset, the whole suggestion object is used as the value.
    */
-  private getOptionValue(item: AutoCompleteSuggestionLike<T>): T {
+  private getOptionValue(item: AutoCompleteSuggestionLike<T>): V {
     const key = this.optionValue();
-    const record = item as unknown as Record<string, T>;
-    return key && key in record ? record[key] : (item as unknown as T);
+    const record = item as unknown as Record<string, V>;
+    return key && key in record ? record[key] : (item as unknown as V);
   }
 
   /**
@@ -115,13 +122,13 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
   }
 
   /** Compares two values, keying off `dataKey` when set rather than reference/equality. */
-  private compareValues(a: T, b: T): boolean {
+  private compareValues(a: V, b: V): boolean {
     const key = this.dataKey();
     if (!key) return a === b;
     return this.keyOf(a, key) === this.keyOf(b, key);
   }
 
-  get selectedList(): T[] {
+  get selectedList(): V[] {
     const v = this.value();
     return Array.isArray(v) ? v : [];
   }
@@ -134,10 +141,26 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
    */
   readonly selectedOptions = computed<AutoCompleteSuggestionLike<T>[]>(() => {
     const values = this.selectedList;
-    if (!this.optionValue()) return values;
+    if (!this.optionValue()) return values as unknown as AutoCompleteSuggestionLike<T>[];
     const opts = this.suggestions();
-    return values.map((v) => opts.find((o) => this.compareValues(this.getOptionValue(o), v)) ?? v);
+    return values.map((v) => opts.find((o) => this.compareValues(this.getOptionValue(o), v)) ?? (v as unknown as AutoCompleteSuggestionLike<T>));
   });
+
+  /**
+   * Resolved suggestion object for the current single-select `value()`, used to render
+   * `selectedItemTemplate` over the input. Mirrors `selectedOptions` but for the
+   * non-`multiple` case, where `value()` is a bare value rather than an array.
+   */
+  readonly selectedOption = computed<AutoCompleteSuggestionLike<T> | null>(() => {
+    const v = this.value();
+    if (v == null || Array.isArray(v)) return null;
+    if (!this.optionValue()) return v as unknown as AutoCompleteSuggestionLike<T>;
+    const opts = this.suggestions();
+    return opts.find((o) => this.compareValues(this.getOptionValue(o), v)) ?? (v as unknown as AutoCompleteSuggestionLike<T>);
+  });
+
+  /** Tracks input focus so the selected-item template overlay hides while typing. */
+  readonly inputFocused = signal(false);
 
   onInput(text: string): void {
     if (this.debounceHandle) clearTimeout(this.debounceHandle);
@@ -161,6 +184,11 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
       this.value.set(value);
       this._onChange(value);
       input.value = this.displayLabel(item);
+      if (this.selectedItemTemplate()) {
+        // MatAutocomplete re-focuses the input right after emitting `optionSelected`,
+        // so blurring synchronously here gets immediately undone. Defer past that.
+        setTimeout(() => { this.inputFocused.set(false); input.blur(); });
+      }
     }
     this.onSelect.emit(item);
   }
@@ -192,8 +220,8 @@ export class CuiAutoCompleteComponent<T = unknown> implements ControlValueAccess
     }
   }
 
-  writeValue(v: T | T[] | null): void { this.value.set(v); }
-  registerOnChange(fn: (v: T | T[] | null) => void): void { this._onChange = fn; }
+  writeValue(v: AutoCompleteValue<V>): void { this.value.set(v); }
+  registerOnChange(fn: (v: AutoCompleteValue<V>) => void): void { this._onChange = fn; }
   registerOnTouched(fn: () => void): void { this._onTouched = fn; }
   setDisabledState(_: boolean): void { }
 }

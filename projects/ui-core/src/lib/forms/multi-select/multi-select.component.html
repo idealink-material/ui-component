@@ -1,6 +1,11 @@
-<div class="p-multi-select" [class.p-multi-select--full]="fullWidth()" [class.p-multi-select--disabled]="disabled()"
+<div class="p-select p-multi-select" [class.p-select--full]="fullWidth()" [class.p-multi-select--disabled]="disabled()"
+  [class.p-multi-select--open]="open()"
+  role="combobox"
+  [attr.aria-expanded]="open()"
+  [attr.aria-disabled]="disabled()"
   cdkOverlayOrigin #trigger="cdkOverlayOrigin"
   (click)="toggleOpen()">
+
   <div class="p-multi-select__control">
     @if (selectedOptions().length === 0) {
       <span class="p-multi-select__placeholder">{{ placeholder() }}</span>
@@ -9,14 +14,15 @@
     } @else {
       <div class="p-multi-select__chips">
         @for (option of selectedOptions(); track option.value) {
-          <p-chip [dismissible]="true" (dismissed)="removeValue(option.value)" (click)="$event.stopPropagation()">
+          <p-chip [dismissible]="!disabled()" (dismissed)="removeValue(option.value)" (click)="$event.stopPropagation()">
             {{ option.label }}
           </p-chip>
         }
       </div>
     }
-    <cui-icon name="expand_more" size="sm" color="var(--mat-sys-on-surface-variant)" />
   </div>
+
+  <cui-icon name="expand_more" size="sm" color="var(--mat-sys-on-surface-variant)" class="p-select__dropdown-icon" />
 </div>
 
 <ng-template
@@ -28,10 +34,12 @@
   cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
   (backdropClick)="close()"
   (detach)="close()">
-  <div class="p-multi-select__panel">
+  <div class="p-multi-select__panel p-select__panel">
     @if (showFilter()) {
-      <input class="p-multi-select__filter" type="text" placeholder="Search…"
-        [value]="filterText()" (input)="onFilterInput($event)" />
+      <div class="p-select__filter" (click)="$event.stopPropagation()">
+        <cui-icon name="search" size="xs" color="var(--mat-sys-on-surface-variant)" />
+        <input type="text" placeholder="Search…" [value]="filterText()" (input)="onFilterInput($event)" />
+      </div>
     }
     @if (showToggleAll()) {
       <div class="p-multi-select__toggle-all">

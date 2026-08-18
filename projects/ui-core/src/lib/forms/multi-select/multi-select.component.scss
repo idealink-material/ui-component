@@ -1,24 +1,33 @@
-:host {
-  display: inline-block;
-}
+:host { display: inline-block; }
 
+// Matches p-select's mat-form-field outline look (same height/radius/border/text-size)
+// so the two controls read as one family when placed side by side.
 .p-multi-select {
-  cursor: pointer;
-
-  &--full { display: block; width: 100%; }
-  &--disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
-}
-
-.p-multi-select__control {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  min-height: 40px;
-  padding: 6px 12px;
-  border: 1px solid var(--mat-sys-outline);
-  border-radius: 9999px;
+  width: auto;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--cui-radius-md);
   background: var(--mat-sys-surface);
+  cursor: pointer;
+  font-size: 14px;
+
+  &.p-select--full { width: 100%; }
+
+  &--disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+  &--open { border-color: var(--mat-sys-primary); }
+}
+
+.p-multi-select__control {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .p-multi-select__placeholder {
@@ -30,7 +39,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  flex: 1;
+  padding: 6px 0;
 }
 
 .p-multi-select__panel {
@@ -45,14 +54,25 @@
   margin-top: 4px;
 }
 
-.p-multi-select__filter {
-  border: none;
+.p-select__filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
-  padding: 10px 12px;
-  font: inherit;
-  background: transparent;
-  color: var(--mat-sys-on-surface);
-  outline: none;
+  position: sticky;
+  top: 0;
+  background: var(--mat-sys-surface);
+  z-index: 1;
+
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--mat-sys-on-surface);
+    font: inherit;
+  }
 }
 
 .p-multi-select__list {
@@ -91,4 +111,16 @@
 
 .p-multi-select__viewport {
   height: 240px;
+}
+
+.p-select__dropdown-icon {
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+// The options panel opens in a CDK overlay outside this component's DOM
+// subtree, so its font size can't be scoped via a normal descendant rule.
+::ng-deep .p-select__panel .p-checkbox__label,
+::ng-deep .p-multi-select__panel .p-checkbox__label {
+  font-size: 14px;
 }

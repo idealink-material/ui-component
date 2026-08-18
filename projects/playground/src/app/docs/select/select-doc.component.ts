@@ -57,7 +57,7 @@ export class SelectDocComponent {
     { name: 'editable',       type: 'boolean',            default: 'false',      description: 'Renders a free-text input (with a suggestion list) instead of a closed dropdown trigger.' },
     { name: 'virtualScroll',  type: 'boolean',            default: 'false',      description: 'Wraps the (ungrouped) option list in a CDK virtual-scroll viewport for large lists.' },
     { name: 'virtualItemSize',type: 'number',             default: '36',         description: 'Row height in pixels, used by the virtual-scroll viewport.' },
-    { name: 'value',          type: 'T | T[] | null',     default: 'null',       description: 'Two-way bindable selected value(s) via [(value)] or formControlName.' },
+    { name: 'value',          type: 'T | T[] | null | undefined', default: 'null', description: 'Two-way bindable selected value(s) via [(value)] or formControlName. Accepts undefined so binding optional source fields type-checks without a cast.' },
   ];
 
   readonly emitters: DocApiEmitter[] = [

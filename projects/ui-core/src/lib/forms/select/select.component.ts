@@ -29,6 +29,13 @@ export interface SelectItemContext<T> {
   $implicit: SelectOptionLike<T>;
 }
 
+/**
+ * `value`'s shape: a single value, multiple values (multi-select), or empty. `undefined` is
+ * accepted alongside `null` so binding optional source fields (e.g. `model.customer?: number`)
+ * type-checks without a cast.
+ */
+export type SelectValue<T> = T | T[] | null | undefined;
+
 @Component({
   selector: 'p-select',
   standalone: true,
@@ -117,13 +124,13 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
   private readonly matSelectRef = viewChild(MatSelect);
   private readonly editableInputRef = viewChild<ElementRef<HTMLInputElement>>('editableInputRef');
 
-  readonly value = model<T | T[] | null>(null);
-  readonly cuiChange = output<T | T[] | null>();
+  readonly value = model<SelectValue<T>>(null);
+  readonly cuiChange = output<SelectValue<T>>();
   readonly onFilter  = output<string>();
   readonly onShow    = output<void>();
   readonly onHide    = output<void>();
 
-  private _onChange: (v: T | T[] | null) => void = () => {};
+  private _onChange: (v: SelectValue<T>) => void = () => {};
   private _onTouched: () => void = () => {};
 
   /** True once the field has been blurred/closed at least once. Gates when `error` is actually shown. */
@@ -260,7 +267,7 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
 
   readonly editableSuggestions = computed(() => this.options());
 
-  onChange(v: T | T[] | null): void {
+  onChange(v: SelectValue<T>): void {
     this.value.set(v);
     this._onChange(v);
     this.cuiChange.emit(v);
@@ -300,8 +307,8 @@ export class CuiSelectComponent<T = string> implements ControlValueAccessor, Aft
     }
   }
 
-  writeValue(v: T | T[] | null): void     { this.value.set(v); }
-  registerOnChange(fn: (v: T | T[] | null) => void): void { this._onChange = fn; }
+  writeValue(v: SelectValue<T>): void     { this.value.set(v); }
+  registerOnChange(fn: (v: SelectValue<T>) => void): void { this._onChange = fn; }
   registerOnTouched(fn: () => void): void  { this._onTouched = fn; }
   setDisabledState(_: boolean): void       { }
 
