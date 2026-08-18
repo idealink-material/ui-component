@@ -48,22 +48,22 @@
   }
 
   ::ng-deep > *:first-child {
-    border-top-left-radius: 9999px;
-    border-bottom-left-radius: 9999px;
+    border-top-left-radius: var(--cui-radius-md);
+    border-bottom-left-radius: var(--cui-radius-md);
 
     .mdc-notched-outline__leading {
-      border-top-left-radius: 9999px !important;
-      border-bottom-left-radius: 9999px !important;
+      border-top-left-radius: var(--cui-radius-md) !important;
+      border-bottom-left-radius: var(--cui-radius-md) !important;
     }
   }
 
   ::ng-deep > *:last-child {
-    border-top-right-radius: 9999px;
-    border-bottom-right-radius: 9999px;
+    border-top-right-radius: var(--cui-radius-md);
+    border-bottom-right-radius: var(--cui-radius-md);
 
     .mdc-notched-outline__trailing {
-      border-top-right-radius: 9999px !important;
-      border-bottom-right-radius: 9999px !important;
+      border-top-right-radius: var(--cui-radius-md) !important;
+      border-bottom-right-radius: var(--cui-radius-md) !important;
     }
   }
 

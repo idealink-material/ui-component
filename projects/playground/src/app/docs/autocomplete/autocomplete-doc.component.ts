@@ -4,6 +4,7 @@ import { JsonPipe } from '@angular/common';
 import { CuiAutoCompleteComponent } from '@idealink-material/ui-core';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
+import { DocCodeComponent } from '../shared/doc-code/doc-code.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';
 import { DocApiEmitter, DocApiProperty, DocSection } from '../shared/doc-types';
 
@@ -41,6 +42,7 @@ export interface Product {
   imports: [
     CuiAutoCompleteComponent,
     DocExampleComponent,
+    DocCodeComponent,
     DocShellComponent,
     JsonPipe,
   ],
@@ -335,7 +337,7 @@ export class AutocompleteDocComponent {
   </ng-template>
 </p-auto-complete>`;
 
-  readonly customerModelCode = `interface Customer {
+  readonly customerModelTsCode = `interface Customer {
   id: number;
   customerNo: string;
   customerName: string;
@@ -344,18 +346,22 @@ export class AutocompleteDocComponent {
   email: string;
 }
 
-readonly customer = signal<Customer | null>(null);
-readonly customerOptions = signal<Customer[]>([]);
+@Component({ /* ... */ })
+export class MyFormComponent {
+  private readonly allCustomers: Customer[] = [ /* ... */ ];
 
-searchCustomer(query: string): void {
-  const q = query.toLowerCase();
-  this.customerOptions.set(
-    this.allCustomers.filter((c) => c.customerName.toLowerCase().includes(q)),
-  );
-}`
-    + `
+  readonly customer = signal<Customer | null>(null);
+  readonly customerOptions = signal<Customer[]>([]);
 
-<p-auto-complete placeholder="Search a customer…" optionLabel="customerName" [dropdown]="true"
+  searchCustomer(query: string): void {
+    const q = query.toLowerCase();
+    this.customerOptions.set(
+      this.allCustomers.filter((c) => c.customerName.toLowerCase().includes(q)),
+    );
+  }
+}`;
+
+  readonly customerModelHtmlCode = `<p-auto-complete placeholder="Search a customer…" optionLabel="customerName" [dropdown]="true"
   [suggestions]="customerOptions()"
   (completeMethod)="searchCustomer($event)"
   [(value)]="customer">
@@ -367,7 +373,7 @@ searchCustomer(query: string): void {
   </ng-template>
 </p-auto-complete>`;
 
-  readonly productModelCode = `interface Product {
+  readonly productModelTsCode = `interface Product {
   id: number;
   productCode: string;
   productName: string;
@@ -375,18 +381,24 @@ searchCustomer(query: string): void {
   price: string;
 }
 
-readonly productOptions = signal<Product[]>([]);
-readonly productCode = signal<string | null>(null); // bound value is the scalar productCode
+@Component({ /* ... */ })
+export class MyFormComponent {
+  private readonly allProducts: Product[] = [ /* ... */ ];
 
-searchProduct(query: string): void {
-  const q = query.toLowerCase();
-  this.productOptions.set(
-    this.allProducts.filter((p) => p.productName.toLowerCase().includes(q)),
-  );
-}`
-    + `
+  readonly productOptions = signal<Product[]>([]);
+  // optionValue="productCode" below means the bound value is the scalar
+  // productCode, not the whole Product object.
+  readonly productCode = signal<string | null>(null);
 
-<p-auto-complete placeholder="Search a product…" optionLabel="productName" optionValue="productCode" [dropdown]="true"
+  searchProduct(query: string): void {
+    const q = query.toLowerCase();
+    this.productOptions.set(
+      this.allProducts.filter((p) => p.productName.toLowerCase().includes(q)),
+    );
+  }
+}`;
+
+  readonly productModelHtmlCode = `<p-auto-complete placeholder="Search a product…" optionLabel="productName" optionValue="productCode" [dropdown]="true"
   [suggestions]="productOptions()"
   (completeMethod)="searchProduct($event)"
   [(value)]="productCode">

@@ -143,7 +143,7 @@
         title="Customer model (single-select)"
         description="optionLabel reads customerName for the input's search-match text, while #selectedItem renders 'customerNo - customerName' both in the suggestions panel and over the input once a customer is picked."
         sourceId="p-auto-complete"
-        [code]="customerModelCode">
+        [code]="customerModelHtmlCode">
         <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
           <p-auto-complete placeholder="Search a customer…" optionLabel="customerName" [dropdown]="true"
                            [suggestions]="customerOptions()"
@@ -158,6 +158,8 @@
           </p-auto-complete>
         </div>
       </app-doc-example>
+      <p class="doc-page__lead" style="margin: -12px 0 8px;">Component class (TypeScript):</p>
+      <app-doc-code [code]="customerModelTsCode" language="ts" />
     </section>
 
     <section id="product-model" class="doc-page__section">
@@ -165,7 +167,7 @@
         title="Product model (formControl-free, single-select)"
         description="Same customerNo-style pattern as above, using optionValue to bind productCode as the value instead of the whole product object."
         sourceId="p-auto-complete"
-        [code]="productModelCode">
+        [code]="productModelHtmlCode">
         <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
           <p-auto-complete placeholder="Search a product…" optionLabel="productName" optionValue="productCode" [dropdown]="true"
                            [suggestions]="productOptions()"
@@ -180,6 +182,8 @@
           </p-auto-complete>
         </div>
       </app-doc-example>
+      <p class="doc-page__lead" style="margin: -12px 0 8px;">Component class (TypeScript):</p>
+      <app-doc-code [code]="productModelTsCode" language="ts" />
     </section>
   </div>
 

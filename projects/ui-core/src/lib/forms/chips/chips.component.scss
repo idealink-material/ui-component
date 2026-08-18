@@ -5,10 +5,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
-  min-height: 40px;
+  min-height: 48px;
   padding: 6px 10px;
-  border: 1px solid var(--mat-sys-outline);
-  border-radius: 9999px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--cui-radius-md);
   background: var(--mat-sys-surface);
 
   &:focus-within {
