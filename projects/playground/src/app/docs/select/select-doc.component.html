@@ -13,7 +13,25 @@
         title="Basic usage"
         sourceId="p-select"
         code='<p-select label="Risk Level" [options]="riskOptions"
-  placeholder="Select risk level…" [(value)]="single" />'>
+  placeholder="Select risk level…" [(value)]="single" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSelectComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSelectComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;, label: &apos;Low Risk&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium Risk&apos; },
+    { value: &apos;high&apos;, label: &apos;High Risk&apos; },
+    { value: &apos;severe&apos;, label: &apos;Severe Risk&apos; },
+  ];
+
+  single = signal<string | null>(null);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-select label="Risk Level" [options]="riskOptions"
             placeholder="Select risk level…" [(value)]="single" />
@@ -26,12 +44,23 @@
         title="Grouped options"
         description="Options with a matching group label are rendered under a mat-optgroup."
         sourceId="p-select"
-        code='riskOptions = [
-  { value: "low", label: "Low Risk" },
-  { value: "medium", label: "Medium Risk" },
-  { value: "high", label: "High Risk", group: "Critical" },
-  { value: "severe", label: "Severe Risk", group: "Critical" },
-];'>
+        code='<p-select label="Risk Level" [options]="riskOptions" placeholder="Select risk level…" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSelectComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSelectComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;, label: &apos;Low Risk&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium Risk&apos; },
+    { value: &apos;high&apos;, label: &apos;High Risk&apos;, group: &apos;Critical&apos; },
+    { value: &apos;severe&apos;, label: &apos;Severe Risk&apos;, group: &apos;Critical&apos; },
+  ];
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-select label="Risk Level" [options]="riskOptions" placeholder="Select risk level…" />
         </div>
@@ -43,7 +72,25 @@
         title="Multiple selection"
         sourceId="p-select"
         code='<p-select label="Risk Levels" [options]="riskOptions"
-  [multiple]="true" [(value)]="multi" />'>
+  [multiple]="true" [(value)]="multi" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSelectComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSelectComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;, label: &apos;Low Risk&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium Risk&apos; },
+    { value: &apos;high&apos;, label: &apos;High Risk&apos; },
+    { value: &apos;severe&apos;, label: &apos;Severe Risk&apos; },
+  ];
+
+  multi = signal<string[] | null>([]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-select label="Risk Levels" [options]="riskOptions"
             [multiple]="true" [(value)]="multi" />
@@ -57,7 +104,23 @@
         description="filter adds a search box in the options panel; showClear adds a button to reset the selection."
         sourceId="p-select"
         code='<p-select label="Risk Level" [options]="riskOptions"
-  [filter]="true" [showClear]="true" />'>
+  [filter]="true" [showClear]="true" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSelectComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSelectComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;, label: &apos;Low Risk&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium Risk&apos; },
+    { value: &apos;high&apos;, label: &apos;High Risk&apos; },
+    { value: &apos;severe&apos;, label: &apos;Severe Risk&apos; },
+  ];
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-select label="Risk Level" [options]="riskOptions" [filter]="true" [showClear]="true" />
         </div>
@@ -69,7 +132,8 @@
         title="Custom item content"
         description="Project #item / #selectedItem &lt;ng-template&gt;s to render the option content and the closed-trigger display yourself — both receive the option via let-x."
         sourceId="p-select"
-        [code]="customItemCode">
+        [code]="customItemCode"
+        [tsCode]="customItemTsCode">
         <div style="width: 100%; max-width: 320px;">
           <p-select label="Risk Level" [options]="riskOptions"
             placeholder="Select risk level…" [(value)]="customItemValue">
@@ -90,7 +154,23 @@
         sourceId="p-select"
         code='<p-select label="Disabled" [options]="riskOptions" [disabled]="true" />
 <p-select label="Required" [options]="riskOptions" [required]="true" />
-<p-select label="Risk Level" [options]="riskOptions" error="Selection required" />'>
+<p-select label="Risk Level" [options]="riskOptions" error="Selection required" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSelectComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSelectComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;, label: &apos;Low Risk&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium Risk&apos; },
+    { value: &apos;high&apos;, label: &apos;High Risk&apos; },
+    { value: &apos;severe&apos;, label: &apos;Severe Risk&apos; },
+  ];
+}'>
         <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
           <p-select label="Disabled" [options]="riskOptions" [disabled]="true" />
           <p-select label="Required" [options]="riskOptions" [required]="true" />

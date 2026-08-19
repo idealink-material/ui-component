@@ -12,7 +12,18 @@
         title="Default"
         description="Four numeric segments; typing a digit auto-advances focus to the next slot."
         sourceId="p-input-otp"
-        code='<p-input-otp [(value)]="code4" />'>
+        code='<p-input-otp [(value)]="code4" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputOtpComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputOtpComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  code4 = signal(&apos;&apos;);
+}'>
         <p-input-otp [(value)]="code4" />
       </app-doc-example>
     </section>
@@ -22,7 +33,18 @@
         title="Custom length"
         description="Set length to match the code size your backend issues."
         sourceId="p-input-otp"
-        code='<p-input-otp [length]="6" [(value)]="code6" />'>
+        code='<p-input-otp [length]="6" [(value)]="code6" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputOtpComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputOtpComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  code6 = signal(&apos;&apos;);
+}'>
         <p-input-otp [length]="6" [(value)]="code6" />
       </app-doc-example>
     </section>
@@ -32,7 +54,18 @@
         title="Masked"
         description="Filled slots render as dots instead of the typed character."
         sourceId="p-input-otp"
-        code='<p-input-otp [length]="6" [mask]="true" [(value)]="codeMasked" />'>
+        code='<p-input-otp [length]="6" [mask]="true" [(value)]="codeMasked" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputOtpComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputOtpComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  codeMasked = signal(&apos;&apos;);
+}'>
         <p-input-otp [length]="6" [mask]="true" [(value)]="codeMasked" />
       </app-doc-example>
     </section>
@@ -42,7 +75,18 @@
         title="Alphanumeric"
         description="Setting integerOnly to false allows letters as well as digits."
         sourceId="p-input-otp"
-        code='<p-input-otp [length]="5" [integerOnly]="false" [(value)]="codeAlpha" />'>
+        code='<p-input-otp [length]="5" [integerOnly]="false" [(value)]="codeAlpha" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputOtpComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputOtpComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  codeAlpha = signal(&apos;&apos;);
+}'>
         <p-input-otp [length]="5" [integerOnly]="false" [(value)]="codeAlpha" />
       </app-doc-example>
     </section>

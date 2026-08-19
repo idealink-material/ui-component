@@ -11,7 +11,18 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-toggle-switch"
-        code='<p-toggle-switch label="Enable notifications" [(value)]="basic" />'>
+        code='<p-toggle-switch label="Enable notifications" [(value)]="basic" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiToggleSwitchComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiToggleSwitchComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basic = signal(true);
+}'>
         <p-toggle-switch label="Enable notifications" [(value)]="basic" />
       </app-doc-example>
     </section>
@@ -21,8 +32,19 @@
         title="Custom on/off values"
         description="trueValue/falseValue let value hold something other than a plain boolean."
         sourceId="p-toggle-switch"
-        code='<p-toggle-switch label="Status" trueValue="active" falseValue="inactive" [(value)]="status" />'>
-        <p-toggle-switch label="Status" size="sm" trueValue="active" falseValue="inactive" [(value)]="status" />
+        code='<p-toggle-switch label="Status" trueValue="active" falseValue="inactive" [(value)]="status" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiToggleSwitchComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiToggleSwitchComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  status = signal&lt;&apos;active&apos; | &apos;inactive&apos;&gt;(&apos;inactive&apos;);
+}'>
+        <p-toggle-switch label="Status" trueValue="active" falseValue="inactive" [(value)]="status" />
       </app-doc-example>
     </section>
 
@@ -31,7 +53,16 @@
         title="States"
         sourceId="p-toggle-switch"
         code='<p-toggle-switch label="Disabled, on" [disabled]="true" [value]="true" />
-<p-toggle-switch label="Disabled, off" [disabled]="true" [value]="false" />'>
+<p-toggle-switch label="Disabled, off" [disabled]="true" [value]="false" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiToggleSwitchComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiToggleSwitchComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <p-toggle-switch label="Disabled, on" [disabled]="true" [value]="true" />
         <p-toggle-switch label="Disabled, off" [disabled]="true" [value]="false" />
       </app-doc-example>

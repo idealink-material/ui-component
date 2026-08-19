@@ -102,6 +102,36 @@ export class SelectDocComponent {
   </ng-template>
 </p-select>`;
 
+  readonly customItemTsCode = `import { Component, signal } from '@angular/core';
+import { CuiSelectComponent, SelectOption } from '@idealink-material/ui-core';
+
+@Component({
+  selector: 'app-example',
+  imports: [CuiSelectComponent],
+  templateUrl: './example.component.html',
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: 'low', label: 'Low Risk' },
+    { value: 'medium', label: 'Medium Risk' },
+    { value: 'high', label: 'High Risk' },
+    { value: 'severe', label: 'Severe Risk' },
+  ];
+
+  customItemValue = signal<string | null>('high');
+
+  private readonly riskColors: Record<string, string> = {
+    low: '#22c55e',
+    medium: '#eab308',
+    high: '#f97316',
+    severe: '#ef4444',
+  };
+
+  riskColor(value: string): string {
+    return this.riskColors[value] ?? '#9ca3af';
+  }
+}`;
+
   private readonly riskColors: Record<string, string> = {
     low: '#22c55e',
     medium: '#eab308',

@@ -13,7 +13,22 @@
         title="Basic usage"
         description="pageChange fires with the new page (and, if changed, page size)."
         sourceId="p-pagination"
-        code='<p-pagination [page]="page()" [pageSize]="10" [total]="237" (pageChange)="onPageChange($event)" />'>
+        code='<p-pagination [page]="page()" [pageSize]="10" [total]="237" (pageChange)="onPageChange($event)" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiPaginationComponent, PageEvent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPaginationComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  page = signal(1);
+
+  onPageChange(e: PageEvent): void {
+    this.page.set(e.page);
+  }
+}'>
         <p-pagination [page]="page()" [pageSize]="10" [total]="237" (pageChange)="onPageChange($event)" />
       </app-doc-example>
     </section>
@@ -23,7 +38,18 @@
         title="Compact"
         description="compact hides the 'showing X–Y of Z' summary, useful in tight spaces."
         sourceId="p-pagination"
-        code='<p-pagination [compact]="true" [page]="compactPage()" [pageSize]="10" [total]="120" />'>
+        code='<p-pagination [compact]="true" [page]="compactPage()" [pageSize]="10" [total]="120" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiPaginationComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPaginationComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  compactPage = signal(3);
+}'>
         <p-pagination [compact]="true" [page]="compactPage()" [pageSize]="10" [total]="120" />
       </app-doc-example>
     </section>
@@ -34,7 +60,16 @@
         description="showPageSizeSelector is on by default; pageSizes controls the offered options. Set showFirstLast to false to drop the jump-to-first/last buttons."
         sourceId="p-pagination"
         code='<p-pagination [page]="1" [pageSize]="25" [total]="500"
-  [pageSizes]="[25, 50, 100]" [showFirstLast]="false" />'>
+  [pageSizes]="[25, 50, 100]" [showFirstLast]="false" />'
+        tsCode='import { Component } from "@angular/core";
+import { CuiPaginationComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPaginationComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <p-pagination [page]="1" [pageSize]="25" [total]="500"
           [pageSizes]="[25, 50, 100]" [showFirstLast]="false" />
       </app-doc-example>
@@ -46,7 +81,19 @@
         description="currentPageReportTemplate overrides the default 'X–Y of Z' text with token substitution ({first}, {last}, {totalRecords}). showCurrentPageReport toggles it independently of compact."
         sourceId="p-pagination"
         code='<p-pagination [page]="reportPage()" [pageSize]="10" [total]="237"
-  currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries" />'>
+  currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries"
+  (pageChange)="reportPage.set($event.page)" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiPaginationComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPaginationComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  reportPage = signal(2);
+}'>
         <p-pagination [page]="reportPage()" [pageSize]="10" [total]="237"
           currentPageReportTemplate="Showing {first}-{last} of {totalRecords} entries"
           (pageChange)="reportPage.set($event.page)" />
@@ -60,7 +107,18 @@
         sourceId="p-pagination"
         code='<p-pagination [page]="jumpPage()" [pageSize]="10" [total]="500"
   [showPageLinks]="false" [showJumpToPageDropdown]="true" [showJumpToPageInput]="true"
-  (pageChange)="jumpPage.set($event.page)" />'>
+  (pageChange)="jumpPage.set($event.page)" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiPaginationComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPaginationComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  jumpPage = signal(1);
+}'>
         <p-pagination [page]="jumpPage()" [pageSize]="10" [total]="500"
           [showPageLinks]="false" [showJumpToPageDropdown]="true" [showJumpToPageInput]="true"
           (pageChange)="jumpPage.set($event.page)" />

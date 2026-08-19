@@ -12,7 +12,18 @@
         title="Default"
         description="Drag around the ring, or click a point on it, to set the value between 0 and 100."
         sourceId="p-knob"
-        code='<p-knob [(value)]="volume" />'>
+        code='<p-knob [(value)]="volume" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiKnobComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiKnobComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  volume = signal(40);
+}'>
         <p-knob [(value)]="volume" />
       </app-doc-example>
     </section>
@@ -22,7 +33,18 @@
         title="Custom range & step"
         description="min, max, and step control the mapped range and the snap increment."
         sourceId="p-knob"
-        code='<p-knob [min]="-20" [max]="40" [step]="2" [(value)]="temp" />'>
+        code='<p-knob [min]="-20" [max]="40" [step]="2" [(value)]="temp" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiKnobComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiKnobComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  temp = signal(20);
+}'>
         <p-knob [min]="-20" [max]="40" [step]="2" [(value)]="temp" />
       </app-doc-example>
     </section>
@@ -32,7 +54,18 @@
         title="Colors"
         description="valueColor and rangeColor accept any CSS color, including var(--mat-sys-*) tokens."
         sourceId="p-knob"
-        code='<p-knob valueColor="var(--mat-sys-tertiary)" rangeColor="var(--mat-sys-surface-container-high)" [(value)]="accent" />'>
+        code='<p-knob valueColor="var(--mat-sys-tertiary)" rangeColor="var(--mat-sys-surface-container-high)" [(value)]="accent" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiKnobComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiKnobComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  accent = signal(65);
+}'>
         <p-knob valueColor="var(--mat-sys-tertiary)" rangeColor="var(--mat-sys-surface-container-high)" [(value)]="accent" />
       </app-doc-example>
     </section>
@@ -44,7 +77,18 @@
         sourceId="p-knob"
         code='<p-knob [readonly]="true" [(value)]="readonlyVal" />
 <p-knob [disabled]="true" [(value)]="readonlyVal" />
-<p-knob [showValue]="false" [(value)]="readonlyVal" />'>
+<p-knob [showValue]="false" [(value)]="readonlyVal" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiKnobComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiKnobComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  readonlyVal = signal(75);
+}'>
         <p-knob [readonly]="true" [(value)]="readonlyVal" />
         <p-knob [disabled]="true" [(value)]="readonlyVal" />
         <p-knob [showValue]="false" [(value)]="readonlyVal" />

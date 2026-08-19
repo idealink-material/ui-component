@@ -25,6 +25,17 @@
       </p-dialog-footer>
     </p-dialog-container>
   </div>
+}'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDialogContainerComponent, PDialogFooterComponent, CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-dialog-basic-example&apos;,
+  imports: [CuiDialogContainerComponent, PDialogFooterComponent, CuiButtonComponent],
+  templateUrl: &apos;./dialog-basic-example.component.html&apos;,
+})
+export class DialogBasicExampleComponent {
+  readonly dialogOpen = signal(false);
 }'>
         <p-button variant="filled" (onClick)="dialogOpen.set(true)">Open Dialog</p-button>
         @if (dialogOpen()) {
@@ -51,7 +62,18 @@
         sourceId="p-dialog-container"
         code='<p-dialog-container title="Notice" [dividers]="false" [showClose]="false">
   <p>This dialog has no divider and no close button — closing must be handled by your own footer actions.</p>
-</p-dialog-container>'>
+</p-dialog-container>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDialogContainerComponent, PDialogFooterComponent, CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-dialog-no-divider-example&apos;,
+  imports: [CuiDialogContainerComponent, PDialogFooterComponent, CuiButtonComponent],
+  templateUrl: &apos;./dialog-no-divider-example.component.html&apos;,
+})
+export class DialogNoDividerExampleComponent {
+  readonly plainOpen = signal(false);
+}'>
         <p-button variant="outlined" (onClick)="plainOpen.set(true)">Open Plain Dialog</p-button>
         @if (plainOpen()) {
           <div style="position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45);">
@@ -86,7 +108,44 @@ openMaximizableDemo(): void {
 // MaximizableDialogDemoComponent template:
 // <p-dialog-container title="Maximizable Dialog" [maximizable]="true" dialogId="doc-maximizable-demo">
 //   ...
-// </p-dialog-container>'>
+// </p-dialog-container>'
+        tsCode='import { Component, inject } from &apos;@angular/core&apos;;
+import { DialogRef } from &apos;@angular/cdk/dialog&apos;;
+import { DialogService } from &apos;@idealink-material/ui-utils&apos;;
+import { CuiDialogContainerComponent, PDialogFooterComponent, CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-dialog-maximizable-example&apos;,
+  imports: [CuiButtonComponent],
+  templateUrl: &apos;./dialog-maximizable-example.component.html&apos;,
+})
+export class DialogMaximizableExampleComponent {
+  private readonly dialogService = inject(DialogService);
+
+  openMaximizableDemo(): void {
+    this.dialogService.open(MaximizableDialogDemoComponent, {
+      width: &apos;480px&apos;,
+      maxWidth: &apos;90vw&apos;,
+      maxHeight: &apos;90vh&apos;,
+    });
+  }
+}
+
+@Component({
+  selector: &apos;app-maximizable-dialog-demo&apos;,
+  imports: [CuiDialogContainerComponent, PDialogFooterComponent, CuiButtonComponent],
+  template: `
+    &lt;p-dialog-container title="Maximizable Dialog" [maximizable]="true" dialogId="doc-maximizable-demo"&gt;
+      &lt;p&gt;Click the expand icon in the header to fill the viewport, or the same icon again to restore.&lt;/p&gt;
+      &lt;p-dialog-footer&gt;
+        &lt;p-button variant="filled" (onClick)="dialogRef.close()"&gt;Done&lt;/p-button&gt;
+      &lt;/p-dialog-footer&gt;
+    &lt;/p-dialog-container&gt;
+  `,
+})
+export class MaximizableDialogDemoComponent {
+  readonly dialogRef = inject(DialogRef);
+}'>
         <p-button variant="filled" (onClick)="openMaximizableDemo()">Open Maximizable Dialog</p-button>
       </app-doc-example>
     </section>

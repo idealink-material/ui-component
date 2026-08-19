@@ -268,6 +268,27 @@ export class DataTableDocComponent {
   </ng-template>
 </p-table>`;
 
+  readonly customTemplatesTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent } from '@idealink-material/ui-core';
+
+interface Product {
+  code: string; name: string; category: string; quantity: number;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-custom-templates-example',
+  imports: [CuiTableComponent],
+  templateUrl: './custom-templates-example.component.html',
+})
+export class CustomTemplatesExampleComponent {
+  products = signal<Product[]>([
+    { code: 'f230fh0g3', name: 'Bamboo Watch',  category: 'Accessories', quantity: 24 },
+    { code: 'nvklal433', name: 'Black Watch',    category: 'Accessories', quantity: 61 },
+    { code: 'zz21cz3c1', name: 'Blue Band',      category: 'Fitness',     quantity: 2 },
+  ]);
+}`;
+
   readonly expandableCustomTemplatesCode = `<p-data-table
   [columns]="declarationColumns"
   [value]="declarations()"
@@ -303,6 +324,44 @@ export class DataTableDocComponent {
     </ng-template>
   </p-table>
 </ng-template>`;
+
+  readonly expandableCustomTemplatesTsCode = `import { Component, signal } from '@angular/core';
+import { CuiDataTableComponent, CuiTableComponent } from '@idealink-material/ui-core';
+
+interface LineItem {
+  id: string; hsCode: string; origin: string; description: string;
+  qty: string; unitPrice: number; netWeight: number; grossWeight: number;
+  [key: string]: unknown;
+}
+
+interface DeclarationRow {
+  id: string; declNo: string; date: string; company: string; co: string;
+  containers: number; amountUsd: number; status: string; officer: string;
+  lineItems: LineItem[];
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-expandable-custom-templates-example',
+  imports: [CuiDataTableComponent, CuiTableComponent],
+  templateUrl: './expandable-custom-templates-example.component.html',
+})
+export class ExpandableCustomTemplatesExampleComponent {
+  declarationColumns = [
+    { key: 'declNo', header: 'Declaration No.' },
+    { key: 'company', header: 'Company' },
+  ];
+
+  declarations = signal<DeclarationRow[]>([
+    {
+      id: '1', declNo: 'I 37004', date: '04 Jun', company: 'S.C. Artistry Co...', co: 'E',
+      containers: 3, amountUsd: 1560, status: 'Released', officer: 'Chhuing',
+      lineItems: [
+        { id: '1-1', hsCode: '3305.90.00', origin: 'CN', description: 'New tricycle', qty: '15 PCS', unitPrice: 2280, netWeight: 3990, grossWeight: 4180 },
+      ],
+    },
+  ]);
+}`;
 
   // ── Vertical / horizontal scroll & frozen columns/rows ───────────────────────
   readonly accounts = signal<AccountRow[]>(ACCOUNTS);
@@ -341,11 +400,72 @@ export class DataTableDocComponent {
 
   readonly verticalScrollCode = `<p-table [columns]="accountColumnsCompact" [value]="accounts()" scrollHeight="320px" />`;
 
+  readonly verticalScrollTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string; branch: string;
+  status: string; balance: number;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-vertical-scroll-example',
+  imports: [CuiTableComponent],
+  templateUrl: './vertical-scroll-example.component.html',
+})
+export class VerticalScrollExampleComponent {
+  accountColumnsCompact: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.', width: '140px' },
+    { key: 'holder',    header: 'Holder',      width: '180px' },
+    { key: 'branch',    header: 'Branch',      width: '170px' },
+    { key: 'status',    header: 'Status',      width: '110px', align: 'center' },
+    { key: 'balance',   header: 'Balance',     width: '130px', align: 'right', accessor: (row) => '$' + row.balance.toLocaleString() },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly',   branch: 'Phnom Penh', status: 'Active', balance: 128500 },
+    { id: '2', accountNo: 'ACC-10245', holder: 'Vibol Heng', branch: 'Siem Reap',  status: 'Active', balance: 84200 },
+  ]);
+}`;
+
   readonly horizontalScrollCode = `<p-table
   [columns]="accountColumns"
   [value]="accounts()"
   [tableStyle]="{ 'min-width': '1100px' }">
 </p-table>`;
+
+  readonly horizontalScrollTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string; branch: string; country: string;
+  openDate: string; status: string; riskScore: string; manager: string; balance: number;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-horizontal-scroll-example',
+  imports: [CuiTableComponent],
+  templateUrl: './horizontal-scroll-example.component.html',
+})
+export class HorizontalScrollExampleComponent {
+  accountColumns: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.', width: '140px' },
+    { key: 'holder',    header: 'Holder',      width: '160px' },
+    { key: 'branch',    header: 'Branch',      width: '170px' },
+    { key: 'country',   header: 'Country',     width: '90px' },
+    { key: 'openDate',  header: 'Opened',      width: '110px' },
+    { key: 'status',    header: 'Status',      width: '100px', align: 'center' },
+    { key: 'riskScore', header: 'Risk',        width: '90px',  align: 'center' },
+    { key: 'manager',   header: 'Manager',     width: '150px' },
+    { key: 'balance',   header: 'Balance',     width: '130px', align: 'right', accessor: (row) => '$' + row.balance.toLocaleString() },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly', branch: 'Phnom Penh', country: 'KH', openDate: '2021-03-14', status: 'Active', riskScore: 'Low', manager: 'Dara Chan', balance: 128500 },
+  ]);
+}`;
 
   readonly frozenColumnsCode = `<p-table
   [columns]="accountColumnsFrozenLeft"
@@ -358,6 +478,34 @@ columns: TableColumn<AccountRow>[] = [
   { key: "accountNo", header: "Account No.", width: "140px", sticky: true },
   // ...other columns
 ];`;
+
+  readonly frozenColumnsTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string; branch: string;
+  status: string; balance: number;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-frozen-columns-example',
+  imports: [CuiTableComponent],
+  templateUrl: './frozen-columns-example.component.html',
+})
+export class FrozenColumnsExampleComponent {
+  accountColumnsFrozenLeft: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.', width: '140px', sticky: true },
+    { key: 'holder',    header: 'Holder',      width: '160px' },
+    { key: 'branch',    header: 'Branch',      width: '170px' },
+    { key: 'status',    header: 'Status',      width: '100px', align: 'center' },
+    { key: 'balance',   header: 'Balance',     width: '130px', align: 'right' },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly', branch: 'Phnom Penh', status: 'Active', balance: 128500 },
+  ]);
+}`;
 
   readonly frozenColumnsMultipleCode = `<p-table
   [columns]="accountColumnsFrozenMultiple"
@@ -373,12 +521,72 @@ columns: TableColumn<AccountRow>[] = [
   { key: "balance",   header: "Balance",     width: "130px", sticky: "right" },
 ];`;
 
+  readonly frozenColumnsMultipleTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string; branch: string;
+  status: string; balance: number;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-frozen-columns-multiple-example',
+  imports: [CuiTableComponent],
+  templateUrl: './frozen-columns-multiple-example.component.html',
+})
+export class FrozenColumnsMultipleExampleComponent {
+  accountColumnsFrozenMultiple: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.', width: '140px', sticky: true },
+    { key: 'holder',    header: 'Holder',      width: '160px', sticky: true },
+    { key: 'branch',    header: 'Branch',      width: '170px' },
+    { key: 'status',    header: 'Status',      width: '100px', align: 'center' },
+    { key: 'balance',   header: 'Balance',     width: '130px', align: 'right', sticky: 'right' },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly', branch: 'Phnom Penh', status: 'Active', balance: 128500 },
+  ]);
+}`;
+
   readonly frozenRowsCode = `<p-table
   [columns]="accountColumnsCompact"
   [value]="scrollAccounts()"
   [frozenValue]="pinnedAccounts()"
   scrollHeight="280px">
 </p-table>`;
+
+  readonly frozenRowsTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string; branch: string;
+  status: string; balance: number;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-frozen-rows-example',
+  imports: [CuiTableComponent],
+  templateUrl: './frozen-rows-example.component.html',
+})
+export class FrozenRowsExampleComponent {
+  accountColumnsCompact: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.', width: '140px' },
+    { key: 'holder',    header: 'Holder',      width: '180px' },
+    { key: 'branch',    header: 'Branch',      width: '170px' },
+    { key: 'status',    header: 'Status',      width: '110px', align: 'center' },
+    { key: 'balance',   header: 'Balance',     width: '130px', align: 'right' },
+  ];
+
+  pinnedAccounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly', branch: 'Phnom Penh', status: 'Active', balance: 128500 },
+  ]);
+
+  scrollAccounts = signal<AccountRow[]>([
+    { id: '2', accountNo: 'ACC-10245', holder: 'Vibol Heng', branch: 'Siem Reap', status: 'Active', balance: 84200 },
+  ]);
+}`;
 
   // ── Controlled selection / expansion / sort, pagination polish, virtual scroll,
   //    resize/reorder ────────────────────────────────────────────────────────
@@ -405,6 +613,37 @@ columns: TableColumn<AccountRow>[] = [
   [(selection)]="selectedAccounts">
 </p-data-table>`;
 
+  readonly controlledSelectionTsCode = `import { Component, signal } from '@angular/core';
+import { CuiDataTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string; branch: string;
+  status: string; balance: number;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-controlled-selection-example',
+  imports: [CuiDataTableComponent],
+  templateUrl: './controlled-selection-example.component.html',
+})
+export class ControlledSelectionExampleComponent {
+  accountColumnsCompact: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.', width: '140px' },
+    { key: 'holder',    header: 'Holder',      width: '180px' },
+    { key: 'branch',    header: 'Branch',      width: '170px' },
+    { key: 'status',    header: 'Status',      width: '110px', align: 'center' },
+    { key: 'balance',   header: 'Balance',     width: '130px', align: 'right' },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly',   branch: 'Phnom Penh', status: 'Active', balance: 128500 },
+    { id: '2', accountNo: 'ACC-10245', holder: 'Vibol Heng', branch: 'Siem Reap',  status: 'Active', balance: 84200 },
+  ]);
+
+  selectedAccounts = signal<AccountRow[]>([]);
+}`;
+
   readonly selectionModeSingleCode = `<p-table
   [columns]="accountColumnsCompact"
   [value]="accounts()"
@@ -412,6 +651,37 @@ columns: TableColumn<AccountRow>[] = [
   selectionMode="single"
   [(selection)]="singleSelected">
 </p-table>`;
+
+  readonly selectionModeSingleTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string; branch: string;
+  status: string; balance: number;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-selection-mode-single-example',
+  imports: [CuiTableComponent],
+  templateUrl: './selection-mode-single-example.component.html',
+})
+export class SelectionModeSingleExampleComponent {
+  accountColumnsCompact: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.', width: '140px' },
+    { key: 'holder',    header: 'Holder',      width: '180px' },
+    { key: 'branch',    header: 'Branch',      width: '170px' },
+    { key: 'status',    header: 'Status',      width: '110px', align: 'center' },
+    { key: 'balance',   header: 'Balance',     width: '130px', align: 'right' },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly',   branch: 'Phnom Penh', status: 'Active', balance: 128500 },
+    { id: '2', accountNo: 'ACC-10245', holder: 'Vibol Heng', branch: 'Siem Reap',  status: 'Active', balance: 84200 },
+  ]);
+
+  singleSelected = signal<AccountRow[]>([]);
+}`;
 
   readonly controlledExpansionCode = `<p-data-table
   [columns]="declarationColumns"
@@ -428,10 +698,80 @@ columns: TableColumn<AccountRow>[] = [
   <p-table [columns]="lineItemColumns" [value]="row.lineItems" />
 </ng-template>`;
 
+  readonly controlledExpansionTsCode = `import { Component, signal } from '@angular/core';
+import { CuiDataTableComponent, CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface LineItem {
+  id: string; hsCode: string; description: string; qty: string;
+  [key: string]: unknown;
+}
+
+interface DeclarationRow {
+  id: string; declNo: string; company: string;
+  lineItems: LineItem[];
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-controlled-expansion-example',
+  imports: [CuiDataTableComponent, CuiTableComponent],
+  templateUrl: './controlled-expansion-example.component.html',
+})
+export class ControlledExpansionExampleComponent {
+  declarationColumns: TableColumn<DeclarationRow>[] = [
+    { key: 'declNo',  header: 'Declaration No.' },
+    { key: 'company', header: 'Company' },
+  ];
+
+  lineItemColumns: TableColumn<LineItem>[] = [
+    { key: 'hsCode',      header: 'HS Code' },
+    { key: 'description', header: 'Description' },
+    { key: 'qty',         header: 'Qty' },
+  ];
+
+  declarations = signal<DeclarationRow[]>([
+    {
+      id: '1', declNo: 'I 37004', company: 'S.C. Artistry Co...',
+      lineItems: [{ id: '1-1', hsCode: '3305.90.00', description: 'New tricycle', qty: '15 PCS' }],
+    },
+  ]);
+
+  expandedKeys = signal<Set<unknown>>(new Set());
+}`;
+
   readonly controlledSortCode = `<p-table [columns]="columns" [value]="value()"
   [(sortField)]="sortFieldCtrl" [(sortOrder)]="sortOrderCtrl" />
 
 <p-button (click)="sortFieldCtrl.set('status'); sortOrderCtrl.set('asc')">Sort by Status</p-button>`;
+
+  readonly controlledSortTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, CuiButtonComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface CaseRow {
+  id: string; caseNo: string; status: string; risk: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-controlled-sort-example',
+  imports: [CuiTableComponent, CuiButtonComponent],
+  templateUrl: './controlled-sort-example.component.html',
+})
+export class ControlledSortExampleComponent {
+  columns: TableColumn<CaseRow>[] = [
+    { key: 'caseNo', header: 'Case No.', sortable: true },
+    { key: 'status', header: 'Status',   sortable: true },
+    { key: 'risk',   header: 'Risk',     sortable: true },
+  ];
+
+  value = signal<CaseRow[]>([
+    { id: '1', caseNo: 'AML-2401', status: 'Open',   risk: 'High' },
+    { id: '2', caseNo: 'AML-2402', status: 'Review', risk: 'Medium' },
+  ]);
+
+  sortFieldCtrl = signal<string | null>(null);
+  sortOrderCtrl = signal<'asc' | 'desc' | null>(null);
+}`;
 
   readonly paginatorPositionCode = `<p-data-table
   [columns]="accountColumnsCompact"
@@ -442,6 +782,33 @@ columns: TableColumn<AccountRow>[] = [
   paginatorPosition="both">
 </p-data-table>`;
 
+  readonly paginatorPositionTsCode = `import { Component, signal } from '@angular/core';
+import { CuiDataTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string; status: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-paginator-position-example',
+  imports: [CuiDataTableComponent],
+  templateUrl: './paginator-position-example.component.html',
+})
+export class PaginatorPositionExampleComponent {
+  accountColumnsCompact: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.' },
+    { key: 'holder',    header: 'Holder' },
+    { key: 'status',    header: 'Status', align: 'center' },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly', status: 'Active' },
+  ]);
+
+  showPaginator = signal(true);
+}`;
+
   readonly statePersistenceCode = `<p-data-table
   [columns]="columns"
   [value]="value()"
@@ -449,6 +816,34 @@ columns: TableColumn<AccountRow>[] = [
   stateKey="data-table-doc-demo"
   (stateChange)="onTableChange($event)">
 </p-data-table>`;
+
+  readonly statePersistenceTsCode = `import { Component, signal } from '@angular/core';
+import { CuiDataTableComponent, DataTableChangeEvent, TableColumn } from '@idealink-material/ui-core';
+
+interface CaseRow {
+  id: string; caseNo: string; status: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-state-persistence-example',
+  imports: [CuiDataTableComponent],
+  templateUrl: './state-persistence-example.component.html',
+})
+export class StatePersistenceExampleComponent {
+  columns: TableColumn<CaseRow>[] = [
+    { key: 'caseNo', header: 'Case No.', sortable: true },
+    { key: 'status', header: 'Status',   sortable: true },
+  ];
+
+  value = signal<CaseRow[]>([
+    { id: '1', caseNo: 'AML-2401', status: 'Open' },
+  ]);
+
+  onTableChange(event: DataTableChangeEvent): void {
+    console.log('Sort/page/search changed:', event);
+  }
+}`;
 
   readonly virtualScrollCode = `<p-table
   [columns]="accountColumnsCompact"
@@ -458,6 +853,34 @@ columns: TableColumn<AccountRow>[] = [
   [virtualScrollItemSize]="40">
 </p-table>`;
 
+  readonly virtualScrollTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-virtual-scroll-example',
+  imports: [CuiTableComponent],
+  templateUrl: './virtual-scroll-example.component.html',
+})
+export class VirtualScrollExampleComponent {
+  accountColumnsCompact: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.' },
+    { key: 'holder',    header: 'Holder' },
+  ];
+
+  largeAccounts = signal<AccountRow[]>(
+    Array.from({ length: 1000 }, (_, i) => ({
+      id: String(i),
+      accountNo: 'ACC-' + (10000 + i),
+      holder: 'Holder ' + i,
+    })),
+  );
+}`;
+
   readonly resizableColumnsCode = `<p-table
   [columns]="accountColumnsCompact"
   [value]="accounts()"
@@ -465,10 +888,62 @@ columns: TableColumn<AccountRow>[] = [
   [columnResizeMode]="resizeMode()">
 </p-table>`;
 
+  readonly resizableColumnsTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-resizable-columns-example',
+  imports: [CuiTableComponent],
+  templateUrl: './resizable-columns-example.component.html',
+})
+export class ResizableColumnsExampleComponent {
+  accountColumnsCompact: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.' },
+    { key: 'holder',    header: 'Holder' },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly' },
+  ]);
+
+  resizeMode = signal<'fit' | 'expand'>('fit');
+}`;
+
   readonly reorderableColumnsCode = `<p-table
   [columns]="accountColumnsCompact"
   [value]="accounts()"
   [reorderableColumns]="true"
   (onColReorder)="lastReorder.set($event)">
 </p-table>`;
+
+  readonly reorderableColumnsTsCode = `import { Component, signal } from '@angular/core';
+import { CuiTableComponent, TableColumn } from '@idealink-material/ui-core';
+
+interface AccountRow {
+  id: string; accountNo: string; holder: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: 'app-reorderable-columns-example',
+  imports: [CuiTableComponent],
+  templateUrl: './reorderable-columns-example.component.html',
+})
+export class ReorderableColumnsExampleComponent {
+  accountColumnsCompact: TableColumn<AccountRow>[] = [
+    { key: 'accountNo', header: 'Account No.' },
+    { key: 'holder',    header: 'Holder' },
+  ];
+
+  accounts = signal<AccountRow[]>([
+    { id: '1', accountNo: 'ACC-10231', holder: 'Sokha Ly' },
+  ]);
+
+  lastReorder = signal<{ dragIndex: number; dropIndex: number } | null>(null);
+}`;
 }

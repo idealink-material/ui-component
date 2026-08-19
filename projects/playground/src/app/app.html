@@ -1,14 +1,13 @@
 <p-toast-outlet />
 
-<div class="min-h-screen flex flex-col" style="background:var(--mat-sys-background);">
+<div class="h-screen flex flex-col" style="background:var(--mat-sys-background);">
 
   <!-- Topbar -->
   <header class="flex items-center justify-between px-6 h-14 shrink-0"
     style="background:var(--cui-topbar-bg);color:var(--cui-topbar-text);
            border-bottom:1px solid var(--cui-topbar-border);box-shadow:var(--cui-shadow-sm);">
     <div class="flex items-center gap-2">
-      <cui-icon name="company-logo" size="sm" [color]="'var(--cui-topbar-text)'" />
-      <span class="font-bold tracking-tight">company-ui</span>
+      <span class="font-bold tracking-tight">Angular UI</span>
       <p-badge color="primary" size="sm" class="ml-2">v{{ frameworkVersion }}</p-badge>
     </div>
     <div class="flex items-center gap-2">
@@ -28,48 +27,42 @@
   <div class="flex flex-1 overflow-hidden">
 
     <!-- Sidebar -->
-    <aside class="w-56 shrink-0 flex flex-col py-3 overflow-y-auto"
+    <aside class="w-56 shrink-0 flex flex-col gap-4 py-4 px-3 overflow-y-auto"
       style="background:var(--cui-sidebar-bg);border-right:1px solid var(--cui-sidebar-border);">
       @for (item of menuService.resolvedItems(); track item.id) {
         @if (item.isVisible) {
-          @if (item.dividerBefore) {
-            <hr class="my-2 mx-3" style="border-color:var(--cui-sidebar-border);" />
-          }
-          @if (item.children?.length) {
-            <button (click)="menuService.toggle(item.id)"
-              class="flex items-center gap-2.5 px-4 py-2 w-full text-left text-sm font-medium"
-              style="background:transparent;border:none;cursor:pointer;"
-              [style.color]="item.isActive?'var(--cui-sidebar-active-text)':'var(--cui-sidebar-text)'"
-              [style.background]="item.isActive?'var(--cui-sidebar-active-bg)':'transparent'">
-              <cui-icon [name]="item.icon||'circle'" size="sm" color="currentColor" />
-              <span class="flex-1">{{ item.label }}</span>
-              <cui-icon [name]="item.expanded?'expand_less':'expand_more'" size="xs" color="currentColor" />
-            </button>
-            @if (item.expanded) {
+          <div class="flex flex-col gap-0.5">
+            @if (item.children?.length) {
+              <span class="px-3 pb-1 text-xs font-semibold tracking-wider uppercase"
+                style="color:var(--cui-sidebar-text);opacity:0.6;">
+                {{ item.label }}
+              </span>
               @for (child of item.children; track child.id) {
-                <a [routerLink]="child.routerLink"
-                  class="flex items-center gap-2.5 pl-9 pr-4 py-1.5 text-sm cursor-pointer"
-                  style="text-decoration:none;"
-                  [style.color]="$any(child).isExactActive?'var(--cui-sidebar-active-text)':'var(--cui-sidebar-text)'"
-                  [style.background]="$any(child).isExactActive?'var(--cui-sidebar-active-bg)':'transparent'">
-                  <cui-icon [name]="child.icon||'circle'" size="xs" color="currentColor" />
-                  <span class="flex-1">{{ child.label }}</span>
-                  @if (child.badge) {
-                    <p-badge color="error" size="sm" variant="filled">{{ child.badge }}</p-badge>
-                  }
-                </a>
+                @if ($any(child).isVisible) {
+                  <a [routerLink]="child.routerLink"
+                    class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg cursor-pointer"
+                    style="text-decoration:none;"
+                    [style.color]="$any(child).isExactActive?'var(--cui-sidebar-active-text)':'var(--cui-sidebar-text)'"
+                    [style.background]="$any(child).isExactActive?'var(--cui-sidebar-active-bg)':'transparent'">
+                    <cui-icon [name]="child.icon||'circle'" size="sm" color="currentColor" />
+                    <span class="flex-1">{{ child.label }}</span>
+                    @if (child.badge) {
+                      <p-badge color="error" size="sm" variant="filled">{{ child.badge }}</p-badge>
+                    }
+                  </a>
+                }
               }
+            } @else {
+              <a [routerLink]="item.routerLink"
+                class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-lg cursor-pointer"
+                style="text-decoration:none;"
+                [style.background]="item.isExactActive?'var(--cui-sidebar-active-bg)':'transparent'"
+                [style.color]="item.isExactActive?'var(--cui-sidebar-active-text)':'var(--cui-sidebar-text)'">
+                <cui-icon [name]="item.icon||'circle'" size="sm" color="currentColor" />
+                {{ item.label }}
+              </a>
             }
-          } @else {
-            <a [routerLink]="item.routerLink"
-              class="flex items-center gap-2.5 px-4 py-2 text-sm font-medium cursor-pointer"
-              style="text-decoration:none;"
-              [style.background]="item.isExactActive?'var(--cui-sidebar-active-bg)':'transparent'"
-              [style.color]="item.isExactActive?'var(--cui-sidebar-active-text)':'var(--cui-sidebar-text)'">
-              <cui-icon [name]="item.icon||'circle'" size="sm" color="currentColor" />
-              {{ item.label }}
-            </a>
-          }
+          </div>
         }
       }
     </aside>

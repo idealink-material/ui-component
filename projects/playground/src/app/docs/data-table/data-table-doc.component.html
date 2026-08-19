@@ -31,7 +31,44 @@ columns: TableColumn<CaseRow>[] = [
   { key: "subject", header: "Subject",  sortable: true },
   { key: "status",  header: "Status",   sortable: true, width: "100px", align: "center" },
   { key: "risk",    header: "Risk",     sortable: true, width: "100px", align: "center" },
-];'>
+];'
+        tsCode='import { Component, signal } from "@angular/core";
+import { JsonPipe } from "@angular/common";
+import {
+  CuiDataTableComponent, PDataTableActionsComponent, CuiButtonComponent,
+  DataTableChangeEvent, TableColumn,
+} from "@idealink-material/ui-core";
+
+interface CaseRow {
+  id: string; caseNo: string; subject: string; status: string; risk: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: "app-data-table-basic-example",
+  imports: [CuiDataTableComponent, PDataTableActionsComponent, CuiButtonComponent, JsonPipe],
+  templateUrl: "./data-table-basic-example.component.html",
+})
+export class DataTableBasicExampleComponent {
+  columns: TableColumn<CaseRow>[] = [
+    { key: "caseNo",  header: "Case No.", sortable: true, width: "110px" },
+    { key: "subject", header: "Subject",  sortable: true },
+    { key: "status",  header: "Status",   sortable: true, width: "100px", align: "center" },
+    { key: "risk",    header: "Risk",     sortable: true, width: "100px", align: "center" },
+  ];
+
+  value = signal<CaseRow[]>([
+    { id: "1", caseNo: "AML-2401", subject: "Suspicious wire transfer",   status: "Open",   risk: "High" },
+    { id: "2", caseNo: "AML-2402", subject: "Unusual cash deposits",      status: "Review", risk: "Medium" },
+    { id: "3", caseNo: "AML-2403", subject: "Shell company transactions", status: "Closed", risk: "Low" },
+  ]);
+
+  lastEvent = signal<DataTableChangeEvent | null>(null);
+
+  onTableChange(e: DataTableChangeEvent): void {
+    this.lastEvent.set(e);
+  }
+}'>
         <p-data-table
           [columns]="columns"
           [value]="value()"
@@ -65,7 +102,60 @@ columns: TableColumn<CaseRow>[] = [
 
 <ng-template #lineItems let-row>
   <p-table [columns]="lineItemColumns" [value]="row.lineItems" />
-</ng-template>'>
+</ng-template>'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiDataTableComponent, CuiTableComponent, TableColumn } from "@idealink-material/ui-core";
+
+interface LineItem {
+  id: string; hsCode: string; origin: string; description: string;
+  qty: string; unitPrice: number; netWeight: number; grossWeight: number;
+  [key: string]: unknown;
+}
+
+interface DeclarationRow {
+  id: string; declNo: string; date: string; company: string; co: string;
+  containers: number; amountUsd: number; status: string; officer: string;
+  lineItems: LineItem[];
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: "app-data-table-expandable-example",
+  imports: [CuiDataTableComponent, CuiTableComponent],
+  templateUrl: "./data-table-expandable-example.component.html",
+})
+export class DataTableExpandableExampleComponent {
+  declarationColumns: TableColumn<DeclarationRow>[] = [
+    { key: "declNo",     header: "Declaration No." },
+    { key: "date",       header: "Date",       width: "90px" },
+    { key: "company",    header: "Company" },
+    { key: "co",         header: "C/O",        width: "60px",  align: "center" },
+    { key: "containers", header: "Containers", width: "100px", align: "center" },
+    { key: "amountUsd",  header: "Amount (USD)", width: "120px", align: "right" },
+    { key: "status",     header: "Status" },
+    { key: "officer",    header: "Officer" },
+  ];
+
+  lineItemColumns: TableColumn<LineItem>[] = [
+    { key: "hsCode",      header: "HS Code",    width: "110px" },
+    { key: "origin",      header: "Origin",     width: "80px" },
+    { key: "description", header: "Description" },
+    { key: "qty",         header: "Qty",        width: "120px" },
+    { key: "unitPrice",   header: "Unit Price", width: "110px", align: "right" },
+    { key: "netWeight",   header: "NW (kg)",    width: "100px", align: "right" },
+    { key: "grossWeight", header: "GW (kg)",    width: "100px", align: "right" },
+  ];
+
+  declarations = signal<DeclarationRow[]>([
+    {
+      id: "1", declNo: "I 37004", date: "04 Jun", company: "S.C. Artistry Co...", co: "E",
+      containers: 3, amountUsd: 1560, status: "Released", officer: "Chhuing",
+      lineItems: [
+        { id: "1-1", hsCode: "3305.90.00", origin: "CN", description: "New tricycle Changli CL1200ZH", qty: "15 PCS", unitPrice: 2280, netWeight: 3990, grossWeight: 4180 },
+      ],
+    },
+  ]);
+}'>
         <p-data-table
           [columns]="declarationColumns"
           [value]="declarations()"
@@ -85,7 +175,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Custom templates"
         description="For the p-table primitive, skip the columns config entirely and project #header/#body ng-templates instead — useful when porting markup 1:1 from another table library. columnCount drives the colspan for the loading-skeleton and empty-state rows since it can't be inferred from a template."
         sourceId="p-table"
-        [code]="customTemplatesCode">
+        [code]="customTemplatesCode"
+        [tsCode]="customTemplatesTsCode">
         <p-table [value]="products()" [columnCount]="4">
           <ng-template #header>
             <tr>
@@ -112,7 +203,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Child table (custom templates)"
         description="Same 'table in table' pattern as Expandable rows, but the nested p-table uses #header/#body instead of columns — handy when the child table's markup is being ported 1:1 from another table library."
         sourceId="p-data-table"
-        [code]="expandableCustomTemplatesCode">
+        [code]="expandableCustomTemplatesCode"
+        [tsCode]="expandableCustomTemplatesTsCode">
         <p-data-table
           [columns]="declarationColumns"
           [value]="declarations()"
@@ -155,7 +247,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Vertical scroll"
         description="Set scrollHeight on p-table to constrain the wrapper's height and enable vertical scrolling; the header (stickyHeader, on by default) stays pinned in view as rows scroll beneath it."
         sourceId="p-table"
-        [code]="verticalScrollCode">
+        [code]="verticalScrollCode"
+        [tsCode]="verticalScrollTsCode">
         <p-table [columns]="accountColumnsCompact" [value]="accounts()" scrollHeight="320px" />
       </app-doc-example>
     </section>
@@ -165,7 +258,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Horizontal scroll"
         description="Horizontal scrolling activates automatically whenever the columns' combined width overflows the wrapper — give tableStyle a min-width (or size columns explicitly) to force it in a demo like this one."
         sourceId="p-table"
-        [code]="horizontalScrollCode">
+        [code]="horizontalScrollCode"
+        [tsCode]="horizontalScrollTsCode">
         <p-table
           [columns]="accountColumns"
           [value]="accounts()"
@@ -179,7 +273,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Frozen columns"
         description="Set sticky: true (or 'left'/'right') on a column to pin it while the table scrolls horizontally — give it an explicit pixel width for a correctly computed offset. Combine with scrollHeight to freeze on both axes at once."
         sourceId="p-table"
-        [code]="frozenColumnsCode">
+        [code]="frozenColumnsCode"
+        [tsCode]="frozenColumnsTsCode">
         <p-table
           [columns]="accountColumnsFrozenLeft"
           [value]="accounts()"
@@ -194,7 +289,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Frozen columns (multiple)"
         description="Multiple columns can freeze on the same edge — their offsets stack automatically in column order — and different columns can freeze on opposite edges at once."
         sourceId="p-table"
-        [code]="frozenColumnsMultipleCode">
+        [code]="frozenColumnsMultipleCode"
+        [tsCode]="frozenColumnsMultipleTsCode">
         <p-table
           [columns]="accountColumnsFrozenMultiple"
           [value]="accounts()"
@@ -209,7 +305,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Frozen rows"
         description="Pass frozenValue a separate list of rows to pin them to the top of the scroll area — they stay in view while value scrolls beneath them. Works with the columns array (shown here) or a #frozenbody template for custom row markup."
         sourceId="p-table"
-        [code]="frozenRowsCode">
+        [code]="frozenRowsCode"
+        [tsCode]="frozenRowsTsCode">
         <p-table
           [columns]="accountColumnsCompact"
           [value]="scrollAccounts()"
@@ -224,7 +321,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Controlled selection"
         description="selection is a bindable model — use [(selection)] to read and drive it externally. Add/remove is tracked against the full array, so selection survives pagination."
         sourceId="p-data-table"
-        [code]="controlledSelectionCode">
+        [code]="controlledSelectionCode"
+        [tsCode]="controlledSelectionTsCode">
         <p-data-table
           [columns]="accountColumnsCompact"
           [value]="accounts()"
@@ -244,7 +342,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Selection mode (single)"
         description="selectionMode=&quot;single&quot; renders a radio-button column instead of checkboxes — the row cursor becomes a pointer, and the selected row's radio shows a check icon. Clicking a row selects it (replacing any prior selection), and clicking the selected row again deselects it."
         sourceId="p-table"
-        [code]="selectionModeSingleCode">
+        [code]="selectionModeSingleCode"
+        [tsCode]="selectionModeSingleTsCode">
         <p-table
           [columns]="accountColumnsCompact"
           [value]="accounts()"
@@ -263,7 +362,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Controlled row expansion"
         description="expandedRowKeys is a bindable model — use [(expandedRowKeys)] to read/drive it externally. rowExpandMode=&quot;single&quot; collapses any previously-expanded row when a new one is expanded (accordion-style)."
         sourceId="p-data-table"
-        [code]="controlledExpansionCode">
+        [code]="controlledExpansionCode"
+        [tsCode]="controlledExpansionTsCode">
         <p-data-table
           [columns]="declarationColumns"
           [value]="declarations()"
@@ -285,7 +385,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Controlled sort"
         description="sortField/sortOrder are bindable models — use [(sortField)]/[(sortOrder)] to read the current sort or drive it externally, e.g. from buttons outside the table."
         sourceId="p-table"
-        [code]="controlledSortCode">
+        [code]="controlledSortCode"
+        [tsCode]="controlledSortTsCode">
         <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
           <div style="display: flex; gap: 8px;">
             <p-button size="sm" variant="outlined" (click)="sortFieldCtrl.set('status'); sortOrderCtrl.set('asc')">Sort by Status ↑</p-button>
@@ -302,7 +403,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Paginator position & toggle"
         description="paginator hides the footer entirely; paginatorPosition renders it above the table, below it, or both."
         sourceId="p-data-table"
-        [code]="paginatorPositionCode">
+        [code]="paginatorPositionCode"
+        [tsCode]="paginatorPositionTsCode">
         <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
           <p-button size="sm" variant="outlined" (click)="showPaginator.set(!showPaginator())">
             {{ showPaginator() ? 'Hide' : 'Show' }} paginator
@@ -324,7 +426,8 @@ columns: TableColumn<CaseRow>[] = [
         title="State persistence"
         description="stateKey persists {sort, page, pageSize, search} to sessionStorage (or localStorage via stateStorage) and restores it on init — sort/search/page a few times, then reload this doc page to see it come back."
         sourceId="p-data-table"
-        [code]="statePersistenceCode">
+        [code]="statePersistenceCode"
+        [tsCode]="statePersistenceTsCode">
         <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
           <p-data-table
             [columns]="columns"
@@ -343,7 +446,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Virtual scroll"
         description="virtualScroll only renders rows in (and just around) the visible window — here with 2,000 rows. Requires scrollHeight and the columns-array render path (not a custom #body template)."
         sourceId="p-table"
-        [code]="virtualScrollCode">
+        [code]="virtualScrollCode"
+        [tsCode]="virtualScrollTsCode">
         <p-table
           [columns]="accountColumnsCompact"
           [value]="largeAccounts()"
@@ -359,7 +463,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Resizable columns"
         description="resizableColumns shows a drag handle on each column's trailing edge. columnResizeMode=&quot;fit&quot; (default) borrows/gives width with the neighboring column so total table width stays fixed; &quot;expand&quot; only changes the dragged column."
         sourceId="p-table"
-        [code]="resizableColumnsCode">
+        [code]="resizableColumnsCode"
+        [tsCode]="resizableColumnsTsCode">
         <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
           <div style="display: flex; gap: 8px;">
             <p-button size="sm" [variant]="resizeMode() === 'fit' ? 'filled' : 'outlined'" (click)="resizeMode.set('fit')">fit</p-button>
@@ -380,7 +485,8 @@ columns: TableColumn<CaseRow>[] = [
         title="Reorderable columns"
         description="reorderableColumns shows a drag handle in each column header for reordering via @angular/cdk/drag-drop — dragging is limited to the handle so clicking the header still sorts."
         sourceId="p-table"
-        [code]="reorderableColumnsCode">
+        [code]="reorderableColumnsCode"
+        [tsCode]="reorderableColumnsTsCode">
         <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
           <p-table
             [columns]="accountColumnsCompact"

@@ -26,7 +26,34 @@ nodes: TreeTableNode<AccountRow>[] = [
     { id: "g1-1", data: { name: "Acme Holdings",  amount: "$820K", status: "Active" } },
     { id: "g1-2", data: { name: "Bright Capital", amount: "$380K", status: "Review" } },
   ]},
-];'>
+];'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiTreeTableComponent, TableColumn, TreeTableNode } from &apos;@idealink-material/ui-core&apos;;
+
+interface AccountRow {
+  name: string; amount: string; status: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiTreeTableComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  columns: TableColumn<AccountRow>[] = [
+    { key: &apos;name&apos;,   header: &apos;Account&apos; },
+    { key: &apos;amount&apos;, header: &apos;Amount&apos;, align: &apos;right&apos; },
+    { key: &apos;status&apos;, header: &apos;Status&apos; },
+  ];
+
+  nodes: TreeTableNode<AccountRow>[] = [
+    { id: &apos;g1&apos;, data: { name: &apos;Corporate Accounts&apos;, amount: &apos;$1.2M&apos;, status: &apos;Active&apos; }, children: [
+      { id: &apos;g1-1&apos;, data: { name: &apos;Acme Holdings&apos;,  amount: &apos;$820K&apos;, status: &apos;Active&apos; } },
+      { id: &apos;g1-2&apos;, data: { name: &apos;Bright Capital&apos;, amount: &apos;$380K&apos;, status: &apos;Review&apos; } },
+    ]},
+  ];
+}'>
         <p-tree-table [columns]="columns" [nodes]="nodes" />
       </app-doc-example>
     </section>
@@ -36,7 +63,34 @@ nodes: TreeTableNode<AccountRow>[] = [
         title="Striped rows"
         description="Set striped to alternate row background color, same as p-table."
         sourceId="p-tree-table-striped"
-        code='<p-tree-table [columns]="columns" [nodes]="nodes" [striped]="true" />'>
+        code='<p-tree-table [columns]="columns" [nodes]="nodes" [striped]="true" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiTreeTableComponent, TableColumn, TreeTableNode } from &apos;@idealink-material/ui-core&apos;;
+
+interface AccountRow {
+  name: string; amount: string; status: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiTreeTableComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  columns: TableColumn<AccountRow>[] = [
+    { key: &apos;name&apos;,   header: &apos;Account&apos; },
+    { key: &apos;amount&apos;, header: &apos;Amount&apos;, align: &apos;right&apos; },
+    { key: &apos;status&apos;, header: &apos;Status&apos; },
+  ];
+
+  nodes: TreeTableNode<AccountRow>[] = [
+    { id: &apos;g1&apos;, data: { name: &apos;Corporate Accounts&apos;, amount: &apos;$1.2M&apos;, status: &apos;Active&apos; }, children: [
+      { id: &apos;g1-1&apos;, data: { name: &apos;Acme Holdings&apos;,  amount: &apos;$820K&apos;, status: &apos;Active&apos; } },
+      { id: &apos;g1-2&apos;, data: { name: &apos;Bright Capital&apos;, amount: &apos;$380K&apos;, status: &apos;Review&apos; } },
+    ]},
+  ];
+}'>
         <p-tree-table [columns]="columns" [nodes]="nodes" [striped]="true" />
       </app-doc-example>
     </section>
@@ -65,6 +119,50 @@ accountActions: TreeTableAction<AccountRow>[] = [
 
 onActionClick(event: TreeTableActionClickEvent<AccountRow>): void {
   this.lastActionEvent.set(event);
+}'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import {
+  CuiTreeTableComponent, TableColumn, TreeTableAction, TreeTableActionClickEvent, TreeTableNode,
+} from &apos;@idealink-material/ui-core&apos;;
+
+interface AccountRow {
+  name: string; amount: string; status: string;
+  [key: string]: unknown;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiTreeTableComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  columns: TableColumn<AccountRow>[] = [
+    { key: &apos;name&apos;,   header: &apos;Account&apos; },
+    { key: &apos;amount&apos;, header: &apos;Amount&apos;, align: &apos;right&apos; },
+    { key: &apos;status&apos;, header: &apos;Status&apos; },
+  ];
+
+  nodes: TreeTableNode<AccountRow>[] = [
+    { id: &apos;g1&apos;, data: { name: &apos;Corporate Accounts&apos;, amount: &apos;$1.2M&apos;, status: &apos;Active&apos; }, children: [
+      { id: &apos;g1-1&apos;, data: { name: &apos;Acme Holdings&apos;,  amount: &apos;$820K&apos;, status: &apos;Active&apos; } },
+      { id: &apos;g1-2&apos;, data: { name: &apos;Bright Capital&apos;, amount: &apos;$380K&apos;, status: &apos;Review&apos; } },
+    ]},
+  ];
+
+  accountActions: TreeTableAction<AccountRow>[] = [
+    { id: &apos;edit&apos;, icon: &apos;edit&apos;, label: &apos;Edit&apos; },
+    {
+      id: &apos;delete&apos;, icon: &apos;delete&apos;, label: &apos;Delete&apos;,
+      disabled: (row) => row.status === &apos;Active&apos;,
+    },
+    { id: &apos;view&apos;, label: &apos;View&apos;, display: &apos;text&apos; },
+  ];
+
+  lastActionEvent = signal<TreeTableActionClickEvent<AccountRow> | null>(null);
+
+  onActionClick(event: TreeTableActionClickEvent<AccountRow>): void {
+    this.lastActionEvent.set(event);
+  }
 }'>
         <p-tree-table
           [columns]="columns"
@@ -84,7 +182,8 @@ onActionClick(event: TreeTableActionClickEvent<AccountRow>): void {
         title="Custom row template"
         description="Override #header/#body to fully control markup — mirrors p-table's template API. rowNode is the flat row (node, depth, hasChildren); rowData is rowNode.node.data."
         sourceId="p-tree-table-custom"
-        [code]="customTemplateCode">
+        [code]="customTemplateCode"
+        [tsCode]="customTemplateTsCode">
         <p-tree-table #tt="pTreeTable" [nodes]="fileNodes" [tableStyle]="{ 'min-width': '50rem' }">
           <ng-template #header>
             <tr>

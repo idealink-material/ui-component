@@ -12,7 +12,18 @@
         title="Default"
         description="cancel (on by default) shows a leading icon to reset the rating to 0."
         sourceId="p-rating"
-        code='<p-rating [(value)]="basic" />'>
+        code='<p-rating [(value)]="basic" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiRatingComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiRatingComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basic = signal(0);
+}'>
         <p-rating [(value)]="basic" />
       </app-doc-example>
     </section>
@@ -22,7 +33,18 @@
         title="Star count"
         description="stars controls how many stars are rendered."
         sourceId="p-rating"
-        code='<p-rating [stars]="10" [(value)]="tenStars" />'>
+        code='<p-rating [stars]="10" [(value)]="tenStars" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiRatingComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiRatingComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  tenStars = signal(4);
+}'>
         <p-rating [stars]="10" [(value)]="tenStars" />
       </app-doc-example>
     </section>
@@ -34,7 +56,18 @@
         sourceId="p-rating"
         code='<p-rating [readonly]="true" [(value)]="readonlyVal" />
 <p-rating [disabled]="true" [(value)]="readonlyVal" />
-<p-rating [cancel]="false" [(value)]="readonlyVal" />'>
+<p-rating [cancel]="false" [(value)]="readonlyVal" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiRatingComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiRatingComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  readonlyVal = signal(3);
+}'>
         <p-rating [readonly]="true" [(value)]="readonlyVal" />
         <p-rating [disabled]="true" [(value)]="readonlyVal" />
         <p-rating [cancel]="false" [(value)]="readonlyVal" />

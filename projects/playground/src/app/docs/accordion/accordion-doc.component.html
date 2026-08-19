@@ -22,7 +22,16 @@
   <p-accordion-panel title="Notes" [disabled]="true">
     <p>No notes yet.</p>
   </p-accordion-panel>
-</p-accordion>'>
+</p-accordion>'
+        tsCode='import { Component } from "@angular/core";
+import { CuiAccordionComponent, CuiAccordionPanelComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiAccordionComponent, CuiAccordionPanelComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <p-accordion style="width: 100%; max-width: 420px;">
           <p-accordion-panel title="Case Details" [expanded]="true">
             <p style="font-size: 14px; color: var(--mat-sys-on-surface-variant);">Case AML-2401 — Suspicious wire transfer.</p>
@@ -45,7 +54,16 @@
         code='<p-accordion [multi]="true">
   <p-accordion-panel title="Section A" [expanded]="true">A</p-accordion-panel>
   <p-accordion-panel title="Section B" [expanded]="true">B</p-accordion-panel>
-</p-accordion>'>
+</p-accordion>'
+        tsCode='import { Component } from "@angular/core";
+import { CuiAccordionComponent, CuiAccordionPanelComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiAccordionComponent, CuiAccordionPanelComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <p-accordion [multi]="true" style="width: 100%; max-width: 420px;">
           <p-accordion-panel title="Section A" [expanded]="true">
             <p style="font-size: 14px; color: var(--mat-sys-on-surface-variant);">Content A</p>

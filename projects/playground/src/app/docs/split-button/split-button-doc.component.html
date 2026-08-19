@@ -12,7 +12,24 @@
         title="Basic usage"
         description="action fires when the main label is clicked; items populate the caret's dropdown."
         sourceId="p-split-button"
-        code='<p-split-button label="Save" [items]="saveOptions" (action)="lastAction.set(&apos;save&apos;)" />'>
+        code='<p-split-button label="Save" [items]="saveOptions" (action)="lastAction.set(&apos;save&apos;)" />
+<p>Last action: {{ lastAction() || &apos;—&apos; }}</p>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSplitButtonComponent, CuiMenuItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSplitButtonComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  lastAction = signal(&apos;&apos;);
+
+  saveOptions: CuiMenuItem[] = [
+    { id: &apos;save-draft&apos;, label: &apos;Save as Draft&apos;, icon: &apos;save&apos;,  command: () => this.lastAction.set(&apos;save-draft&apos;) },
+    { id: &apos;save-close&apos;, label: &apos;Save &amp; Close&apos;,  icon: &apos;check&apos;, command: () => this.lastAction.set(&apos;save-close&apos;) },
+  ];
+}'>
         <p-split-button label="Save" [items]="saveOptions" (action)="lastAction.set('save')" />
         <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
           Last action: {{ lastAction() || '—' }}
@@ -25,7 +42,21 @@
         title="Variant & color"
         description="variant and color pass straight through to the underlying p-button on both halves."
         sourceId="p-split-button"
-        code='<p-split-button label="Delete" variant="outlined" color="error" [items]="saveOptions" />'>
+        code='<p-split-button label="Delete" variant="outlined" color="error" [items]="saveOptions" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSplitButtonComponent, CuiMenuItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSplitButtonComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  saveOptions: CuiMenuItem[] = [
+    { id: &apos;save-draft&apos;, label: &apos;Save as Draft&apos;, icon: &apos;save&apos;,  command: () => console.log(&apos;save-draft&apos;) },
+    { id: &apos;save-close&apos;, label: &apos;Save &amp; Close&apos;,  icon: &apos;check&apos;, command: () => console.log(&apos;save-close&apos;) },
+  ];
+}'>
         <p-split-button label="Delete" variant="outlined" color="error" [items]="saveOptions" />
       </app-doc-example>
     </section>

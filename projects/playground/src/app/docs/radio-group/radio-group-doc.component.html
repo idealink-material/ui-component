@@ -12,7 +12,24 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-radio-group"
-        code='<p-radio-group [options]="riskOptions" [(value)]="riskValue" />'>
+        code='<p-radio-group [options]="riskOptions" [(value)]="riskValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiRadioGroupComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiRadioGroupComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;, label: &apos;Low&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium&apos; },
+    { value: &apos;high&apos;, label: &apos;High&apos; },
+  ];
+
+  riskValue = signal<string | null>(&apos;medium&apos;);
+}'>
         <p-radio-group [options]="riskOptions" [(value)]="riskValue" />
       </app-doc-example>
     </section>
@@ -22,7 +39,24 @@
         title="Orientation"
         description="orientation='horizontal' lays options out in a row."
         sourceId="p-radio-group"
-        code='<p-radio-group [options]="riskOptions" orientation="horizontal" [(value)]="horizontalValue" />'>
+        code='<p-radio-group [options]="riskOptions" orientation="horizontal" [(value)]="horizontalValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiRadioGroupComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiRadioGroupComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;, label: &apos;Low&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium&apos; },
+    { value: &apos;high&apos;, label: &apos;High&apos; },
+  ];
+
+  horizontalValue = signal<string | null>(&apos;low&apos;);
+}'>
         <p-radio-group [options]="riskOptions" orientation="horizontal" [(value)]="horizontalValue" />
       </app-doc-example>
     </section>
@@ -31,7 +65,24 @@
       <app-doc-example
         title="States"
         sourceId="p-radio-group"
-        code='<p-radio-group [options]="riskOptions" [disabled]="true" [(value)]="riskValue" />'>
+        code='<p-radio-group [options]="riskOptions" [disabled]="true" [(value)]="riskValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiRadioGroupComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiRadioGroupComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;, label: &apos;Low&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium&apos; },
+    { value: &apos;high&apos;, label: &apos;High&apos; },
+  ];
+
+  riskValue = signal<string | null>(&apos;medium&apos;);
+}'>
         <p-radio-group [options]="riskOptions" [disabled]="true" [(value)]="riskValue" />
       </app-doc-example>
     </section>
@@ -45,7 +96,30 @@
   [options]="productTypeOptions"
   optionLabel="dataName"
   optionValue="id"
-  [(value)]="productTypeValue" />'>
+  [(value)]="productTypeValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiRadioGroupComponent } from &apos;@idealink-material/ui-core&apos;;
+
+interface LookupOption {
+  [key: string]: unknown;
+  id: number;
+  dataName: string;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiRadioGroupComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  productTypeOptions: LookupOption[] = [
+    { id: 1, dataName: &apos;Loan&apos; },
+    { id: 2, dataName: &apos;Deposit&apos; },
+    { id: 3, dataName: &apos;Savings&apos; },
+  ];
+
+  productTypeValue = signal<number | null>(1);
+}'>
         <p-radio-group
           [options]="productTypeOptions"
           optionLabel="dataName"
@@ -63,7 +137,32 @@
   [options]="productTypeOptions"
   optionLabel="dataName"
   dataKey="id"
-  [(value)]="productTypeObjectValue" />'>
+  [(value)]="productTypeObjectValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiRadioGroupComponent } from &apos;@idealink-material/ui-core&apos;;
+
+interface LookupOption {
+  [key: string]: unknown;
+  id: number;
+  dataName: string;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiRadioGroupComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  productTypeOptions: LookupOption[] = [
+    { id: 1, dataName: &apos;Loan&apos; },
+    { id: 2, dataName: &apos;Deposit&apos; },
+    { id: 3, dataName: &apos;Savings&apos; },
+  ];
+
+  // No optionValue set, so the whole option object is bound as value;
+  // dataKey re-selects it by id even if a re-fetched copy has a new reference.
+  productTypeObjectValue = signal<LookupOption | null>(this.productTypeOptions[1]);
+}'>
         <p-radio-group
           [options]="productTypeOptions"
           optionLabel="dataName"

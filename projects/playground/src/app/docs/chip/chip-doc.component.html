@@ -14,7 +14,16 @@
         sourceId="p-chip"
         code='<p-chip variant="filled">Filled</p-chip>
 <p-chip variant="outlined">Outlined</p-chip>
-<p-chip variant="soft">Soft</p-chip>'>
+<p-chip variant="soft">Soft</p-chip>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiChipComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chip-variants-example&apos;,
+  imports: [CuiChipComponent],
+  templateUrl: &apos;./chip-variants-example.component.html&apos;,
+})
+export class ChipVariantsExampleComponent {}'>
         <p-chip variant="filled">Filled</p-chip>
         <p-chip variant="outlined">Outlined</p-chip>
         <p-chip variant="soft">Soft</p-chip>
@@ -31,7 +40,16 @@
 <p-chip color="error">Error</p-chip>
 <p-chip color="success">Success</p-chip>
 <p-chip color="warning">Warning</p-chip>
-<p-chip color="neutral">Neutral</p-chip>'>
+<p-chip color="neutral">Neutral</p-chip>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiChipComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chip-colors-example&apos;,
+  imports: [CuiChipComponent],
+  templateUrl: &apos;./chip-colors-example.component.html&apos;,
+})
+export class ChipColorsExampleComponent {}'>
         <p-chip color="primary">Primary</p-chip>
         <p-chip color="secondary">Secondary</p-chip>
         <p-chip color="tertiary">Tertiary</p-chip>
@@ -54,7 +72,19 @@
 <p-chip [selectable]="true" [selected]="selected2()"
   (selectedChange)="selected2.set($event)">
   Under Review
-</p-chip>'>
+</p-chip>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiChipComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chip-selectable-example&apos;,
+  imports: [CuiChipComponent],
+  templateUrl: &apos;./chip-selectable-example.component.html&apos;,
+})
+export class ChipSelectableExampleComponent {
+  readonly selected1 = signal(true);
+  readonly selected2 = signal(false);
+}'>
         <p-chip [selectable]="true" [selected]="selected1()"
           (selectedChange)="selected1.set($event)">
           High Risk
@@ -75,6 +105,21 @@
   <p-chip [dismissible]="true" (dismissed)="removeChip(chip)">
     chip
   </p-chip>
+}'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiChipComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chip-dismissible-example&apos;,
+  imports: [CuiChipComponent],
+  templateUrl: &apos;./chip-dismissible-example.component.html&apos;,
+})
+export class ChipDismissibleExampleComponent {
+  readonly chips = signal([&apos;AML&apos;, &apos;KYC&apos;, &apos;High Risk&apos;]);
+
+  removeChip(chip: string): void {
+    this.chips.update((chips) => chips.filter((c) => c !== chip));
+  }
 }'>
         @for (chip of dismissibleChips(); track chip) {
           <p-chip [dismissible]="true" (dismissed)="removeChip(chip)">
@@ -95,7 +140,16 @@
         sourceId="p-chip"
         code='<p-chip icon="shield" color="primary">AML</p-chip>
 <p-chip icon="warning" color="error" variant="soft">High Risk</p-chip>
-<p-chip icon="check" color="success" variant="soft">Verified</p-chip>'>
+<p-chip icon="check" color="success" variant="soft">Verified</p-chip>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiChipComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chip-icons-example&apos;,
+  imports: [CuiChipComponent],
+  templateUrl: &apos;./chip-icons-example.component.html&apos;,
+})
+export class ChipIconsExampleComponent {}'>
         <p-chip icon="shield" color="primary">AML</p-chip>
         <p-chip icon="warning" color="error" variant="soft">High Risk</p-chip>
         <p-chip icon="check" color="success" variant="soft">Verified</p-chip>
@@ -112,7 +166,16 @@
     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor" />
   </svg>
   AML
-</p-chip>'>
+</p-chip>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiChipComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chip-custom-icons-example&apos;,
+  imports: [CuiChipComponent],
+  templateUrl: &apos;./chip-custom-icons-example.component.html&apos;,
+})
+export class ChipCustomIconsExampleComponent {}'>
         <p-chip color="primary">
           <svg icon width="14" height="14" viewBox="0 0 24 24" fill="none" style="margin-right: 4px;">
             <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor" />

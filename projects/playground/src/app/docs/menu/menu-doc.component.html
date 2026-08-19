@@ -13,7 +13,26 @@
         description="Bind a trigger's [matMenuTriggerFor] to the menu's exposed menu() view child."
         sourceId="p-menu"
         code='<p-button variant="outlined" [matMenuTriggerFor]="menu.menu()">Actions</p-button>
-<p-menu #menu [items]="caseMenuItems" />'>
+<p-menu #menu [items]="caseMenuItems" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiButtonComponent, CuiMenuComponent, CuiMenuItem } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiButtonComponent, CuiMenuComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  lastAction = signal("");
+
+  caseMenuItems: CuiMenuItem[] = [
+    { id: "view",     label: "View Details", icon: "visibility", command: () => this.lastAction.set("view") },
+    { id: "assign",   label: "Reassign",     icon: "person_add", command: () => this.lastAction.set("assign") },
+    { id: "sep1",     label: "", separator: true },
+    { id: "escalate", label: "Escalate",     icon: "warning",    command: () => this.lastAction.set("escalate") },
+    { id: "close",    label: "Close Case",   icon: "check",      command: () => this.lastAction.set("close") },
+  ];
+}'>
         <p-button variant="outlined" [matMenuTriggerFor]="menu.menu()">Actions</p-button>
         <p-menu #menu [items]="caseMenuItems" />
         <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
@@ -28,7 +47,27 @@
         description="An item with children renders as a submenu trigger; separator: true renders a divider."
         sourceId="p-menu"
         code='<p-button variant="outlined" [matMenuTriggerFor]="fileMenu.menu()">File</p-button>
-<p-menu #fileMenu [items]="fileMenuItems" />'>
+<p-menu #fileMenu [items]="fileMenuItems" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiButtonComponent, CuiMenuComponent, CuiMenuItem } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiButtonComponent, CuiMenuComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  lastAction = signal("");
+
+  fileMenuItems: CuiMenuItem[] = [
+    { id: "file", label: "File", children: [
+      { id: "new",    label: "New Case", icon: "add",      command: () => this.lastAction.set("new") },
+      { id: "export", label: "Export",   icon: "download", command: () => this.lastAction.set("export") },
+    ]},
+    { id: "sep", label: "", separator: true },
+    { id: "help", label: "Help", icon: "help", command: () => this.lastAction.set("help") },
+  ];
+}'>
         <p-button variant="outlined" [matMenuTriggerFor]="fileMenu.menu()">File</p-button>
         <p-menu #fileMenu [items]="fileMenuItems" />
       </app-doc-example>

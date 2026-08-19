@@ -15,7 +15,25 @@
   style="border:1px dashed var(--mat-sys-outline-variant); border-radius:8px; padding:24px; text-align:center;">
   Right-click me
 </div>
-<p-menu #menu [items]="rowMenuItems" />'>
+<p-menu #menu [items]="rowMenuItems" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiContextMenuDirective, CuiMenuComponent, CuiMenuItem } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-context-menu-example",
+  imports: [CuiContextMenuDirective, CuiMenuComponent],
+  templateUrl: "./context-menu-example.component.html",
+})
+export class ContextMenuExampleComponent {
+  lastAction = signal("");
+
+  rowMenuItems: CuiMenuItem[] = [
+    { id: "view", label: "View Details", icon: "visibility", command: () => this.lastAction.set("view") },
+    { id: "assign", label: "Reassign", icon: "person_add", command: () => this.lastAction.set("assign") },
+    { id: "sep", label: "", separator: true },
+    { id: "delete", label: "Delete", icon: "delete", command: () => this.lastAction.set("delete") },
+  ];
+}'>
         <div [pContextMenu]="menu.menu()"
           style="border:1px dashed var(--mat-sys-outline-variant); border-radius:8px; padding:24px; text-align:center; width: 100%; color: var(--mat-sys-on-surface-variant);">
           Right-click me

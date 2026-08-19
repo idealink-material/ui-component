@@ -13,7 +13,25 @@
         title="Basic usage"
         description="Any step is clickable by default; completed marks a step done and optional annotates its label."
         sourceId="p-stepper"
-        code='<p-stepper [steps]="wizardSteps" [activeIndex]="activeStep()" (stepChange)="activeStep.set($event)" />'>
+        code='<p-stepper [steps]="wizardSteps" [activeIndex]="activeStep()" (stepChange)="activeStep.set($event)" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiStepperComponent, StepItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiStepperComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  wizardSteps: StepItem[] = [
+    { id: &apos;details&apos;,  label: &apos;Case Details&apos;, completed: true },
+    { id: &apos;evidence&apos;, label: &apos;Evidence&apos;,      completed: true },
+    { id: &apos;review&apos;,   label: &apos;Review&apos;,        optional: true },
+    { id: &apos;submit&apos;,   label: &apos;Submit&apos; },
+  ];
+
+  activeStep = signal(2);
+}'>
         <p-stepper [steps]="wizardSteps" [activeIndex]="activeStep()" (stepChange)="activeStep.set($event)" />
       </app-doc-example>
     </section>
@@ -23,7 +41,25 @@
         title="Linear"
         description="linear restricts navigation to steps that are next in line or already completed."
         sourceId="p-stepper"
-        code='<p-stepper [steps]="wizardSteps" [activeIndex]="linearStep()" [linear]="true" (stepChange)="linearStep.set($event)" />'>
+        code='<p-stepper [steps]="wizardSteps" [activeIndex]="linearStep()" [linear]="true" (stepChange)="linearStep.set($event)" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiStepperComponent, StepItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiStepperComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  wizardSteps: StepItem[] = [
+    { id: &apos;details&apos;,  label: &apos;Case Details&apos;, completed: true },
+    { id: &apos;evidence&apos;, label: &apos;Evidence&apos;,      completed: true },
+    { id: &apos;review&apos;,   label: &apos;Review&apos;,        optional: true },
+    { id: &apos;submit&apos;,   label: &apos;Submit&apos; },
+  ];
+
+  linearStep = signal(0);
+}'>
         <p-stepper [steps]="wizardSteps" [activeIndex]="linearStep()" [linear]="true" (stepChange)="linearStep.set($event)" />
       </app-doc-example>
     </section>
@@ -32,7 +68,25 @@
       <app-doc-example
         title="Vertical"
         sourceId="p-stepper"
-        code='<p-stepper [steps]="wizardSteps" [activeIndex]="activeStep()" orientation="vertical" (stepChange)="activeStep.set($event)" />'>
+        code='<p-stepper [steps]="wizardSteps" [activeIndex]="activeStep()" orientation="vertical" (stepChange)="activeStep.set($event)" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiStepperComponent, StepItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiStepperComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  wizardSteps: StepItem[] = [
+    { id: &apos;details&apos;,  label: &apos;Case Details&apos;, completed: true },
+    { id: &apos;evidence&apos;, label: &apos;Evidence&apos;,      completed: true },
+    { id: &apos;review&apos;,   label: &apos;Review&apos;,        optional: true },
+    { id: &apos;submit&apos;,   label: &apos;Submit&apos; },
+  ];
+
+  activeStep = signal(2);
+}'>
         <p-stepper [steps]="wizardSteps" [activeIndex]="activeStep()" orientation="vertical" (stepChange)="activeStep.set($event)" />
       </app-doc-example>
     </section>

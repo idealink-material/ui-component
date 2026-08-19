@@ -16,7 +16,16 @@
 <p-button variant="outlined">Outlined</p-button>
 <p-button variant="text">Text</p-button>
 <p-button variant="elevated">Elevated</p-button>
-<p-button variant="tonal">Tonal</p-button>'>
+<p-button variant="tonal">Tonal</p-button>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-button-variants-example&apos;,
+  imports: [CuiButtonComponent],
+  templateUrl: &apos;./button-variants-example.component.html&apos;,
+})
+export class ButtonVariantsExampleComponent {}'>
         <p-button variant="filled">Filled</p-button>
         <p-button variant="outlined">Outlined</p-button>
         <p-button variant="text">Text</p-button>
@@ -31,7 +40,16 @@
         sourceId="p-button"
         code='<p-button size="sm">Small</p-button>
 <p-button size="md">Medium</p-button>
-<p-button size="lg">Large</p-button>'>
+<p-button size="lg">Large</p-button>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-button-sizes-example&apos;,
+  imports: [CuiButtonComponent],
+  templateUrl: &apos;./button-sizes-example.component.html&apos;,
+})
+export class ButtonSizesExampleComponent {}'>
         <p-button size="sm">Small</p-button>
         <p-button size="md">Medium</p-button>
         <p-button size="lg">Large</p-button>
@@ -46,7 +64,16 @@
 <p-button color="secondary">Secondary</p-button>
 <p-button color="tertiary">Tertiary</p-button>
 <p-button color="error">Error</p-button>
-<p-button color="neutral">Neutral</p-button>'>
+<p-button color="neutral">Neutral</p-button>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-button-colors-example&apos;,
+  imports: [CuiButtonComponent],
+  templateUrl: &apos;./button-colors-example.component.html&apos;,
+})
+export class ButtonColorsExampleComponent {}'>
         <p-button color="primary">Primary</p-button>
         <p-button color="secondary">Secondary</p-button>
         <p-button color="tertiary">Tertiary</p-button>
@@ -63,7 +90,23 @@
         code='<p-button [disabled]="true">Disabled</p-button>
 <p-button [loading]="loadingDemo()" (onClick)="triggerLoadingDemo()">
   Click to load
-</p-button>'>
+</p-button>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-button-states-example&apos;,
+  imports: [CuiButtonComponent],
+  templateUrl: &apos;./button-states-example.component.html&apos;,
+})
+export class ButtonStatesExampleComponent {
+  loadingDemo = signal(false);
+
+  triggerLoadingDemo(): void {
+    this.loadingDemo.set(true);
+    setTimeout(() => this.loadingDemo.set(false), 2000);
+  }
+}'>
         <p-button [disabled]="true">Disabled</p-button>
         <p-button [loading]="loadingDemo()" (onClick)="triggerLoadingDemo()">
           Click to load
@@ -77,7 +120,16 @@
         sourceId="p-button"
         code='<p-button icon="save" iconPos="left">Save</p-button>
 <p-button icon="arrow_forward" iconPos="right">Next</p-button>
-<p-button icon="delete" variant="outlined" color="error">Delete</p-button>'>
+<p-button icon="delete" variant="outlined" color="error">Delete</p-button>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-button-icons-example&apos;,
+  imports: [CuiButtonComponent],
+  templateUrl: &apos;./button-icons-example.component.html&apos;,
+})
+export class ButtonIconsExampleComponent {}'>
         <p-button icon="save" iconPos="left">Save</p-button>
         <p-button icon="arrow_forward" iconPos="right">Next</p-button>
         <p-button icon="delete" variant="outlined" color="error">Delete</p-button>
@@ -97,7 +149,24 @@
     <cui-icon name="check" size="sm" />
     Search
   }
-</p-button>'>
+</p-button>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+import { CuiIconComponent } from &apos;@idealink-material/ui-icons&apos;;
+
+@Component({
+  selector: &apos;app-button-custom-content-example&apos;,
+  imports: [CuiButtonComponent, CuiIconComponent],
+  templateUrl: &apos;./button-custom-content-example.component.html&apos;,
+})
+export class ButtonCustomContentExampleComponent {
+  customLoading = signal(false);
+
+  triggerCustomLoading(): void {
+    this.customLoading.set(true);
+    setTimeout(() => this.customLoading.set(false), 2000);
+  }
+}'>
         <p-button [disabled]="customLoading()" (onClick)="triggerCustomLoading()">
           @if (customLoading()) {
             <cui-icon name="autorenew" size="sm" class="p-spin" />
@@ -118,7 +187,18 @@
     <path d="M10.7383 15.5302L14.2583 12.0002L10.7383 8.47021"
       stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
-</p-button>'>
+</p-button>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-button-inline-svg-example&apos;,
+  imports: [CuiButtonComponent],
+  templateUrl: &apos;./button-inline-svg-example.component.html&apos;,
+})
+export class ButtonInlineSvgExampleComponent {
+  expanded = signal(false);
+}'>
         <p-button variant="text" color="neutral" (onClick)="expanded.set(!expanded())">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" [style.transform]="expanded() ? 'rotate(90deg)' : 'none'" style="transition: transform 150ms ease;">
             <path d="M10.7383 15.5302L14.2583 12.0002L10.7383 8.47021"

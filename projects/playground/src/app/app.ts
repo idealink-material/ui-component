@@ -4,7 +4,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { FRAMEWORK_VERSION } from '@idealink-material/ui-utils';
 import { ThemeService } from '@idealink-material/ui-theme';
 import { CuiIconComponent, IconRegistryService } from '@idealink-material/ui-icons';
-import { MenuService, MenuItem, PermissionService } from '@idealink-material/ui-utils';
+import { MenuService, MenuItem } from '@idealink-material/ui-utils';
 
 import {
   CuiBadgeComponent, CuiAvatarComponent, CuiTooltipDirective,
@@ -14,20 +14,17 @@ import {
 const CUSTOM_ICONS = [
   { name: 'shield',       svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l6 2.67V11c0 3.87-2.64 7.5-6 8.93C8.64 18.5 6 14.87 6 11V7.67L12 5z"/></svg>` },
   { name: 'aml-flag',    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z"/></svg>` },
-  { name: 'company-logo',svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="currentColor"><rect x="4" y="4" width="14" height="14" rx="2"/><rect x="22" y="4" width="14" height="14" rx="2" opacity="0.6"/><rect x="4" y="22" width="14" height="14" rx="2" opacity="0.6"/><rect x="22" y="22" width="14" height="14" rx="2" opacity="0.3"/></svg>` },
 ];
 
 const APP_MENU: MenuItem[] = [
   { id: 'dashboard',   label: 'Dashboard',   icon: 'dashboard',  routerLink: '/' },
-  { id: 'monitoring',  label: 'Monitoring',  icon: 'radar',      expanded: true,  children: [
-    { id: 'alerts',       label: 'Alerts',       icon: 'aml-flag',    routerLink: '/alerts',       badge: '12', badgeColor: 'error' },
-    { id: 'transactions', label: 'Transactions', icon: 'swap_horiz',  routerLink: '/transactions' },
-  ]},
-  { id: 'reports',  label: 'Reports',  icon: 'bar_chart',  routerLink: '/reports',  dividerBefore: true },
-  { id: 'users',    label: 'Users',    icon: 'people',     routerLink: '/users',    permission: 'users:read' },
-  { id: 'settings', label: 'Settings', icon: 'settings',   routerLink: '/settings', dividerBefore: true },
 
-  { id: 'docs-atoms', label: 'Docs: Atoms', icon: 'category', dividerBefore: true, children: [
+  { id: 'getting-started', label: 'Getting Started', icon: 'rocket_launch', children: [
+    { id: 'gs-overview',     label: 'Overview',     icon: 'info',        routerLink: '/getting-started/overview' },
+    { id: 'gs-installation', label: 'Installation', icon: 'download',    routerLink: '/getting-started/installation' },
+  ]},
+
+  { id: 'docs-atoms', label: 'Docs: Atoms', icon: 'category', children: [
     { id: 'docs-button',   label: 'Button',   icon: 'smart_button', routerLink: '/docs/button' },
     { id: 'docs-badge',    label: 'Badge',    icon: 'badge',        routerLink: '/docs/badge' },
     { id: 'docs-avatar',   label: 'Avatar',   icon: 'person',       routerLink: '/docs/avatar' },
@@ -113,13 +110,10 @@ export class App implements OnInit {
   readonly frameworkVersion   = inject(FRAMEWORK_VERSION);
   readonly themeService       = inject(ThemeService);
   readonly menuService        = inject(MenuService);
-  private readonly permissionService = inject(PermissionService);
-  private readonly iconRegistry      = inject(IconRegistryService);
+  private readonly iconRegistry = inject(IconRegistryService);
 
   ngOnInit(): void {
     this.iconRegistry.registerAll(CUSTOM_ICONS);
     this.menuService.setItems(APP_MENU);
-    this.menuService.activateByUrl('/alerts');
-    this.permissionService.setPermissions(['users:read']);
   }
 }

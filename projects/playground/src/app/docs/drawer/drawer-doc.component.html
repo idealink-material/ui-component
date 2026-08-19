@@ -19,7 +19,18 @@
   <p-drawer-footer>
     <p-button variant="filled" (onClick)="rightOpen.set(false)">Done</p-button>
   </p-drawer-footer>
-</p-drawer>'>
+</p-drawer>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDrawerComponent, PDrawerFooterComponent, CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-drawer-basic-example&apos;,
+  imports: [CuiDrawerComponent, PDrawerFooterComponent, CuiButtonComponent],
+  templateUrl: &apos;./drawer-basic-example.component.html&apos;,
+})
+export class DrawerBasicExampleComponent {
+  rightOpen = signal(false);
+}'>
         <p-button variant="filled" (onClick)="rightOpen.set(true)">Open Drawer</p-button>
         <p-drawer [open]="rightOpen()" title="Case Details" (closed)="rightOpen.set(false)">
           <p>Case AML-2401 — Suspicious wire transfer</p>
@@ -35,9 +46,22 @@
         title="Position & size"
         description="position picks the edge it slides from; size maps to a fixed width (left/right) or height (top/bottom)."
         sourceId="p-drawer"
-        code='<p-drawer [open]="bottomOpen()" title="Filters" position="bottom" size="sm" (closed)="bottomOpen.set(false)">
+        code='<p-button variant="outlined" (onClick)="bottomOpen.set(true)">Open Bottom Sheet</p-button>
+
+<p-drawer [open]="bottomOpen()" title="Filters" position="bottom" size="sm" (closed)="bottomOpen.set(false)">
   <p>Filter controls go here.</p>
-</p-drawer>'>
+</p-drawer>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDrawerComponent, CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-drawer-position-example&apos;,
+  imports: [CuiDrawerComponent, CuiButtonComponent],
+  templateUrl: &apos;./drawer-position-example.component.html&apos;,
+})
+export class DrawerPositionExampleComponent {
+  bottomOpen = signal(false);
+}'>
         <p-button variant="outlined" (onClick)="bottomOpen.set(true)">Open Bottom Sheet</p-button>
         <p-drawer [open]="bottomOpen()" title="Filters" position="bottom" size="sm" (closed)="bottomOpen.set(false)">
           <p>Filter controls go here.</p>

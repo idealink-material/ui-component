@@ -20,6 +20,23 @@
   @case (0) { <p>Overview content…</p> }
   @case (1) { <p>Forms content…</p> }
   @case (2) { <p>Data content…</p> }
+}'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiTabsComponent, TabItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiTabsComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basicTabs: TabItem[] = [
+    { id: &apos;overview&apos;, label: &apos;Overview&apos; },
+    { id: &apos;forms&apos;,    label: &apos;Forms&apos; },
+    { id: &apos;data&apos;,     label: &apos;Data&apos; },
+  ];
+
+  activeTab = signal(0);
 }'>
         <div style="width: 100%;">
           <p-tabs [tabs]="basicTabs" [activeIndex]="activeTab()" (tabChange)="activeTab.set($event)" />
@@ -45,7 +62,22 @@ iconTabs = [
   { id: "alerts", label: "Alerts", icon: "aml_flag", badge: 12 },
   { id: "transactions", label: "Transactions", icon: "swap_horiz" },
   { id: "settings", label: "Settings", icon: "settings", disabled: true },
-];'>
+];'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiTabsComponent, TabItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiTabsComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  iconTabs: TabItem[] = [
+    { id: &apos;alerts&apos;,       label: &apos;Alerts&apos;,       icon: &apos;aml_flag&apos;,  badge: 12 },
+    { id: &apos;transactions&apos;, label: &apos;Transactions&apos;, icon: &apos;swap_horiz&apos; },
+    { id: &apos;settings&apos;,     label: &apos;Settings&apos;,     icon: &apos;settings&apos;, disabled: true },
+  ];
+}'>
         <p-tabs [tabs]="iconTabs" />
       </app-doc-example>
     </section>
@@ -55,7 +87,22 @@ iconTabs = [
         title="Stretch & secondary"
         description="stretchTabs fills the available width; variant='secondary' swaps to the lower-emphasis style."
         sourceId="p-tabs"
-        code='<p-tabs [tabs]="basicTabs" [stretchTabs]="true" variant="secondary" />'>
+        code='<p-tabs [tabs]="basicTabs" [stretchTabs]="true" variant="secondary" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiTabsComponent, TabItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiTabsComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basicTabs: TabItem[] = [
+    { id: &apos;overview&apos;, label: &apos;Overview&apos; },
+    { id: &apos;forms&apos;,    label: &apos;Forms&apos; },
+    { id: &apos;data&apos;,     label: &apos;Data&apos; },
+  ];
+}'>
         <p-tabs [tabs]="basicTabs" [stretchTabs]="true" variant="secondary" />
       </app-doc-example>
     </section>

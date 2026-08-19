@@ -16,7 +16,23 @@
     Trigger 2s Overlay
   </p-button>
   <p-loading-overlay [show]="cardLoading()" label="Loading case data…" />
-</div>'>
+</div>'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiButtonComponent, CuiLoadingOverlayComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiButtonComponent, CuiLoadingOverlayComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  cardLoading = signal(false);
+
+  triggerManual(): void {
+    this.cardLoading.set(true);
+    setTimeout(() => this.cardLoading.set(false), 2000);
+  }
+}'>
         <div style="position: relative; min-height: 140px;">
           <p-button size="sm" variant="tonal" (onClick)="triggerManual()">
             Trigger 2s Overlay
@@ -36,7 +52,24 @@
     Trigger 2s Scoped Load
   </p-button>
   <p-loading-overlay scope="doc-example-table" label="Fetching rows…" />
-</div>'>
+</div>'
+        tsCode='import { Component, inject } from "@angular/core";
+import { CuiButtonComponent, CuiLoadingOverlayComponent } from "@idealink-material/ui-core";
+import { LoadingService } from "@idealink-material/ui-utils";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiButtonComponent, CuiLoadingOverlayComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  private readonly loadingService = inject(LoadingService);
+
+  triggerScope(): void {
+    this.loadingService.start("doc-example-table");
+    setTimeout(() => this.loadingService.stop("doc-example-table"), 2000);
+  }
+}'>
         <div style="position: relative; min-height: 140px;">
           <p-button size="sm" variant="tonal" (onClick)="triggerScope()">
             Trigger 2s Scoped Load
@@ -59,7 +92,16 @@
 </div>
 <div style="position: relative; min-height: 90px;">
   <p-loading-overlay [show]="true" size="lg" label="Large" />
-</div>'>
+</div>'
+        tsCode='import { Component } from "@angular/core";
+import { CuiLoadingOverlayComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiLoadingOverlayComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <div style="display: flex; gap: 16px;">
           <div style="position: relative; min-height: 90px; flex: 1;">
             <p-loading-overlay [show]="true" size="sm" label="Small" />

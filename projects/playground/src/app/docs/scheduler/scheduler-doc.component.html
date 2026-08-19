@@ -13,13 +13,41 @@
         title="Basic day view"
         description="Events are positioned and sized by their start/end time. Only events on the bound date are shown."
         sourceId="p-scheduler-basic"
-        code='<p-scheduler [events]="basicEvents()" (eventClick)="onEventClick($event)" />
+        code='<p-scheduler [events]="basicEvents()" (eventClick)="onEventClick($event)" (slotClick)="onSlotClick($event)" />
+<p>Last event click: {{ lastClickedEvent() | json }}</p>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { JsonPipe } from &apos;@angular/common&apos;;
+import { CuiSchedulerComponent, SchedulerEvent } from &apos;@idealink-material/ui-core&apos;;
 
-basicEvents = signal<SchedulerEvent[]>([
-  { id: "1", title: "Chin Panhanirarith", start: at(9, 30),  end: at(10, 0),  color: "blue" },
-  { id: "2", title: "Chin Panhanirarith", start: at(14, 0),  end: at(14, 30), color: "blue" },
-  { id: "3", title: "2 Requests",         start: at(14, 30), end: at(15, 0),  color: "red" },
-]);'>
+function at(hour: number, minute = 0): Date {
+  const d = new Date();
+  d.setHours(hour, minute, 0, 0);
+  return d;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSchedulerComponent, JsonPipe],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basicEvents = signal<SchedulerEvent[]>([
+    { id: &apos;1&apos;, title: &apos;Chin Panhanirarith&apos;, start: at(9, 30), end: at(10, 0), color: &apos;blue&apos; },
+    { id: &apos;2&apos;, title: &apos;Chin Panhanirarith&apos;, start: at(14, 0), end: at(14, 30), color: &apos;blue&apos; },
+    { id: &apos;3&apos;, title: &apos;2 Requests&apos;, start: at(14, 30), end: at(15, 0), color: &apos;red&apos; },
+  ]);
+
+  lastClickedEvent = signal<SchedulerEvent | null>(null);
+  lastSlot = signal<{ start: Date; end: Date } | null>(null);
+
+  onEventClick(ev: SchedulerEvent): void {
+    this.lastClickedEvent.set(ev);
+  }
+
+  onSlotClick(slot: { start: Date; end: Date }): void {
+    this.lastSlot.set(slot);
+  }
+}'>
         <p-scheduler [events]="basicEvents()" (eventClick)="onEventClick($event)" (slotClick)="onSlotClick($event)" />
         <p style="color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
           Last event click: {{ lastClickedEvent() | json }}
@@ -32,7 +60,36 @@ basicEvents = signal<SchedulerEvent[]>([
         title="Day / week / month / schedule"
         description="The header switcher toggles view — Day keeps the hourly time grid; Week and Month render lightweight per-day event chips; Schedule lists upcoming events grouped by day. Prev/Today/Next step by day, week, or month to match the active view. Clicking a day in Week/Month drills into that day's Day view."
         sourceId="p-scheduler-views"
-        code='<p-scheduler [events]="viewsEvents" [(date)]="viewsDate" [(view)]="viewsMode" />'>
+        code='<p-scheduler [events]="viewsEvents" [(date)]="viewsDate" [(view)]="viewsMode" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSchedulerComponent, SchedulerEvent, SchedulerView } from &apos;@idealink-material/ui-core&apos;;
+
+function onDay(dayOffset: number, hour: number, minute = 0): Date {
+  const d = new Date();
+  d.setDate(d.getDate() + dayOffset);
+  d.setHours(hour, minute, 0, 0);
+  return d;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSchedulerComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  viewsDate = signal(new Date());
+  viewsMode = signal<SchedulerView>(&apos;week&apos;);
+
+  viewsEvents: SchedulerEvent[] = [
+    { id: &apos;v1&apos;, title: &apos;Standup&apos;, start: onDay(-1, 9, 0), end: onDay(-1, 9, 15), color: &apos;blue&apos; },
+    { id: &apos;v2&apos;, title: &apos;Client Call&apos;, start: onDay(0, 11, 0), end: onDay(0, 11, 30), color: &apos;purple&apos; },
+    { id: &apos;v3&apos;, title: &apos;Chin Panhanirarith&apos;, start: onDay(0, 14, 0), end: onDay(0, 14, 30), color: &apos;blue&apos; },
+    { id: &apos;v4&apos;, title: &apos;2 Requests&apos;, start: onDay(0, 14, 30), end: onDay(0, 15, 0), color: &apos;red&apos; },
+    { id: &apos;v5&apos;, title: &apos;Design Review&apos;, start: onDay(2, 10, 0), end: onDay(2, 11, 0), color: &apos;green&apos; },
+    { id: &apos;v6&apos;, title: &apos;Follow-up&apos;, start: onDay(3, 13, 0), end: onDay(3, 13, 30), color: &apos;orange&apos; },
+    { id: &apos;v7&apos;, title: &apos;Team Sync&apos;, start: onDay(5, 9, 30), end: onDay(5, 10, 0), color: &apos;neutral&apos; },
+  ];
+}'>
         <p-scheduler [events]="viewsEvents" [(date)]="viewsDate" [(view)]="viewsMode" />
       </app-doc-example>
     </section>
@@ -42,13 +99,37 @@ basicEvents = signal<SchedulerEvent[]>([
         title="Add event (quick create)"
         description="Click any empty slot to open the built-in quick-create popover — title, editable start/end time fields (pre-filled from the clicked slot), and description, Save/Cancel — anchored to the clicked slot, similar to Google Calendar. Saving emits eventCreate with the new event's draft data; the consumer owns persisting it (here, appended to the events array)."
         sourceId="p-scheduler-quick-create"
-        code='<p-scheduler [events]="basicEvents()" (eventCreate)="onEventCreate($event)" />
+        code='<p-scheduler [events]="basicEvents()" (eventCreate)="onEventCreate($event)" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSchedulerComponent, SchedulerEvent, SchedulerEventDraft } from &apos;@idealink-material/ui-core&apos;;
 
-onEventCreate(draft: SchedulerEventDraft): void {
-  this.basicEvents.update(events => [
-    ...events,
-    { id: crypto.randomUUID(), title: draft.title, description: draft.description, start: draft.start, end: draft.end, color: "blue" },
+function at(hour: number, minute = 0): Date {
+  const d = new Date();
+  d.setHours(hour, minute, 0, 0);
+  return d;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSchedulerComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basicEvents = signal<SchedulerEvent[]>([
+    { id: &apos;1&apos;, title: &apos;Chin Panhanirarith&apos;, start: at(9, 30), end: at(10, 0), color: &apos;blue&apos; },
+    { id: &apos;2&apos;, title: &apos;Chin Panhanirarith&apos;, start: at(14, 0), end: at(14, 30), color: &apos;blue&apos; },
+    { id: &apos;3&apos;, title: &apos;2 Requests&apos;, start: at(14, 30), end: at(15, 0), color: &apos;red&apos; },
   ]);
+
+  onEventCreate(draft: SchedulerEventDraft): void {
+    this.basicEvents.update((events) => [
+      ...events,
+      {
+        id: crypto.randomUUID(), title: draft.title, description: draft.description,
+        start: draft.start, end: draft.end, color: &apos;blue&apos;,
+      },
+    ]);
+  }
 }'>
         <p-scheduler [events]="basicEvents()" (eventCreate)="onEventCreate($event)" />
       </app-doc-example>
@@ -62,21 +143,36 @@ onEventCreate(draft: SchedulerEventDraft): void {
         code='<p-scheduler
   [events]="editableEvents()"
   (eventUpdate)="onEventUpdate($event)"
-  (eventDelete)="onEventDelete($event)" />
+  (eventDelete)="onEventDelete($event)" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSchedulerComponent, SchedulerEvent } from &apos;@idealink-material/ui-core&apos;;
 
-editableEvents = signal<SchedulerEvent[]>([
-  {
-    id: "e1", title: "Meeting", start: at(11, 0), end: at(12, 0), color: "blue",
-    description: "Hi team, let have a meeting tomorrow time 13:30",
-  },
-]);
-
-onEventUpdate(updated: SchedulerEvent): void {
-  this.editableEvents.update(events => events.map(e => e.id === updated.id ? updated : e));
+function at(hour: number, minute = 0): Date {
+  const d = new Date();
+  d.setHours(hour, minute, 0, 0);
+  return d;
 }
 
-onEventDelete(deleted: SchedulerEvent): void {
-  this.editableEvents.update(events => events.filter(e => e.id !== deleted.id));
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSchedulerComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  editableEvents = signal<SchedulerEvent[]>([
+    {
+      id: &apos;e1&apos;, title: &apos;Meeting&apos;, start: at(11, 0), end: at(12, 0), color: &apos;blue&apos;,
+      description: &apos;Hi team, let have a meeting tomorrow time 13:30&apos;,
+    },
+  ]);
+
+  onEventUpdate(updated: SchedulerEvent): void {
+    this.editableEvents.update((events) => events.map((e) => (e.id === updated.id ? updated : e)));
+  }
+
+  onEventDelete(deleted: SchedulerEvent): void {
+    this.editableEvents.update((events) => events.filter((e) => e.id !== deleted.id));
+  }
 }'>
         <p-scheduler
           [events]="editableEvents()"
@@ -91,7 +187,39 @@ onEventDelete(deleted: SchedulerEvent): void {
         description="panelPosition controls which side the quick-create/event-detail popovers prefer relative to the clicked slot or event, tooltip-style ('auto' | 'top' | 'bottom' | 'left' | 'right'). Whichever side is chosen still flips to its opposite when there isn't room. Click the event, or an empty slot, to see it in action."
         sourceId="p-scheduler-panel-position"
         code='<p-select [options]="panelPositionOptions" [(value)]="panelPosition" [fullWidth]="false" />
-<p-scheduler [events]="panelPositionEvents" [panelPosition]="panelPosition()" />'>
+<p-scheduler [events]="panelPositionEvents" [panelPosition]="panelPosition()" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import {
+  CuiSchedulerComponent, CuiSelectComponent, SchedulerEvent,
+  SchedulerPanelPosition, SelectOptionLike,
+} from &apos;@idealink-material/ui-core&apos;;
+
+function at(hour: number, minute = 0): Date {
+  const d = new Date();
+  d.setHours(hour, minute, 0, 0);
+  return d;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSchedulerComponent, CuiSelectComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  panelPositionEvents: SchedulerEvent[] = [
+    { id: &apos;p1&apos;, title: &apos;Standup&apos;, start: at(9, 30), end: at(10, 0), color: &apos;blue&apos; },
+  ];
+
+  panelPositionOptions: SelectOptionLike<SchedulerPanelPosition>[] = [
+    { label: &apos;Auto&apos;, value: &apos;auto&apos; },
+    { label: &apos;Top&apos;, value: &apos;top&apos; },
+    { label: &apos;Bottom&apos;, value: &apos;bottom&apos; },
+    { label: &apos;Left&apos;, value: &apos;left&apos; },
+    { label: &apos;Right&apos;, value: &apos;right&apos; },
+  ];
+
+  panelPosition = signal<SchedulerPanelPosition>(&apos;auto&apos;);
+}'>
         <div style="display:flex; flex-direction:column; gap:12px;">
           <p-select [options]="panelPositionOptions" [(value)]="panelPosition" [fullWidth]="false" />
           <p-scheduler [events]="panelPositionEvents" [panelPosition]="panelPosition()" />
@@ -104,7 +232,28 @@ onEventDelete(deleted: SchedulerEvent): void {
         title="Overlapping events"
         description="Mutually-overlapping events are automatically packed into side-by-side columns."
         sourceId="p-scheduler-overlap"
-        code='<p-scheduler [events]="overlapEvents" [startHour]="9" [endHour]="13" />'>
+        code='<p-scheduler [events]="overlapEvents" [startHour]="9" [endHour]="13" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSchedulerComponent, SchedulerEvent } from &apos;@idealink-material/ui-core&apos;;
+
+function at(hour: number, minute = 0): Date {
+  const d = new Date();
+  d.setHours(hour, minute, 0, 0);
+  return d;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSchedulerComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  overlapEvents: SchedulerEvent[] = [
+    { id: &apos;a&apos;, title: &apos;Consultation&apos;, start: at(10, 0), end: at(11, 0), color: &apos;blue&apos; },
+    { id: &apos;b&apos;, title: &apos;Follow-up&apos;, start: at(10, 30), end: at(11, 30), color: &apos;purple&apos; },
+    { id: &apos;c&apos;, title: &apos;Lab Review&apos;, start: at(10, 45), end: at(11, 15), color: &apos;orange&apos; },
+  ];
+}'>
         <p-scheduler [events]="overlapEvents" [startHour]="9" [endHour]="13" />
       </app-doc-example>
     </section>
@@ -117,9 +266,37 @@ onEventDelete(deleted: SchedulerEvent): void {
         code='<p-scheduler [events]="basicEvents()">
   <div schedulerActions style="display:flex; gap:8px; align-items:center;">
     <p-select [options]="statusOptions" placeholder="All Status" [fullWidth]="false" />
-    <p-button label="Appointment" icon="add" size="sm" />
+    <p-button icon="add" size="sm">Appointment</p-button>
   </div>
-</p-scheduler>'>
+</p-scheduler>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import {
+  CuiButtonComponent, CuiSchedulerComponent, CuiSelectComponent,
+  SchedulerEvent, SelectOptionLike,
+} from &apos;@idealink-material/ui-core&apos;;
+
+function at(hour: number, minute = 0): Date {
+  const d = new Date();
+  d.setHours(hour, minute, 0, 0);
+  return d;
+}
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiSchedulerComponent, CuiSelectComponent, CuiButtonComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basicEvents = signal<SchedulerEvent[]>([
+    { id: &apos;1&apos;, title: &apos;Chin Panhanirarith&apos;, start: at(9, 30), end: at(10, 0), color: &apos;blue&apos; },
+  ]);
+
+  statusOptions: SelectOptionLike<string>[] = [
+    { label: &apos;All Status&apos;, value: &apos;all&apos; },
+    { label: &apos;Confirmed&apos;, value: &apos;confirmed&apos; },
+    { label: &apos;Pending&apos;, value: &apos;pending&apos; },
+  ];
+}'>
         <p-scheduler [events]="basicEvents()">
           <div schedulerActions style="display:flex; gap:8px; align-items:center;">
             <p-select [options]="statusOptions" placeholder="All Status" [fullWidth]="false" />

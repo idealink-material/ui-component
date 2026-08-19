@@ -11,7 +11,18 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-input-number"
-        code='<p-input-number [(value)]="basic" />'>
+        code='<p-input-number [(value)]="basic" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputNumberComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputNumberComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basic = signal<number | null>(3);
+}'>
         <p-input-number [(value)]="basic" />
       </app-doc-example>
     </section>
@@ -22,7 +33,18 @@
         sourceId="p-input-number"
         code='<p-input-number label="Outline" variant="outline" size="sm" [(value)]="basic" />
 <p-input-number label="Fill" variant="fill" size="md" [(value)]="basic" />
-<p-input-number label="Large" size="lg" [(value)]="basic" />'>
+<p-input-number label="Large" size="lg" [(value)]="basic" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputNumberComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputNumberComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basic = signal<number | null>(3);
+}'>
         <div style="display: flex; flex-wrap: wrap; gap: 16px;">
           <p-input-number label="Outline" variant="outline" size="sm" [(value)]="basic" />
           <p-input-number label="Fill" variant="fill" size="md" [(value)]="basic" />
@@ -37,7 +59,18 @@
         description="error takes priority over hint when both are set, and only shows once the field has been touched."
         sourceId="p-input-number"
         code='<p-input-number label="Quantity" hint="Whole units only." [(value)]="basic" />
-<p-input-number label="Quantity" error="Must be between 0 and 100." [(value)]="basic" />'>
+<p-input-number label="Quantity" error="Must be between 0 and 100." [(value)]="basic" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputNumberComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputNumberComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basic = signal<number | null>(3);
+}'>
         <div style="display: flex; flex-wrap: wrap; gap: 16px;">
           <p-input-number label="Quantity" hint="Whole units only." [(value)]="basic" />
           <p-input-number label="Quantity" error="Must be between 0 and 100." [(value)]="basic" />
@@ -52,7 +85,19 @@
         sourceId="p-input-number"
         code='<p-input-number mode="currency" currency="USD" locale="en-US" [showButtons]="true" [(value)]="usdValue" />
 <p-input-number buttonLayout="horizontal" [(value)]="basic" />
-<p-input-number buttonLayout="vertical" [(value)]="basic" />'>
+<p-input-number buttonLayout="vertical" [(value)]="basic" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputNumberComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputNumberComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  basic = signal<number | null>(3);
+  usdValue = signal<number | null>(1500);
+}'>
         <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 16px;">
           <div>
             <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Stacked (default)</label>
@@ -78,7 +123,21 @@
         code='<p-input-number mode="currency" currency="USD" locale="en-US" [(value)]="usdValue" />
 <p-input-number mode="currency" currency="EUR" locale="de-DE" [(value)]="eurValue" />
 <p-input-number mode="currency" currency="INR" currencyDisplay="code" locale="en-IN" [(value)]="inrValue" />
-<p-input-number mode="currency" currency="JPY" locale="ja-JP" [(value)]="jpyValue" />'>
+<p-input-number mode="currency" currency="JPY" locale="ja-JP" [(value)]="jpyValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputNumberComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputNumberComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  usdValue = signal<number | null>(1500);
+  eurValue = signal<number | null>(2500);
+  inrValue = signal<number | null>(4250);
+  jpyValue = signal<number | null>(5002);
+}'>
         <div style="display: flex; flex-wrap: wrap; gap: 16px;">
           <div>
             <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">United States</label>
@@ -108,7 +167,21 @@
         code='<p-input-number [(value)]="userLocaleValue" />
 <p-input-number locale="en-US" [(value)]="usLocaleValue" />
 <p-input-number locale="de-DE" [(value)]="deLocaleValue" />
-<p-input-number locale="en-IN" [(value)]="inLocaleValue" />'>
+<p-input-number locale="en-IN" [(value)]="inLocaleValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputNumberComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputNumberComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  userLocaleValue = signal<number | null>(151351);
+  usLocaleValue   = signal<number | null>(115744);
+  deLocaleValue   = signal<number | null>(635524);
+  inLocaleValue   = signal<number | null>(732762);
+}'>
         <div style="display: flex; flex-wrap: wrap; gap: 16px;">
           <div>
             <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">User Locale</label>
@@ -138,7 +211,21 @@
         code='<p-input-number [minFractionDigits]="0" [maxFractionDigits]="0" [showButtons]="false" [(value)]="integerValue" />
 <p-input-number [useGrouping]="false" [showButtons]="false" [(value)]="noGroupingValue" />
 <p-input-number [minFractionDigits]="2" [maxFractionDigits]="5" [showButtons]="false" [(value)]="fractionValue" />
-<p-input-number [min]="0" [max]="100" [showButtons]="false" [(value)]="boundaryValue" />'>
+<p-input-number [min]="0" [max]="100" [showButtons]="false" [(value)]="boundaryValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputNumberComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputNumberComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  integerValue    = signal<number | null>(42723);
+  noGroupingValue = signal<number | null>(58151);
+  fractionValue   = signal<number | null>(2351.35);
+  boundaryValue   = signal<number | null>(50);
+}'>
         <div style="display: flex; flex-wrap: wrap; gap: 16px;">
           <div>
             <label class="doc-page__lead" style="display: block; margin-bottom: 4px;">Integer Only</label>
@@ -166,7 +253,18 @@
         description="The increment/decrement buttons disable at min/max; showButtons=false hides them for a bare field."
         sourceId="p-input-number"
         code='<p-input-number [min]="0" [max]="100" [(value)]="bounded" />
-<p-input-number [showButtons]="false" [(value)]="bounded" />'>
+<p-input-number [showButtons]="false" [(value)]="bounded" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputNumberComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputNumberComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  bounded = signal<number | null>(50);
+}'>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <p-input-number [min]="0" [max]="100" [(value)]="bounded" />
           <p-input-number [showButtons]="false" [(value)]="bounded" />

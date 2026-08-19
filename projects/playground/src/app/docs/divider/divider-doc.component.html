@@ -13,7 +13,16 @@
         sourceId="p-divider"
         code='<p>Paragraph one.</p>
 <p-divider />
-<p>Paragraph two.</p>'>
+<p>Paragraph two.</p>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiDividerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-divider-basic-example&apos;,
+  imports: [CuiDividerComponent],
+  templateUrl: &apos;./divider-basic-example.component.html&apos;,
+})
+export class DividerBasicExampleComponent {}'>
         <div style="width: 100%;">
           <p>Paragraph one.</p>
           <p-divider />
@@ -28,7 +37,16 @@
         description="Content projected into p-divider sits inline with the line; align controls where it sits."
         sourceId="p-divider"
         code='<p-divider>OR</p-divider>
-<p-divider align="left">Section</p-divider>'>
+<p-divider align="left">Section</p-divider>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiDividerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-divider-label-example&apos;,
+  imports: [CuiDividerComponent],
+  templateUrl: &apos;./divider-label-example.component.html&apos;,
+})
+export class DividerLabelExampleComponent {}'>
         <div style="width: 100%; display: flex; flex-direction: column; gap: 16px;">
           <p-divider>OR</p-divider>
           <p-divider align="left">Section</p-divider>
@@ -42,7 +60,16 @@
         sourceId="p-divider"
         code='<p-divider type="solid">Solid</p-divider>
 <p-divider type="dashed">Dashed</p-divider>
-<p-divider type="dotted">Dotted</p-divider>'>
+<p-divider type="dotted">Dotted</p-divider>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiDividerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-divider-type-example&apos;,
+  imports: [CuiDividerComponent],
+  templateUrl: &apos;./divider-type-example.component.html&apos;,
+})
+export class DividerTypeExampleComponent {}'>
         <div style="width: 100%; display: flex; flex-direction: column; gap: 16px;">
           <p-divider type="solid">Solid</p-divider>
           <p-divider type="dashed">Dashed</p-divider>
@@ -60,7 +87,16 @@
   <span>Left</span>
   <p-divider orientation="vertical" />
   <span>Right</span>
-</div>'>
+</div>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiDividerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-divider-vertical-example&apos;,
+  imports: [CuiDividerComponent],
+  templateUrl: &apos;./divider-vertical-example.component.html&apos;,
+})
+export class DividerVerticalExampleComponent {}'>
         <div style="display:flex; align-items:center; height:60px;">
           <span>Left</span>
           <p-divider orientation="vertical" />

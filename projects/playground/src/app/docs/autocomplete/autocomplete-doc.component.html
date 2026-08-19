@@ -15,7 +15,26 @@
         code='<p-auto-complete placeholder="Search a country…"
   [suggestions]="filteredCountries()"
   (completeMethod)="search($event)"
-  [(value)]="country" />'>
+  [(value)]="country" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiAutoCompleteComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  private readonly allCountries: string[] = ["Argentina", "Australia", "Belgium", "Canada", "Denmark"];
+
+  readonly country = signal<string | null>(null);
+  readonly filteredCountries = signal<string[]>([]);
+
+  search(query: string): void {
+    const q = query.toLowerCase();
+    this.filteredCountries.set(this.allCountries.filter((c) => c.toLowerCase().includes(q)));
+  }
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Search a country…"
                            [suggestions]="filteredCountries()"
@@ -33,7 +52,37 @@
         code='<p-auto-complete placeholder="Search a country…"
   [suggestions]="filteredCountryObjects()" optionLabel="name"
   (completeMethod)="searchObjects($event)"
-  [(value)]="countryObj" />'>
+  [(value)]="countryObj" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiAutoCompleteComponent } from "@idealink-material/ui-core";
+
+interface Country {
+  name: string;
+  code: string;
+}
+
+@Component({
+  selector: "app-example",
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  private readonly allCountryObjects: Country[] = [
+    { name: "Argentina", code: "AR" },
+    { name: "Australia", code: "AU" },
+    { name: "Belgium", code: "BE" },
+  ];
+
+  readonly countryObj = signal<Country | null>(null);
+  readonly filteredCountryObjects = signal<Country[]>([]);
+
+  searchObjects(query: string): void {
+    const q = query.toLowerCase();
+    this.filteredCountryObjects.set(
+      this.allCountryObjects.filter((c) => c.name.toLowerCase().includes(q)),
+    );
+  }
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Search a country…"
                            [suggestions]="filteredCountryObjects()" optionLabel="name"
@@ -52,7 +101,37 @@
   [suggestions]="filteredCountryObjects()"
   optionLabel="name" optionValue="code" dataKey="code"
   (completeMethod)="searchObjects($event)"
-  [(value)]="countryCodes" />'>
+  [(value)]="countryCodes" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiAutoCompleteComponent } from "@idealink-material/ui-core";
+
+interface Country {
+  name: string;
+  code: string;
+}
+
+@Component({
+  selector: "app-example",
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  private readonly allCountryObjects: Country[] = [
+    { name: "Argentina", code: "AR" },
+    { name: "Australia", code: "AU" },
+    { name: "Belgium", code: "BE" },
+  ];
+
+  readonly countryCodes = signal<string[]>([]);
+  readonly filteredCountryObjects = signal<Country[]>([]);
+
+  searchObjects(query: string): void {
+    const q = query.toLowerCase();
+    this.filteredCountryObjects.set(
+      this.allCountryObjects.filter((c) => c.name.toLowerCase().includes(q)),
+    );
+  }
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Add countries…" [multiple]="true"
                            [suggestions]="filteredCountryObjects()"
@@ -69,7 +148,8 @@
         title="Custom item content"
         description="Project #item / #selectedItem &lt;ng-template&gt;s to render the suggestion and selected content yourself — both receive the item via let-x. #selectedItem renders inside chips in multiple mode, and over the input (until you click to edit) in single-selection mode."
         sourceId="p-auto-complete"
-        [code]="customItemCode">
+        [code]="customItemCode"
+        [tsCode]="customItemTsCode">
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Add countries…" [multiple]="true" optionLabel="name"
                            [suggestions]="filteredCountryObjects()"
@@ -93,7 +173,26 @@
         code='<p-auto-complete label="Country" [required]="true" placeholder="Search a country…"
   [suggestions]="filteredCountries()"
   (completeMethod)="search($event)"
-  [(value)]="country" />'>
+  [(value)]="country" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiAutoCompleteComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  private readonly allCountries: string[] = ["Argentina", "Australia", "Belgium", "Canada", "Denmark"];
+
+  readonly country = signal<string | null>(null);
+  readonly filteredCountries = signal<string[]>([]);
+
+  search(query: string): void {
+    const q = query.toLowerCase();
+    this.filteredCountries.set(this.allCountries.filter((c) => c.toLowerCase().includes(q)));
+  }
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete label="Country" [required]="true" placeholder="Search a country…"
                            [suggestions]="filteredCountries()"
@@ -110,7 +209,37 @@
         code='<p-auto-complete placeholder="Add countries…" [multiple]="true"
   [suggestions]="filteredMulti()" optionLabel="dataName"
   (completeMethod)="searchMulti($event)"
-  [(value)]="countries" />'>
+  [(value)]="countries" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiAutoCompleteComponent } from "@idealink-material/ui-core";
+
+interface LookupOption {
+  id: number;
+  dataName: string;
+}
+
+@Component({
+  selector: "app-example",
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  private readonly allLookupOptions: LookupOption[] = [
+    { id: 0, dataName: "Argentina" },
+    { id: 1, dataName: "Australia" },
+    { id: 2, dataName: "Belgium" },
+  ];
+
+  readonly countries = signal<LookupOption[]>([]);
+  readonly filteredMulti = signal<LookupOption[]>([]);
+
+  searchMulti(query: string): void {
+    const q = query.toLowerCase();
+    this.filteredMulti.set(
+      this.allLookupOptions.filter((o) => o.dataName.toLowerCase().includes(q)),
+    );
+  }
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-auto-complete placeholder="Add countries…" [multiple]="true"
                            [suggestions]="filteredMulti()" optionLabel="dataName"
@@ -128,7 +257,25 @@
         code='<p-auto-complete placeholder="Browse all…" [dropdown]="true"
   [suggestions]="filteredCountries()"
   (completeMethod)="search($event)" />
-<p-auto-complete placeholder="Disabled" [disabled]="true" />'>
+<p-auto-complete placeholder="Disabled" [disabled]="true" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiAutoCompleteComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  private readonly allCountries: string[] = ["Argentina", "Australia", "Belgium", "Canada", "Denmark"];
+
+  readonly filteredCountries = signal<string[]>([]);
+
+  search(query: string): void {
+    const q = query.toLowerCase();
+    this.filteredCountries.set(this.allCountries.filter((c) => c.toLowerCase().includes(q)));
+  }
+}'>
         <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
           <p-auto-complete placeholder="Browse all…" [dropdown]="true"
                            [suggestions]="filteredCountries()"
@@ -143,7 +290,8 @@
         title="Customer model (single-select)"
         description="optionLabel reads customerName for the input's search-match text, while #selectedItem renders 'customerNo - customerName' both in the suggestions panel and over the input once a customer is picked."
         sourceId="p-auto-complete"
-        [code]="customerModelHtmlCode">
+        [code]="customerModelHtmlCode"
+        [tsCode]="customerModelTsCode">
         <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
           <p-auto-complete placeholder="Search a customer…" optionLabel="customerName" [dropdown]="true"
                            [suggestions]="customerOptions()"
@@ -158,8 +306,6 @@
           </p-auto-complete>
         </div>
       </app-doc-example>
-      <p class="doc-page__lead" style="margin: -12px 0 8px;">Component class (TypeScript):</p>
-      <app-doc-code [code]="customerModelTsCode" language="ts" />
     </section>
 
     <section id="product-model" class="doc-page__section">
@@ -167,7 +313,8 @@
         title="Product model (formControl-free, single-select)"
         description="Same customerNo-style pattern as above, using optionValue to bind productCode as the value instead of the whole product object."
         sourceId="p-auto-complete"
-        [code]="productModelHtmlCode">
+        [code]="productModelHtmlCode"
+        [tsCode]="productModelTsCode">
         <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
           <p-auto-complete placeholder="Search a product…" optionLabel="productName" optionValue="productCode" [dropdown]="true"
                            [suggestions]="productOptions()"
@@ -182,8 +329,6 @@
           </p-auto-complete>
         </div>
       </app-doc-example>
-      <p class="doc-page__lead" style="margin: -12px 0 8px;">Component class (TypeScript):</p>
-      <app-doc-code [code]="productModelTsCode" language="ts" />
     </section>
   </div>
 

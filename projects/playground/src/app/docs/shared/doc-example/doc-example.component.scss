@@ -87,3 +87,31 @@
     color: var(--mat-sys-primary);
   }
 }
+
+.doc-example__tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 8px 0;
+  background: var(--cui-code-bg, #1e1e2e);
+  border-radius: var(--cui-radius-md) var(--cui-radius-md) 0 0;
+}
+
+.doc-example__tab {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: var(--cui-radius-sm) var(--cui-radius-sm) 0 0;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &--active {
+    color: white;
+    background: color-mix(in srgb, var(--cui-code-bg, #1e1e2e) 85%, white 15%);
+  }
+}

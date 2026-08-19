@@ -11,7 +11,18 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-datepicker"
-        code='<p-datepicker label="Filed on" [(value)]="single" />'>
+        code='<p-datepicker label="Filed on" [(value)]="single" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDatepickerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-datepicker-basic-example&apos;,
+  imports: [CuiDatepickerComponent],
+  templateUrl: &apos;./datepicker-basic-example.component.html&apos;,
+})
+export class DatepickerBasicExampleComponent {
+  readonly single = signal<Date | null>(null);
+}'>
         <div style="width: 100%; max-width: 280px;">
           <p-datepicker label="Filed on" [(value)]="single" />
         </div>
@@ -24,7 +35,19 @@
         description="selectionMode controls whether value is a single Date or a Date[]."
         sourceId="p-datepicker"
         code='<p-datepicker label="Date range" selectionMode="range" [(value)]="range" />
-<p-datepicker label="Specific dates" selectionMode="multiple" [(value)]="multi" />'>
+<p-datepicker label="Specific dates" selectionMode="multiple" [(value)]="multi" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDatepickerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-datepicker-range-example&apos;,
+  imports: [CuiDatepickerComponent],
+  templateUrl: &apos;./datepicker-range-example.component.html&apos;,
+})
+export class DatepickerRangeExampleComponent {
+  readonly range = signal<Date[] | null>(null);
+  readonly multi = signal<Date[] | null>([]);
+}'>
         <div style="width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 16px;">
           <p-datepicker label="Date range" selectionMode="range" [(value)]="range" />
           <p-datepicker label="Specific dates" selectionMode="multiple" [(value)]="multi" />
@@ -37,7 +60,18 @@
         title="Inline"
         description="inline renders the calendar directly in the page with Today/Clear actions, instead of a popup triggered from a text field."
         sourceId="p-datepicker"
-        code='<p-datepicker label="Review date" [inline]="true" [(value)]="inlineDate" />'>
+        code='<p-datepicker label="Review date" [inline]="true" [(value)]="inlineDate" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDatepickerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-datepicker-inline-example&apos;,
+  imports: [CuiDatepickerComponent],
+  templateUrl: &apos;./datepicker-inline-example.component.html&apos;,
+})
+export class DatepickerInlineExampleComponent {
+  readonly inlineDate = signal<Date | null>(null);
+}'>
         <p-datepicker label="Review date" [inline]="true" [(value)]="inlineDate" />
       </app-doc-example>
     </section>
@@ -47,7 +81,18 @@
         title="Month/year picker"
         description="view='month' or 'year' stops the picker at that granularity — picking a unit commits and closes right away. Today/Clear/Done live inside the popup panel for the cases where you haven't picked a cell yet."
         sourceId="p-datepicker"
-        code='<p-datepicker label="Reporting month" view="month" dateFormat="mm/yy" [(value)]="monthValue" />'>
+        code='<p-datepicker label="Reporting month" view="month" dateFormat="mm/yy" [(value)]="monthValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDatepickerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-datepicker-views-example&apos;,
+  imports: [CuiDatepickerComponent],
+  templateUrl: &apos;./datepicker-views-example.component.html&apos;,
+})
+export class DatepickerViewsExampleComponent {
+  readonly monthValue = signal<Date | null>(null);
+}'>
         <div style="width: 100%; max-width: 280px;">
           <p-datepicker label="Reporting month" view="month" dateFormat="mm/yy" [(value)]="monthValue" />
         </div>
@@ -88,7 +133,19 @@
         title="Custom formats"
         sourceId="p-datepicker"
         code='<p-datepicker label="ISO" dateFormat="yy-mm-dd" [(value)]="isoValue" />
-<p-datepicker label="Long" dateFormat="DD, MM d, yy" [(value)]="longValue" />'>
+<p-datepicker label="Long" dateFormat="DD, MM d, yy" [(value)]="longValue" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDatepickerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-datepicker-format-example&apos;,
+  imports: [CuiDatepickerComponent],
+  templateUrl: &apos;./datepicker-format-example.component.html&apos;,
+})
+export class DatepickerFormatExampleComponent {
+  readonly isoValue = signal<Date | null>(null);
+  readonly longValue = signal<Date | null>(null);
+}'>
         <div style="width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 16px;">
           <p-datepicker label="ISO" dateFormat="yy-mm-dd" [(value)]="isoValue" />
           <p-datepicker label="Long" dateFormat="DD, MM d, yy" [(value)]="longValue" />
@@ -102,7 +159,19 @@
         description="selectionMode='range' combined with view='month' or 'year' opens a dedicated grid panel — pick a start then an end unit, see the range highlighted, then Clear or Done."
         sourceId="p-datepicker"
         code='<p-datepicker label="Reporting period" view="month" selectionMode="range" [(value)]="monthRange" />
-<p-datepicker label="Fiscal years" view="year" selectionMode="range" [(value)]="yearRange" />'>
+<p-datepicker label="Fiscal years" view="year" selectionMode="range" [(value)]="yearRange" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiDatepickerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-datepicker-view-range-example&apos;,
+  imports: [CuiDatepickerComponent],
+  templateUrl: &apos;./datepicker-view-range-example.component.html&apos;,
+})
+export class DatepickerViewRangeExampleComponent {
+  readonly monthRange = signal<Date[] | null>(null);
+  readonly yearRange = signal<Date[] | null>(null);
+}'>
         <div style="width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 16px;">
           <p-datepicker label="Reporting period" view="month" selectionMode="range" [(value)]="monthRange" />
           <p-datepicker label="Fiscal years" view="year" selectionMode="range" [(value)]="yearRange" />

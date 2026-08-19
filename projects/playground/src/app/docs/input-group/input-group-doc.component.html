@@ -14,7 +14,18 @@
         code='<p-input-group>
   <p-input-group-addon>$</p-input-group-addon>
   <p-input placeholder="0.00" />
-</p-input-group>'>
+</p-input-group>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import {
+  CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent,
+} from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <p-input-group>
           <p-input-group-addon>$</p-input-group-addon>
           <p-input placeholder="0.00" />
@@ -31,7 +42,18 @@
   <p-input-group-addon>$</p-input-group-addon>
   <p-input placeholder="0.00" />
   <p-input-group-addon>USD</p-input-group-addon>
-</p-input-group>'>
+</p-input-group>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import {
+  CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent,
+} from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <p-input-group>
           <p-input-group-addon>$</p-input-group-addon>
           <p-input placeholder="0.00" />
@@ -49,7 +71,26 @@
   <p-input-group-addon>https://</p-input-group-addon>
   <p-input placeholder="yourcompany" />
   <p-select [options]="currencyOptions" placeholder="TLD" />
-</p-input-group>'>
+</p-input-group>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import {
+  CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent,
+  CuiSelectComponent, SelectOption,
+} from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [
+    CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent, CuiSelectComponent,
+  ],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  currencyOptions: SelectOption[] = [
+    { value: &apos;usd&apos;, label: &apos;USD&apos; },
+    { value: &apos;eur&apos;, label: &apos;EUR&apos; },
+  ];
+}'>
         <p-input-group>
           <p-input-group-addon>https://</p-input-group-addon>
           <p-input placeholder="yourcompany" />

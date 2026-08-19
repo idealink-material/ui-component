@@ -10,7 +10,16 @@
         title="Basic usage"
         description="Apply cuiTooltip to any element."
         sourceId="cuiTooltip"
-        code='<p-button cuiTooltip="Save changes">Save</p-button>'>
+        code='<p-button cuiTooltip="Save changes">Save</p-button>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiButtonComponent, CuiTooltipDirective } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiButtonComponent, CuiTooltipDirective],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <p-button cuiTooltip="Save changes">Save</p-button>
       </app-doc-example>
     </section>
@@ -22,7 +31,16 @@
         code='<p-button cuiTooltip="Above" cuiTooltipPosition="above">Above</p-button>
 <p-button cuiTooltip="Below" cuiTooltipPosition="below">Below</p-button>
 <p-button cuiTooltip="Left" cuiTooltipPosition="left">Left</p-button>
-<p-button cuiTooltip="Right" cuiTooltipPosition="right">Right</p-button>'>
+<p-button cuiTooltip="Right" cuiTooltipPosition="right">Right</p-button>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiButtonComponent, CuiTooltipDirective } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiButtonComponent, CuiTooltipDirective],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <p-button cuiTooltip="Above" cuiTooltipPosition="above">Above</p-button>
         <p-button cuiTooltip="Below" cuiTooltipPosition="below">Below</p-button>
         <p-button cuiTooltip="Left" cuiTooltipPosition="left">Left</p-button>
@@ -37,7 +55,16 @@
         sourceId="cuiTooltip"
         code='<p-button cuiTooltip="You will not see this" [cuiTooltipDisabled]="true">
   Disabled tooltip
-</p-button>'>
+</p-button>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiButtonComponent, CuiTooltipDirective } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiButtonComponent, CuiTooltipDirective],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <p-button cuiTooltip="You will not see this" [cuiTooltipDisabled]="true">
           Disabled tooltip
         </p-button>

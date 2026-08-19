@@ -11,7 +11,18 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-slider"
-        code='<p-slider [(value)]="basic" />'>
+        code='<p-slider [(value)]="basic" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSliderComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-slider-basic-example&apos;,
+  imports: [CuiSliderComponent],
+  templateUrl: &apos;./slider-basic-example.component.html&apos;,
+})
+export class SliderBasicExampleComponent {
+  basic = signal(40);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-slider [(value)]="basic" />
         </div>
@@ -23,7 +34,18 @@
         title="Range"
         description="range renders two thumbs; value becomes a [start, end] tuple."
         sourceId="p-slider"
-        code='<p-slider [range]="true" [(value)]="rangeVal" />'>
+        code='<p-slider [range]="true" [(value)]="rangeVal" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSliderComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-slider-range-example&apos;,
+  imports: [CuiSliderComponent],
+  templateUrl: &apos;./slider-range-example.component.html&apos;,
+})
+export class SliderRangeExampleComponent {
+  rangeVal = signal&lt;[number, number]&gt;([20, 70]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-slider [range]="true" [(value)]="rangeVal" />
         </div>
@@ -34,7 +56,18 @@
       <app-doc-example
         title="Custom range & step"
         sourceId="p-slider"
-        code='<p-slider [min]="-20" [max]="20" [step]="5" [(value)]="stepped" />'>
+        code='<p-slider [min]="-20" [max]="20" [step]="5" [(value)]="stepped" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSliderComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-slider-step-example&apos;,
+  imports: [CuiSliderComponent],
+  templateUrl: &apos;./slider-step-example.component.html&apos;,
+})
+export class SliderStepExampleComponent {
+  stepped = signal(0);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-slider [min]="-20" [max]="20" [step]="5" [(value)]="stepped" />
         </div>

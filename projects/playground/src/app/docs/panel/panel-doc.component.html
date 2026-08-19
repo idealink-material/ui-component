@@ -15,7 +15,16 @@
         code='<p-panel header="Order Summary">
   <p>Wireless Headphones — $79.00</p>
   <p>Phone Case — $15.00</p>
-</p-panel>'>
+</p-panel>'
+        tsCode='import { Component } from "@angular/core";
+import { CuiPanelComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPanelComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <div style="width: 100%; max-width: 360px;">
           <p-panel header="Order Summary">
             <p style="margin: 0 0 4px;">Wireless Headphones — $79.00</p>
@@ -33,7 +42,18 @@
         code='<p-panel header="Order Summary" [toggleable]="true" [(collapsed)]="collapsed">
   <p>Wireless Headphones — $79.00</p>
   <p>Phone Case — $15.00</p>
-</p-panel>'>
+</p-panel>'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiPanelComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPanelComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  collapsed = signal(false);
+}'>
         <div style="width: 100%; max-width: 360px;">
           <p-panel header="Order Summary" [toggleable]="true" [(collapsed)]="collapsed">
             <p style="margin: 0 0 4px;">Wireless Headphones — $79.00</p>
@@ -54,7 +74,16 @@
     <p-button size="sm" variant="text">Cancel</p-button>
     <p-button size="sm" variant="filled">Checkout</p-button>
   </p-panel-footer>
-</p-panel>'>
+</p-panel>'
+        tsCode='import { Component } from "@angular/core";
+import { CuiPanelComponent, PPanelFooterComponent, CuiButtonComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPanelComponent, PPanelFooterComponent, CuiButtonComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <div style="width: 100%; max-width: 360px;">
           <p-panel header="Order Summary">
             <p style="margin: 0;">Total: $99.99</p>

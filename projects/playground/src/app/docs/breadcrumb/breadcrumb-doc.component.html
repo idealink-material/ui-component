@@ -12,13 +12,22 @@
         title="Manual items"
         description="Pass items directly to render a static trail, bypassing the shared service."
         sourceId="p-breadcrumb"
-        code='<p-breadcrumb [items]="caseItems" />
+        code='<p-breadcrumb [items]="caseItems" />'
+        tsCode='import { Component } from "@angular/core";
+import { BreadcrumbItem, CuiBreadcrumbComponent } from "@idealink-material/ui-core";
 
-caseItems = [
-  { label: "Home", routerLink: "/" },
-  { label: "Cases", routerLink: "/cases" },
-  { label: "AML Dashboard", isCurrent: true },
-];'>
+@Component({
+  selector: "app-example",
+  imports: [CuiBreadcrumbComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  readonly caseItems: BreadcrumbItem[] = [
+    { label: "Home", routerLink: "/" },
+    { label: "Cases", routerLink: "/cases" },
+    { label: "AML Dashboard", isCurrent: true },
+  ];
+}'>
         <p-breadcrumb [items]="caseItems" />
       </app-doc-example>
     </section>
@@ -28,19 +37,27 @@ caseItems = [
         title="Service-driven"
         description="Omit items and p-breadcrumb reads the current trail from BreadcrumbService (from @idealink-material/ui-utils) — call breadcrumbService.setBreadcrumbs(...) once, e.g. in a route's ngOnInit, and every p-breadcrumb on the page stays in sync."
         sourceId="p-breadcrumb"
-        code='// case-detail.component.ts
-private readonly breadcrumbService = inject(BreadcrumbService);
+        code='<p-breadcrumb />'
+        tsCode='import { Component, inject, OnInit } from "@angular/core";
+import { BreadcrumbService } from "@idealink-material/ui-utils";
+import { CuiBreadcrumbComponent } from "@idealink-material/ui-core";
 
-ngOnInit(): void {
-  this.breadcrumbService.setBreadcrumbs([
-    { label: "Home", routerLink: "/" },
-    { label: "Cases", routerLink: "/cases" },
-    { label: "AML Dashboard", isCurrent: true },
-  ]);
-}
+@Component({
+  selector: "app-case-detail",
+  imports: [CuiBreadcrumbComponent],
+  templateUrl: "./case-detail.component.html",
+})
+export class CaseDetailComponent implements OnInit {
+  private readonly breadcrumbService = inject(BreadcrumbService);
 
-// case-detail.component.html
-<p-breadcrumb />'>
+  ngOnInit(): void {
+    this.breadcrumbService.setBreadcrumbs([
+      { label: "Home", routerLink: "/" },
+      { label: "Cases", routerLink: "/cases" },
+      { label: "AML Dashboard", isCurrent: true },
+    ]);
+  }
+}'>
         <p-breadcrumb [items]="caseItems" />
       </app-doc-example>
     </section>
@@ -50,7 +67,22 @@ ngOnInit(): void {
         title="Custom separator"
         description="separator takes any icon name rendered between crumbs."
         sourceId="p-breadcrumb"
-        code='<p-breadcrumb [items]="caseItems" separator="arrow_forward_ios" />'>
+        code='<p-breadcrumb [items]="caseItems" separator="arrow_forward_ios" />'
+        tsCode='import { Component } from "@angular/core";
+import { BreadcrumbItem, CuiBreadcrumbComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiBreadcrumbComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  readonly caseItems: BreadcrumbItem[] = [
+    { label: "Home", routerLink: "/" },
+    { label: "Cases", routerLink: "/cases" },
+    { label: "AML Dashboard", isCurrent: true },
+  ];
+}'>
         <p-breadcrumb [items]="caseItems" separator="arrow_forward_ios" />
       </app-doc-example>
     </section>

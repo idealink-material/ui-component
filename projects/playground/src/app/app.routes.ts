@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 import { ShowcaseComponent } from './showcase/showcase.component';
 
+// ── Getting started ──────────────────────────────────────────────────────────
+import { GettingStartedOverviewComponent } from './docs/getting-started-overview/getting-started-overview.component';
+import { GettingStartedInstallationComponent } from './docs/getting-started-installation/getting-started-installation.component';
+
 // ── Atoms ────────────────────────────────────────────────────────────────────
 import { ButtonDocComponent } from './docs/button/button-doc.component';
 import { BadgeDocComponent } from './docs/badge/badge-doc.component';
@@ -73,6 +77,10 @@ import { LoadingOverlayDocComponent } from './docs/loading-overlay/loading-overl
 
 export const routes: Routes = [
   { path: '', component: ShowcaseComponent },
+
+  // Getting started
+  { path: 'getting-started/overview',     component: GettingStartedOverviewComponent },
+  { path: 'getting-started/installation', component: GettingStartedInstallationComponent },
 
   // Atoms
   { path: 'docs/button',   component: ButtonDocComponent },

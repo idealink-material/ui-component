@@ -17,7 +17,16 @@
   <div style="padding:12px 16px; background:var(--cui-card-bg); border-radius:8px; box-shadow:var(--cui-shadow-md);">
     Custom popover content here.
   </div>
-</ng-template>'>
+</ng-template>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiPopoverDirective, CuiButtonComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiPopoverDirective, CuiButtonComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <p-button variant="outlined" [pPopover]="panel">Details</p-button>
         <ng-template #panel>
           <div style="padding:12px 16px; background:var(--cui-card-bg); border-radius:8px; box-shadow:var(--cui-shadow-md); max-width: 240px;">

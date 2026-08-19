@@ -12,7 +12,18 @@
         title="Basic usage"
         description="Type a value and press Enter to commit it as a chip. Backspace on an empty input removes the last chip."
         sourceId="p-chips"
-        code='<p-chips placeholder="Add a tag…" [(value)]="tags" />'>
+        code='<p-chips placeholder="Add a tag…" [(value)]="tags" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiChipsComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chips-basic-example&apos;,
+  imports: [CuiChipsComponent],
+  templateUrl: &apos;./chips-basic-example.component.html&apos;,
+})
+export class ChipsBasicExampleComponent {
+  readonly tags = signal<string[]>([&apos;angular&apos;, &apos;typescript&apos;]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-chips placeholder="Add a tag…" [(value)]="tags" />
         </div>
@@ -25,7 +36,18 @@
         description="max caps the number of chips; allowDuplicate=false silently ignores tokens that already exist."
         sourceId="p-chips"
         code='<p-chips placeholder="Up to 3, no duplicates…"
-  [max]="3" [allowDuplicate]="false" [(value)]="limited" />'>
+  [max]="3" [allowDuplicate]="false" [(value)]="limited" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiChipsComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chips-limits-example&apos;,
+  imports: [CuiChipsComponent],
+  templateUrl: &apos;./chips-limits-example.component.html&apos;,
+})
+export class ChipsLimitsExampleComponent {
+  readonly limited = signal<string[]>([&apos;alpha&apos;]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-chips placeholder="Up to 3, no duplicates…"
             [max]="3" [allowDuplicate]="false" [(value)]="limited" />
@@ -39,7 +61,18 @@
         description="Setting separator lets a character (here a comma) commit a chip in addition to Enter."
         sourceId="p-chips"
         code='<p-chips placeholder="Type, then comma or Enter…"
-  separator="," [(value)]="separated" />'>
+  separator="," [(value)]="separated" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiChipsComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chips-separator-example&apos;,
+  imports: [CuiChipsComponent],
+  templateUrl: &apos;./chips-separator-example.component.html&apos;,
+})
+export class ChipsSeparatorExampleComponent {
+  readonly separated = signal<string[]>([]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-chips placeholder="Type, then comma or Enter…"
             separator="," [(value)]="separated" />
@@ -53,7 +86,18 @@
         description="addOnBlur commits pending text when the field loses focus; disabled blocks all interaction."
         sourceId="p-chips"
         code='<p-chips placeholder="Blurs to commit…" [addOnBlur]="true" />
-<p-chips [disabled]="true" [(value)]="disabledTags" />'>
+<p-chips [disabled]="true" [(value)]="disabledTags" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiChipsComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-chips-states-example&apos;,
+  imports: [CuiChipsComponent],
+  templateUrl: &apos;./chips-states-example.component.html&apos;,
+})
+export class ChipsStatesExampleComponent {
+  readonly disabledTags = signal<string[]>([&apos;read-only&apos;]);
+}'>
         <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 16px;">
           <p-chips placeholder="Blurs to commit…" [addOnBlur]="true" />
           <p-chips [disabled]="true" [(value)]="disabledTags" />

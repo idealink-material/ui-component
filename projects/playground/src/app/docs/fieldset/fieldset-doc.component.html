@@ -14,7 +14,16 @@
         code='<p-fieldset legend="Shipping Address">
   <p><strong>Jane Cooper</strong> — (415) 555-0132</p>
   <p>1234 Elm Street, Apt 5B<br>San Francisco, CA 94102</p>
-</p-fieldset>'>
+</p-fieldset>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiFieldsetComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiFieldsetComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <div style="width: 100%; max-width: 360px;">
           <p-fieldset legend="Shipping Address">
             <p style="margin: 0 0 8px;"><strong>Jane Cooper</strong> — (415) 555-0132</p>
@@ -31,7 +40,18 @@
         sourceId="p-fieldset"
         code='<p-fieldset legend="Advanced Options" [toggleable]="true" [(collapsed)]="collapsed">
   <p>Content hidden when collapsed.</p>
-</p-fieldset>'>
+</p-fieldset>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiFieldsetComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiFieldsetComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  collapsed = signal(false);
+}'>
         <div style="width: 100%; max-width: 360px;">
           <p-fieldset legend="Advanced Options" [toggleable]="true" [(collapsed)]="collapsed">
             <p style="margin: 0;">Content hidden when collapsed.</p>

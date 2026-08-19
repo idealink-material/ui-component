@@ -12,7 +12,25 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-multi-select"
-        code='<p-multi-select [options]="riskOptions" [(value)]="chipVal" />'>
+        code='<p-multi-select [options]="riskOptions" [(value)]="chipVal" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiMultiSelectComponent, SelectOption } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiMultiSelectComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: "low",    label: "Low Risk" },
+    { value: "medium", label: "Medium Risk" },
+    { value: "high",   label: "High Risk" },
+    { value: "severe", label: "Severe Risk" },
+  ];
+
+  chipVal = signal<string[]>(["low", "high"]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-multi-select [options]="riskOptions" [(value)]="chipVal" />
         </div>
@@ -24,7 +42,25 @@
         title="Display mode"
         description="display='comma' renders selected labels as plain text instead of chips."
         sourceId="p-multi-select"
-        code='<p-multi-select [options]="riskOptions" display="comma" [(value)]="commaVal" />'>
+        code='<p-multi-select [options]="riskOptions" display="comma" [(value)]="commaVal" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiMultiSelectComponent, SelectOption } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiMultiSelectComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: "low",    label: "Low Risk" },
+    { value: "medium", label: "Medium Risk" },
+    { value: "high",   label: "High Risk" },
+    { value: "severe", label: "Severe Risk" },
+  ];
+
+  commaVal = signal<string[]>(["medium"]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-multi-select [options]="riskOptions" display="comma" [(value)]="commaVal" />
         </div>
@@ -36,7 +72,25 @@
         title="Selection limit & select all"
         description="selectionLimit caps how many options can be chosen; showToggleAll adds a select-all row."
         sourceId="p-multi-select"
-        code='<p-multi-select [options]="riskOptions" [selectionLimit]="2" [showToggleAll]="true" [(value)]="limitedVal" />'>
+        code='<p-multi-select [options]="riskOptions" [selectionLimit]="2" [showToggleAll]="true" [(value)]="limitedVal" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiMultiSelectComponent, SelectOption } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiMultiSelectComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: "low",    label: "Low Risk" },
+    { value: "medium", label: "Medium Risk" },
+    { value: "high",   label: "High Risk" },
+    { value: "severe", label: "Severe Risk" },
+  ];
+
+  limitedVal = signal<string[]>([]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-multi-select [options]="riskOptions" [selectionLimit]="2" [showToggleAll]="true" [(value)]="limitedVal" />
         </div>

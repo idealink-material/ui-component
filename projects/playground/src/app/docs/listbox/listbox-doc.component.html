@@ -12,7 +12,25 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-listbox"
-        code='<p-listbox [options]="riskOptions" [(value)]="single" />'>
+        code='<p-listbox [options]="riskOptions" [(value)]="single" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiListboxComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiListboxComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;,    label: &apos;Low Risk&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium Risk&apos; },
+    { value: &apos;high&apos;,   label: &apos;High Risk&apos; },
+    { value: &apos;severe&apos;, label: &apos;Severe Risk&apos; },
+  ];
+
+  single = signal<readonly string[]>([&apos;medium&apos;]);
+}'>
         <div style="width: 100%; max-width: 240px;">
           <p-listbox [options]="riskOptions" [(value)]="single" />
         </div>
@@ -24,7 +42,25 @@
         title="Multiple selection"
         description="checkbox adds a checkbox next to each option when multiple is enabled."
         sourceId="p-listbox"
-        code='<p-listbox [options]="riskOptions" [multiple]="true" [checkbox]="true" [(value)]="multi" />'>
+        code='<p-listbox [options]="riskOptions" [multiple]="true" [checkbox]="true" [(value)]="multi" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiListboxComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiListboxComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;,    label: &apos;Low Risk&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium Risk&apos; },
+    { value: &apos;high&apos;,   label: &apos;High Risk&apos; },
+    { value: &apos;severe&apos;, label: &apos;Severe Risk&apos; },
+  ];
+
+  multi = signal<readonly string[]>([&apos;high&apos;]);
+}'>
         <div style="width: 100%; max-width: 240px;">
           <p-listbox [options]="riskOptions" [multiple]="true" [checkbox]="true" [(value)]="multi" />
         </div>
@@ -36,7 +72,25 @@
         title="Filterable"
         description="filter adds a search box above the options."
         sourceId="p-listbox"
-        code='<p-listbox [options]="riskOptions" [filter]="true" [(value)]="filterable" />'>
+        code='<p-listbox [options]="riskOptions" [filter]="true" [(value)]="filterable" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiListboxComponent, SelectOption } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiListboxComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  riskOptions: SelectOption[] = [
+    { value: &apos;low&apos;,    label: &apos;Low Risk&apos; },
+    { value: &apos;medium&apos;, label: &apos;Medium Risk&apos; },
+    { value: &apos;high&apos;,   label: &apos;High Risk&apos; },
+    { value: &apos;severe&apos;, label: &apos;Severe Risk&apos; },
+  ];
+
+  filterable = signal<readonly string[]>([]);
+}'>
         <div style="width: 100%; max-width: 240px;">
           <p-listbox [options]="riskOptions" [filter]="true" [(value)]="filterable" />
         </div>

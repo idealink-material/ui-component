@@ -46,4 +46,54 @@
   font-family: 'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace;
   font-size: 13px;
   line-height: 1.6;
+  color: #d4d4e0;
+
+  code {
+    color: inherit;
+    background: none;
+    text-shadow: none;
+  }
+
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #7f7f9e;
+  }
+
+  .token.punctuation {
+    color: #9797b8;
+  }
+
+  .token.tag,
+  .token.keyword,
+  .token.operator {
+    color: #7aa2f7;
+  }
+
+  .token.attr-name,
+  .token.property {
+    color: #e0af68;
+  }
+
+  .token.string,
+  .token.attr-value,
+  .token.char {
+    color: #9ece6a;
+  }
+
+  .token.boolean,
+  .token.number {
+    color: #ff9e64;
+  }
+
+  .token.function,
+  .token.class-name {
+    color: #bb9af7;
+  }
+
+  .token.selector,
+  .token.builtin {
+    color: #7dcfff;
+  }
 }

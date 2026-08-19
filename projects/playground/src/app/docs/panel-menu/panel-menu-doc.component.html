@@ -19,7 +19,30 @@ panelMenuItems = [
     { id: "transactions", label: "Transactions", icon: "swap_horiz", command: () => … },
   ]},
   { id: "settings", label: "Settings", icon: "settings", command: () => … },
-];'>
+];'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiPanelMenuComponent, CuiMenuItem } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiPanelMenuComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  lastAction = signal("");
+
+  panelMenuItems: CuiMenuItem[] = [
+    { id: "monitoring", label: "Monitoring", icon: "radar", children: [
+      { id: "alerts",       label: "Alerts",       icon: "aml_flag",   command: () => this.lastAction.set("alerts") },
+      { id: "transactions", label: "Transactions", icon: "swap_horiz", command: () => this.lastAction.set("transactions") },
+    ]},
+    { id: "reports", label: "Reports", icon: "summarize", children: [
+      { id: "daily",   label: "Daily Summary",   command: () => this.lastAction.set("daily") },
+      { id: "monthly", label: "Monthly Summary", command: () => this.lastAction.set("monthly") },
+    ]},
+    { id: "settings", label: "Settings", icon: "settings", command: () => this.lastAction.set("settings") },
+  ];
+}'>
         <div style="width: 100%; max-width: 280px;">
           <p-panel-menu [items]="panelMenuItems" />
         </div>

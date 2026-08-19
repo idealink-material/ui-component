@@ -13,7 +13,18 @@
         code='<p-progress [value]="72" color="primary" />
 <p-progress [value]="54" color="warning" />
 <p-progress [value]="89" color="success" />
-<p-progress [value]="30" color="error" />'>
+<p-progress [value]="30" color="error" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiProgressComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiProgressComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  // Static demo values — bind these to real progress state as needed.
+}'>
         <div style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px;">
           <p-progress [value]="72" color="primary" />
           <p-progress [value]="54" color="warning" />
@@ -28,7 +39,18 @@
         title="Label"
         description="showLabel renders the percentage next to the bar."
         sourceId="p-progress"
-        code='<p-progress [value]="value()" [showLabel]="true" />'>
+        code='<p-progress [value]="value()" [showLabel]="true" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiProgressComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiProgressComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  value = signal(64);
+}'>
         <div style="width: 100%; max-width: 480px;">
           <p-progress [value]="value()" [showLabel]="true" />
         </div>
@@ -40,7 +62,16 @@
         title="Indeterminate"
         description="Use when the operation's duration or completion percentage is unknown."
         sourceId="p-progress"
-        code='<p-progress [indeterminate]="true" />'>
+        code='<p-progress [indeterminate]="true" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiProgressComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiProgressComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <div style="width: 100%; max-width: 480px;">
           <p-progress [indeterminate]="true" />
         </div>
@@ -51,7 +82,16 @@
       <app-doc-example
         title="Striped"
         sourceId="p-progress"
-        code='<p-progress [value]="60" [striped]="true" color="primary" />'>
+        code='<p-progress [value]="60" [striped]="true" color="primary" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiProgressComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiProgressComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <div style="width: 100%; max-width: 480px;">
           <p-progress [value]="60" [striped]="true" color="primary" />
         </div>
@@ -65,7 +105,16 @@
         sourceId="p-progress"
         code='<p-progress [value]="45" height="4px" />
 <p-progress [value]="45" height="8px" />
-<p-progress [value]="45" height="14px" />'>
+<p-progress [value]="45" height="14px" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiProgressComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiProgressComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <div style="width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 12px;">
           <p-progress [value]="45" height="4px" />
           <p-progress [value]="45" height="8px" />

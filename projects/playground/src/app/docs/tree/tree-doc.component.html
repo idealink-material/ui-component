@@ -13,9 +13,37 @@
         title="Basic usage"
         description="Click a node's expand arrow to reveal its children; click the label to fire nodeClick."
         sourceId="p-tree"
-        code='<p-tree [nodes]="treeNodes" (nodeClick)="onNodeClick($event)" />'>
+        code='<p-tree [nodes]="treeNodes" (nodeClick)="onNodeClick($event)" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiTreeComponent, TreeNode } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiTreeComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  treeNodes: TreeNode[] = [
+    { id: &apos;monitoring&apos;, label: &apos;Monitoring&apos;, icon: &apos;radar&apos;, children: [
+      { id: &apos;alerts&apos;,       label: &apos;Alerts&apos;,       icon: &apos;aml_flag&apos; },
+      { id: &apos;transactions&apos;, label: &apos;Transactions&apos;, icon: &apos;swap_horiz&apos;, children: [
+        { id: &apos;wire&apos;, label: &apos;Wire Transfers&apos; },
+        { id: &apos;cash&apos;, label: &apos;Cash Deposits&apos; },
+      ]},
+    ]},
+    { id: &apos;reports&apos;, label: &apos;Reports&apos;, icon: &apos;summarize&apos;, children: [
+      { id: &apos;daily&apos;,   label: &apos;Daily Summary&apos; },
+      { id: &apos;monthly&apos;, label: &apos;Monthly Summary&apos; },
+    ]},
+    { id: &apos;settings&apos;, label: &apos;Settings&apos;, icon: &apos;settings&apos; },
+  ];
+
+  onNodeClick(node: TreeNode): void {
+    console.log(&apos;Node clicked:&apos;, node.id);
+  }
+}'>
         <div style="width: 100%; max-width: 320px;">
-          <p-tree [nodes]="treeNodes" />
+          <p-tree [nodes]="treeNodes" (nodeClick)="onNodeClick($event)" />
         </div>
       </app-doc-example>
     </section>
@@ -25,7 +53,33 @@
         title="Selectable"
         description="selectable adds a checkbox per node; selectedIds is two-way bindable."
         sourceId="p-tree"
-        code='<p-tree [nodes]="treeNodes" [selectable]="true" [(selectedIds)]="selectedIds" />'>
+        code='<p-tree [nodes]="treeNodes" [selectable]="true" [(selectedIds)]="selectedIds" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiTreeComponent, TreeNode } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiTreeComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  treeNodes: TreeNode[] = [
+    { id: &apos;monitoring&apos;, label: &apos;Monitoring&apos;, icon: &apos;radar&apos;, children: [
+      { id: &apos;alerts&apos;,       label: &apos;Alerts&apos;,       icon: &apos;aml_flag&apos; },
+      { id: &apos;transactions&apos;, label: &apos;Transactions&apos;, icon: &apos;swap_horiz&apos;, children: [
+        { id: &apos;wire&apos;, label: &apos;Wire Transfers&apos; },
+        { id: &apos;cash&apos;, label: &apos;Cash Deposits&apos; },
+      ]},
+    ]},
+    { id: &apos;reports&apos;, label: &apos;Reports&apos;, icon: &apos;summarize&apos;, children: [
+      { id: &apos;daily&apos;,   label: &apos;Daily Summary&apos; },
+      { id: &apos;monthly&apos;, label: &apos;Monthly Summary&apos; },
+    ]},
+    { id: &apos;settings&apos;, label: &apos;Settings&apos;, icon: &apos;settings&apos; },
+  ];
+
+  selectedIds = signal&lt;readonly string[]&gt;([&apos;alerts&apos;]);
+}'>
         <div style="width: 100%; max-width: 320px;">
           <p-tree [nodes]="treeNodes" [selectable]="true" [(selectedIds)]="selectedIds" />
         </div>

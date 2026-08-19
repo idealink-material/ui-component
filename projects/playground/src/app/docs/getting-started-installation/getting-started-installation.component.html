@@ -1,0 +1,49 @@
+<div class="doc-page">
+  <h1 class="doc-page__title">Installation</h1>
+  <p class="doc-page__lead">
+    Packages publish to GitHub Packages (not the public npm registry) under the
+    <code>&#64;idealink-material</code> scope.
+  </p>
+
+  <section class="doc-page__section">
+    <h2 class="doc-page__section-title">1. Configure the registry</h2>
+    <p class="doc-page__lead">
+      Add an <code>.npmrc</code> to your project with a GitHub PAT that has the
+      <code>read:packages</code> scope:
+    </p>
+    <pre style="background:var(--mat-sys-surface-container-low);border:1px solid var(--mat-sys-outline-variant);
+      border-radius:var(--cui-radius-md);padding:12px 16px;font-size:13px;overflow-x:auto;
+      font-family:'JetBrains Mono','Fira Code',Menlo,Consolas,monospace;color:var(--mat-sys-on-surface);"><code>&#64;idealink-material:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=&lt;a GitHub PAT with read:packages scope&gt;</code></pre>
+  </section>
+
+  <section class="doc-page__section">
+    <h2 class="doc-page__section-title">2. Install the packages you need</h2>
+    <pre style="background:var(--mat-sys-surface-container-low);border:1px solid var(--mat-sys-outline-variant);
+      border-radius:var(--cui-radius-md);padding:12px 16px;font-size:13px;overflow-x:auto;
+      font-family:'JetBrains Mono','Fira Code',Menlo,Consolas,monospace;color:var(--mat-sys-on-surface);"><code>npm install &#64;idealink-material/ui-core &#64;idealink-material/ui-utils &#64;idealink-material/ui-icons &#64;idealink-material/ui-theme</code></pre>
+    <p class="doc-page__lead">
+      Check each library's <code>peerDependencies</code> — all currently require
+      <code>&#64;angular/common</code>/<code>&#64;angular/core</code> <code>^22.0.0</code>;
+      <code>ui-core</code> additionally requires <code>&#64;angular/animations</code> and
+      <code>&#64;angular/cdk</code>.
+    </p>
+  </section>
+
+  <section class="doc-page__section">
+    <h2 class="doc-page__section-title">3. Working in this repo</h2>
+    <p class="doc-page__lead">
+      Inside this workspace, install deps with <code>npm install</code>, then build every
+      library once (required before <code>ng serve playground</code> can resolve
+      <code>&#64;idealink-material/*</code> imports):
+    </p>
+    <pre style="background:var(--mat-sys-surface-container-low);border:1px solid var(--mat-sys-outline-variant);
+      border-radius:var(--cui-radius-md);padding:12px 16px;font-size:13px;overflow-x:auto;
+      font-family:'JetBrains Mono','Fira Code',Menlo,Consolas,monospace;color:var(--mat-sys-on-surface);"><code>npm run build:libs
+npm run dev</code></pre>
+    <p class="doc-page__lead">
+      <code>npm run dev</code> builds all libraries once, then rebuilds them in watch mode in
+      dependency order and serves the playground at <code>http://localhost:4200/</code>.
+    </p>
+  </section>
+</div>

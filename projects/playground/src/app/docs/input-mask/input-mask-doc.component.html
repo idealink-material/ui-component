@@ -12,7 +12,18 @@
         title="Phone number"
         description="'9' slots accept digits only; parentheses, the space, and the dash are literals."
         sourceId="p-input-mask"
-        code='<p-input-mask mask="(999) 999-9999" placeholder="(999) 999-9999" [(value)]="phone" />'>
+        code='<p-input-mask mask="(999) 999-9999" placeholder="(999) 999-9999" [(value)]="phone" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputMaskComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputMaskComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  phone = signal(&apos;&apos;);
+}'>
         <p-input-mask mask="(999) 999-9999" placeholder="(999) 999-9999" [(value)]="phone" />
       </app-doc-example>
     </section>
@@ -22,7 +33,18 @@
         title="Date"
         description="A custom slotChar changes the unfilled-slot placeholder character."
         sourceId="p-input-mask"
-        code='<p-input-mask mask="99/99/9999" slotChar="-" placeholder="MM/DD/YYYY" [(value)]="date" />'>
+        code='<p-input-mask mask="99/99/9999" slotChar="-" placeholder="MM/DD/YYYY" [(value)]="date" />'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputMaskComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputMaskComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  date = signal(&apos;&apos;);
+}'>
         <p-input-mask mask="99/99/9999" slotChar="-" placeholder="MM/DD/YYYY" [(value)]="date" />
       </app-doc-example>
     </section>
@@ -33,7 +55,18 @@
         description="With unmask, value holds only the typed characters (no dashes), while the field still displays the masked format."
         sourceId="p-input-mask"
         code='<p-input-mask mask="999-99-9999" [unmask]="true" placeholder="999-99-9999" [(value)]="ssn" />
-<p>Raw value: {{ ssn() }}</p>'>
+<p>Raw value: {{ ssn() }}</p>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiInputMaskComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputMaskComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {
+  ssn = signal(&apos;&apos;);
+}'>
         <p-input-mask mask="999-99-9999" [unmask]="true" placeholder="999-99-9999" [(value)]="ssn" />
         <p>Raw value: {{ ssn() }}</p>
       </app-doc-example>
@@ -43,7 +76,16 @@
       <app-doc-example
         title="States"
         sourceId="p-input-mask"
-        code='<p-input-mask mask="(999) 999-9999" value="(555) 123-4567" [disabled]="true" />'>
+        code='<p-input-mask mask="(999) 999-9999" value="(555) 123-4567" [disabled]="true" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiInputMaskComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputMaskComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
         <p-input-mask mask="(999) 999-9999" value="(555) 123-4567" [disabled]="true" />
       </app-doc-example>
     </section>

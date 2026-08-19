@@ -14,12 +14,24 @@
         description="Click the main button to reveal the action items; clicking an action invokes its command and closes the dial."
         sourceId="p-speed-dial"
         code='<p-speed-dial [items]="caseActions" />
+<p>Last action: {{ lastAction() || "—" }}</p>'
+        tsCode='import { Component, signal } from &apos;@angular/core&apos;;
+import { CuiSpeedDialComponent, SpeedDialItem } from &apos;@idealink-material/ui-core&apos;;
 
-caseActions = [
-  { id: "flag", icon: "aml_flag", label: "Flag Case", command: () => … },
-  { id: "assign", icon: "person_add", label: "Assign", command: () => … },
-  { id: "close", icon: "check", label: "Close Case", command: () => … },
-];'>
+@Component({
+  selector: &apos;app-speed-dial-basic-example&apos;,
+  imports: [CuiSpeedDialComponent],
+  templateUrl: &apos;./speed-dial-basic-example.component.html&apos;,
+})
+export class SpeedDialBasicExampleComponent {
+  lastAction = signal(&apos;&apos;);
+
+  caseActions: SpeedDialItem[] = [
+    { id: &apos;flag&apos;, icon: &apos;aml_flag&apos;, label: &apos;Flag Case&apos;, command: () => this.lastAction.set(&apos;flag&apos;) },
+    { id: &apos;assign&apos;, icon: &apos;person_add&apos;, label: &apos;Assign&apos;, command: () => this.lastAction.set(&apos;assign&apos;) },
+    { id: &apos;close&apos;, icon: &apos;check&apos;, label: &apos;Close Case&apos;, command: () => this.lastAction.set(&apos;close&apos;) },
+  ];
+}'>
         <p-speed-dial [items]="caseActions" />
         <p style="font-size: 12px; color: var(--mat-sys-on-surface-variant); margin-top: 8px;">
           Last action: {{ lastAction() || '—' }}
@@ -32,7 +44,22 @@ caseActions = [
         title="Direction"
         description="direction='down' fans the items out below the trigger instead of above it."
         sourceId="p-speed-dial"
-        code='<p-speed-dial [items]="caseActions" direction="down" />'>
+        code='<p-speed-dial [items]="caseActions" direction="down" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSpeedDialComponent, SpeedDialItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-speed-dial-direction-example&apos;,
+  imports: [CuiSpeedDialComponent],
+  templateUrl: &apos;./speed-dial-direction-example.component.html&apos;,
+})
+export class SpeedDialDirectionExampleComponent {
+  caseActions: SpeedDialItem[] = [
+    { id: &apos;flag&apos;, icon: &apos;aml_flag&apos;, label: &apos;Flag Case&apos;, command: () => console.log(&apos;flag&apos;) },
+    { id: &apos;assign&apos;, icon: &apos;person_add&apos;, label: &apos;Assign&apos;, command: () => console.log(&apos;assign&apos;) },
+    { id: &apos;close&apos;, icon: &apos;check&apos;, label: &apos;Close Case&apos;, command: () => console.log(&apos;close&apos;) },
+  ];
+}'>
         <p-speed-dial [items]="caseActions" direction="down" />
       </app-doc-example>
     </section>
@@ -46,7 +73,22 @@ caseActions = [
   <svg toggleIcon width="24" height="24" viewBox="0 0 24 24" fill="none">
     <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
   </svg>
-</p-speed-dial>'>
+</p-speed-dial>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSpeedDialComponent, SpeedDialItem } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-speed-dial-custom-icon-example&apos;,
+  imports: [CuiSpeedDialComponent],
+  templateUrl: &apos;./speed-dial-custom-icon-example.component.html&apos;,
+})
+export class SpeedDialCustomIconExampleComponent {
+  caseActions: SpeedDialItem[] = [
+    { id: &apos;flag&apos;, icon: &apos;aml_flag&apos;, label: &apos;Flag Case&apos;, command: () => console.log(&apos;flag&apos;) },
+    { id: &apos;assign&apos;, icon: &apos;person_add&apos;, label: &apos;Assign&apos;, command: () => console.log(&apos;assign&apos;) },
+    { id: &apos;close&apos;, icon: &apos;check&apos;, label: &apos;Close Case&apos;, command: () => console.log(&apos;close&apos;) },
+  ];
+}'>
         <p-speed-dial [items]="caseActions" icon="">
           <svg toggleIcon width="24" height="24" viewBox="0 0 24 24" fill="none" style="color: currentColor;">
             <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />

@@ -4,7 +4,6 @@ import { JsonPipe } from '@angular/common';
 import { CuiAutoCompleteComponent } from '@idealink-material/ui-core';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
-import { DocCodeComponent } from '../shared/doc-code/doc-code.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';
 import { DocApiEmitter, DocApiProperty, DocSection } from '../shared/doc-types';
 
@@ -42,7 +41,6 @@ export interface Product {
   imports: [
     CuiAutoCompleteComponent,
     DocExampleComponent,
-    DocCodeComponent,
     DocShellComponent,
     JsonPipe,
   ],
@@ -337,7 +335,55 @@ export class AutocompleteDocComponent {
   </ng-template>
 </p-auto-complete>`;
 
-  readonly customerModelTsCode = `interface Customer {
+  readonly customItemTsCode = `import { Component, signal } from '@angular/core';
+import { CuiAutoCompleteComponent } from '@idealink-material/ui-core';
+
+interface Country {
+  name: string;
+  code: string;
+}
+
+@Component({
+  selector: 'app-example',
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: './example.component.html',
+})
+export class ExampleComponent {
+  private readonly allCountryObjects: Country[] = [
+    { name: 'Argentina', code: 'AR' },
+    { name: 'Australia', code: 'AU' },
+    { name: 'Belgium', code: 'BE' },
+  ];
+
+  private readonly continentColors: Record<string, string> = {
+    AR: '#f97316',
+    AU: '#a855f7',
+    BE: '#3b82f6',
+  };
+
+  readonly customItemCountries = signal<Country[]>([
+    this.allCountryObjects[0],
+    this.allCountryObjects[1],
+  ]);
+
+  readonly filteredCountryObjects = signal<Country[]>([]);
+
+  continentColor(code: string): string {
+    return this.continentColors[code] ?? '#9ca3af';
+  }
+
+  searchObjects(query: string): void {
+    const q = query.toLowerCase();
+    this.filteredCountryObjects.set(
+      this.allCountryObjects.filter((c) => c.name.toLowerCase().includes(q)),
+    );
+  }
+}`;
+
+  readonly customerModelTsCode = `import { Component, signal } from '@angular/core';
+import { CuiAutoCompleteComponent } from '@idealink-material/ui-core';
+
+interface Customer {
   id: number;
   customerNo: string;
   customerName: string;
@@ -346,9 +392,16 @@ export class AutocompleteDocComponent {
   email: string;
 }
 
-@Component({ /* ... */ })
-export class MyFormComponent {
-  private readonly allCustomers: Customer[] = [ /* ... */ ];
+@Component({
+  selector: 'app-example',
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: './example.component.html',
+})
+export class ExampleComponent {
+  private readonly allCustomers: Customer[] = [
+    { id: 0, customerNo: '099383', customerName: 'Dara', phoneNumber: '0870377373', gender: 'M', email: 'dara@gmail.com' },
+    { id: 1, customerNo: '009776', customerName: 'Chantanha', phoneNumber: '0870377373', gender: 'M', email: 'chantanha@gmail.com' },
+  ];
 
   readonly customer = signal<Customer | null>(null);
   readonly customerOptions = signal<Customer[]>([]);
@@ -373,7 +426,10 @@ export class MyFormComponent {
   </ng-template>
 </p-auto-complete>`;
 
-  readonly productModelTsCode = `interface Product {
+  readonly productModelTsCode = `import { Component, signal } from '@angular/core';
+import { CuiAutoCompleteComponent } from '@idealink-material/ui-core';
+
+interface Product {
   id: number;
   productCode: string;
   productName: string;
@@ -381,9 +437,16 @@ export class MyFormComponent {
   price: string;
 }
 
-@Component({ /* ... */ })
-export class MyFormComponent {
-  private readonly allProducts: Product[] = [ /* ... */ ];
+@Component({
+  selector: 'app-example',
+  imports: [CuiAutoCompleteComponent],
+  templateUrl: './example.component.html',
+})
+export class ExampleComponent {
+  private readonly allProducts: Product[] = [
+    { id: 0, productCode: 'PRD-001', productName: 'Wireless Mouse', qty: 120, price: '9.99' },
+    { id: 1, productCode: 'PRD-002', productName: 'Mechanical Keyboard', qty: 45, price: '59.00' },
+  ];
 
   readonly productOptions = signal<Product[]>([]);
   // optionValue="productCode" below means the bound value is the scalar

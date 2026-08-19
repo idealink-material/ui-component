@@ -13,7 +13,16 @@
         sourceId="p-card"
         code='<p-card variant="elevated">Elevated</p-card>
 <p-card variant="outlined">Outlined</p-card>
-<p-card variant="filled">Filled</p-card>'>
+<p-card variant="filled">Filled</p-card>'
+        tsCode='import { Component } from "@angular/core";
+import { CuiCardComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiCardComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <p-card variant="elevated" style="width: 160px;">Elevated</p-card>
         <p-card variant="outlined" style="width: 160px;">Outlined</p-card>
         <p-card variant="filled" style="width: 160px;">Filled</p-card>
@@ -26,7 +35,16 @@
         description="hoverable adds a hover transition; selected applies a persistent selected state."
         sourceId="p-card"
         code='<p-card [hoverable]="true">Hover me</p-card>
-<p-card [selected]="true">Selected</p-card>'>
+<p-card [selected]="true">Selected</p-card>'
+        tsCode='import { Component } from "@angular/core";
+import { CuiCardComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiCardComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <p-card [hoverable]="true" style="width: 160px;">Hover me</p-card>
         <p-card [selected]="true" style="width: 160px;">Selected</p-card>
       </app-doc-example>
@@ -49,7 +67,18 @@
     <p-button size="sm" variant="text">Dismiss</p-button>
     <p-button size="sm" variant="filled">Review</p-button>
   </p-card-footer>
-</p-card>'>
+</p-card>'
+        tsCode='import { Component } from "@angular/core";
+import {
+  CuiCardComponent, PCardHeaderComponent, PCardFooterComponent, CuiButtonComponent, CuiBadgeComponent,
+} from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiCardComponent, PCardHeaderComponent, PCardFooterComponent, CuiButtonComponent, CuiBadgeComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <p-card variant="outlined" style="width: 280px;">
           <p-card-header style="display:flex; align-items:center; justify-content:space-between;">
             <strong>Case AML-2401</strong>
@@ -74,7 +103,16 @@
         description="Set padding to false to control spacing yourself, e.g. for edge-to-edge media."
         sourceId="p-card"
         code='<p-card [padding]="true">Padded (default)</p-card>
-<p-card [padding]="false">No padding</p-card>'>
+<p-card [padding]="false">No padding</p-card>'
+        tsCode='import { Component } from "@angular/core";
+import { CuiCardComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiCardComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <p-card [padding]="true" style="width: 160px;">Padded (default)</p-card>
         <p-card [padding]="false" style="width: 160px;">No padding</p-card>
       </app-doc-example>

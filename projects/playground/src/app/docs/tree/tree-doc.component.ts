@@ -64,4 +64,8 @@ export class TreeDocComponent {
   ];
 
   readonly selectedIds = signal<readonly string[]>(['alerts']);
+
+  onNodeClick(node: TreeNode): void {
+    console.log('Node clicked:', node.id);
+  }
 }

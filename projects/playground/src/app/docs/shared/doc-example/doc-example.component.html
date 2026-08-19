@@ -22,6 +22,35 @@
   </div>
 
   @if (showCode()) {
-    <app-doc-code [code]="code()" [language]="language()" />
+    @if (hasTsTab()) {
+      <div class="doc-example__tabs" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          class="doc-example__tab"
+          [class.doc-example__tab--active]="activeTab() === 'html'"
+          [attr.aria-selected]="activeTab() === 'html'"
+          (click)="setTab('html')">
+          HTML
+        </button>
+        <button
+          type="button"
+          role="tab"
+          class="doc-example__tab"
+          [class.doc-example__tab--active]="activeTab() === 'ts'"
+          [attr.aria-selected]="activeTab() === 'ts'"
+          (click)="setTab('ts')">
+          TypeScript
+        </button>
+      </div>
+
+      @if (activeTab() === 'html') {
+        <app-doc-code [code]="code()" language="html" />
+      } @else {
+        <app-doc-code [code]="tsCode()" language="ts" />
+      }
+    } @else {
+      <app-doc-code [code]="code()" language="html" />
+    }
   }
 </div>

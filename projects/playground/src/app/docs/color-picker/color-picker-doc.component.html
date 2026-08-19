@@ -11,7 +11,18 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-color-picker"
-        code='<p-color-picker [(value)]="brandColor" />'>
+        code='<p-color-picker [(value)]="brandColor" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiColorPickerComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-color-picker-basic-example",
+  imports: [CuiColorPickerComponent],
+  templateUrl: "./color-picker-basic-example.component.html",
+})
+export class ColorPickerBasicExampleComponent {
+  brandColor = signal("#3f51b5");
+}'>
         <p-color-picker [(value)]="brandColor" />
       </app-doc-example>
     </section>
@@ -22,7 +33,19 @@
         description="value() is always hex; format only affects the string emitted by onChange and shown by inline mode."
         sourceId="p-color-picker"
         code='<p-color-picker format="rgb" [(value)]="rgbColor" [inline]="true" />
-<p-color-picker format="hsb" [(value)]="hsbColor" [inline]="true" />'>
+<p-color-picker format="hsb" [(value)]="hsbColor" [inline]="true" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiColorPickerComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-color-picker-formats-example",
+  imports: [CuiColorPickerComponent],
+  templateUrl: "./color-picker-formats-example.component.html",
+})
+export class ColorPickerFormatsExampleComponent {
+  rgbColor = signal("#e91e63");
+  hsbColor = signal("#00bcd4");
+}'>
         <div style="display: flex; gap: 16px;">
           <p-color-picker format="rgb" [(value)]="rgbColor" [inline]="true" />
           <p-color-picker format="hsb" [(value)]="hsbColor" [inline]="true" />
@@ -35,7 +58,18 @@
         title="Inline label"
         description="inline wraps the swatch in a bordered panel and shows the formatted color value next to it."
         sourceId="p-color-picker"
-        code='<p-color-picker [inline]="true" [(value)]="inlineColor" />'>
+        code='<p-color-picker [inline]="true" [(value)]="inlineColor" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiColorPickerComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-color-picker-inline-example",
+  imports: [CuiColorPickerComponent],
+  templateUrl: "./color-picker-inline-example.component.html",
+})
+export class ColorPickerInlineExampleComponent {
+  inlineColor = signal("#4caf50");
+}'>
         <p-color-picker [inline]="true" [(value)]="inlineColor" />
       </app-doc-example>
     </section>
@@ -44,7 +78,18 @@
       <app-doc-example
         title="States"
         sourceId="p-color-picker"
-        code='<p-color-picker [disabled]="true" [(value)]="disabledColor" />'>
+        code='<p-color-picker [disabled]="true" [(value)]="disabledColor" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiColorPickerComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-color-picker-states-example",
+  imports: [CuiColorPickerComponent],
+  templateUrl: "./color-picker-states-example.component.html",
+})
+export class ColorPickerStatesExampleComponent {
+  disabledColor = signal("#9e9e9e");
+}'>
         <p-color-picker [disabled]="true" [(value)]="disabledColor" />
       </app-doc-example>
     </section>

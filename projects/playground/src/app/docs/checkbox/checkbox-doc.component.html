@@ -11,7 +11,18 @@
       <app-doc-example
         title="Basic usage"
         sourceId="p-checkbox"
-        code='<p-checkbox label="Notify me" [(value)]="basic" />'>
+        code='<p-checkbox label="Notify me" [(value)]="basic" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiCheckboxComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiCheckboxComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  readonly basic = signal(false);
+}'>
         <p-checkbox label="Notify me" [(value)]="basic" />
       </app-doc-example>
     </section>
@@ -21,7 +32,16 @@
         title="Indeterminate"
         description="Typically used for a 'select all' checkbox whose children are partially selected."
         sourceId="p-checkbox"
-        code='<p-checkbox label="Select all" [indeterminate]="true" />'>
+        code='<p-checkbox label="Select all" [indeterminate]="true" />'
+        tsCode='import { Component } from "@angular/core";
+import { CuiCheckboxComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiCheckboxComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {}'>
         <p-checkbox label="Select all" [indeterminate]="true" />
       </app-doc-example>
     </section>
@@ -32,7 +52,18 @@
         description="readonly stays focusable but blocks toggling; disabled removes it from the tab order entirely."
         sourceId="p-checkbox"
         code='<p-checkbox label="Readonly, checked" [readonly]="true" [(value)]="readonlyVal" />
-<p-checkbox label="Disabled" [disabled]="true" />'>
+<p-checkbox label="Disabled" [disabled]="true" />'
+        tsCode='import { Component, signal } from "@angular/core";
+import { CuiCheckboxComponent } from "@idealink-material/ui-core";
+
+@Component({
+  selector: "app-example",
+  imports: [CuiCheckboxComponent],
+  templateUrl: "./example.component.html",
+})
+export class ExampleComponent {
+  readonly readonlyVal = signal(true);
+}'>
         <p-checkbox label="Readonly, checked" [readonly]="true" [(value)]="readonlyVal" />
         <p-checkbox label="Disabled" [disabled]="true" />
       </app-doc-example>

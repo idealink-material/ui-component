@@ -14,7 +14,16 @@
 <p-spinner size="sm" />
 <p-spinner size="md" />
 <p-spinner size="lg" />
-<p-spinner size="xl" />'>
+<p-spinner size="xl" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSpinnerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-spinner-sizes-example&apos;,
+  imports: [CuiSpinnerComponent],
+  templateUrl: &apos;./spinner-sizes-example.component.html&apos;,
+})
+export class SpinnerSizesExampleComponent {}'>
         <p-spinner size="xs" />
         <p-spinner size="sm" />
         <p-spinner size="md" />
@@ -30,7 +39,16 @@
         sourceId="p-spinner"
         code='<p-spinner color="var(--mat-sys-primary)" />
 <p-spinner color="var(--mat-sys-error)" />
-<p-spinner color="#22c55e" />'>
+<p-spinner color="#22c55e" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSpinnerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-spinner-color-example&apos;,
+  imports: [CuiSpinnerComponent],
+  templateUrl: &apos;./spinner-color-example.component.html&apos;,
+})
+export class SpinnerColorExampleComponent {}'>
         <p-spinner color="var(--mat-sys-primary)" />
         <p-spinner color="var(--mat-sys-error)" />
         <p-spinner color="#22c55e" />
@@ -42,7 +60,16 @@
         title="Accessible label"
         description="label sets aria-label on the role=status host; screen readers announce it via aria-live=polite."
         sourceId="p-spinner"
-        code='<p-spinner label="Loading cases…" />'>
+        code='<p-spinner label="Loading cases…" />'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import { CuiSpinnerComponent } from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-spinner-label-example&apos;,
+  imports: [CuiSpinnerComponent],
+  templateUrl: &apos;./spinner-label-example.component.html&apos;,
+})
+export class SpinnerLabelExampleComponent {}'>
         <p-spinner label="Loading cases…" />
       </app-doc-example>
     </section>
