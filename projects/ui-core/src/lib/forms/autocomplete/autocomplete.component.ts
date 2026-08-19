@@ -7,6 +7,7 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 import { CuiChipComponent } from '../../atoms/chip/chip.component';
+import { CuiSpinnerComponent } from '../../atoms/spinner/spinner.component';
 
 /**
  * Anything the autocomplete can render as a suggestion: the value type itself, or a plain
@@ -29,7 +30,7 @@ export type AutoCompleteValue<T> = T | T[] | null | undefined;
 @Component({
   selector: 'p-auto-complete',
   standalone: true,
-  imports: [MatAutocompleteModule, CuiChipComponent, CuiIconComponent, NgTemplateOutlet],
+  imports: [MatAutocompleteModule, CuiChipComponent, CuiIconComponent, CuiSpinnerComponent, NgTemplateOutlet],
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,6 +76,8 @@ export class CuiAutoCompleteComponent<T = unknown, V = T> implements ControlValu
   readonly disabled         = input<boolean>(false);
   readonly placeholder      = input<string>('');
   readonly completeOnFocus  = input<boolean>(false);
+  /** Shows a spinner next to the dropdown/clear icons while suggestions are being fetched. */
+  readonly loading          = input<boolean>(false);
 
   /** Custom content for each suggestion in the panel. Receives the item via `let-x`. */
   readonly itemTemplate = contentChild<TemplateRef<AutoCompleteItemContext<T>>>('item');

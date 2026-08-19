@@ -66,6 +66,11 @@
   cursor: text;
 }
 
+.p-autocomplete__loading {
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
 .p-autocomplete__clear,
 .p-autocomplete__dropdown {
   display: inline-flex;

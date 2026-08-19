@@ -45,6 +45,10 @@
       (focus)="inputFocused.set(true); onFocus(ac)"
       (blur)="inputFocused.set(false); onBlur(ac)" />
 
+    @if (loading()) {
+      <p-spinner class="p-autocomplete__loading" size="xs" />
+    }
+
     @if (value() && !multiple()) {
       <button type="button" class="p-autocomplete__clear" (click)="clear(ac)" aria-label="Clear">
         <cui-icon name="close" size="xs" color="currentColor" />
