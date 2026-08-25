@@ -14,6 +14,7 @@ import { CuiMenuItem } from '../../navigation/menu/menu-item.type';
 })
 export class CuiSplitButtonComponent {
   readonly label    = input<string>('');
+  readonly icon     = input<string>('');
   readonly items    = input<CuiMenuItem[]>([]);
   readonly variant  = input<ButtonVariant>('filled');
   readonly color    = input<ButtonColor>('primary');

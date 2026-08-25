@@ -1,10 +1,10 @@
 <div class="p-split-button">
   <p-button class="p-split-button__main" [variant]="variant()" [color]="color()"
-    [disabled]="disabled()" (onClick)="action.emit()">
+    [disabled]="disabled()" [icon]="icon()" (onClick)="action.emit()">
     {{ label() }}
   </p-button>
   <p-button class="p-split-button__trigger" [variant]="variant()" [color]="color()"
-    [disabled]="disabled()" iconLeft="arrow_drop_down"
+    [disabled]="disabled()" icon="arrow_drop_down"
     [matMenuTriggerFor]="menuRef.menu()">
   </p-button>
   <p-menu #menuRef [items]="items()" />

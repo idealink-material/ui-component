@@ -98,6 +98,100 @@ export class ExampleComponent {
         </p-input-group>
       </app-doc-example>
     </section>
+
+    <section id="sizing" class="doc-page__section">
+      <app-doc-example
+        title="Sizing"
+        description="p-input-group's size keeps the group's own height (used by its addons) in sync with a same-size p-input/p-select — pass matching size values to both."
+        sourceId="p-input-group"
+        code='<p-input-group size="sm">
+  <p-input-group-addon>$</p-input-group-addon>
+  <p-input size="sm" placeholder="0.00" />
+</p-input-group>
+
+<p-input-group size="lg">
+  <p-input-group-addon>$</p-input-group-addon>
+  <p-input size="lg" placeholder="0.00" />
+</p-input-group>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import {
+  CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent,
+} from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
+        <div class="doc-input-group__stack">
+          <p-input-group size="sm">
+            <p-input-group-addon>$</p-input-group-addon>
+            <p-input size="sm" placeholder="0.00" />
+          </p-input-group>
+          <p-input-group size="md">
+            <p-input-group-addon>$</p-input-group-addon>
+            <p-input size="md" placeholder="0.00" />
+          </p-input-group>
+          <p-input-group size="lg">
+            <p-input-group-addon>$</p-input-group-addon>
+            <p-input size="lg" placeholder="0.00" />
+          </p-input-group>
+        </div>
+      </app-doc-example>
+    </section>
+
+    <section id="custom-style" class="doc-page__section">
+      <app-doc-example
+        title="Custom addon style"
+        description="p-input-group-addon exposes every visual detail as a CSS custom property, and a plain variant that drops its background/border for an icon-only look — override per-instance without ::ng-deep."
+        sourceId="p-input-group"
+        code='<p-input-group>
+  <p-input-group-addon
+    style="
+      --cui-input-group-addon-background: var(--mat-sys-primary);
+      --cui-input-group-addon-color: var(--mat-sys-on-primary);
+      --cui-input-group-addon-border-color: var(--mat-sys-primary);
+    ">$</p-input-group-addon>
+  <p-input placeholder="0.00" />
+</p-input-group>
+
+<p-input-group>
+  <p-input-group-addon variant="plain">
+    <cui-icon name="search" size="sm" />
+  </p-input-group-addon>
+  <p-input placeholder="Search…" />
+</p-input-group>'
+        tsCode='import { Component } from &apos;@angular/core&apos;;
+import {
+  CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent,
+} from &apos;@idealink-material/ui-core&apos;;
+
+@Component({
+  selector: &apos;app-example&apos;,
+  imports: [CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent],
+  templateUrl: &apos;./example.component.html&apos;,
+})
+export class ExampleComponent {}'>
+        <div class="doc-input-group__stack">
+          <p-input-group>
+            <p-input-group-addon
+              style="
+                --cui-input-group-addon-background: var(--mat-sys-primary);
+                --cui-input-group-addon-color: var(--mat-sys-on-primary);
+                --cui-input-group-addon-border-color: var(--mat-sys-primary);
+              ">$</p-input-group-addon>
+            <p-input placeholder="0.00" />
+          </p-input-group>
+          <p-input-group>
+            <p-input-group-addon variant="plain">
+              <cui-icon name="search" size="sm" />
+            </p-input-group-addon>
+            <p-input placeholder="Search…" />
+          </p-input-group>
+        </div>
+      </app-doc-example>
+    </section>
   </div>
 
   <div docTheming>
@@ -108,10 +202,14 @@ export class ExampleComponent {
           <tr><th>Token</th><th>Used for</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>--mat-sys-outline</code></td><td>Addon border color.</td></tr>
-          <tr><td><code>--mat-sys-surface-container-low</code></td><td>Addon background.</td></tr>
-          <tr><td><code>--mat-sys-on-surface-variant</code></td><td>Addon text color.</td></tr>
-          <tr><td><code>--cui-radius-sm</code></td><td>Corner radius applied to the group's first/last child only.</td></tr>
+          <tr><td><code>--cui-input-group-height</code></td><td>Group height, set per <code>size</code>; addons stretch to match.</td></tr>
+          <tr><td><code>--cui-input-group-radius</code></td><td>Corner radius applied to the group's first/last child only. Defaults to <code>--cui-radius-md</code>.</td></tr>
+          <tr><td><code>--cui-input-group-addon-background</code></td><td>Addon background. Defaults to <code>--mat-sys-surface-container-low</code>.</td></tr>
+          <tr><td><code>--cui-input-group-addon-border-color</code></td><td>Addon border color. Defaults to <code>--mat-sys-outline-variant</code>.</td></tr>
+          <tr><td><code>--cui-input-group-addon-color</code></td><td>Addon text/icon color. Defaults to <code>--mat-sys-on-surface-variant</code>.</td></tr>
+          <tr><td><code>--cui-input-group-addon-padding</code></td><td>Addon horizontal padding.</td></tr>
+          <tr><td><code>--cui-input-group-addon-min-width</code></td><td>Addon minimum width.</td></tr>
+          <tr><td><code>--cui-input-group-addon-font-size</code></td><td>Addon text size.</td></tr>
         </tbody>
       </table>
     </section>

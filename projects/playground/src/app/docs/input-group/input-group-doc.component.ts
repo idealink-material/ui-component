@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent, CuiSelectComponent, SelectOption,
 } from '@idealink-material/ui-core';
+import { CuiIconComponent } from '@idealink-material/ui-icons';
 
 import { DocExampleComponent } from '../shared/doc-example/doc-example.component';
 import { DocShellComponent } from '../shared/doc-shell/doc-shell.component';
@@ -12,7 +13,7 @@ import { DocApiTemplate, DocSection } from '../shared/doc-types';
   selector: 'app-input-group-doc',
   imports: [
     CuiInputGroupComponent, CuiInputGroupAddonComponent, CuiInputComponent, CuiSelectComponent,
-    DocExampleComponent, DocShellComponent,
+    CuiIconComponent, DocExampleComponent, DocShellComponent,
   ],
   templateUrl: './input-group-doc.component.html',
   styleUrl: './input-group-doc.component.scss',
@@ -20,9 +21,11 @@ import { DocApiTemplate, DocSection } from '../shared/doc-types';
 })
 export class InputGroupDocComponent {
   readonly featureSections: DocSection[] = [
-    { id: 'basic',   label: 'Basic usage' },
-    { id: 'both',    label: 'Prefix & suffix' },
-    { id: 'multi',   label: 'Multiple fields' },
+    { id: 'basic',        label: 'Basic usage' },
+    { id: 'both',         label: 'Prefix & suffix' },
+    { id: 'multi',        label: 'Multiple fields' },
+    { id: 'sizing',       label: 'Sizing' },
+    { id: 'custom-style', label: 'Custom addon style' },
   ];
 
   readonly themingSections: DocSection[] = [
@@ -30,8 +33,8 @@ export class InputGroupDocComponent {
   ];
 
   readonly templates: DocApiTemplate[] = [
-    { name: '(default)', description: 'p-input-group: lays out any children flush together, sharing one continuous border/radius.' },
-    { name: '(default)', description: 'p-input-group-addon: a fixed-width prefix/suffix slot, e.g. for a currency symbol or unit.' },
+    { name: '(default)', description: 'p-input-group: lays out any children flush together, sharing one continuous border/radius. size (sm/md/lg) keeps its height in sync with same-size p-input/p-select children.' },
+    { name: '(default)', description: 'p-input-group-addon: a fixed-width prefix/suffix slot, e.g. for a currency symbol or unit. variant ("default" | "plain") toggles its background/border; all visual details are also overridable via --cui-input-group-addon-* CSS custom properties.' },
   ];
 
   readonly currencyOptions: SelectOption[] = [

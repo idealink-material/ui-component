@@ -1,14 +1,30 @@
 :host {
+  // Every visual aspect is a custom property so consumers can override per-instance
+  // (e.g. style="--cui-input-group-addon-background: transparent") without ::ng-deep.
+  --cui-input-group-addon-padding: 0 12px;
+  --cui-input-group-addon-min-width: 40px;
+  --cui-input-group-addon-border-color: var(--mat-sys-outline-variant);
+  --cui-input-group-addon-background: var(--mat-sys-surface-container-low);
+  --cui-input-group-addon-color: var(--mat-sys-on-surface-variant);
+  --cui-input-group-addon-font-size: 14px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 0 12px;
-  min-width: 40px;
-  min-height: 48px;
+  padding: var(--cui-input-group-addon-padding);
+  min-width: var(--cui-input-group-addon-min-width);
+  // Falls back to 48px standalone; inside a p-input-group, the group's own
+  // --cui-input-group-height (set per `size`) takes over so addon/field heights match.
+  min-height: var(--cui-input-group-height, 48px);
   box-sizing: border-box;
-  border: 1px solid var(--mat-sys-outline-variant);
-  background: var(--mat-sys-surface-container-low);
-  color: var(--mat-sys-on-surface-variant);
-  font-size: 14px;
+  border: 1px solid var(--cui-input-group-addon-border-color);
+  background: var(--cui-input-group-addon-background);
+  color: var(--cui-input-group-addon-color);
+  font-size: var(--cui-input-group-addon-font-size);
+
+  &.p-input-group-addon--plain {
+    border-color: transparent;
+    background: transparent;
+  }
 }

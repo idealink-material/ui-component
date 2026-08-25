@@ -1,1 +1,8 @@
 @use '../shared/doc-page';
+
+.doc-input-group__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}

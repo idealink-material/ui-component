@@ -3,6 +3,15 @@
   align-items: stretch;
   width: fit-content;
 
+  // Height per size, mirroring p-input/p-select's own --mat-form-field-container-height
+  // steps so an addon sized off --cui-input-group-height matches the field beside it.
+  --cui-input-group-height: 48px;
+  &.p-input-group--sm { --cui-input-group-height: 44px; }
+  &.p-input-group--lg { --cui-input-group-height: 60px; }
+
+  // Group-level radius, overridable independently of the individual field tokens.
+  --cui-input-group-radius: var(--cui-radius-md);
+
   // Children (p-input-group-addon, p-input, p-select, …) sit flush together.
   // The visible border for p-input/p-select isn't on the custom element
   // itself — it's drawn deep inside Angular Material's MDC outline markup
@@ -48,22 +57,22 @@
   }
 
   ::ng-deep > *:first-child {
-    border-top-left-radius: var(--cui-radius-md);
-    border-bottom-left-radius: var(--cui-radius-md);
+    border-top-left-radius: var(--cui-input-group-radius);
+    border-bottom-left-radius: var(--cui-input-group-radius);
 
     .mdc-notched-outline__leading {
-      border-top-left-radius: var(--cui-radius-md) !important;
-      border-bottom-left-radius: var(--cui-radius-md) !important;
+      border-top-left-radius: var(--cui-input-group-radius) !important;
+      border-bottom-left-radius: var(--cui-input-group-radius) !important;
     }
   }
 
   ::ng-deep > *:last-child {
-    border-top-right-radius: var(--cui-radius-md);
-    border-bottom-right-radius: var(--cui-radius-md);
+    border-top-right-radius: var(--cui-input-group-radius);
+    border-bottom-right-radius: var(--cui-input-group-radius);
 
     .mdc-notched-outline__trailing {
-      border-top-right-radius: var(--cui-radius-md) !important;
-      border-bottom-right-radius: var(--cui-radius-md) !important;
+      border-top-right-radius: var(--cui-input-group-radius) !important;
+      border-bottom-right-radius: var(--cui-input-group-radius) !important;
     }
   }
 
